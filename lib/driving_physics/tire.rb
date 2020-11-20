@@ -35,6 +35,14 @@ module DrivingPhysics
         pct
       end
 
+      def to_s
+        lines = []
+        @deg_c.each_with_index { |deg, i|
+          lines << [deg, @grip_pct[i]].join("\t")
+        }
+        lines.join("\n")
+      end
+
       private
       def determine_critical_temp!
         return @critical_temp if @critical_temp
@@ -55,70 +63,150 @@ module DrivingPhysics
 
     # treat instances of this class as *mutable*
     class Condition
-      attr_accessor :tread_pct,
-                    :cords_pct,
-                    :temp_c,
-                    :heat_cycles
+      class Error < Tire::Error; end
+      class DestructionError < Error; end
 
-      def initialize
-        @tread_pct = 1.0
-        @cords_pct = 1.0
-        @temp_c = 25
+      DEFAULT_TEMP = 25
+
+      attr_accessor :tread_mm,
+                    :cords_mm,
+                    :temp_c,
+                    :heat_cycles,
+                    :debug_log
+
+      def initialize(temp_c: DEFAULT_TEMP, tread_mm:, cords_mm:)
+        @tread_mm = tread_mm.to_f
+        @cords_mm = cords_mm.to_f
+        @temp_c = temp_c.to_f
         @heat_cycles = 0
-        @min_cycle_temp = 0
-        @max_cycle_temp = 0
+        @hottest_temp = @temp_c
+        @debug_log = false
       end
 
-      def tick(env)
+      def temp_tick(ambient_temp:, g:, slide_speed:,
+                    mass:, tire_mass:, critical_temp:)
         # env:
         # * mass (kg) (e.g. 1000 kg)
+        # * tire_mass (kg) (e.g. 10 kg)
         # * critical temp (c) (e.g. 100c)
         # * g (e.g. 1.0 g)
         # * slide_speed (m/s) (typically 0.1, up to 1 or 10 or 50)
-        # * last_temp_cycle (c) - update if our current temp is on the same
-        #                         side of the critical temp but differs more
-        #                       -- used to determine the heat cycle magnitude
+        # * ambient_temp (c) (e.g. 30c)
+
+        # g gives a target temp between 25 and 100
+        # at 0g, tire tends to ambient temp
+        # at 1g, tire tends to 100 c
+        # that 100c upper target also gets adjusted due to ambient temps
+
+        target_hot = critical_temp - 5
+        ambient_diff = DEFAULT_TEMP - ambient_temp
+        target_hot -= (ambient_diff / 2)
+        puts "target_hot=#{target_hot}" if @debug_log
+
+        if slide_speed <= 0.1
+          target_g_temp = ambient_temp + (target_hot - ambient_temp) * g
+        else
+          target_g_temp = target_hot
+        end
+        puts "target_g_temp=#{target_g_temp}" if @debug_log
+
+        slide_factor = slide_speed * 3
+        target_slide_temp = target_g_temp + slide_factor
+
+        puts "target_slide_temp=#{target_slide_temp}" if @debug_log
+
+        # temp_tick is presumed to be +1.0 or -1.0 (100th of a degree)
+        # more mass biases towards heat
+        # more tire mass biases for smaller tick
+
+        tick = @temp_c < target_slide_temp ? 1.0 : -1.0
+        puts "base tick: #{tick}" if @debug_log
+
+        mass_factor = (mass - 1000).to_f / 1000
+        if mass_factor < 0
+          # lighter car cools quicker; heats slower
+          tick += mass_factor
+        else
+          # heavier car cools slower, heats quicker
+          tick += mass_factor / 10
+        end
+
+        puts "mass tick: #{tick}" if @debug_log
+
+        tire_mass_factor = (tire_mass - 10).to_f / 10
+        if tire_mass_factor < 0
+          # lighter tire has bigger tick
+          tick -= tire_mass_factor
+        else
+          # heavier tire has smaller tick
+          tick /= (tire_mass.to_f / 20)
+        end
+
+        puts "tire mass tick: #{tick}" if @debug_log
+
+        tick
+      end
+
+      def wear_tick(g:, slide_speed:, mass:, critical_temp:)
+        # cold tires wear less
+        tick = [0, @temp_c.to_f / critical_temp].max
+        puts "tick: #{tick}" if @debug_log
+
+        # lower gs reduce wear in the absence of sliding
+        tick *= g if slide_speed <= 0.1
+        puts "g tick: #{tick}" if @debug_log
+
+        # slide wear
+        tick += slide_speed
+        puts "slide tick: #{tick}" if @debug_log
+
+        tick
+      end
+
+
+      def tick!(ambient_temp:, g:, slide_speed:,
+                mass:, tire_mass:, critical_temp:)
 
         # heat cycle:
-        #  depends on critical_temp
-        #  every time critical temp is crossed by 10% on either side,
-        #  add 0.5 heat cycle point, up to max 2 heat cycle points:
-        #  e.g.
-        #  * critical temp: 100 c
-        #    tire warms to 90 c, no heat cycles
-        #    tire warms to 100 c, no heat cycles
-        #    tire warms to 110c, add 0.5 heat cycle
-        #    tire warms to 120c, add 0.5 heat cycles
-        #    tire cools to 110c, add 0 heat cycles (still on the hot cycle)
-        #    tire warms to 120c, add 0 heat cycles (still on the hot cycle)
-        #    tire cools to 90c, add 0.5 heat cycles
-        #    tire cools to 80c, add 0.5 heat cycles
-        #    tire cools to 25c, add 0 heat cycles (max 1 cycle on cooling)
-        #    tire warms to 120c, add 1 heat cycles
+        # when the tire goes above the critical temp and then
+        # cools significantly below the critical temp
+        # track @hottest_temp
 
+        @temp_c += temp_tick(ambient_temp: ambient_temp,
+                             g: g,
+                             slide_speed: slide_speed,
+                             mass: mass,
+                             tire_mass: tire_mass,
+                             critical_temp: critical_temp) / 100
+        @hottest_temp = @temp_c if @temp_c > @hottest_temp
+        if @hottest_temp > critical_temp and @temp_c < critical_temp * 0.8
+          @heat_cycles += 1
+          @hottest_temp = @temp_c
+        end
 
-        # should be able to sustain 100c at 1.0g, 0.1 m/s slide, 1000 kg
-        # wear_tick should be 1.0 at these levels
+        # a tire should last for 30 minutes at 1g sustained
+        # with minimal sliding
+        # 100 ticks / sec
+        # 6000 ticks / min
+        # 180_000 ticks / 30 min
+        # 10mm = 180_000 ticks
+        # wear_tick is nominally 1 / 18_000 mm
 
-        # mass:
-        # 1 point per 1000 kg
+        wt = wear_tick(g: g,
+                       slide_speed: slide_speed,
+                       mass: mass,
+                       critical_temp: critical_temp)
 
-        mass_factor = mass.to_f / 1000
-
-
-
-
-        # based on env: mass, g, slide_spead
-        # add wear
-        # add/subtract heat
-
-        # heat is based on slide_speed and current_g
-        # bias towards 100% grip
-        #  hot tires get less heat, subtract more
-        #  cold tires get more heat, subtract less
-
-        # wear is based on slide_speed and current_g and current_heat
-
+        if @tread_mm > 0
+          @tread_mm -= wt / 18000
+          @tread_mm = 0 if @tread_mm < 0
+        else
+          # cords wear 2x faster
+          @cords_mm -= wt * 2 / 18000
+          if @cords_mm <= 0
+            raise(DestructionError, "Tire had a catastrophic failure!")
+          end
+        end
       end
     end
 
@@ -137,21 +225,17 @@ module DrivingPhysics
       @g_factor = 1.0
       @max_heat_cycles = 50
       @temp_profile = TemperatureProfile.new
-      @condition = Condition.new
 
       yield self if block_given?
-    end
-
-    def tread_depth
-      @tread_mm * @condition.tread_pct
+      @condition = Condition.new(tread_mm: @tread_mm, cords_mm: @cords_mm)
     end
 
     def tread_left?
-      tread_depth > 0.05
+      @condition.tread_mm > 0.001
     end
 
     def tread_factor
-      tread_left? ? 1.0 : 0.1 * @condition.cords_pct
+      tread_left? ? 1.0 : 0.5 * @condition.cords_mm / @cords_mm
     end
 
     def heat_cycle_factor

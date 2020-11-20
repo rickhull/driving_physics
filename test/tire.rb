@@ -62,40 +62,37 @@ describe Tire do
     expect(t.g_factor).must_equal -0.1234
   end
 
-  it "calculates a dynamic tread depth based on condition" do
-    expect(@t.tread_depth).must_equal @t.tread_mm
-    expect(@t.tread_depth).must_equal @t.tread_mm * @t.condition.tread_pct
-    @t.condition.tread_pct = 0.5
-    expect(@t.tread_depth).must_equal @t.tread_mm * @t.condition.tread_pct
-  end
-
   it "knows when the tread is gone" do
     expect(@t.tread_left?).must_equal true
-    @t.condition.tread_pct = 0.00001
+
+    @t.condition.tread_mm = 0.00001
     expect(@t.tread_left?).must_equal false
   end
 
-  it "has 10% grip when down to the cords" do
+  it "has 50% grip when down to the cords" do
     expect(@t.tread_factor).must_equal 1.0
-    @t.condition.tread_pct = 0.0
-    expect(@t.tread_factor).must_equal 0.1
+
+    @t.condition.tread_mm = 0.0
+    expect(@t.tread_factor).must_be_within_epsilon 0.5
   end
 
   it "has less than 10% tread factor when the cords start to wear" do
-    expect(@t.condition.tread_pct).must_equal 1.0
-    expect(@t.tread_factor).must_equal 1.0
-    @t.condition.tread_pct = 0.5
     expect(@t.tread_factor).must_equal 1.0
 
-    @t.condition.tread_pct = 0.0
-    expect(@t.tread_factor).must_be_within_epsilon 0.1
-    @t.condition.cords_pct = 0.9
-    expect(@t.tread_factor).must_be_within_epsilon 0.09
+    @t.condition.tread_mm = 5.0
+    expect(@t.tread_factor).must_equal 1.0
+
+    @t.condition.tread_mm = 0.0
+    expect(@t.tread_factor).must_be_within_epsilon 0.5
+
+    @t.condition.cords_mm = 0.9
+    expect(@t.tread_factor).must_be_within_epsilon 0.45
   end
 
   it "has decreasing heat cycle factor" do
     expect(@t.condition.heat_cycles).must_equal 0
     expect(@t.heat_cycle_factor).must_equal 1.0
+
     @t.condition.heat_cycles = 20
     expect(@t.heat_cycle_factor).must_be(:<, 1.0)
   end
@@ -103,6 +100,7 @@ describe Tire do
   it "has a temp factor according to temperature profile" do
     expect(@t.condition.temp_c).must_equal 25
     expect(@t.temp_factor).must_equal 0.75
+
     @t.condition.temp_c = 90
     expect(@t.temp_factor).must_equal 1.0
   end
@@ -110,14 +108,15 @@ describe Tire do
   it "incorporates temp, heat_cycles, and tread depth into available grip" do
     @t.condition.temp_c = 60
     expect(@t.temp_factor).must_be_within_epsilon 0.8
+
     @t.condition.heat_cycles = 10
     expect(@t.heat_cycle_factor).must_be_within_epsilon 0.96
-    @t.condition.tread_pct = 0.5
-    expect(@t.tread_factor).must_equal 1.0
 
+    @t.condition.tread_mm = 5.0
+    expect(@t.tread_factor).must_equal 1.0
     expect(@t.max_g).must_be_within_epsilon 0.768
 
-    @t.condition.tread_pct = 0.0001
-    expect(@t.max_g).must_be_within_epsilon 0.0768
+    @t.condition.tread_mm = 0.0
+    expect(@t.max_g).must_be_within_epsilon 0.384
   end
 end

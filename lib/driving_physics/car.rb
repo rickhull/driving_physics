@@ -1,6 +1,8 @@
 require 'driving_physics/tire'
 
 module DrivingPhysics
+  PETROL_DENSITY = 0.71 # kg / liter
+
   # treat instances of this class as immutable
   class Car
     attr_accessor :mass, :min_turn_radius, :tire, :power
