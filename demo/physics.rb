@@ -2,14 +2,14 @@ require 'driving_physics'
 
 DP = DrivingPhysics
 
-pos = 0
-spd = 0
-mass = 1000
-drive_force = 7000
-duration = 100 # seconds
+pos = 0            # m
+spd = 0            # m/s
+mass = 1000        # kg
+drive_force = 7000 # N
+duration = 100     # seconds
 
 (duration * DP::TICKS_PER_SEC).times { |i|
-  nf = DP.net_force_simple(drive_force, spd)
+  nf = drive_force - DP::Force.all_resistance(spd, mass)
   a = DP.a(nf, mass)
   spd = DP.v(spd, a)
   pos = DP.p(pos, spd)

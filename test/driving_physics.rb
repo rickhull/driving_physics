@@ -2,17 +2,19 @@ require 'minitest/autorun'
 require 'driving_physics'
 
 describe DrivingPhysics do
+  F = DrivingPhysics::Force
+
   before do
     @mass = 1000  # kg
     @force = 7000 # N
   end
 
   it "calculates a reasonable drag constant" do
-    expect(DrivingPhysics::C_DRAG).must_be_within_epsilon 0.4257
+    expect(F.air_resistance(1)).must_be_within_epsilon 0.4257
   end
 
   it "approximates a reasonable rolling resistance constant" do
-    expect(DrivingPhysics::C_RR).must_be_within_epsilon 12.771
+    expect(F::ROTATIONAL_RESISTANCE).must_be_within_epsilon 12.771
   end
 
   it "displays elapsed ms in a friendly form" do
@@ -20,11 +22,11 @@ describe DrivingPhysics do
   end
 
   it "approximates a positive drag force" do
-    expect(DrivingPhysics.force_drag_simple(30)).must_be_within_epsilon 383.13
+    expect(F.air_resistance(30)).must_be_within_epsilon 383.13
   end
 
   it "approximates a positive rolling resistance force" do
-    expect(DrivingPhysics.force_rr_simple(30)).must_be_within_epsilon 383.13
+    expect(F.rotational_resistance(30)).must_be_within_epsilon 383.13
   end
 
   # see driving_physics/vector for Vector Physics

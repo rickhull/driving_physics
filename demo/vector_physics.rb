@@ -10,9 +10,10 @@ drive_force = V.random_unit_vector * 7000
 duration = 100 # seconds
 
 (duration * DP::TICKS_PER_SEC).times { |i|
-  nf = V.net_drive_force(drive_force: drive_force,
-                         velocity: v,
-                         mass: mass)
+  nf = drive_force +
+       V::Force.all_resistance(drive_force,
+                               velocity: v,
+                               mass: mass)
   a = DP.a(nf, mass)
   v = DP.v(v, a)
   p = DP.p(p, v)

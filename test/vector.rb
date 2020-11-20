@@ -8,7 +8,7 @@ describe DrivingPhysics::Vector do
     @drive_force = Vector[7000.0, 0.0]
     @v = Vector[3.0, 0]
     @mass = 1000
-    @weight = @mass * DrivingPhysics::G
+    @weight = @mass * V::Force::G
 
     # note, we're in a 2D world and normal force is typically on z-axis
     # generally we're just using the magnitude so it doesn't matter
@@ -54,59 +54,52 @@ describe DrivingPhysics::Vector do
   end
 
   it "calculates air resistance as the square of velocity" do
-    drag_force = V.force_drag_full(drag_coefficient: 0.1,
-                                   frontal_area: 3,
-                                   air_density: 0.5,
-                                   velocity: @v)
+    df = V::Force.air_resistance(@v,
+                                 frontal_area: 3,
+                                 drag_coefficient: 0.1,
+                                 air_density: 0.5)
+
     # double the velocity, drag force goes up by 4
-    df2 = V.force_drag_full(drag_coefficient: 0.1,
-                            frontal_area: 3,
-                            air_density: 0.5,
-                            velocity: @v * 2)
-    expect(df2).must_equal drag_force * 4
+    df2 = V::Force.air_resistance(@v * 2,
+                                  frontal_area: 3,
+                                  drag_coefficient: 0.1,
+                                  air_density: 0.5)
+
+    expect(df2).must_equal df * 4
   end
 
   it "calculates the rolling resistance as a function of the normal force" do
-    rr = V.force_rolling_resistance_full(drive_force: @drive_force,
-                                         normal_force: @normal_force,
-                                         coefficient: V::CRF)
+    rr = V::Force.rolling_resistance_full(drive_force: @drive_force,
+                                          normal_force: @normal_force)
 
     # double the normal force, rolling resistance goes up by 2 (linear)
-    rr2 = V.force_rolling_resistance_full(drive_force: @drive_force,
-                                          normal_force: @normal_force * 2,
-                                          coefficient: V::CRF)
+    rr2 = V::Force.rolling_resistance_full(drive_force: @drive_force,
+                                           normal_force: @normal_force * 2)
     expect(rr2).must_equal rr * 2
   end
 
   it "just uses mass (and G) to calculate rolling resistance" do
-    rr = V.force_rolling_resistance_full(drive_force: @drive_force,
-                                         normal_force: @normal_force,
-                                         coefficient: V::CRF)
-    rr2 = V.force_rolling_resistance(drive_force: @drive_force,
-                                     mass: @mass)
+    rr = V::Force.rolling_resistance_full(drive_force: @drive_force,
+                                          normal_force: @normal_force)
+
+    rr2 = V::Force.rolling_resistance(@mass, drive_force: @drive_force)
     expect(rr2).must_equal rr
   end
 
   it "calculates the rotational resistance as a function of velocity" do
-    rr = V.force_rotational_resistance(@v)
-    rr2 = V.force_rotational_resistance(@v * 2)
+    rr = V::Force.rotational_resistance(@v)
+    rr2 = V::Force.rotational_resistance(@v * 2)
     expect(rr2).must_equal rr * 2
   end
 
-  it "has a simplified air_resistance that just needs velocity" do
-    drag = V.force_air_resistance(@v)
-    drag2 = V.force_air_resistance(@v * 2)
-    expect(drag2).must_equal drag * 4
-  end
-
-  it "sums drive force and simplified resistance forces" do
-    ndf = V.net_drive_force(drive_force: @drive_force,
-                            velocity: @v,
-                            mass: @mass)
-    # same direction
-    expect(ndf.normalize).must_equal(@drive_force.normalize)
+  it "sums resistance forces" do
+    rf = V::Force.all_resistance(@drive_force,
+                                 velocity: @v,
+                                 mass: @mass)
+    # opposite
+    expect(rf.normalize).must_equal(-1 * @drive_force.normalize)
 
     # smaller magnitude
-    expect(ndf.magnitude).must_be(:<, @drive_force.magnitude)
+    expect(rf.magnitude).must_be(:<, @drive_force.magnitude)
   end
 end

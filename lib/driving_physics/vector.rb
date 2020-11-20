@@ -16,50 +16,55 @@ module DrivingPhysics::Vector
     Vector.elements(a).normalize
   end
 
-  # velocity is a vector; return value is a force vector
-  def self.force_drag_full(drag_coefficient:,
-                           frontal_area:,
-                           air_density:,
-                           velocity:)
-    -1 * 0.5 * drag_coefficient * frontal_area * air_density *
-     velocity * velocity.magnitude
-  end
+  module Force
+    # see lib/driving_physics.rb for more information on these constants
+    G = DrivingPhysics::Force::G
+    AIR_DENSITY = DrivingPhysics::Force::AIR_DENSITY
+    DRAG_COF = DrivingPhysics::Force::DRAG_COF
+    FRONTAL_AREA = DrivingPhysics::Force::FRONTAL_AREA
+    CRF = DrivingPhysics::Force::CRF
+    ROTATIONAL_RESISTANCE = DrivingPhysics::Force::ROTATIONAL_RESISTANCE
 
-  # approximate for normal tires on concrete
-  # coefficient of rolling friction
-  CRF = 0.01
+    # velocity is a vector; return value is a force vector
+    def self.air_resistance(velocity,
+                            frontal_area: FRONTAL_AREA,
+                            drag_coefficient: DRAG_COF,
+                            air_density: AIR_DENSITY)
+      -1 * 0.5 * frontal_area * drag_coefficient * air_density *
+       velocity * velocity.magnitude
+    end
 
-  # note: does not depend on speed but just opposes the drive force
-  def self.force_rolling_resistance_full(drive_force:,
-                                         normal_force:,
-                                         coefficient:)
-    # direction opposes the drive_force
-    # magnitude is from the normal_force
-    -1 * drive_force.normalize * coefficient * normal_force.magnitude
-  end
+    def self.rotational_resistance(velocity)
+      -1 * velocity * ROTATIONAL_RESISTANCE
+    end
 
-  # in a planar world, the normal force is always mass * G
-  def self.force_rolling_resistance(drive_force:, mass:)
-    -1 * drive_force.normalize * CRF * mass * DrivingPhysics::G
-  end
+    # note: does not depend on speed but just opposes the drive force
+    def self.rolling_resistance_full(drive_force:,
+                                     normal_force:,
+                                     crf: CRF)
+      # direction opposes the drive_force
+      # magnitude is from the normal_force
+      -1 * drive_force.normalize * crf * normal_force.magnitude
+    end
 
-  def self.force_rotational_resistance(velocity,
-                                       coefficient: DrivingPhysics::C_RR)
-    -1 * velocity * coefficient
-  end
+    # in a planar world, the normal force is always mass * G
+    def self.rolling_resistance(mass, drive_force:, crf: CRF)
+      -1 * drive_force.normalize * crf * mass * G
+    end
 
-  def self.force_air_resistance(velocity)
-    force_drag_full(drag_coefficient: DrivingPhysics::DRAG_COF,
-                    frontal_area: DrivingPhysics::FRONTAL_AREA,
-                    air_density: DrivingPhysics::AIR_DENSITY,
-                    velocity: velocity)
-  end
-
-  def self.net_drive_force(drive_force:, velocity:, mass:)
-    drive_force +
-      force_rolling_resistance(drive_force: drive_force,
-                               mass: mass) +
-      force_rotational_resistance(velocity) +
-      force_air_resistance(velocity)
+    def self.all_resistance(drive_force,
+                            velocity:,
+                            mass:,
+                            crf: CRF,
+                            frontal_area: FRONTAL_AREA,
+                            drag_coefficient: DRAG_COF,
+                            air_density: AIR_DENSITY)
+      air_resistance(velocity,
+                     frontal_area: frontal_area,
+                     drag_coefficient: drag_coefficient,
+                     air_density: air_density) +
+        rotational_resistance(velocity) +
+        rolling_resistance(mass, drive_force: drive_force)
+    end
   end
 end

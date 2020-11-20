@@ -4,7 +4,6 @@ module DrivingPhysics
   #
   AMBIENT_TEMP = 25     # deg c
   PETROL_DENSITY = 0.71 # kg / L
-  AIR_DENSITY = 1.29    # kg / m^3
 
   TICKS_PER_SEC = 1000
   TICK = 1 / TICKS_PER_SEC.to_f
@@ -25,74 +24,6 @@ module DrivingPhysics
     mps.to_f * SECS_PER_HOUR / 1000
   end
 
-  G = 9.8               # m / sec^2
-
-  def self.force_drag_full(drag_coefficient:,
-                           frontal_area:,
-                           air_density:,
-                           speed:)
-    0.5 * drag_coefficient * frontal_area * air_density * speed ** 2
-  end
-
-  #
-  # approximations for 2000s-era Corvette
-  #
-  DRAG_COF = 0.3
-  FRONTAL_AREA = 2.2 # m^2
-
-  # drag constant, for easy calculation of drag force
-  C_DRAG = force_drag_full(drag_coefficient: DRAG_COF,
-                           frontal_area: FRONTAL_AREA,
-                           air_density: AIR_DENSITY,
-                           speed: 1)
-
-  # NOTE: RR is _not_ mere "rolling resistance" which has a complicated
-  # relationship to speed.  Rolling resistance can be thought of as mostly
-  # constant relative to speed.  However, we are considering "rotational
-  # resistance" here.  This means axles and wheel bearings, etc.  The
-  # rotational resistance should be linear with speed.
-
-  # rotational resistance constant, for easy calculation of rr force
-  # approximation based on rr and drag forces roughly equal at 30 m/s
-
-  RR_DRAG_EQUIVALENT_SPEED = 30 # m/s
-  C_RR = RR_DRAG_EQUIVALENT_SPEED * C_DRAG
-
-  # just provide speed, use sensible defaults
-  def self.force_drag(speed,
-                      frontal_area: FRONTAL_AREA,
-                      drag_coefficient: DRAG_COF,
-                      air_density: AIR_DENSITY)
-    force_drag_full(drag_coefficient: drag_cof,
-                    frontal_area: frontal_area,
-                    air_density: air_density,
-                    speed: speed)
-  end
-
-  def self.force_drag_simple(speed)
-    C_DRAG * speed ** 2
-  end
-
-  def self.force_rr_simple(speed)
-    C_RR * speed
-  end
-
-  # drive force minus resistance forces
-  def self.net_force_simple(drive_force, speed)
-    drive_force - force_rr_simple(speed) - force_drag_simple(speed)
-  end
-
-  def self.elapsed_display(elapsed_ms)
-    elapsed_s, ms = elapsed_ms.divmod 1000
-
-    h = elapsed_s / SECS_PER_HOUR
-    elapsed_s -= h * SECS_PER_HOUR
-    m, s = elapsed_s.divmod SECS_PER_MIN
-
-    [[h, m, s].map { |i| i.to_s.rjust(2, '0') }.join(':'),
-     ms.to_s.rjust(3, '0')].join('.')
-  end
-
   # force can be a scalar or a Vector
   def self.a(force, mass)
     force / mass.to_f
@@ -106,38 +37,69 @@ module DrivingPhysics
     p + v * dt
   end
 
-  # tractive force
-  # Ftrac = u * Engineforce (u is unit vector in direction of travel)
+  def self.elapsed_display(elapsed_ms)
+    elapsed_s, ms = elapsed_ms.divmod 1000
 
-  # drag force
-  # Fdrag = -Cdrag * v * |v| (drag constant, velocity vector, v magnitude)
-  # |v| aka speed
+    h = elapsed_s / SECS_PER_HOUR
+    elapsed_s -= h * SECS_PER_HOUR
+    m, s = elapsed_s.divmod SECS_PER_MIN
 
-  # speed = sqrt(v.x*v.x + v.y*v.y)
-  # Fdrag.x = -Cdrag * v.x * speed
-  # Fdrag.y = -Cdrag * v.y * speed
+    [[h, m, s].map { |i| i.to_s.rjust(2, '0') }.join(':'),
+     ms.to_s.rjust(3, '0')].join('.')
+  end
 
-  # rolling resistance
-  # Frr = -Crr * v
+  # we're going to model 3 resistance forces
+  # 1. air resistance (goes up with the square of velocity)
+  # 2. rotational resistance (internal friction, linear with velocity)
+  # 3. rolling resistance (linear with mass)
 
-  # at low speed, rr dominates drag; even at 30 m/s; drag dominates after
-  # this implies Crr = 30 * Cdrag
+  # Note: here we only consider speed; we're in a 1D world for now
 
-  # longitudinal forces:
-  # Flong = Ftrac + Fdrag + Frr
+  module Force
+    G = 9.8               # m / sec^2
+    AIR_DENSITY = 1.29    # kg / m^3
 
-  # acceleration is determined by F=ma; so a = F / m
-  # velocity is determined by integrating acceleration over time
-  # use the Euler method:
-  # v = v + dt * a   (new velocity = old velocity + time_tick * current acc)
+    #
+    # approximations for 2000s-era Corvette
+    #
+    DRAG_COF = 0.3
+    FRONTAL_AREA = 2.2    # m^2
 
-  # position is determined by integrating velocity over time
-  # p = p + dt * v
+    def self.air_resistance(speed,
+                            frontal_area: FRONTAL_AREA,
+                            drag_coefficient: DRAG_COF,
+                            air_density: AIR_DENSITY)
+      0.5 * frontal_area * drag_coefficient * air_density * speed ** 2
+    end
 
-  # let's simulate a top speed
+    # we approximate rotational resistance from observations that
+    # rotational resistance is roughly equivalent to air resistance
+    # at highway speeds (30 m/s)
+    ROTATIONAL_RESISTANCE = air_resistance(1) * 30
 
-  # mass = 1000 kg
-  # Feng = 7000 N
-  # Cdrag = 0.4257
-  # Crr = 12.8
+    def self.rotational_resistance(speed)
+      ROTATIONAL_RESISTANCE * speed
+    end
+
+    # coefficient of rolling friction
+    # this is an approximate value for street tires on concrete
+    CRF = 0.01
+
+    def self.rolling_resistance(mass, crf: CRF)
+      mass * G * crf
+    end
+
+    def self.all_resistance(speed, mass,
+                            crf: CRF,
+                            frontal_area: FRONTAL_AREA,
+                            drag_coefficient: DRAG_COF,
+                            air_density: AIR_DENSITY)
+      air_resistance(speed,
+                     frontal_area: frontal_area,
+                     drag_coefficient: drag_coefficient,
+                     air_density: air_density) +
+        rotational_resistance(speed) +
+        rolling_resistance(mass, crf: crf)
+    end
+  end
 end
