@@ -1,3 +1,5 @@
+require 'driving_physics'
+
 module DrivingPhysics
   # treat instances of this class as immutable
   class Tire
@@ -64,15 +66,16 @@ module DrivingPhysics
     # treat instances of this class as *mutable*
     class Condition
       class Error < Tire::Error; end
-      class DestructionError < Error; end
+      class Destroyed < Error; end
 
-      DEFAULT_TEMP = 25
+      DEFAULT_TEMP = DrivingPhysics::AMBIENT_TEMP
 
       attr_accessor :tread_mm,
                     :cords_mm,
                     :temp_c,
                     :heat_cycles,
-                    :debug_log
+                    :debug_temp,
+                    :debug_wear
 
       def initialize(temp_c: DEFAULT_TEMP, tread_mm:, cords_mm:)
         @tread_mm = tread_mm.to_f
@@ -80,7 +83,8 @@ module DrivingPhysics
         @temp_c = temp_c.to_f
         @heat_cycles = 0
         @hottest_temp = @temp_c
-        @debug_log = false
+        @debug_temp = false
+        @debug_wear = false
       end
 
       def temp_tick(ambient_temp:, g:, slide_speed:,
@@ -98,29 +102,30 @@ module DrivingPhysics
         # at 1g, tire tends to 100 c
         # that 100c upper target also gets adjusted due to ambient temps
 
-        target_hot = critical_temp - 5
+        target_hot = critical_temp + 5
         ambient_diff = DEFAULT_TEMP - ambient_temp
         target_hot -= (ambient_diff / 2)
-        puts "target_hot=#{target_hot}" if @debug_log
+        puts "target_hot=#{target_hot}" if @debug_temp
 
         if slide_speed <= 0.1
           target_g_temp = ambient_temp + (target_hot - ambient_temp) * g
         else
           target_g_temp = target_hot
         end
-        puts "target_g_temp=#{target_g_temp}" if @debug_log
+        puts "target_g_temp=#{target_g_temp}" if @debug_temp
 
-        slide_factor = slide_speed * 3
+        slide_factor = slide_speed * 5
         target_slide_temp = target_g_temp + slide_factor
 
-        puts "target_slide_temp=#{target_slide_temp}" if @debug_log
+        puts "target_slide_temp=#{target_slide_temp}" if @debug_temp
 
         # temp_tick is presumed to be +1.0 or -1.0 (100th of a degree)
         # more mass biases towards heat
         # more tire mass biases for smaller tick
 
         tick = @temp_c < target_slide_temp ? 1.0 : -1.0
-        puts "base tick: #{tick}" if @debug_log
+        tick += slide_speed / 10
+        puts "base tick: #{tick}" if @debug_temp
 
         mass_factor = (mass - 1000).to_f / 1000
         if mass_factor < 0
@@ -130,8 +135,7 @@ module DrivingPhysics
           # heavier car cools slower, heats quicker
           tick += mass_factor / 10
         end
-
-        puts "mass tick: #{tick}" if @debug_log
+        puts "mass tick: #{tick}" if @debug_temp
 
         tire_mass_factor = (tire_mass - 10).to_f / 10
         if tire_mass_factor < 0
@@ -139,10 +143,11 @@ module DrivingPhysics
           tick -= tire_mass_factor
         else
           # heavier tire has smaller tick
-          tick /= (tire_mass.to_f / 20)
+          tire_mass_factor = (tire_mass - 10).to_f / 100
+          tick -= tire_mass_factor
         end
-
-        puts "tire mass tick: #{tick}" if @debug_log
+        puts "tire mass tick: #{tick}" if @debug_temp
+        puts if @debug_temp
 
         tick
       end
@@ -150,16 +155,16 @@ module DrivingPhysics
       def wear_tick(g:, slide_speed:, mass:, critical_temp:)
         # cold tires wear less
         tick = [0, @temp_c.to_f / critical_temp].max
-        puts "tick: #{tick}" if @debug_log
+        puts "wear tick: #{tick}" if @debug_wear
 
         # lower gs reduce wear in the absence of sliding
         tick *= g if slide_speed <= 0.1
-        puts "g tick: #{tick}" if @debug_log
+        puts "g wear tick: #{tick}" if @debug_wear
 
         # slide wear
         tick += slide_speed
-        puts "slide tick: #{tick}" if @debug_log
-
+        puts "slide wear tick: #{tick}" if @debug_wear
+        puts if @debug_wear
         tick
       end
 
@@ -204,7 +209,7 @@ module DrivingPhysics
           # cords wear 2x faster
           @cords_mm -= wt * 2 / 18000
           if @cords_mm <= 0
-            raise(DestructionError, "Tire had a catastrophic failure!")
+            raise(Destroyed, "no more cords")
           end
         end
       end
