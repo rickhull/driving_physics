@@ -89,6 +89,23 @@ module DrivingPhysics
       mass * G * crf
     end
 
+    # the braking stuff is made up but should work
+    # 50 N of pedal force generates 50 kN of braking force for
+    # 1000kg at 100 m/s
+    BRAKE_COF = 0.005
+
+    def self.braking(clamping_force,
+                     motivating_force:,
+                     speed:, mass:,
+                     brake_coefficient: BRAKE_COF)
+      bf = clamping_force * mass * G * brake_coefficient
+      if speed > 0.0
+        bf
+      else
+        [bf, motivating_force].min
+      end
+    end
+
     def self.all_resistance(speed, mass,
                             crf: CRF,
                             frontal_area: FRONTAL_AREA,

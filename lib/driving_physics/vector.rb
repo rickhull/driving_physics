@@ -24,6 +24,7 @@ module DrivingPhysics::Vector
     FRONTAL_AREA = DrivingPhysics::Force::FRONTAL_AREA
     CRF = DrivingPhysics::Force::CRF
     ROTATIONAL_RESISTANCE = DrivingPhysics::Force::ROTATIONAL_RESISTANCE
+    BRAKE_COF = DrivingPhysics::Force::BRAKE_COF
 
     # velocity is a vector; return value is a force vector
     def self.air_resistance(velocity,
@@ -50,6 +51,26 @@ module DrivingPhysics::Vector
     # in a planar world, the normal force is always mass * G
     def self.rolling_resistance(mass, drive_force:, crf: CRF)
       -1 * drive_force.normalize * crf * mass * G
+    end
+
+    def self.braking(clamping_force,
+                     motivating_force:,
+                     velocity:,
+                     mass:,
+                     brake_coefficient: BRAKE_COF)
+      bf = -1 * velocity.normalize *
+            clamping_force *
+            mass * G *
+            brake_coefficient
+      if velocity.magnitude > 0.0
+        bf
+      else
+        if bf.magnitude > motivating_force.magnitude
+          -1 * motivating_force
+        else
+          bf
+        end
+      end
     end
 
     def self.all_resistance(drive_force,
