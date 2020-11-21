@@ -11,7 +11,7 @@ duration = 100 # seconds
 
 (duration * DP::TICKS_PER_SEC).times { |i|
   nf = drive_force +
-       V::Force.all_resistance(drive_force,
+       V::Force.all_resistance(drive_force: drive_force,
                                velocity: v,
                                mass: mass)
   a = DP.a(nf, mass)

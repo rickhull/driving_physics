@@ -9,83 +9,96 @@ module DrivingPhysics::Vector
   end
 
   def self.random_unit_vector(dimensions = 2, resolution: 9)
-    a = Array.new(dimensions) { random_centered_zero(resolution) }
-    while a.all? { |i| i == 0 }
-      a = Array.new(dimensions) { random_centered_zero(resolution) }
-    end
-    Vector.elements(a).normalize
+    begin
+      v = Vector.elements(Array.new(dimensions) {
+                            random_centered_zero(resolution)
+                          })
+    end while v.zero?
+    v.normalize
   end
 
   module Force
-    # see lib/driving_physics.rb for more information on these constants
-    G = DrivingPhysics::Force::G
-    AIR_DENSITY = DrivingPhysics::Force::AIR_DENSITY
-    DRAG_COF = DrivingPhysics::Force::DRAG_COF
-    FRONTAL_AREA = DrivingPhysics::Force::FRONTAL_AREA
-    CRF = DrivingPhysics::Force::CRF
-    ROTATIONAL_RESISTANCE = DrivingPhysics::Force::ROTATIONAL_RESISTANCE
-    BRAKE_COF = DrivingPhysics::Force::BRAKE_COF
+    DF = DrivingPhysics::Force
 
     # velocity is a vector; return value is a force vector
     def self.air_resistance(velocity,
-                            frontal_area: FRONTAL_AREA,
-                            drag_coefficient: DRAG_COF,
-                            air_density: AIR_DENSITY)
+                            frontal_area: DF::FRONTAL_AREA,
+                            drag_coefficient: DF::DRAG_COF,
+                            air_density: DF::AIR_DENSITY)
       -1 * 0.5 * frontal_area * drag_coefficient * air_density *
        velocity * velocity.magnitude
     end
 
-    def self.rotational_resistance(velocity)
-      -1 * velocity * ROTATIONAL_RESISTANCE
+    def self.rotational_resistance(velocity,
+                                   rotational_coefficient: DF::RR_COF)
+      -1 * velocity * rotational_coefficient
     end
 
-    # note: does not depend on speed but just opposes the drive force
-    def self.rolling_resistance_full(drive_force:,
-                                     normal_force:,
-                                     crf: CRF)
-      # direction opposes the drive_force
-      # magnitude is from the normal_force
-      -1 * drive_force.normalize * crf * normal_force.magnitude
-    end
+    # This is used to model rolling resistance and braking forces
+    # These have a special case when v=0, as they should resist
+    #   the drive force, but not exceed it
+    # Take care to reduce the magnitude appropriately when summing
+    #   forces.
+    # They can oppose a net motivating force or oppose velocity
+    def self.resistance(magnitude,
+                        velocity:,
+                        drive_force:)
+      zero_v = velocity.magnitude == 0.0
 
-    # in a planar world, the normal force is always mass * G
-    def self.rolling_resistance(mass, drive_force:, crf: CRF)
-      -1 * drive_force.normalize * crf * mass * G
-    end
-
-    def self.braking(clamping_force,
-                     motivating_force:,
-                     velocity:,
-                     mass:,
-                     brake_coefficient: BRAKE_COF)
-      bf = -1 * velocity.normalize *
-            clamping_force *
-            mass * G *
-            brake_coefficient
-      if velocity.magnitude > 0.0
-        bf
+      # generally oppose velocity, but oppose drive_force when v=0
+      if drive_force.magnitude == 0.0 and zero_v
+        # nothing to oppose
+        Vector.zero(velocity.size)
+      elsif zero_v
+        -1 * drive_force.normalize * magnitude
       else
-        if bf.magnitude > motivating_force.magnitude
-          -1 * motivating_force
-        else
-          bf
-        end
+        -1 * velocity.normalize * magnitude
       end
     end
 
-    def self.all_resistance(drive_force,
+    def self.rolling_resistance(normal_force,
+                                velocity:,
+                                drive_force:,
+                                crf: DF::CRF)
+      resistance(crf * normal_force.magnitude,
+                 velocity: velocity,
+                 drive_force: drive_force)
+    end
+
+    # in a planar world, without aero, the normal force is always mass * G
+    def self.rolling_resistance_simple(mass,
+                                       velocity:,
+                                       drive_force:,
+                                       crf: DF::CRF)
+      resistance(crf * mass * DrivingPhysics::G,
+                 velocity: velocity,
+                 drive_force: drive_force)
+    end
+
+    def self.braking(clamping_force,
+                     velocity:,
+                     drive_force:,
+                     brake_coefficient: DF::BRAKE_COF)
+      resistance(clamping_force * brake_coefficient,
+                 velocity: velocity,
+                 drive_force: drive_force)
+    end
+
+    def self.all_resistance(drive_force:,
                             velocity:,
                             mass:,
-                            crf: CRF,
-                            frontal_area: FRONTAL_AREA,
-                            drag_coefficient: DRAG_COF,
-                            air_density: AIR_DENSITY)
+                            crf: DF::CRF,
+                            frontal_area: DF::FRONTAL_AREA,
+                            drag_coefficient: DF::DRAG_COF,
+                            air_density: DF::AIR_DENSITY)
       air_resistance(velocity,
                      frontal_area: frontal_area,
                      drag_coefficient: drag_coefficient,
                      air_density: air_density) +
         rotational_resistance(velocity) +
-        rolling_resistance(mass, drive_force: drive_force)
+        rolling_resistance(mass,
+                           velocity: velocity,
+                           drive_force: drive_force)
     end
   end
 end

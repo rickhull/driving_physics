@@ -8,7 +8,7 @@ describe DrivingPhysics::Vector do
     @drive_force = Vector[7000.0, 0.0]
     @v = Vector[3.0, 0]
     @mass = 1000
-    @weight = @mass * V::Force::G
+    @weight = @mass * DrivingPhysics::G
 
     # note, we're in a 2D world and normal force is typically on z-axis
     # generally we're just using the magnitude so it doesn't matter
@@ -69,20 +69,26 @@ describe DrivingPhysics::Vector do
   end
 
   it "calculates the rolling resistance as a function of the normal force" do
-    rr = V::Force.rolling_resistance_full(drive_force: @drive_force,
-                                          normal_force: @normal_force)
+    rr = V::Force.rolling_resistance(@normal_force,
+                                     velocity: @v,
+                                     drive_force: @drive_force)
 
     # double the normal force, rolling resistance goes up by 2 (linear)
-    rr2 = V::Force.rolling_resistance_full(drive_force: @drive_force,
-                                           normal_force: @normal_force * 2)
+    rr2 = V::Force.rolling_resistance(@normal_force * 2,
+                                      velocity: @v,
+                                      drive_force: @drive_force)
+
     expect(rr2).must_equal rr * 2
   end
 
   it "just uses mass (and G) to calculate rolling resistance" do
-    rr = V::Force.rolling_resistance_full(drive_force: @drive_force,
-                                          normal_force: @normal_force)
+    rr = V::Force.rolling_resistance(@normal_force,
+                                     velocity: @v,
+                                     drive_force: @drive_force)
 
-    rr2 = V::Force.rolling_resistance(@mass, drive_force: @drive_force)
+    rr2 = V::Force.rolling_resistance_simple(@mass,
+                                             velocity: @v,
+                                             drive_force: @drive_force)
     expect(rr2).must_equal rr
   end
 
@@ -93,7 +99,7 @@ describe DrivingPhysics::Vector do
   end
 
   it "sums resistance forces" do
-    rf = V::Force.all_resistance(@drive_force,
+    rf = V::Force.all_resistance(drive_force: @drive_force,
                                  velocity: @v,
                                  mass: @mass)
     # opposite

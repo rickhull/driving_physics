@@ -14,7 +14,7 @@ describe DrivingPhysics do
   end
 
   it "approximates a reasonable rolling resistance constant" do
-    expect(F::ROTATIONAL_RESISTANCE).must_be_within_epsilon 12.771
+    expect(F::RR_COF).must_be_within_epsilon 12.771
   end
 
   it "displays elapsed ms in a friendly form" do
