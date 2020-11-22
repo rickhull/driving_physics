@@ -2,6 +2,8 @@ require 'driving_physics/vector'
 require 'driving_physics/tire'
 
 module DrivingPhysics
+  F = DrivingPhysics::Vector::Force
+
   # treat instances of this class as immutable
   class Car
     attr_accessor :mass, :min_turn_radius,
@@ -13,7 +15,7 @@ module DrivingPhysics
       @mass = 1000              # kg, without fuel or driver
       @min_turn_radius = 10     # meters
       @max_drive_force = 7000   # N - 1000kg car at 0.7g acceleration
-      @max_brake_clamp = 50     # N
+      @max_brake_clamp = 100    # N
       @max_brake_force = 40_000 # N - 2000kg car at 2g braking
       @fuel_capacity = 40       # L
       @frontal_area = Force::FRONTAL_AREA # m^2
@@ -23,6 +25,10 @@ module DrivingPhysics
       @controls = Controls.new
       @condition = Condition.new
 
+      # consider downforce
+      # probably area * angle
+      # goes up with square of velocity
+
       yield self if block_given?
     end
 
@@ -31,23 +37,32 @@ module DrivingPhysics
     end
 
     def brake_force
-      brake_clamp = @max_brake_clamp * @controls.brake_pedal
-      bf = Vector::Force.braking(brake_clamp,
-                                 velocity: @condition.vel,
-                                 mass: total_mass)
-      mag = bf.magnitude
-      bf *= @max_brake_force / mag if mag > @max_brake_force
-      bf
+      @condition.dir * @max_brake_force * @controls.brake_pedal
     end
 
     def total_mass
       @mass + @condition.mass
     end
 
-    def resistance_force
-#      if @condition.vel.magnitude > 0
+    def weight
+      total_mass * DrivingPhysics::G
+    end
 
-#      drive_vector = @condition.dir * drive_brake_force
+    def air_resistance
+      # use default air density for now
+      F.air_resistance(@condition.vel,
+                       frontal_area: @frontal_area,
+                       drag_cof: @cd)
+    end
+
+    def rotational_resistance
+      # use default ROT_COF
+      F.rotational_resistance(@condition.vel)
+    end
+
+    def rolling_resistance
+      # TODO: downforce
+      F.rolling_resistance(weight, roll_cof: @tires.roll_cof)
     end
 
     class Controls
