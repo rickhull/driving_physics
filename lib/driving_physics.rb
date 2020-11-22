@@ -1,5 +1,15 @@
 module DrivingPhysics
   #
+  # Units: metric
+  #
+  # distance: meter
+  # velocity: meter / sec
+  # acceleration: meter / sec^2
+  # volume: Liter
+  # temperature: Celsius
+  #
+
+  #
   # defaults
   #
   AMBIENT_TEMP = 25     # deg c
@@ -14,12 +24,56 @@ module DrivingPhysics
   SECS_PER_MIN = 60
   MINS_PER_HOUR = 60
   SECS_PER_HOUR = SECS_PER_MIN * MINS_PER_HOUR
-  FEET_PER_METER = 3.28084
-  FEET_PER_MILE = 5280
-  MPH = (FEET_PER_METER / FEET_PER_MILE) * SECS_PER_HOUR
 
-  def self.mph(mps)
-    MPH * mps
+  module Imperial
+    FEET_PER_METER = 3.28084
+    FEET_PER_MILE = 5280
+    MPH = (FEET_PER_METER / FEET_PER_MILE) * SECS_PER_HOUR
+    CI_PER_LITER = 61.024
+
+    def self.feet(meters)
+      meters * FEET_PER_METER
+    end
+
+    def self.meters(feet)
+      feet / FEET_PER_METER
+    end
+
+    def self.miles(meters = nil, km: nil)
+      raise(ArgumentError, "argument missing") if meters.nil? and km.nil?
+      meters ||= km * 1000
+      meters * FEET_PER_METER / FEET_PER_MILE
+    end
+
+    def self.mph(mps = nil, kph: nil)
+      raise(ArgumentError, "argument missing") if mps.nil? and kph.nil?
+      mps ||= kph.to_f * 1000 / SECS_PER_HOUR
+      MPH * mps
+    end
+
+    def self.mps(mph)
+      mph / MPH
+    end
+
+    def self.kph(mph)
+      DP::kph(mps(mph))
+    end
+
+    def self.deg_c(deg_f)
+      (deg_f - 32).to_f * 5 / 9
+    end
+
+    def self.deg_f(deg_c)
+      deg_c.to_f * 9 / 5 + 32
+    end
+
+    def self.cubic_inches(liters)
+      liters * CI_PER_LITER
+    end
+
+    def self.liters(ci)
+      ci / CI_PER_LITER
+    end
   end
 
   def self.kph(mps)
