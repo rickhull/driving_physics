@@ -66,6 +66,9 @@ describe Tire do
     expect(@t.tread_left?).must_equal true
 
     @t.condition.tread_mm = 0.00001
+    expect(@t.tread_left?).must_equal true
+
+    @t.condition.tread_mm = 0.0
     expect(@t.tread_left?).must_equal false
   end
 
