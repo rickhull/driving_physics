@@ -7,14 +7,15 @@ describe DrivingPhysics do
   before do
     @mass = 1000  # kg
     @force = 7000 # N
+    @weight = @mass * DrivingPhysics::G
   end
 
   it "calculates a reasonable drag constant" do
     expect(F.air_resistance(1)).must_be_within_epsilon 0.4257
   end
 
-  it "approximates a reasonable rolling resistance constant" do
-    expect(F::RR_COF).must_be_within_epsilon 12.771
+  it "approximates a reasonable rotational resistance constant" do
+    expect(F::ROT_COF).must_be_within_epsilon 12.771
   end
 
   it "displays elapsed ms in a friendly form" do
@@ -25,8 +26,12 @@ describe DrivingPhysics do
     expect(F.air_resistance(30)).must_be_within_epsilon 383.13
   end
 
-  it "approximates a positive rolling resistance force" do
+  it "approximates a positive rotational resistance force" do
     expect(F.rotational_resistance(30)).must_be_within_epsilon 383.13
+  end
+
+  it "approximates a positive rolling resistance force" do
+    expect(F.rolling_resistance(@weight)).must_be_within_epsilon 98.0
   end
 
   # see driving_physics/vector for Vector Physics

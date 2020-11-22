@@ -3,7 +3,7 @@ module DrivingPhysics
   # defaults
   #
   AMBIENT_TEMP = 25     # deg c
-  PETROL_DENSITY = 0.71 # kg / L
+  PETROL_DENSITY = 0.71 # kg / L   TODO: move to car.rb
   TICKS_PER_SEC = 1000
   TICK = 1 / TICKS_PER_SEC.to_f
   G = 9.8               # m/s^2
@@ -50,14 +50,24 @@ module DrivingPhysics
      ms.to_s.rjust(3, '0')].join('.')
   end
 
-  # we're going to model 3 resistance forces
-  # 1. air resistance (goes up with the square of velocity)
-  # 2. rotational resistance (internal friction, linear with velocity)
-  # 3. rolling resistance (linear with mass)
-
-  # Note: here we only consider speed; we're in a 1D world for now
-
   module Force
+
+    #
+    # Resistance Forces
+    #
+    # 1. air resistance aka drag aka turbulent drag
+    #    depends on v^2
+    # 2. "rotatational" resistance, e.g. bearings / axles / lubricating fluids
+    #    aka viscous drag; linear with v
+    # 3. rolling resistance, e.g. tire and surface deformation
+    #    constant with v, depends on normal force and tire/surface properties
+    # 4. braking resistance, supplied by operator, constant with v
+    #    depends purely on operator choice and physical limits
+    #    as such, it is not modeled here
+    #
+
+    # Note: here we only consider speed; we're in a 1D world for now
+
     AIR_DENSITY = 1.29    # kg / m^3
 
     #
@@ -68,54 +78,58 @@ module DrivingPhysics
 
     # coefficient of rolling friction
     # this is an approximate value for street tires on concrete
-    CRF = 0.01
-
-    # converts a reasonable clamping_force to braking force
-    BRAKE_COF = 0.005
+    ROLL_COF = 0.01
 
     def self.air_resistance(speed,
                             frontal_area: FRONTAL_AREA,
-                            drag_coefficient: DRAG_COF,
+                            drag_cof: DRAG_COF,
                             air_density: AIR_DENSITY)
-      0.5 * frontal_area * drag_coefficient * air_density * speed ** 2
+      0.5 * frontal_area * drag_cof * air_density * speed ** 2
     end
 
     # we approximate rotational resistance from observations that
     # rotational resistance is roughly equivalent to air resistance
     # at highway speeds (30 m/s)
-    RR_COF = air_resistance(1) * 30
+    ROT_COF = air_resistance(1) * 30
 
-    def self.rotational_resistance(speed,
-                                   rotational_coefficient: RR_COF)
-      rotational_coefficient * speed
+    def self.rotational_resistance(speed, rot_cof: ROT_COF)
+      speed * rot_cof
     end
 
     # normal force is not always mass * G, e.g. aero downforce
-    def self.rolling_resistance(normal_force, crf: CRF)
-      normal_force * crf
+    def self.rolling_resistance(normal_force, roll_cof: ROLL_COF)
+      normal_force * roll_cof
     end
 
-    def self.rolling_resistance_simple(mass, crf: CRF)
-      rolling_resistance(mass * DrivingPhysics::G, crf)
-    end
+    #
+    # convenience methods
+    #
 
-    def self.braking(clamping_force,
-                     brake_coefficient: BRAKE_COF)
-      clamping_force * brake_coefficient
-    end
-
-    def self.all_resistance(speed:,
-                            mass:,
-                            crf: CRF,
-                            frontal_area: FRONTAL_AREA,
-                            drag_coefficient: DRAG_COF,
-                            air_density: AIR_DENSITY)
+    def self.speed_resistance(speed,
+                              frontal_area: FRONTAL_AREA,
+                              drag_cof: DRAG_COF,
+                              air_density: AIR_DENSITY,
+                              rot_cof: ROT_COF)
       air_resistance(speed,
                      frontal_area: frontal_area,
-                     drag_coefficient: drag_coefficient,
+                     drag_cof: drag_cof,
                      air_density: air_density) +
-        rotational_resistance(speed) +
-        rolling_resistance(mass, crf: crf)
+        rotational_resistance(speed, rot_cof: rot_cof)
+    end
+
+    def self.all_resistance(speed,
+                            frontal_area: FRONTAL_AREA,
+                            drag_cof: DRAG_COF,
+                            air_density: AIR_DENSITY,
+                            rot_cof: ROT_COF,
+                            nf_mag:,
+                            roll_cof: ROLL_COF)
+      speed_resistance(speed,
+                       frontal_area: frontal_area,
+                       drag_cof: drag_cof,
+                       air_density: air_density,
+                       rot_cof: rot_cof) +
+        rolling_resistance(nf_mag, roll_cof: roll_cof)
     end
   end
 end

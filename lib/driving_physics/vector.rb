@@ -20,85 +20,72 @@ module DrivingPhysics::Vector
   module Force
     DF = DrivingPhysics::Force
 
+    #
+    # Resistance Forces
+    #
+    # 1. air resistance aka drag aka turbulent drag
+    #    depends on v^2
+    # 2. "rotatational" resistance, e.g. bearings / axles / lubricating fluids
+    #    aka viscous drag; linear with v
+    # 3. rolling resistance, e.g. tire and surface deformation
+    #    constant with v, depends on normal force and tire/surface properties
+    # 4. braking resistance, supplied by operator, constant with v
+    #    depends purely on operator choice and physical limits
+    #    as such, it is not modeled here
+    #
+
     # velocity is a vector; return value is a force vector
     def self.air_resistance(velocity,
                             frontal_area: DF::FRONTAL_AREA,
-                            drag_coefficient: DF::DRAG_COF,
+                            drag_cof: DF::DRAG_COF,
                             air_density: DF::AIR_DENSITY)
-      -1 * 0.5 * frontal_area * drag_coefficient * air_density *
+      -1 * 0.5 * frontal_area * drag_cof * air_density *
        velocity * velocity.magnitude
     end
 
-    def self.rotational_resistance(velocity,
-                                   rotational_coefficient: DF::RR_COF)
-      -1 * velocity * rotational_coefficient
+    def self.rotational_resistance(velocity, rot_cof: DF::ROT_COF)
+      -1 * velocity * rot_cof
     end
 
-    # This is used to model rolling resistance and braking forces
-    # These have a special case when v=0, as they should resist
-    #   the drive force, but not exceed it
-    # Take care to reduce the magnitude appropriately when summing
-    #   forces.
-    # They can oppose a net motivating force or oppose velocity
-    def self.resistance(magnitude,
-                        velocity:,
-                        drive_force:)
-      zero_v = velocity.magnitude == 0.0
-
-      # generally oppose velocity, but oppose drive_force when v=0
-      if drive_force.magnitude == 0.0 and zero_v
-        # nothing to oppose
-        Vector.zero(velocity.size)
-      elsif zero_v
-        -1 * drive_force.normalize * magnitude
-      else
-        -1 * velocity.normalize * magnitude
-      end
+    # dir is drive_force vector or velocity vector; will be normalized
+    # normal_force is a magnitude, not a vector
+    #
+    def self.rolling_resistance(nf_mag, dir:, roll_cof: DF::ROLL_COF)
+      return dir if dir.zero? # don't try to normalize a zero vector
+      nf_mag = nf_mag.magnitude if nf_mag.is_a? Vector
+      -1 * dir.normalize * roll_cof * nf_mag
     end
 
-    def self.rolling_resistance(normal_force,
-                                velocity:,
-                                drive_force:,
-                                crf: DF::CRF)
-      resistance(crf * normal_force.magnitude,
-                 velocity: velocity,
-                 drive_force: drive_force)
-    end
+    #
+    # convenience methods
+    #
 
-    # in a planar world, without aero, the normal force is always mass * G
-    def self.rolling_resistance_simple(mass,
-                                       velocity:,
-                                       drive_force:,
-                                       crf: DF::CRF)
-      resistance(crf * mass * DrivingPhysics::G,
-                 velocity: velocity,
-                 drive_force: drive_force)
-    end
-
-    def self.braking(clamping_force,
-                     velocity:,
-                     drive_force:,
-                     brake_coefficient: DF::BRAKE_COF)
-      resistance(clamping_force * brake_coefficient,
-                 velocity: velocity,
-                 drive_force: drive_force)
-    end
-
-    def self.all_resistance(drive_force:,
-                            velocity:,
-                            mass:,
-                            crf: DF::CRF,
-                            frontal_area: DF::FRONTAL_AREA,
-                            drag_coefficient: DF::DRAG_COF,
-                            air_density: DF::AIR_DENSITY)
+    def self.velocity_resistance(velocity,
+                                 frontal_area: DF::FRONTAL_AREA,
+                                 drag_cof: DF::DRAG_COF,
+                                 air_density: DF::AIR_DENSITY,
+                                 rot_cof: DF::ROT_COF)
       air_resistance(velocity,
                      frontal_area: frontal_area,
-                     drag_coefficient: drag_coefficient,
+                     drag_cof: drag_cof,
                      air_density: air_density) +
-        rotational_resistance(velocity) +
-        rolling_resistance(mass,
-                           velocity: velocity,
-                           drive_force: drive_force)
+        rotational_resistance(velocity, rot_cof: rot_cof)
+    end
+
+    def self.all_resistance(velocity,
+                            frontal_area: DF::FRONTAL_AREA,
+                            drag_cof: DF::DRAG_COF,
+                            air_density: DF::AIR_DENSITY,
+                            rot_cof: DF::ROT_COF,
+                            dir:,
+                            nf_mag:,
+                            roll_cof: DF::ROLL_COF)
+      velocity_resistance(velocity,
+                          frontal_area: frontal_area,
+                          drag_cof: drag_cof,
+                          air_density: air_density,
+                          rot_cof: rot_cof) +
+        rolling_resistance(nf_mag, dir: dir, roll_cof: roll_cof)
     end
   end
 end

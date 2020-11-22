@@ -9,10 +9,6 @@ describe DrivingPhysics::Vector do
     @v = Vector[3.0, 0]
     @mass = 1000
     @weight = @mass * DrivingPhysics::G
-
-    # note, we're in a 2D world and normal force is typically on z-axis
-    # generally we're just using the magnitude so it doesn't matter
-    @normal_force = Vector[0.0, @weight]
   end
 
   it "generates uniformly random numbers centered on zero" do
@@ -56,40 +52,25 @@ describe DrivingPhysics::Vector do
   it "calculates air resistance as the square of velocity" do
     df = V::Force.air_resistance(@v,
                                  frontal_area: 3,
-                                 drag_coefficient: 0.1,
+                                 drag_cof: 0.1,
                                  air_density: 0.5)
 
     # double the velocity, drag force goes up by 4
     df2 = V::Force.air_resistance(@v * 2,
                                   frontal_area: 3,
-                                  drag_coefficient: 0.1,
+                                  drag_cof: 0.1,
                                   air_density: 0.5)
 
     expect(df2).must_equal df * 4
   end
 
   it "calculates the rolling resistance as a function of the normal force" do
-    rr = V::Force.rolling_resistance(@normal_force,
-                                     velocity: @v,
-                                     drive_force: @drive_force)
+    rr = V::Force.rolling_resistance(@weight, dir: @v)
 
     # double the normal force, rolling resistance goes up by 2 (linear)
-    rr2 = V::Force.rolling_resistance(@normal_force * 2,
-                                      velocity: @v,
-                                      drive_force: @drive_force)
+    rr2 = V::Force.rolling_resistance(@weight * 2, dir: @v)
 
     expect(rr2).must_equal rr * 2
-  end
-
-  it "just uses mass (and G) to calculate rolling resistance" do
-    rr = V::Force.rolling_resistance(@normal_force,
-                                     velocity: @v,
-                                     drive_force: @drive_force)
-
-    rr2 = V::Force.rolling_resistance_simple(@mass,
-                                             velocity: @v,
-                                             drive_force: @drive_force)
-    expect(rr2).must_equal rr
   end
 
   it "calculates the rotational resistance as a function of velocity" do
@@ -99,11 +80,9 @@ describe DrivingPhysics::Vector do
   end
 
   it "sums resistance forces" do
-    rf = V::Force.all_resistance(drive_force: @drive_force,
-                                 velocity: @v,
-                                 mass: @mass)
-    # opposite
-    expect(rf.normalize).must_equal(-1 * @drive_force.normalize)
+    rf = V::Force.all_resistance(@v, dir: @v, nf_mag: @weight)
+    # opposite direction
+    expect(rf.normalize).must_equal(-1 * @v.normalize)
 
     # smaller magnitude
     expect(rf.magnitude).must_be(:<, @drive_force.magnitude)
