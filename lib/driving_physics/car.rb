@@ -197,7 +197,7 @@ module DrivingPhysics
         if acc.magnitude > tire.max_g * env.g
           # sliding!
           # TODO: compute @wheelspeed and update tire with slide speed
-          @acc = acc.normalize * tire.max_g  # e.g. traction control / ABS
+          @acc = acc.normalize * tire.max_g * env.g
           @wheelspeed = DrivingPhysics.v(@vel, acc, dt: env.tick).magnitude
           @vel = DrivingPhysics.v(@vel, @acc, dt: env.tick)
         else
