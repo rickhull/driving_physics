@@ -17,6 +17,12 @@ module DrivingPhysics::Vector
     v.normalize
   end
 
+  def self.rot_90(vec, clockwise: true)
+    raise(::Vector::ZeroVectorError) if vec.zero?
+    raise(ArgumentError, "vec should be size 2") unless vec.size == 2
+    clockwise ? ::Vector[vec[1], -1 * vec[0]] : ::Vector[-1 * vec[1], vec[0]]
+  end
+
   # +,0 E
   # 0,+ N
   # .9,.1 ENE
