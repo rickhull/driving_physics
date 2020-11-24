@@ -82,7 +82,7 @@ module DrivingPhysics
     end
 
     def brake_force_v
-      @condition.dir * brake_force
+      -1 * @condition.vel.normalize * brake_force
     end
 
     def fuel_mass
@@ -124,14 +124,19 @@ module DrivingPhysics
     end
 
     def sum_forces
-      if @condition.vel == 0.0
+      # compare against tick rather than 0.0 to guard against a zero crossing
+      if @condition.vel.magnitude <= @environment.tick
         # resistance forces (incl. braking) can only oppose up to
         # any motivating force
-        return Vector.zero(2) if drive_force <= brake_force
+        # continue to resist very low velocities with rolling resistance,
+        # again, guarding against a zero crossing (during a tick)
+        rr = rolling_resistance # this always resists velocity
+        return rr if drive_force <= brake_force
+
+        # if we have drive force, we want to accelerate from v=0
         net = drive_force - brake_force
-        rr = rolling_resistance
         rrm = rr.magnitude
-        net <= rrm ? Vector.zero(2) : (@condition.dir * net + rr)
+        net <= rrm ? ::Vector.zero(2) : (@condition.dir * net + rr)
       else
         # all resistance forces are fully summed, opposing velocity
         drive_force_v + brake_force_v +
