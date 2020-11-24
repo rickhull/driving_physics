@@ -30,6 +30,7 @@ module DrivingPhysics
     FEET_PER_MILE = 5280
     MPH = (FEET_PER_METER / FEET_PER_MILE) * SECS_PER_HOUR
     CI_PER_LITER = 61.024
+    GAL_PER_LITER = 0.264172
 
     def self.feet(meters)
       meters * FEET_PER_METER
@@ -71,8 +72,14 @@ module DrivingPhysics
       liters * CI_PER_LITER
     end
 
-    def self.liters(ci)
-      ci / CI_PER_LITER
+    def self.liters(ci = nil, gallons: nil)
+      raise(ArgumentError, "argument missing") if ci.nil? and gallons.nil?
+      return ci / CI_PER_LITER if gallons.nil?
+      gallons.to_f / GAL_PER_LITER
+    end
+
+    def self.gallons(liters)
+      liters * GAL_PER_LITER
     end
   end
 
