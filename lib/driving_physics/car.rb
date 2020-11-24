@@ -39,8 +39,35 @@ module DrivingPhysics
       yield self if block_given?
     end
 
+    def to_s
+      [[format("Mass: %.1f kg", total_mass),
+        format("Power: %.1f kN", @max_drive_force.to_f / 1000),
+        format("Brakes: %.1f kN", @max_brake_force.to_f / 1000),
+        format("Fr.A: %.2f m^2", @frontal_area),
+        format("cD: %.2f", @cd),
+       ].join(' | '),
+       [format("Net: %.1f N", sum_forces.magnitude),
+        format("Drive: %d N", drive_force),
+        format("Brake: %d N", brake_force),
+        format("Air: %.1f N", air_resistance.magnitude),
+        format("Rot: %.1f N", rotational_resistance.magnitude),
+        format("Roll: %.1f N", rolling_resistance.magnitude),
+       ].join(' | '),
+        @controls, @condition, @tires,
+      ].join("\n")
+    end
+
+    def tick!
+      @condition.tick!(force: sum_forces,
+                       mass: total_mass,
+                       tire: @tires,
+                       env: @environment)
+      # TODO: base on tick and @fuel_consumption and @control.drive_pedal
+      @condition.consume_fuel 0.0001
+    end
+
     def drive_force
-      @max_drive_force * @controls.drive_pedal
+      @condition.fuel > 0.0 ? (@max_drive_force * @controls.drive_pedal) : 0.0
     end
 
     def drive_force_v
@@ -89,39 +116,24 @@ module DrivingPhysics
     def rolling_resistance
       # TODO: downforce
       F.rolling_resistance(weight,
-                           dir: @condition.dir,
+                           dir: @condition.vel != 0.0 ? @condition.vel : @dir,
                            roll_cof: @tires.roll_cof)
     end
 
-    def xxx
-      @mass             = 1000  # kg, without fuel or driver
-      @min_turn_radius = 10     # meters
-      @max_drive_force = 7000   # N - 1000kg car at 0.7g acceleration
-      @max_brake_clamp = 100    # N
-      @max_brake_force = 40_000 # N - 2000kg car at 2g braking
-      @fuel_capacity   = 40     # L
-      @brake_pad_depth = 10     # mm
-      @driver_mass     = 75     # kg
-
-      @frontal_area = Force::FRONTAL_AREA # m^2
-      @cd = Force::DRAG_COF
-    end
-
-    def to_s
-      [[format("Mass: %.1f kg", total_mass),
-        format("Power: %.1f kN", @max_drive_force.to_f / 1000),
-        format("Brakes: %.1f kN", @max_brake_force.to_f / 1000),
-        format("Fr.A: %.2f m^2", @frontal_area),
-        format("cD: %.2f", @cd),
-       ].join(' | '),
-       [format("Drive: %d N", drive_force),
-        format("Brake: %d N", brake_force),
-        format("Air: %.1f N", air_resistance.magnitude),
-        format("Rot: %.1f N", rotational_resistance.magnitude),
-        format("Roll: %.1f N", rolling_resistance.magnitude),
-       ].join(' | '),
-        @controls, @condition, @tires,
-      ].join("\n")
+    def sum_forces
+      if @condition.vel == 0.0
+        # resistance forces (incl. braking) can only oppose up to
+        # any motivating force
+        return Vector.zero(2) if drive_force <= brake_force
+        net = drive_force - brake_force
+        rr = rolling_resistance
+        rrm = rr.magnitude
+        net <= rrm ? Vector.zero(2) : (@condition.dir * net + rr)
+      else
+        # all resistance forces are fully summed, opposing velocity
+        drive_force_v + brake_force_v +
+          air_resistance + rotational_resistance + rolling_resistance
+      end
     end
 
     class Controls
@@ -160,8 +172,28 @@ module DrivingPhysics
         @brake_pad_depth = brake_pad_depth   # mm
       end
 
+      def tick!(force:, mass:, tire:, env:)
+        acc = DrivingPhysics.a(force, mass)
+        if acc.magnitude > tire.max_g * env.g
+          # sliding!
+          # TODO: compute @wheelspeed and update tire with slide speed
+          @acc = acc.normalize * tire.max_g  # e.g. traction control / ABS
+          @wheelspeed = DrivingPhysics.v(@vel, acc, dt: env.tick).magnitude
+          @vel = DrivingPhysics.v(@vel, @acc, dt: env.tick)
+        else
+          @acc = acc
+          @vel = DrivingPhysics.v(@vel, @acc, dt: env.tick)
+          @wheelspeed = @vel.magnitude
+        end
+        @pos = DrivingPhysics.p(@pos, @vel, dt: env.tick)
+      end
+
       def add_fuel(liters)
         @fuel += liters
+      end
+
+      def consume_fuel(liters)
+        @fuel -= liters
       end
 
       def speed
