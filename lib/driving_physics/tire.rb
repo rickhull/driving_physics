@@ -31,7 +31,7 @@ class DrivingPhysics::Tire
   def to_s
     [[format("Grip: %.2f / %.1f G", max_g, @g_factor),
       format("Radius: %d mm", @radius_mm),
-      format("RR: %.3f", @roll_cof),
+      format("cRR: %.3f", @roll_cof),
      ].join(' | '),
      @condition,
     ].join("\n")
