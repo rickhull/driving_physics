@@ -85,11 +85,11 @@ module DrivingPhysics
     force / mass.to_f
   end
 
-  def self.v(v, a, dt = TICK)
+  def self.v(v, a, dt: TICK)
     v + a * dt
   end
 
-  def self.p(p, v, dt = TICK)
+  def self.p(p, v, dt: TICK)
     p + v * dt
   end
 
