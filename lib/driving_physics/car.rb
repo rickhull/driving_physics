@@ -145,12 +145,24 @@ module DrivingPhysics
     end
 
     class Controls
-      attr_accessor :drive_pedal, :brake_pedal, :steering_wheel
+      attr_reader :drive_pedal, :brake_pedal, :steering_wheel
 
       def initialize
         @drive_pedal = 0.0     # up to 1.0
         @brake_pedal = 0.0     # up to 1.0
         @steering_wheel = 0.0  # -1.0 to 1.0
+      end
+
+      def drive_pedal=(flt)
+        @drive_pedal = flt.clamp(0.0, 1.0)
+      end
+
+      def brake_pedal=(flt)
+        @brake_pedal = flt.clamp(0.0, 1.0)
+      end
+
+      def steering_wheel=(flt)
+        @steering_wheel = steering_wheel.clamp(-1.0, 1.0)
       end
 
       def to_s
