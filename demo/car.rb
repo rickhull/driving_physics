@@ -5,7 +5,7 @@ include DrivingPhysics
 env = Environment.new
 car = Car.new(env)
 car.add_fuel 10
-duration = 150 # seconds
+duration = 120 # seconds
 
 puts "ENV - #{env}"
 puts
@@ -16,7 +16,7 @@ car.controls.drive_pedal = 1.0
 (duration * env.ticks_per_sec).times { |i|
   car.tick!
   if i % env.ticks_per_sec == 0
-    if car.sum_forces.magnitude < 0.05
+    if car.sum_forces.magnitude < 1
       car.controls.drive_pedal = 0.0
       car.controls.brake_pedal = 1.0
     end

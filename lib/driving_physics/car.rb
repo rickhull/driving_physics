@@ -84,7 +84,13 @@ module DrivingPhysics
     end
 
     def brake_force_v
-      -1 * @condition.vel.normalize * brake_force
+      dir = if @condition.vel.magnitude != 0.0
+              @condition.vel.normalize
+            else
+              @condition.dir
+            end
+
+      -1 * dir * brake_force
     end
 
     def fuel_mass
@@ -125,25 +131,16 @@ module DrivingPhysics
                            roll_cof: @tires.roll_cof)
     end
 
-    def sum_forces
-      # compare against tick rather than 0.0 to guard against a zero crossing
-      if @condition.vel.magnitude <= @environment.tick
-        # resistance forces (incl. braking) can only oppose up to
-        # any motivating force
-        # continue to resist very low velocities with rolling resistance,
-        # again, guarding against a zero crossing (during a tick)
-        rr = rolling_resistance # this always resists velocity
-        return rr if drive_force <= brake_force
+    def applied_force
+      drive_force_v + brake_force_v
+    end
 
-        # if we have drive force, we want to accelerate from v=0
-        net = drive_force - brake_force
-        rrm = rr.magnitude
-        net <= rrm ? ::Vector.zero(2) : (@condition.dir * net + rr)
-      else
-        # all resistance forces are fully summed, opposing velocity
-        drive_force_v + brake_force_v +
-          air_resistance + rotational_resistance + rolling_resistance
-      end
+    def natural_force
+      air_resistance + rotational_resistance + rolling_resistance
+    end
+
+    def sum_forces
+      applied_force + natural_force
     end
 
     class Controls
@@ -194,21 +191,62 @@ module DrivingPhysics
         @brake_pad_depth = brake_pad_depth   # mm
       end
 
+      # left is negative, right is positive
+      def lat_dir
+        Vector.rot_90(@dir, clockwise: true)
+      end
+
       def tick!(force:, mass:, tire:, env:)
-        acc = DrivingPhysics.a(force, mass)
-        if acc.magnitude > tire.max_g * env.g
-          # sliding!
-          # TODO: compute @wheelspeed and update tire with slide speed
-          @acc = acc.normalize * tire.max_g * env.g
-          @wheelspeed = DrivingPhysics.v(@vel, acc, dt: env.tick).magnitude
-          @vel = DrivingPhysics.v(@vel, @acc, dt: env.tick)
+        # take the longitudinal component of the force, relative to vel dir
+        vel_dir = @vel.zero? ? @dir : @vel.normalize
+        lon_force = force.dot(vel_dir)
+        @wheelspeed = nil
+
+        if lon_force < 0.0
+          is_stopping = true
+          if @vel.zero?
+            @acc = ::Vector[0,0]
+            @wheelspeed = 0.0
+            @lon_g = 0.0
+
+            # TODO: update any other physical vars
+            return
+          end
         else
-          @acc = acc
-          @vel = DrivingPhysics.v(@vel, @acc, dt: env.tick)
-          @wheelspeed = @vel.magnitude
+          is_stopping = false
         end
+
+        # now detect sliding
+        nominal_acc = DrivingPhysics.a(force, mass)
+        init_v = @vel
+
+        if nominal_acc.magnitude > tire.max_g * env.g
+          nominal_v = DrivingPhysics.v(@vel, nominal_acc, dt: env.tick)
+
+          # check for reversal of velocity; could be wheelspin while
+          # moving backwards, so can't just look at is_stopping
+          if nominal_v.dot(@vel) < 0 and is_stopping
+            @wheelspeed = 0.0
+          else
+            @wheelspeed = nominal_v.magnitude
+          end
+          @acc = nominal_acc.normalize * tire.max_g * env.g
+        else
+          @acc = nominal_acc
+        end
+
+        @vel = DrivingPhysics.v(@vel, @acc, dt: env.tick)
+        @wheelspeed ||= @vel.magnitude
+
+        # finally, detect velocity reversal when stopping
+        if is_stopping and @vel.dot(init_v) < 0
+          puts "crossed zero; stopping!"
+          @vel = ::Vector[0, 0]
+          @wheelspeed = 0.0
+          @lon_g = 0.0
+        end
+
         @lon_g = @acc.dot(@dir) / env.g
-        # @lat_g = @acc.dot(@dir) / env.g
         @pos = DrivingPhysics.p(@pos, @vel, dt: env.tick)
       end
 
