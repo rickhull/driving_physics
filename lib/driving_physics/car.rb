@@ -205,6 +205,8 @@ module DrivingPhysics
           @vel = DrivingPhysics.v(@vel, @acc, dt: env.tick)
           @wheelspeed = @vel.magnitude
         end
+        @lon_g = @acc.dot(@dir) / env.g
+        # @lat_g = @acc.dot(@dir) / env.g
         @pos = DrivingPhysics.p(@pos, @vel, dt: env.tick)
       end
 
