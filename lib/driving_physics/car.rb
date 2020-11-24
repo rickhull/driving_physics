@@ -10,7 +10,7 @@ module DrivingPhysics
     attr_accessor :mass, :min_turn_radius,
                   :max_drive_force, :max_brake_clamp, :max_brake_force,
                   :fuel_capacity, :brake_pad_depth, :driver_mass,
-                  :frontal_area, :cd,
+                  :frontal_area, :cd, :fuel_consumption,
                   :tires, :controls, :condition
 
     def initialize(environment)
@@ -23,6 +23,7 @@ module DrivingPhysics
       @fuel_capacity   = 40     # L
       @brake_pad_depth = 10     # mm
       @driver_mass     = 75     # kg
+      @fuel_consumption = 0.02  # L/s at full throttle
 
       @frontal_area = Force::FRONTAL_AREA # m^2
       @cd = Force::DRAG_COF
@@ -62,8 +63,10 @@ module DrivingPhysics
                        mass: total_mass,
                        tire: @tires,
                        env: @environment)
-      # TODO: base on tick and @fuel_consumption and @control.drive_pedal
-      @condition.consume_fuel 0.0001
+
+      @condition.consume_fuel(@fuel_consumption *
+                              @controls.drive_pedal *
+                              @environment.tick)
     end
 
     def drive_force
