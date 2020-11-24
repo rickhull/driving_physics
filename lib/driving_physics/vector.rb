@@ -17,6 +17,35 @@ module DrivingPhysics::Vector
     v.normalize
   end
 
+  # +,0 E
+  # 0,+ N
+  # .9,.1 ENE
+  # .1,.9 NNE
+  #
+  def self.compass_dir(unit_vector)
+    horz = case
+           when unit_vector[0] < -0.001 then 'W'
+           when unit_vector[0] > 0.001 then 'E'
+           else ''
+           end
+
+    vert = case
+           when unit_vector[1] < -0.001 then 'S'
+           when unit_vector[1] > 0.001 then 'N'
+           else ''
+           end
+
+    dir = [vert, horz].join
+    if dir.length == 2
+      # detect and include bias
+      if (unit_vector[0].abs - unit_vector[1].abs).abs > 0.2
+        bias = unit_vector[0].abs > unit_vector[1].abs ? horz : vert
+        dir = [bias, dir].join
+      end
+    end
+    dir
+  end
+
   module Force
     DF = DrivingPhysics::Force
 
