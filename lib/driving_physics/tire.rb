@@ -6,7 +6,8 @@ require 'driving_physics'
 class DrivingPhysics::Tire
   class Error < RuntimeError; end
 
-  attr_accessor :tread_mm,
+  attr_accessor :roll_cof,
+                :tread_mm,
                 :cords_mm,
                 :radius_mm,
                 :g_factor,
@@ -25,6 +26,15 @@ class DrivingPhysics::Tire
 
     yield self if block_given?
     @condition = Condition.new(tread_mm: @tread_mm, cords_mm: @cords_mm)
+  end
+
+  def to_s
+    [[format("Grip: %.2f / %.1f G", max_g, @g_factor),
+      format("Radius: %d mm", @radius_mm),
+      format("RR: %.3f", @roll_cof),
+     ].join(' | '),
+     @condition,
+    ].join("\n")
   end
 
   def tread_left?
@@ -132,6 +142,13 @@ class DrivingPhysics::Tire
       @hottest_temp = @temp_c
       @debug_temp = false
       @debug_wear = false
+    end
+
+    def to_s
+      [format("Temp: %.1f C", @temp_c),
+       format("Tread: %.2f (%.1f) mm", @tread_mm, @cords_mm),
+       format("Cycles: %d", @heat_cycles),
+      ].join(' | ')
     end
 
     def temp_tick(ambient_temp:, g:, slide_speed:,
