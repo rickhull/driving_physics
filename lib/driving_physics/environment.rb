@@ -19,7 +19,7 @@ module DrivingPhysics
     end
 
     def to_s
-      [format("Hz: %d", @ticks_per_sec),
+      [format("Tick: %d Hz", @ticks_per_sec),
        format("G: %.2f m/s^2", @g),
        format("Air: %.1f C %.2f kg/m^3", @air_temp, @air_density),
        format("Petrol: %.2f kg/L", @petrol_density),
