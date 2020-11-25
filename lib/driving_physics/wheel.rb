@@ -1,5 +1,5 @@
 require 'driving_physics/environment'
-require 'driving_physics/vector'
+require 'driving_physics/vector_force'
 
 module DrivingPhysics
   # we're just going to model a solid rubber wheel that also acts as a tire

@@ -1,5 +1,4 @@
 require 'driving_physics/tire'
-require 'driving_physics'
 
 include DrivingPhysics
 

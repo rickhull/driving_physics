@@ -1,9 +1,9 @@
 require 'driving_physics/car'
 
-include DrivingPhysics
+DP = DrivingPhysics
 
-env = Environment.new
-car = Car.new(env)
+env = DP::Environment.new
+car = DP::Car.new(env)
 car.add_fuel 10
 duration = 120 # seconds
 
@@ -13,16 +13,16 @@ puts car
 
 car.controls.drive_pedal = 1.0
 
-(duration * env.ticks_per_sec).times { |i|
+(duration * env.hz).times { |i|
   car.tick!
-  if i % env.ticks_per_sec == 0
+  if i % env.hz == 0
     if car.sum_forces.magnitude < 1
       car.controls.drive_pedal = 0.0
       car.controls.brake_pedal = 1.0
     end
     puts
-    puts "t = #{i / env.ticks_per_sec}"
+    puts "t = #{i / env.hz}"
     puts car
-    gets
+    gets if i % (env.hz * 10) == 0
   end
 }

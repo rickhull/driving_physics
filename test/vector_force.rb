@@ -1,8 +1,8 @@
 require 'minitest/autorun'
-require 'driving_physics/vector'
+require 'driving_physics/vector_force'
 
-describe DrivingPhysics::Vector do
-  V = DrivingPhysics::Vector
+describe DrivingPhysics::VectorForce do
+  F = DrivingPhysics::VectorForce
 
   before do
     @drive_force = Vector[7000.0, 0.0]
@@ -14,7 +14,7 @@ describe DrivingPhysics::Vector do
   it "generates uniformly random numbers centered on zero" do
     hsh = {}
     110_000.times {
-      num = V.random_centered_zero(5)
+      num = DrivingPhysics.random_centered_zero(5)
       hsh[num] ||= 0
       hsh[num] += 1
     }
@@ -26,12 +26,12 @@ describe DrivingPhysics::Vector do
   end
 
   it "coerces magnitude=0 to magnitude=1" do
-    a = Array.new(999) { V.random_centered_zero(0) }
+    a = Array.new(999) { DrivingPhysics.random_centered_zero(0) }
     expect(a.all? { |i| i == 0 }).must_equal false
   end
 
   it "generates a random unit vector" do
-    low_res = V.random_unit_vector(2, resolution: 1)
+    low_res = DrivingPhysics.random_unit_vector(2, resolution: 1)
     if low_res[0] == 0.0
       expect(low_res[1].abs).must_equal 1.0
     elsif low_res[0].abs == 1.0
@@ -44,19 +44,19 @@ describe DrivingPhysics::Vector do
     end
 
     9.times {
-      high_res = V.random_unit_vector(3, resolution: 9)
+      high_res = DrivingPhysics.random_unit_vector(3, resolution: 9)
       expect(high_res.magnitude).must_be_within_epsilon 1.0
     }
   end
 
   it "calculates air resistance as the square of velocity" do
-    df = V::Force.air_resistance(@v,
+    df = F.air_resistance(@v,
                                  frontal_area: 3,
                                  drag_cof: 0.1,
                                  air_density: 0.5)
 
     # double the velocity, drag force goes up by 4
-    df2 = V::Force.air_resistance(@v * 2,
+    df2 = F.air_resistance(@v * 2,
                                   frontal_area: 3,
                                   drag_cof: 0.1,
                                   air_density: 0.5)
@@ -65,22 +65,22 @@ describe DrivingPhysics::Vector do
   end
 
   it "calculates the rolling resistance as a function of the normal force" do
-    rr = V::Force.rolling_resistance(@weight, dir: @v)
+    rr = F.rolling_resistance(@weight, dir: @v)
 
     # double the normal force, rolling resistance goes up by 2 (linear)
-    rr2 = V::Force.rolling_resistance(@weight * 2, dir: @v)
+    rr2 = F.rolling_resistance(@weight * 2, dir: @v)
 
     expect(rr2).must_equal rr * 2
   end
 
   it "calculates the rotational resistance as a function of velocity" do
-    rr = V::Force.rotational_resistance(@v)
-    rr2 = V::Force.rotational_resistance(@v * 2)
+    rr = F.rotational_resistance(@v)
+    rr2 = F.rotational_resistance(@v * 2)
     expect(rr2).must_equal rr * 2
   end
 
   it "sums resistance forces" do
-    rf = V::Force.all_resistance(@v, dir: @v, nf_mag: @weight)
+    rf = F.all_resistance(@v, dir: @v, nf_mag: @weight)
     # opposite direction
     expect(rf.normalize).must_equal(-1 * @v.normalize)
 

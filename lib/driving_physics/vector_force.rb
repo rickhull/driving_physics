@@ -1,7 +1,7 @@
 require 'matrix' # stdlib, provides Vector class
 require 'driving_physics'
 
-module DrivingPhysics::Vector
+module DrivingPhysics
   # e.g. given 5, yields a uniformly random number from -5 to +5
   def self.random_centered_zero(magnitude)
     m = [magnitude.abs, 1].max
@@ -18,9 +18,9 @@ module DrivingPhysics::Vector
   end
 
   def self.rot_90(vec, clockwise: true)
-    raise(::Vector::ZeroVectorError) if vec.zero?
+    raise(Vector::ZeroVectorError) if vec.zero?
     raise(ArgumentError, "vec should be size 2") unless vec.size == 2
-    clockwise ? ::Vector[vec[1], -1 * vec[0]] : ::Vector[-1 * vec[1], vec[0]]
+    clockwise ? Vector[vec[1], -1 * vec[0]] : Vector[-1 * vec[1], vec[0]]
   end
 
   # +,0 E
@@ -52,9 +52,7 @@ module DrivingPhysics::Vector
     dir
   end
 
-  module Force
-    DF = DrivingPhysics::Force
-
+  module VectorForce
     #
     # Resistance Forces
     #
@@ -71,21 +69,21 @@ module DrivingPhysics::Vector
 
     # velocity is a vector; return value is a force vector
     def self.air_resistance(velocity,
-                            frontal_area: DF::FRONTAL_AREA,
-                            drag_cof: DF::DRAG_COF,
-                            air_density: DF::AIR_DENSITY)
+                            frontal_area: FRONTAL_AREA,
+                            drag_cof: DRAG_COF,
+                            air_density: AIR_DENSITY)
       -1 * 0.5 * frontal_area * drag_cof * air_density *
        velocity * velocity.magnitude
     end
 
-    def self.rotational_resistance(velocity, rot_cof: DF::ROT_COF)
+    def self.rotational_resistance(velocity, rot_cof: ROT_COF)
       -1 * velocity * rot_cof
     end
 
     # dir is drive_force vector or velocity vector; will be normalized
     # normal_force is a magnitude, not a vector
     #
-    def self.rolling_resistance(nf_mag, dir:, roll_cof: DF::ROLL_COF)
+    def self.rolling_resistance(nf_mag, dir:, roll_cof: ROLL_COF)
       return dir if dir.zero? # don't try to normalize a zero vector
       nf_mag = nf_mag.magnitude if nf_mag.is_a? Vector
       -1 * dir.normalize * roll_cof * nf_mag
@@ -96,10 +94,10 @@ module DrivingPhysics::Vector
     #
 
     def self.velocity_resistance(velocity,
-                                 frontal_area: DF::FRONTAL_AREA,
-                                 drag_cof: DF::DRAG_COF,
-                                 air_density: DF::AIR_DENSITY,
-                                 rot_cof: DF::ROT_COF)
+                                 frontal_area: FRONTAL_AREA,
+                                 drag_cof: DRAG_COF,
+                                 air_density: AIR_DENSITY,
+                                 rot_cof: ROT_COF)
       air_resistance(velocity,
                      frontal_area: frontal_area,
                      drag_cof: drag_cof,
@@ -108,13 +106,13 @@ module DrivingPhysics::Vector
     end
 
     def self.all_resistance(velocity,
-                            frontal_area: DF::FRONTAL_AREA,
-                            drag_cof: DF::DRAG_COF,
-                            air_density: DF::AIR_DENSITY,
-                            rot_cof: DF::ROT_COF,
+                            frontal_area: FRONTAL_AREA,
+                            drag_cof: DRAG_COF,
+                            air_density: AIR_DENSITY,
+                            rot_cof: ROT_COF,
                             dir:,
                             nf_mag:,
-                            roll_cof: DF::ROLL_COF)
+                            roll_cof: ROLL_COF)
       velocity_resistance(velocity,
                           frontal_area: frontal_area,
                           drag_cof: drag_cof,

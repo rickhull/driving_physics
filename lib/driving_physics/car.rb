@@ -1,9 +1,9 @@
-require 'driving_physics/vector'
-require 'driving_physics/tire'
 require 'driving_physics/environment'
+require 'driving_physics/vector_force'
+require 'driving_physics/tire'
 
 module DrivingPhysics
-  F = DrivingPhysics::Vector::Force
+  F = DrivingPhysics::VectorForce
 
   # treat instances of this class as immutable
   class Car
@@ -25,8 +25,8 @@ module DrivingPhysics
       @driver_mass     = 75     # kg
       @fuel_consumption = 0.02  # L/s at full throttle
 
-      @frontal_area = Force::FRONTAL_AREA # m^2
-      @cd = Force::DRAG_COF
+      @frontal_area = DrivingPhysics::FRONTAL_AREA # m^2
+      @cd = DrivingPhysics::DRAG_COF
 
       @tires = Tire.new
       @controls = Controls.new
@@ -102,7 +102,7 @@ module DrivingPhysics
     end
 
     def weight
-      total_mass * DrivingPhysics::G
+      total_mass * @environment.g
     end
 
     def add_fuel(liters)
@@ -176,13 +176,13 @@ module DrivingPhysics
       attr_reader :dir, :pos, :vel, :acc, :fuel, :lat_g, :lon_g,
                   :wheelspeed, :brake_temp, :brake_pad_depth
 
-      def initialize(dir: Vector.random_unit_vector,
-                     brake_temp: DrivingPhysics::AMBIENT_TEMP,
+      def initialize(dir: DrivingPhysics.random_unit_vector,
+                     brake_temp: AIR_TEMP,
                      brake_pad_depth: )
         @dir = dir
-        @pos = ::Vector[0, 0]
-        @vel = ::Vector[0, 0]
-        @acc = ::Vector[0, 0]
+        @pos = Vector[0, 0]
+        @vel = Vector[0, 0]
+        @acc = Vector[0, 0]
         @fuel = 0.0   # L
         @lat_g = 0.0  # g
         @lon_g = 0.0  # g
@@ -193,7 +193,7 @@ module DrivingPhysics
 
       # left is negative, right is positive
       def lat_dir
-        Vector.rot_90(@dir, clockwise: true)
+        DrivingPhysics.rot_90(@dir, clockwise: true)
       end
 
       def tick!(force:, mass:, tire:, env:)
@@ -205,7 +205,7 @@ module DrivingPhysics
         if lon_force < 0.0
           is_stopping = true
           if @vel.zero?
-            @acc = ::Vector[0,0]
+            @acc = Vector[0,0]
             @wheelspeed = 0.0
             @lon_g = 0.0
 
@@ -221,7 +221,7 @@ module DrivingPhysics
         init_v = @vel
 
         if nominal_acc.magnitude > tire.max_g * env.g
-          nominal_v = DrivingPhysics.v(@vel, nominal_acc, dt: env.tick)
+          nominal_v = DrivingPhysics.v(nominal_acc, @vel, dt: env.tick)
 
           # check for reversal of velocity; could be wheelspin while
           # moving backwards, so can't just look at is_stopping
@@ -235,19 +235,19 @@ module DrivingPhysics
           @acc = nominal_acc
         end
 
-        @vel = DrivingPhysics.v(@vel, @acc, dt: env.tick)
+        @vel = DrivingPhysics.v(@acc, @vel, dt: env.tick)
         @wheelspeed ||= @vel.magnitude
 
         # finally, detect velocity reversal when stopping
         if is_stopping and @vel.dot(init_v) < 0
           puts "crossed zero; stopping!"
-          @vel = ::Vector[0, 0]
+          @vel = Vector[0, 0]
           @wheelspeed = 0.0
           @lon_g = 0.0
         end
 
         @lon_g = @acc.dot(@dir) / env.g
-        @pos = DrivingPhysics.p(@pos, @vel, dt: env.tick)
+        @pos = DrivingPhysics.p(@vel, @pos, dt: env.tick)
       end
 
       def add_fuel(liters)
@@ -267,7 +267,7 @@ module DrivingPhysics
       end
 
       def compass
-        DrivingPhysics::Vector.compass_dir(@dir)
+        DrivingPhysics.compass_dir(@dir)
       end
 
       def to_s

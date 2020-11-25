@@ -1,9 +1,9 @@
 require 'driving_physics/wheel'
 
-include DrivingPhysics
+DP = DrivingPhysics
 
-e = Environment.new
-w = Wheel.new(e)
+e = DP::Environment.new
+w = DP::Wheel.new(e)
 
 puts e
 puts
