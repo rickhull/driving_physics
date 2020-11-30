@@ -1,3 +1,9 @@
+# NOTE: This entire file will likely be replaced or removed.
+#       It was created early on, before taking a true physics / formulaic
+#       approach.  Just treat it as a toy / PoC for now.  It does not
+#       currently behave as desired.
+#
+
 require 'driving_physics'
 
 # treat instances of this class as immutable
