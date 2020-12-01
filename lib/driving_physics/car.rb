@@ -3,8 +3,6 @@ require 'driving_physics/vector_force'
 require 'driving_physics/tire'
 
 module DrivingPhysics
-  F = DrivingPhysics::VectorForce
-
   # treat instances of this class as immutable
   class Car
     attr_accessor :mass, :min_turn_radius,
@@ -75,7 +73,7 @@ module DrivingPhysics
       @condition.fuel > 0.0 ? (@max_drive_force * @controls.drive_pedal) : 0.0
     end
 
-    def drive_force_v
+    def drive_force_vector
       @condition.dir * drive_force
     end
 
@@ -83,14 +81,8 @@ module DrivingPhysics
       @max_brake_force * @controls.brake_pedal
     end
 
-    def brake_force_v
-      dir = if @condition.vel.magnitude != 0.0
-              @condition.vel.normalize
-            else
-              @condition.dir
-            end
-
-      -1 * dir * brake_force
+    def brake_force_vector
+      -1 * @condition.movement_dir * brake_force
     end
 
     def fuel_mass
@@ -114,25 +106,25 @@ module DrivingPhysics
 
     def air_resistance
       # use default air density for now
-      F.air_resistance(@condition.vel,
-                       frontal_area: @frontal_area,
-                       drag_cof: @cd)
+      VectorForce.air_resistance(@condition.vel,
+                                 frontal_area: @frontal_area,
+                                 drag_cof: @cd)
     end
 
     def rotational_resistance
       # uses default ROT_COF
-      F.rotational_resistance(@condition.vel)
+      VectorForce.rotational_resistance(@condition.vel)
     end
 
     def rolling_resistance
       # TODO: downforce
-      F.rolling_resistance(weight,
-                           dir: @condition.vel != 0.0 ? @condition.vel : @dir,
-                           roll_cof: @tires.roll_cof)
+      VectorForce.rolling_resistance(weight,
+                                     dir: @condition.movement_dir,
+                                     roll_cof: @tires.roll_cof)
     end
 
     def applied_force
-      drive_force_v + brake_force_v
+      drive_force_vector + brake_force_vector
     end
 
     def natural_force
@@ -179,7 +171,7 @@ module DrivingPhysics
       def initialize(dir: DrivingPhysics.random_unit_vector,
                      brake_temp: AIR_TEMP,
                      brake_pad_depth: )
-        @dir = dir
+        @dir = dir  # maybe rename to @heading ?
         @pos = Vector[0, 0]
         @vel = Vector[0, 0]
         @acc = Vector[0, 0]
@@ -191,9 +183,33 @@ module DrivingPhysics
         @brake_pad_depth = brake_pad_depth   # mm
       end
 
+      def to_s
+        [[compass,
+          format('P(%d, %d)', @pos[0], @pos[1]),
+          format('V(%.1f, %.1f)', @vel[0], @vel[1]),
+          format('A(%.2f, %.2f)', @acc[0], @acc[1]),
+         ].join(' | '),
+         [format('%.1f m/s', speed),
+          format('LatG: %.2f', lat_g),
+          format('LonG: %.2f', lon_g),
+          format('Whl: %.1f m/s', @wheelspeed),
+          format('Slide: %.1f m/s', slide_speed),
+         ].join(' | '),
+         [format('Brakes: %.1f C %.1f mm', @brake_temp, @brake_pad_depth),
+          format('Fuel: %.2f L', @fuel),
+         ].join(' | ')
+        ].join("\n")
+      end
+
       # left is negative, right is positive
       def lat_dir
         DrivingPhysics.rot_90(@dir, clockwise: true)
+      end
+
+      # note, we might be moving backwards, so not always @dir
+      # and we can't normalize a zero vector if we're not moving
+      def movement_dir
+        (speed == 0.0) ? @dir : @vel.normalize
       end
 
       def tick!(force:, mass:, tire:, env:)
@@ -268,24 +284,6 @@ module DrivingPhysics
 
       def compass
         DrivingPhysics.compass_dir(@dir)
-      end
-
-      def to_s
-        [[compass,
-          format('P(%d, %d)', @pos[0], @pos[1]),
-          format('V(%.1f, %.1f)', @vel[0], @vel[1]),
-          format('A(%.2f, %.2f)', @acc[0], @acc[1]),
-         ].join(' | '),
-         [format('%.1f m/s', speed),
-          format('LatG: %.2f', lat_g),
-          format('LonG: %.2f', lon_g),
-          format('Whl: %.1f m/s', @wheelspeed),
-          format('Slide: %.1f m/s', slide_speed),
-         ].join(' | '),
-         [format('Brakes: %.1f C %.1f mm', @brake_temp, @brake_pad_depth),
-          format('Fuel: %.2f L', @fuel),
-         ].join(' | ')
-        ].join("\n")
       end
     end
   end
