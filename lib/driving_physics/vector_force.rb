@@ -2,6 +2,18 @@ require 'matrix' # stdlib, provides Vector class
 require 'driving_physics'
 
 module DrivingPhysics
+  # compatibility for Vector#zero? in Ruby 2.4.x
+  unless Vector.method_defined?(:zero?)
+    module VectorZeroBackport
+      refine Vector do
+        def zero?
+          all? &:zero?
+        end
+      end
+    end
+    using VectorZeroBackport
+  end
+
   # e.g. given 5, yields a uniformly random number from -5 to +5
   def self.random_centered_zero(magnitude)
     m = [magnitude.abs, 1].max

@@ -165,6 +165,10 @@ module DrivingPhysics
     end
 
     class Condition
+      unless Vector.method_defined?(:zero?)
+        using VectorZeroBackport
+      end
+
       attr_reader :dir, :pos, :vel, :acc, :fuel, :lat_g, :lon_g,
                   :wheelspeed, :brake_temp, :brake_pad_depth
 
