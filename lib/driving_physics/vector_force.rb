@@ -7,7 +7,7 @@ module DrivingPhysics
     module VectorZeroBackport
       refine Vector do
         def zero?
-          all? &:zero?
+          all?(&:zero?)
         end
       end
     end
