@@ -3,6 +3,11 @@ name: CI
 on:
   push:
     branches: [ master ]
+    paths:
+      - 'lib/**'
+      - 'test/**'
+      - '.github/**'
+      - 'Rakefile'
   pull_request:
     branches: ['**']
 
