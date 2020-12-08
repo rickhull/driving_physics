@@ -50,9 +50,13 @@ acc = 0.0
   dist += speed * e.tick
   acc = 2 * w.radius
 
-  puts DrivingPhysics.elapsed_display(i)
-  puts format("%.3f r %.3f r/s %.3f r/s^2", theta, omega, alpha)
-  puts format("%.3f m %.3f m/2 %.3f m/s^2", dist, speed, acc)
-
-  gets
+  if i < 10 or
+    (i < 10_000 and i%1000 == 0) or
+    (i % 10_000 == 0)
+    puts DrivingPhysics.elapsed_display(i)
+    puts format("%.3f r %.3f r/s %.3f r/s^2", theta, omega, alpha)
+    puts format("%.3f m %.3f m/2 %.3f m/s^2", dist, speed, acc)
+    puts "Press [enter]"
+    gets
+  end
 }

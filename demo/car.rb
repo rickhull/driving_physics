@@ -7,7 +7,7 @@ car = DP::Car.new(env)
 car.add_fuel 10
 duration = 120 # seconds
 
-puts "ENV - #{env}"
+puts env
 puts
 puts car
 
@@ -21,7 +21,7 @@ car.controls.drive_pedal = 1.0
       car.controls.brake_pedal = 1.0
     end
     puts
-    puts "t = #{i / env.hz}"
+    puts "[t = #{i / env.hz}]"
     puts car
     gets if i % (env.hz * 10) == 0
   end
