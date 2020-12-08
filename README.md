@@ -4,6 +4,8 @@ Physical simulation of how to make a car go around a track quickly, in pure
 Ruby with minimal dependencies.  Physics from first principles, often
 using `Vector` class from `matrix.rb` in stdlib.
 
+Note, this is very much a **Work In Progress**.
+
 ## Rationale
 
 This is a toy project intended to scratch a personal itch: I want to create
