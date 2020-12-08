@@ -59,7 +59,7 @@ describe Tire do
     }
 
     expect(t.tread_mm).must_equal 9999
-    expect(t.g_factor).must_equal -0.1234
+    expect(t.g_factor).must_equal(-0.1234)
   end
 
   it "knows when the tread is gone" do

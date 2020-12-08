@@ -71,7 +71,7 @@ describe C do
     expect(bv).must_be_instance_of Vector
     bvn = bv.normalize
     [0,1].each { |dim|
-      expect(bvn[dim]).must_be_within_epsilon -1 * @c.condition.dir[dim]
+      expect(bvn[dim]).must_be_within_epsilon @c.condition.dir[dim] * -1
     }
 
     get_moving
@@ -81,7 +81,7 @@ describe C do
     bdir = @c.brake_force_vector.normalize
     vdir = @c.condition.vel.normalize
     [0,1].each { |dim|
-      expect(bdir[dim]).must_be_within_epsilon -1 * vdir[dim]
+      expect(bdir[dim]).must_be_within_epsilon vdir[dim] * -1
     }
   end
 

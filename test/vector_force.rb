@@ -1,14 +1,14 @@
 require 'minitest/autorun'
 require 'driving_physics/vector_force'
 
-describe DrivingPhysics::VectorForce do
-  F = DrivingPhysics::VectorForce
+include DrivingPhysics
 
+describe VectorForce do
   before do
     @drive_force = Vector[7000.0, 0.0]
     @v = Vector[3.0, 0]
     @mass = 1000
-    @weight = @mass * DrivingPhysics::G
+    @weight = @mass * G
   end
 
   it "generates uniformly random numbers centered on zero" do
@@ -50,37 +50,37 @@ describe DrivingPhysics::VectorForce do
   end
 
   it "calculates air resistance as the square of velocity" do
-    df = F.air_resistance(@v,
-                                 frontal_area: 3,
-                                 drag_cof: 0.1,
-                                 air_density: 0.5)
+    df = VectorForce.air_resistance(@v,
+                                    frontal_area: 3,
+                                    drag_cof: 0.1,
+                                    air_density: 0.5)
 
     # double the velocity, drag force goes up by 4
-    df2 = F.air_resistance(@v * 2,
-                                  frontal_area: 3,
-                                  drag_cof: 0.1,
-                                  air_density: 0.5)
+    df2 = VectorForce.air_resistance(@v * 2,
+                                     frontal_area: 3,
+                                     drag_cof: 0.1,
+                                     air_density: 0.5)
 
     expect(df2).must_equal df * 4
   end
 
   it "calculates the rolling resistance as a function of the normal force" do
-    rr = F.rolling_resistance(@weight, dir: @v)
+    rr = VectorForce.rolling_resistance(@weight, dir: @v)
 
     # double the normal force, rolling resistance goes up by 2 (linear)
-    rr2 = F.rolling_resistance(@weight * 2, dir: @v)
+    rr2 = VectorForce.rolling_resistance(@weight * 2, dir: @v)
 
     expect(rr2).must_equal rr * 2
   end
 
   it "calculates the rotational resistance as a function of velocity" do
-    rr = F.rotational_resistance(@v)
-    rr2 = F.rotational_resistance(@v * 2)
+    rr = VectorForce.rotational_resistance(@v)
+    rr2 = VectorForce.rotational_resistance(@v * 2)
     expect(rr2).must_equal rr * 2
   end
 
   it "sums resistance forces" do
-    rf = F.all_resistance(@v, dir: @v, nf_mag: @weight)
+    rf = VectorForce.all_resistance(@v, dir: @v, nf_mag: @weight)
     # opposite direction
     expect(rf.normalize).must_equal(-1 * @v.normalize)
 

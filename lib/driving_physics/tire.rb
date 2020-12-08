@@ -89,6 +89,7 @@ module DrivingPhysics
         end
         @deg_c = deg_ary
         @grip_pct = grip_ary
+        @critical_temp = nil
         determine_critical_temp!
       end
 
