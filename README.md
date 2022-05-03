@@ -1,3 +1,5 @@
+[![CI Status](https://github.com/rickhull/driving_physics/actions/workflows/ci.yaml/badge.svg)](https://github.com/rickhull/driving_physics/actions/workflows/ci.yaml)
+
 # Driving Simulation
 
 Physical simulation of how to make a car go around a track quickly, in pure
