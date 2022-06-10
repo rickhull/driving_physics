@@ -78,11 +78,11 @@ module DrivingPhysics
       @env = env
       @radius = radius.to_f # mm
       @width  = width.to_f  # mm
-      @mu_s = mu_s.to_f
-      @mu_k = mu_k.to_f
+      @mu_s = mu_s.to_f # static friction
+      @mu_k = mu_k.to_f # kinetic friction
       @density = mass.nil? ? density : self.class.density(mass, volume_l)
       @temp = temp.to_f || @env.air_temp
-      @omega = 0.0 # radians / sec
+      @omega = 0.0 # angular velocity; radians / sec
     end
 
     def to_s

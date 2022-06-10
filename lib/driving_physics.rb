@@ -49,16 +49,19 @@ module DrivingPhysics
     meters_per_sec.to_f * SECS_PER_HOUR / 1000
   end
 
+  # acceleration; F=ma
   # force can be a scalar or a Vector
   def self.a(force, mass)
     force / mass.to_f
   end
 
+  # velocity, given acceleration and initial velocity
   # a and init_v can be scalar or Vector but must match
   def self.v(a, init_v, dt: 1.0 / HZ)
     init_v + a * dt
   end
 
+  # position, given velocity and initial position
   # v and init_p can be scalar or Vector but must match
   def self.p(v, init_p, dt: 1.0 / HZ)
     init_p + v * dt
