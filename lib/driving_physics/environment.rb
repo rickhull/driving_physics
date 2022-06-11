@@ -15,7 +15,7 @@ module DrivingPhysics
 
     def hz=(int)
       @hz = int
-      @tick = 1.to_f / @hz
+      @tick = Rational(1) / @hz
     end
 
     def to_s
