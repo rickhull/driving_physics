@@ -65,8 +65,8 @@ omega = 0.0 # radians/s
     (i < 10_000 and i%1000 == 0) or
     (i % 10_000 == 0)
     puts DrivingPhysics.elapsed_display(i)
-    puts format("%.3f r %.3f r/s %.3f r/s^2", theta, omega, alpha)
-    puts format("%.3f m %.3f m/2 %.3f m/s^2", dist, speed, acc)
+    puts format("%.1f r   %.2f r/s   %.3f r/s^2", theta, omega, alpha)
+    puts format("%.1f m   %.2f m/s   %.3f m/s^2", dist, speed, acc)
     puts "Press [enter]"
     gets
   end
