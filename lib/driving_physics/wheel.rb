@@ -64,7 +64,7 @@ module DrivingPhysics
 
     # surface velocity of a wheel spinning at omega radians/sec
     def self.surface_v(omega, radius_m)
-      omega * radius_m * 2
+      omega * radius_m
     end
 
     # vectors only
