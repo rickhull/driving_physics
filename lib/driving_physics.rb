@@ -54,16 +54,37 @@ module DrivingPhysics
   def self.a(force, mass)
     force / mass.to_f
   end
+  alias_method(:acc, :a)
+
+  def self.delta(a, b, dt: 1.0 / HZ)
+    a + b * dt
+  end
+
+  #def self.vel(init_v, a, dt: 1.0 / HZ)
+  #  delta(init_v, a, dt)
+  #end
+
 
   # velocity, given acceleration and initial velocity
   # a and init_v can be scalar or Vector but must match
   def self.v(a, init_v, dt: 1.0 / HZ)
     init_v + a * dt
   end
+  alias_method(:vel, :v)
 
   # position, given velocity and initial position
   # v and init_p can be scalar or Vector but must match
   def self.p(v, init_p, dt: 1.0 / HZ)
     init_p + v * dt
+  end
+  alias_method(:pos, :p)
+
+  # these will be aliases later
+  def self.omega(init_o, a, dt: 1.0 / HZ)
+    delta(init_o, a, dt)
+  end
+
+  def self.theta(init_t, o, dt: 1.0 / HZ)
+    delta(init_t, o, dt)
   end
 end
