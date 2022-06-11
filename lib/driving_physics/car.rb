@@ -237,11 +237,11 @@ module DrivingPhysics
         end
 
         # now detect sliding
-        nominal_acc = DrivingPhysics.a(force, mass)
+        nominal_acc = DrivingPhysics.acc(force, mass)
         init_v = @vel
 
         if nominal_acc.magnitude > tire.max_g * env.g
-          nominal_v = DrivingPhysics.v(nominal_acc, @vel, dt: env.tick)
+          nominal_v = DrivingPhysics.vel(nominal_acc, @vel, dt: env.tick)
 
           # check for reversal of velocity; could be wheelspin while
           # moving backwards, so can't just look at is_stopping
@@ -255,7 +255,7 @@ module DrivingPhysics
           @acc = nominal_acc
         end
 
-        @vel = DrivingPhysics.v(@acc, @vel, dt: env.tick)
+        @vel = DrivingPhysics.vel(@acc, @vel, dt: env.tick)
         @wheelspeed ||= @vel.magnitude
 
         # finally, detect velocity reversal when stopping
@@ -267,7 +267,7 @@ module DrivingPhysics
         end
 
         @lon_g = @acc.dot(@dir) / env.g
-        @pos = DrivingPhysics.p(@vel, @pos, dt: env.tick)
+        @pos = DrivingPhysics.pos(@vel, @pos, dt: env.tick)
       end
 
       def add_fuel(liters)
