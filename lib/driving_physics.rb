@@ -13,6 +13,7 @@ module DrivingPhysics
   # environmental defaults
   #
   HZ = 1000
+  TICK = Rational(1) / HZ
   G = 9.8               # m/s^2
   AIR_TEMP = 25         # deg c
   AIR_DENSITY = 1.29    # kg / m^3
@@ -51,40 +52,20 @@ module DrivingPhysics
 
   # acceleration; F=ma
   # force can be a scalar or a Vector
-  def self.a(force, mass)
+  def self.acc(force, mass)
     force / mass.to_f
   end
-  alias_method(:acc, :a)
 
-  def self.delta(a, b, dt: 1.0 / HZ)
-    a + b * dt
+  # init and rate can be scalar or Vector but must match
+  # this provides the general form for determining velocity and position
+  def self.accum(init, rate, dt: TICK)
+    init + rate * dt
   end
 
-  #def self.vel(init_v, a, dt: 1.0 / HZ)
-  #  delta(init_v, a, dt)
-  #end
-
-
-  # velocity, given acceleration and initial velocity
-  # a and init_v can be scalar or Vector but must match
-  def self.v(a, init_v, dt: 1.0 / HZ)
-    init_v + a * dt
-  end
-  alias_method(:vel, :v)
-
-  # position, given velocity and initial position
-  # v and init_p can be scalar or Vector but must match
-  def self.p(v, init_p, dt: 1.0 / HZ)
-    init_p + v * dt
-  end
-  alias_method(:pos, :p)
-
-  # these will be aliases later
-  def self.omega(init_o, a, dt: 1.0 / HZ)
-    delta(init_o, a, dt)
-  end
-
-  def self.theta(init_t, o, dt: 1.0 / HZ)
-    delta(init_t, o, dt)
+  class << self
+    alias_method(:vel, :accum)
+    alias_method(:pos, :accum)
+    alias_method(:omega, :accum)
+    alias_method(:theta, :accum)
   end
 end
