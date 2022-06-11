@@ -2,6 +2,13 @@ require 'driving_physics/environment'
 require 'driving_physics/vector_force'
 
 module DrivingPhysics
+  # Rotational complements to acc/vel/pos
+  # alpha - angular acceleration
+  # omega - angular velocity (radians / s)
+  # theta - radians
+
+
+
   class Wheel
     # Note, this is not the density of solid rubber.  This density
     # yields a sensible mass for a wheel / tire combo at common radius
@@ -10,8 +17,18 @@ module DrivingPhysics
     #
     DENSITY = 0.325  # kg / L
 
+    # * the traction force opposes the axle torque / drive force
+    #   thus, driving the car forward
+    # * if the drive force exceeds the traction force, slippage occurs
+    # * slippage reduces the available traction force further
+    # * if the drive force is not reduced, the slippage increases
+    #   until resistance forces equal the drive force
     def self.traction(normal_force, cof)
       normal_force * cof
+    end
+
+    def self.force(axle_torque, radius_m)
+      axle_torque / radius_m.to_f
     end
 
     # in m^3
@@ -32,14 +49,22 @@ module DrivingPhysics
       density * volume_l(radius_m, width_m)
     end
 
-    # I = 1/2 m*r^2
-    def self.inertia(radius_m, mass)
-      radius_m ** 2 * mass / 2
+    # I = 1/2 (m)(r^2) for a disk
+    def self.rotational_inertia(radius_m, mass)
+      mass * radius_m**2 / 2.0
+    end
+    class << self
+      alias_method(:moment_of_inertia, :rotational_inertia)
     end
 
     # angular acceleration
     def self.alpha(torque, inertia)
       torque / inertia
+    end
+
+    # surface velocity of a wheel spinning at omega radians/sec
+    def self.surface_v(omega, radius_m)
+      omega * radius_m * 2
     end
 
     # vectors only
@@ -67,7 +92,7 @@ module DrivingPhysics
       radius.cross(torque) / radius.dot(radius)
     end
 
-    attr_reader :env, :radius, :width, :density, :temp,
+    attr_reader :env, :radius, :radius_m, :width, :width_m, :density, :temp,
                 :mu_s, :mu_k
     attr_accessor :omega
 
@@ -77,7 +102,9 @@ module DrivingPhysics
                    mu_s: 1.1, mu_k: 0.7)
       @env = env
       @radius = radius.to_f # mm
+      @radius_m = @radius / 1000
       @width  = width.to_f  # mm
+      @width_m = @width / 1000
       @mu_s = mu_s.to_f # static friction
       @mu_k = mu_k.to_f # kinetic friction
       @density = mass.nil? ? density : self.class.density(mass, volume_l)
@@ -98,48 +125,68 @@ module DrivingPhysics
 
     def wear!(amount_mm)
       @radius -= amount_mm
+      @radius_m = @radius / 1000
     end
 
     def mass
-      self.class.mass(radius_m, width_m, @density)
+      self.class.mass(@radius_m, @width_m, @density)
     end
 
     # in m^3
     def volume
-      self.class.volume(radius_m, width_m)
+      self.class.volume(@radius_m, @width_m)
     end
 
     # in L
     def volume_l
-      self.class.volume_l(radius_m, width_m)
+      self.class.volume_l(@radius_m, @width_m)
     end
 
-    def inertia
-      self.class.inertia(radius_m, mass)
+    def rotational_inertia
+      self.class.rotational_inertia(@radius_m, self.mass)
     end
+    alias_method(:moment_of_inertia, :rotational_inertia)
 
     def traction(nf, static: true)
       self.class.traction(nf, static ? @mu_s : @mu_k)
     end
 
     def force(axle_torque)
-      axle_torque / radius_m
-    end
-
-    def max_torque(nf, static: true)
-      traction(nf, static: static) * radius_m
+      self.class.force(axle_torque, @radius_m)
     end
 
     def surface_v
-      @omega * radius_m * 2
+      self.class.surface_v(@omega, @radius_m)
     end
 
-    def radius_m
-      @radius.to_f / 1000
+    # alias_method(:speed, :surface_v)
+
+    # def speed=(val)
+    #   @omega = val.to_f / (2 * w.radius_m)
+    # end
+
+    def inertial_loss(alpha)
+      alpha * self.rotational_inertia
     end
 
-    def width_m
-      @width.to_f / 1000
+    # this doesn't take inertial losses or internal frictional losses
+    # into account.  input torque required to saturate traction will be
+    # higher than what this method returns
+    def tractable_torque(nf, static: true)
+      traction(nf, static: static) * @radius_m
+    end
+
+    # inertial loss in terms of axle torque when used as a drive wheel
+    def inertial_loss(axle_torque, total_driven_mass)
+      drive_force = self.force(axle_torque)
+      force_loss = 0
+      5.times {
+        acc = DrivingPhysics.acc(drive_force - force_loss, total_driven_mass)
+        alpha = acc / @radius_m
+        tq_loss = alpha * self.rotational_inertia
+        force_loss = tq_loss / @radius_m
+      }
+      force_loss * @radius_m
     end
   end
 end

@@ -50,16 +50,16 @@ describe W do
     end
   end
 
-  describe "Wheel.inertia" do
+  describe "Wheel.rotational_inertia" do
     it "calculates rotational inertia for a disk given radius and mass" do
-      expect(W.inertia(0.35, 25.0)).must_be_within_epsilon 1.53125
+      expect(W.rotational_inertia(0.35, 25.0)).must_be_within_epsilon 1.53125
     end
   end
 
   describe "Wheel.alpha" do
     it "calculates angular acceleration from torque and inertia" do
       scalar_torque = 1000
-      inertia = W.inertia(0.35, 25.0)
+      inertia = W.rotational_inertia(0.35, 25.0)
       expect(W.alpha scalar_torque, inertia).must_be_within_epsilon 653.061
 
       vector_torque = Vector[0, 0, 1000]
@@ -143,7 +143,7 @@ describe W do
     end
 
     it "has inertia" do
-      expect(@w.inertia).must_be_within_epsilon 1.5321
+      expect(@w.rotational_inertia).must_be_within_epsilon 1.5321
     end
 
     it "has traction force based on normal force" do
@@ -163,15 +163,15 @@ describe W do
       expect(@w.force 1000).must_be_within_epsilon 3333.333
     end
 
-    it "determines max torque handling based on traction force" do
+    it "determines tractable torque" do
       scalar_nf = 9800
-      expect(@w.max_torque scalar_nf).must_be_within_epsilon 3773.0
-      kin_tq = @w.max_torque scalar_nf, static: false
+      expect(@w.tractable_torque scalar_nf).must_be_within_epsilon 3773.0
+      kin_tq = @w.tractable_torque scalar_nf, static: false
       expect(kin_tq).must_be_within_epsilon 2401.0
 
       # not sure about how torque vectors work, but the "math" "works":
       vector_nf = Vector[9800, 0]
-      expect(@w.max_torque(vector_nf)[0]).must_be_within_epsilon 3773.0
+      expect(@w.tractable_torque(vector_nf)[0]).must_be_within_epsilon 3773.0
     end
   end
 end
