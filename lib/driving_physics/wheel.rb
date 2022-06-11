@@ -62,8 +62,17 @@ module DrivingPhysics
       torque / inertia
     end
 
+    def self.tangential(rotational, radius_m)
+      rotational * radius_m
+    end
+    class << self
+      alias_method(:tangential_a, :tangential)
+      alias_method(:tangential_v, :tangential)
+      alias_method(:tangential_p, :tangential)
+    end
+
     # surface velocity of a wheel spinning at omega radians/sec
-    def self.surface_v(omega, radius_m)
+    def self.tangential_v(omega, radius_m)
       omega * radius_m
     end
 
@@ -118,7 +127,7 @@ module DrivingPhysics
         format("cF: %.1f / %.1f", @mu_s, @mu_k),
        ].join(" | "),
        [format("Temp: %.1f C", @temp),
-        format("Vel: %.2f r/s (%.2f m/s)", @omega, surface_v),
+        format("Vel: %.2f r/s (%.2f m/s)", @omega, tangential_v),
        ].join(" | "),
       ].join("\n")
     end
@@ -155,17 +164,18 @@ module DrivingPhysics
       self.class.force(axle_torque, @radius_m)
     end
 
-    def surface_v
-      self.class.surface_v(@omega, @radius_m)
+    def tangential_v
+      self.class.tangential_v(@omega, @radius_m)
     end
 
-    # alias_method(:speed, :surface_v)
+    # alias_method(:speed, :tangential_v)
 
     # def speed=(val)
     #   @omega = val.to_f / (2 * w.radius_m)
     # end
 
-    def inertial_loss(alpha)
+    # how much torque to accelerate rotational inertia at alpha
+    def inertial_torque(alpha)
       alpha * self.rotational_inertia
     end
 
@@ -180,11 +190,14 @@ module DrivingPhysics
     def inertial_loss(axle_torque, total_driven_mass)
       drive_force = self.force(axle_torque)
       force_loss = 0
+      # The force loss depends on the acceleration, but the acceleration
+      # depends on the force loss.  Converge the value via 5 round trips.
+      # This is a rough way to compute an integral and should be accurate
+      # to 8+ digits.
       5.times {
         acc = DrivingPhysics.acc(drive_force - force_loss, total_driven_mass)
         alpha = acc / @radius_m
-        tq_loss = alpha * self.rotational_inertia
-        force_loss = tq_loss / @radius_m
+        force_loss = self.inertial_torque(alpha) / @radius_m
       }
       force_loss * @radius_m
     end
