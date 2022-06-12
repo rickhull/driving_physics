@@ -111,15 +111,13 @@ module DrivingPhysics
       @mu_k = mu_k.to_f # kinetic friction
       @omega_friction = omega_friction # scales with speed
       @density = mass.nil? ? density : self.class.density(mass, volume_l)
-      @temp = temp.to_f || @env.air_temp
+      @temp = (temp || @env.air_temp).to_f
     end
 
     def to_s
-      [[format("%d mm (R) x %d mm (W)", @radius, @width),
-        format("Mass: %.1f kg %.3f kg/L", self.mass, @density),
+      [[format("%d mm x %d mm (RxW)", @radius, @width),
+        format("%.1f kg  %.1f C", self.mass, @temp),
         format("cF: %.1f / %.1f", @mu_s, @mu_k),
-       ].join(" | "),
-       [format("Temp: %.1f C", @temp),
        ].join(" | "),
       ].join("\n")
     end
