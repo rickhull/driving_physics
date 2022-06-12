@@ -13,9 +13,9 @@ tick = 1.0 / DP::HZ
 (duration * DP::HZ).times { |i|
   nf = drive_force - DP::ScalarForce.all_resistance(spd, nf_mag: weight)
 
-  a = DP.a(nf, mass)
-  spd = DP.v(a, spd, dt: tick)
-  pos = DP.p(spd, pos, dt: tick)
+  a = DP.acc(nf, mass)
+  spd = DP.vel(spd, a, dt: tick)
+  pos = DP.pos(pos, spd, dt: tick)
 
   if i % DP::HZ == 0
     puts [i / DP::HZ,
