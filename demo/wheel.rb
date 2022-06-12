@@ -4,7 +4,7 @@ require 'driving_physics/vector_force'
 include DrivingPhysics
 
 env = Environment.new
-wheel = Wheel.new(env, mass: 25.0)
+wheel = Wheel.new(env)
 
 puts env
 puts wheel
@@ -31,7 +31,7 @@ inertial_loss = wheel.inertial_loss(axle_torque, supported_mass)
 net_axle_torque = axle_torque - inertial_loss
 net_drive_force = wheel.force(net_axle_torque)
 acc = DrivingPhysics.acc(net_drive_force, supported_mass) # translational
-alpha = acc / wheel.radius_m
+alpha = acc / wheel.radius
 
 puts [format("Traction: %.1f N", traction),
       format("Drive force: %.1f N", drive_force),
@@ -64,7 +64,7 @@ omega = 0.0 # radians/s
   dist += speed * env.tick
 
   # rotational kinematics
-  alpha = acc / wheel.radius_m
+  alpha = acc / wheel.radius
   omega += alpha * env.tick
   theta += omega * env.tick
 
@@ -79,7 +79,7 @@ omega = 0.0 # radians/s
     puts format("Wheel: %.1f r  %.2f r/s  %.3f r/s^2", theta, omega, alpha)
     puts format("  Car: %.1f m  %.2f m/s  %.3f m/s^2", dist, speed, acc)
     puts format("Torque: %.1f Nm (%d N)  Friction: %.1f Nm (%.1f N)",
-                torque, force, friction_loss, friction_loss / wheel.radius_m)
+                torque, force, friction_loss, friction_loss / wheel.radius)
     puts
   end
 }

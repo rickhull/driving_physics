@@ -94,38 +94,38 @@ module DrivingPhysics
       radius.cross(torque) / radius.dot(radius)
     end
 
-    attr_reader :env, :radius, :radius_m, :width, :width_m, :density, :temp,
-                :mu_s, :mu_k, :omega_friction, :base_friction
+    attr_reader :env
+    attr_accessor :radius, :width, :density, :temp,
+                  :mu_s, :mu_k, :omega_friction, :base_friction
 
-    def initialize(env,
-                   radius: 350, width: 200, density: DENSITY,
-                   temp: nil, mass: nil,
-                   mu_s: 1.1, mu_k: 0.7,
-                   omega_friction: 0.5, base_friction: 0.5)
+    def initialize(env)
       @env = env
-      @radius = radius.to_f # mm
-      @radius_m = @radius / 1000
-      @width  = width.to_f  # mm
-      @width_m = @width / 1000
-      @mu_s = mu_s.to_f # static friction
-      @mu_k = mu_k.to_f # kinetic friction
-      @base_friction = base_friction
-      @omega_friction = omega_friction # scales with speed
-      @density = mass.nil? ? density : self.class.density(mass, volume_l)
-      @temp = (temp || @env.air_temp).to_f
+      @radius = 350/1000r # m
+      @width  = 200/1000r # m
+      @mu_s = 11/10r # static friction
+      @mu_k =  7/10r # kinetic friction
+      @base_friction = 5/10r
+      @omega_friction = 5/10r # scales with speed
+      @density = DENSITY
+      @temp = @env.air_temp
+
+      yield self if block_given?
     end
 
     def to_s
-      [[format("%d mm x %d mm (RxW)", @radius, @width),
+      [[format("%d mm x %d mm (RxW)", @radius * 1000, @width * 1000),
         format("%.1f kg  %.1f C", self.mass, @temp),
         format("cF: %.1f / %.1f", @mu_s, @mu_k),
        ].join(" | "),
       ].join("\n")
     end
 
-    def wear!(amount_mm)
-      @radius -= amount_mm
-      @radius_m = @radius / 1000
+    def mass=(val)
+      @density = self.class.density(val, self.volume_l)
+    end
+
+    def wear!(amount)
+      @radius -= amount
     end
 
     def heat!(amount_deg_c)
@@ -133,21 +133,21 @@ module DrivingPhysics
     end
 
     def mass
-      self.class.mass(@radius_m, @width_m, @density)
+      self.class.mass(@radius, @width, @density)
     end
 
     # in m^3
     def volume
-      self.class.volume(@radius_m, @width_m)
+      self.class.volume(@radius, @width)
     end
 
     # in L
     def volume_l
-      self.class.volume_l(@radius_m, @width_m)
+      self.class.volume_l(@radius, @width)
     end
 
     def rotational_inertia
-      self.class.rotational_inertia(@radius_m, self.mass)
+      self.class.rotational_inertia(@radius, self.mass)
     end
     alias_method(:moment_of_inertia, :rotational_inertia)
 
@@ -156,7 +156,7 @@ module DrivingPhysics
     end
 
     def force(axle_torque)
-      self.class.force(axle_torque, @radius_m)
+      self.class.force(axle_torque, @radius)
     end
 
     # torque opposing omega
@@ -186,7 +186,7 @@ module DrivingPhysics
     # into account.  input torque required to saturate traction will be
     # higher than what this method returns
     def tractable_torque(nf, static: true)
-      traction(nf, static: static) * @radius_m
+      traction(nf, static: static) * @radius
     end
 
     # inertial loss in terms of axle torque when used as a drive wheel
@@ -199,10 +199,10 @@ module DrivingPhysics
       # to 8+ digits.
       5.times {
         acc = DrivingPhysics.acc(drive_force - force_loss, total_driven_mass)
-        alpha = acc / @radius_m
-        force_loss = self.inertial_torque(alpha) / @radius_m
+        alpha = acc / @radius
+        force_loss = self.inertial_torque(alpha) / @radius
       }
-      force_loss * @radius_m
+      force_loss * @radius
     end
   end
 end

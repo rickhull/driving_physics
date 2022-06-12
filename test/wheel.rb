@@ -114,7 +114,9 @@ describe W do
       expect(@w.density).must_equal W::DENSITY # sanity check
       expect(@w.mass).must_be_within_epsilon 25.01
 
-      with_mass = W.new(@env, mass: 99.01)
+      with_mass = W.new(@env) { |w|
+        w.mass = 99.01
+      }
       expect(with_mass.mass).must_equal 99.01
       expect(with_mass.density).wont_equal W::DENSITY
     end
@@ -126,14 +128,15 @@ describe W do
     end
 
     it "loses radius as it wears" do
-      expect(@w.radius).must_equal 350.0
-      @w.wear!(50)
-      expect(@w.radius).must_equal 300.0
+      old_r = @w.radius
+      wear_amt = 50/1000r
+      @w.wear! wear_amt
+      expect(@w.radius).must_equal old_r - wear_amt
     end
 
     it "calculates mass from current radius" do
       expect(@w.mass).must_be_within_epsilon 25.01
-      @w.wear!(50)
+      @w.wear!(50/1000r)
       expect(@w.mass).must_be_within_epsilon 18.378
     end
 
@@ -159,7 +162,7 @@ describe W do
 
     it "determines (e.g. thrust) force based on axle torque" do
       expect(@w.force 1000).must_be_within_epsilon 2857.143
-      @w.wear! 50
+      @w.wear! 50/1000r
       expect(@w.force 1000).must_be_within_epsilon 3333.333
     end
 
