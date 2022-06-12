@@ -32,10 +32,13 @@ rescue LoadError
 end
 
 begin
-  require 'flay_task'
-  FlayTask.new do |t|
-    t.dirs = ['lib']
-    t.verbose = true
+  # need to stop looking in old/ and also the scoring seems wack
+  if false
+    require 'flay_task'
+    FlayTask.new do |t|
+      t.dirs = ['lib']
+      t.verbose = true
+    end
   end
 rescue LoadError
   warn 'flay_task unavailable'
