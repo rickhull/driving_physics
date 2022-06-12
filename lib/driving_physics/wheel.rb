@@ -96,18 +96,19 @@ module DrivingPhysics
 
     attr_reader :env
     attr_accessor :radius, :width, :density, :temp,
-                  :mu_s, :mu_k, :omega_friction, :base_friction
+                  :mu_s, :mu_k, :omega_friction, :base_friction, :roll_cof
 
     def initialize(env)
       @env = env
       @radius = 350/1000r # m
       @width  = 200/1000r # m
+      @density = DENSITY
+      @temp = @env.air_temp
       @mu_s = 11/10r # static friction
       @mu_k =  7/10r # kinetic friction
       @base_friction = 5/10r
       @omega_friction = 5/10r # scales with speed
-      @density = DENSITY
-      @temp = @env.air_temp
+      @roll_cof = DrivingPhysics::ROLL_COF
 
       yield self if block_given?
     end
@@ -165,28 +166,8 @@ module DrivingPhysics
       @base_friction + @omega_friction * omega
     end
 
-    # how much torque to accelerate rotational inertia at alpha
-    def inertial_torque(alpha)
-      alpha * self.rotational_inertia
-    end
-
-    def net_torque(axle_torque, mass:, omega:)
-      axle_torque -
-        self.inertial_loss(axle_torque, mass) -
-        self.friction_loss(omega)
-    end
-
-    def net_tractable_torque(axle_torque, mass:, omega:, normal_force:)
-      nt = net_torque(axle_torque, mass: mass, omega: omega)
-      traction = self.traction(normal_force)
-      nt > traction ? traction : nt
-    end
-
-    # this doesn't take inertial losses or internal frictional losses
-    # into account.  input torque required to saturate traction will be
-    # higher than what this method returns
-    def tractable_torque(nf, static: true)
-      traction(nf, static: static) * @radius
+    def rolling_loss(normal_force)
+      normal_force * @roll_cof
     end
 
     # inertial loss in terms of axle torque when used as a drive wheel
@@ -203,6 +184,36 @@ module DrivingPhysics
         force_loss = self.inertial_torque(alpha) / @radius
       }
       force_loss * @radius
+    end
+
+    # how much torque to accelerate rotational inertia at alpha
+    def inertial_torque(alpha)
+      alpha * self.rotational_inertia
+    end
+
+    def net_torque(axle_torque, mass:, omega:, normal_force:)
+      net = axle_torque -
+            self.rolling_loss(normal_force) -
+            self.friction_loss(omega)
+      # inertial loss has interdependencies; calculate last
+      net - self.inertial_loss(net, mass)
+    end
+
+    def net_tractable_torque(axle_torque,
+                             mass:, omega:, normal_force:, static: true)
+      net = self.net_torque(axle_torque,
+                            mass: mass,
+                            omega: omega,
+                            normal_force: normal_force)
+      traction = self.traction(normal_force, static: static)
+      self.force(net) > traction ? self.tractable_torque : net
+    end
+
+    # this doesn't take inertial losses or internal frictional losses
+    # into account.  input torque required to saturate traction will be
+    # higher than what this method returns
+    def tractable_torque(nf, static: true)
+      traction(nf, static: static) * @radius
     end
   end
 end
