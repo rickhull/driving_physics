@@ -95,13 +95,13 @@ module DrivingPhysics
     end
 
     attr_reader :env, :radius, :radius_m, :width, :width_m, :density, :temp,
-                :mu_s, :mu_k, :omega_friction
+                :mu_s, :mu_k, :omega_friction, :base_friction
 
     def initialize(env,
                    radius: 350, width: 200, density: DENSITY,
                    temp: nil, mass: nil,
                    mu_s: 1.1, mu_k: 0.7,
-                   omega_friction: 0.002)
+                   omega_friction: 0.002, base_friction: 0.001)
       @env = env
       @radius = radius.to_f # mm
       @radius_m = @radius / 1000
@@ -109,6 +109,7 @@ module DrivingPhysics
       @width_m = @width / 1000
       @mu_s = mu_s.to_f # static friction
       @mu_k = mu_k.to_f # kinetic friction
+      @base_friction = base_friction
       @omega_friction = omega_friction # scales with speed
       @density = mass.nil? ? density : self.class.density(mass, volume_l)
       @temp = (temp || @env.air_temp).to_f
@@ -156,6 +157,12 @@ module DrivingPhysics
 
     def force(axle_torque)
       self.class.force(axle_torque, @radius_m)
+    end
+
+    # torque opposing omega
+    def frictional_loss(omega)
+      return omega if omega == 0.0
+      @base_friction + @omega_friction * omega
     end
 
     # how much torque to accelerate rotational inertia at alpha

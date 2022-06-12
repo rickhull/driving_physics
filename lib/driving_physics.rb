@@ -26,6 +26,7 @@ module DrivingPhysics
   DRAG_COF = 0.3      # based roughly on 2000s-era Chevrolet Corvette
   DRAG = 0.4257       # air_resistance at 1 m/s given above numbers
   ROT_COF = 12.771    # if rotating resistance matches air resistance at 30 m/s
+  ROT_CONST = 0.05    # N opposing drive force / torque
   ROLL_COF = 0.01     # roughly: street tires on concrete
 
   #
