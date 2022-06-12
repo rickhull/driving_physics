@@ -37,7 +37,6 @@ net_drive_force = w.force(net_axle_torque)
 net_drive_force = traction if net_drive_force > traction  # traction limited
 
 acc = DrivingPhysics.acc(net_drive_force, supported_mass) # translational
-alpha = acc / w.radius_m                                  # angular
 
 puts [format("Traction: %.1f N", traction),
       format("Drive force: %.1f N", drive_force),
@@ -46,7 +45,7 @@ puts [format("Traction: %.1f N", traction),
       format("Net Axle Torque: %.1f Nm", net_axle_torque),
       format("Net Drive Force: %.1f N", net_drive_force),
       format("Acceleration: %.1f m/s/s", acc),
-      format("Alpha: %.2f r/s/s", alpha),
+      format("Alpha: %.2f r/s/s", acc / w.radius_m),
      ].join("\n")
 puts
 
@@ -59,11 +58,16 @@ theta = 0.0 # radians
 omega = 0.0 # radians/s
 
 (duration * e.hz).times { |i|
+  # accumulate frictional losses with speed (omega)
+  omega_loss_cof = [w.omega_friction * omega, 100.0].min # between 0.0 and 1.0
+  slowed_acc = acc - acc * omega_loss_cof
+
   # translational kinematics
-  speed += acc * e.tick
+  speed += slowed_acc * e.tick
   dist += speed * e.tick
 
   # rotational kinematics
+  alpha = slowed_acc / w.radius_m
   omega += alpha * e.tick
   theta += omega * e.tick
 
@@ -71,8 +75,8 @@ omega = 0.0 # radians/s
     (i < 10_000 and i%1000 == 0) or
     (i % 10_000 == 0)
     puts DrivingPhysics.elapsed_display(i)
-    puts format("%.1f r   %.2f r/s   %.3f r/s^2", theta, omega, alpha)
-    puts format("%.1f m   %.2f m/s   %.3f m/s^2", dist, speed, acc)
+    puts format("Wheel: %.1f r  %.2f r/s  %.3f r/s^2", theta, omega, alpha)
+    puts format("  Car: %.1f m  %.2f m/s  %.3f m/s^2", dist, speed, slowed_acc)
     puts "Press [enter]"
     gets
   end

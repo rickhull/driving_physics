@@ -95,13 +95,13 @@ module DrivingPhysics
     end
 
     attr_reader :env, :radius, :radius_m, :width, :width_m, :density, :temp,
-                :mu_s, :mu_k
-    attr_accessor :omega
+                :mu_s, :mu_k, :omega_friction
 
     def initialize(env,
                    radius: 350, width: 200, density: DENSITY,
                    temp: nil, mass: nil,
-                   mu_s: 1.1, mu_k: 0.7)
+                   mu_s: 1.1, mu_k: 0.7,
+                   omega_friction: 0.002)
       @env = env
       @radius = radius.to_f # mm
       @radius_m = @radius / 1000
@@ -109,6 +109,7 @@ module DrivingPhysics
       @width_m = @width / 1000
       @mu_s = mu_s.to_f # static friction
       @mu_k = mu_k.to_f # kinetic friction
+      @omega_friction = omega_friction # scales with speed
       @density = mass.nil? ? density : self.class.density(mass, volume_l)
       @temp = temp.to_f || @env.air_temp
     end
