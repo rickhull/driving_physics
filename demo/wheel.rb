@@ -2,20 +2,20 @@ require 'driving_physics/wheel'
 
 include DrivingPhysics
 
-e = Environment.new
-w = Wheel.new(e, mass: 25.0)
+env = Environment.new
+wheel = Wheel.new(env, mass: 25.0)
 
-puts e
-puts w
+puts env
+puts wheel
 
 # 1000 kg car
 # 4 tires
 # 250 kg per tire plus tire mass
 
 supported_mass = 1000 # kg
-total_mass = supported_mass + 4 * w.mass
+total_mass = supported_mass + 4 * wheel.mass
 corner_mass = Rational(total_mass) / 4
-normal_force = corner_mass * e.g
+normal_force = corner_mass * env.g
 axle_torque = 1000 # N*m
 friction_loss = 0.05 # 5% friction / hysteresis loss
 
@@ -25,15 +25,15 @@ puts [format("Corner mass: %d kg", corner_mass),
      ].join("\n")
 puts
 
-traction = w.traction(normal_force)
-drive_force = w.force(axle_torque)
-inertial_loss = w.inertial_loss(axle_torque, supported_mass)
+traction = wheel.traction(normal_force)
+drive_force = wheel.force(axle_torque)
+inertial_loss = wheel.inertial_loss(axle_torque, supported_mass)
 friction_loss *= axle_torque # 5% of the axle torque
 
 # drive force = (axle torque - inertia - friction) limited by traction
 
 net_axle_torque = axle_torque - inertial_loss - friction_loss
-net_drive_force = w.force(net_axle_torque)
+net_drive_force = wheel.force(net_axle_torque)
 net_drive_force = traction if net_drive_force > traction  # traction limited
 
 acc = DrivingPhysics.acc(net_drive_force, supported_mass) # translational
@@ -45,7 +45,7 @@ puts [format("Traction: %.1f N", traction),
       format("Net Axle Torque: %.1f Nm", net_axle_torque),
       format("Net Drive Force: %.1f N", net_drive_force),
       format("Acceleration: %.1f m/s/s", acc),
-      format("Alpha: %.2f r/s/s", acc / w.radius_m),
+      format("Alpha: %.2f r/s/s", acc / wheel.radius_m),
      ].join("\n")
 puts
 
@@ -57,19 +57,19 @@ speed = 0.0 # meters/s
 theta = 0.0 # radians
 omega = 0.0 # radians/s
 
-(duration * e.hz).times { |i|
+(duration * env.hz).times { |i|
   # accumulate frictional losses with speed (omega)
-  omega_loss_cof = [w.omega_friction * omega, 100.0].min # between 0.0 and 1.0
+  omega_loss_cof = [wheel.omega_friction * omega, 1.0].min
   slowed_acc = acc - acc * omega_loss_cof
 
   # translational kinematics
-  speed += slowed_acc * e.tick
-  dist += speed * e.tick
+  speed += slowed_acc * env.tick
+  dist += speed * env.tick
 
   # rotational kinematics
-  alpha = slowed_acc / w.radius_m
-  omega += alpha * e.tick
-  theta += omega * e.tick
+  alpha = slowed_acc / wheel.radius_m
+  omega += alpha * env.tick
+  theta += omega * env.tick
 
   if i < 10 or
     (i < 10_000 and i%1000 == 0) or
@@ -77,6 +77,7 @@ omega = 0.0 # radians/s
     puts DrivingPhysics.elapsed_display(i)
     puts format("Wheel: %.1f r  %.2f r/s  %.3f r/s^2", theta, omega, alpha)
     puts format("  Car: %.1f m  %.2f m/s  %.3f m/s^2", dist, speed, slowed_acc)
+    puts format("Omega Frictional Loss: %.1f%%", omega_loss_cof * 100)
     puts "Press [enter]"
     gets
   end
