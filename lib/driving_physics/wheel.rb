@@ -7,8 +7,6 @@ module DrivingPhysics
   # omega - angular velocity (radians / s)
   # theta - radians
 
-
-
   class Wheel
     # Note, this is not the density of solid rubber.  This density
     # yields a sensible mass for a wheel / tire combo at common radius
@@ -71,11 +69,6 @@ module DrivingPhysics
       alias_method(:tangential_p, :tangential)
     end
 
-    # surface velocity of a wheel spinning at omega radians/sec
-    def self.tangential_v(omega, radius_m)
-      omega * radius_m
-    end
-
     # vectors only
     def self.torque_vector(force, radius)
       if !force.is_a?(Vector) or force.size != 2
@@ -118,16 +111,14 @@ module DrivingPhysics
       @mu_k = mu_k.to_f # kinetic friction
       @density = mass.nil? ? density : self.class.density(mass, volume_l)
       @temp = temp.to_f || @env.air_temp
-      @omega = 0.0 # angular velocity; radians / sec
     end
 
     def to_s
       [[format("%d mm (R) x %d mm (W)", @radius, @width),
-        format("Mass: %.1f kg %.3f kg/L", mass, @density),
+        format("Mass: %.1f kg %.3f kg/L", self.mass, @density),
         format("cF: %.1f / %.1f", @mu_s, @mu_k),
        ].join(" | "),
        [format("Temp: %.1f C", @temp),
-        format("Vel: %.2f r/s (%.2f m/s)", @omega, tangential_v),
        ].join(" | "),
       ].join("\n")
     end
@@ -135,6 +126,10 @@ module DrivingPhysics
     def wear!(amount_mm)
       @radius -= amount_mm
       @radius_m = @radius / 1000
+    end
+
+    def heat!(amount_deg_c)
+      @temp += amount_deg_c
     end
 
     def mass
@@ -163,16 +158,6 @@ module DrivingPhysics
     def force(axle_torque)
       self.class.force(axle_torque, @radius_m)
     end
-
-    def tangential_v
-      self.class.tangential_v(@omega, @radius_m)
-    end
-
-    # alias_method(:speed, :tangential_v)
-
-    # def speed=(val)
-    #   @omega = val.to_f / (2 * w.radius_m)
-    # end
 
     # how much torque to accelerate rotational inertia at alpha
     def inertial_torque(alpha)
