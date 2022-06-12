@@ -170,6 +170,18 @@ module DrivingPhysics
       alpha * self.rotational_inertia
     end
 
+    def net_torque(axle_torque, mass:, omega:)
+      axle_torque -
+        self.inertial_loss(axle_torque, mass) -
+        self.friction_loss(omega)
+    end
+
+    def net_tractable_torque(axle_torque, mass:, omega:, normal_force:)
+      nt = net_torque(axle_torque, mass: mass, omega: omega)
+      traction = self.traction(normal_force)
+      nt > traction ? traction : nt
+    end
+
     # this doesn't take inertial losses or internal frictional losses
     # into account.  input torque required to saturate traction will be
     # higher than what this method returns
