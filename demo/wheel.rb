@@ -78,7 +78,6 @@ omega = 0.0 # radians/s
     puts format("Wheel: %.1f r  %.2f r/s  %.3f r/s^2", theta, omega, alpha)
     puts format("  Car: %.1f m  %.2f m/s  %.3f m/s^2", dist, speed, slowed_acc)
     puts format("Omega Frictional Loss: %.1f%%", omega_loss_cof * 100)
-    puts "Press [enter]"
-    gets
+    puts
   end
 }
