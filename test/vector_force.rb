@@ -74,9 +74,15 @@ describe VectorForce do
   end
 
   it "calculates the rotational resistance as a function of velocity" do
+    rr = VectorForce.rotational_resistance(@v, rot_const: 0)
+    rr2 = VectorForce.rotational_resistance(@v * 2, rot_const: 0)
+    expect(rr2).must_equal rr * 2
+
+    # now with rot_const != 0, the relationship is skewed
     rr = VectorForce.rotational_resistance(@v)
     rr2 = VectorForce.rotational_resistance(@v * 2)
-    expect(rr2).must_equal rr * 2
+    expect(rr2).wont_equal rr * 2   # because of rot_const
+    expect(rr2.magnitude).must_be(:<, (rr * 2).magnitude)
   end
 
   it "sums resistance forces" do
