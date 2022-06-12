@@ -52,10 +52,11 @@ theta = 0.0 # radians
 omega = 0.0 # radians/s
 
 (duration * env.hz).times { |i|
-  friction_loss = wheel.friction_loss(omega)
-  torque = net_axle_torque - friction_loss
+  torque = wheel.net_tractable_torque(axle_torque,
+                                      mass: total_mass,
+                                      omega: omega,
+                                      normal_force: normal_force)
   force = wheel.force(torque)
-  force = traction if force > traction  # traction limited
 
   # translational kinematics
   acc = DrivingPhysics.acc(force, supported_mass)
@@ -69,7 +70,11 @@ omega = 0.0 # radians/s
 
   if i < 10 or
     (i < 20_000 and i%1000 == 0) or
-    (i % 10_000 == 0)
+    (i % 10_000 == 0) or
+    i == duration * env.hz - 1
+
+    friction_loss = wheel.friction_loss(omega)
+
     puts DrivingPhysics.elapsed_display(i)
     puts format("Wheel: %.1f r  %.2f r/s  %.3f r/s^2", theta, omega, alpha)
     puts format("  Car: %.1f m  %.2f m/s  %.3f m/s^2", dist, speed, acc)
