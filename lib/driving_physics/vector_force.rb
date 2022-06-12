@@ -84,6 +84,7 @@ module DrivingPhysics
                             frontal_area: FRONTAL_AREA,
                             drag_cof: DRAG_COF,
                             air_density: AIR_DENSITY)
+      return velocity if velocity.zero?
       -1 * 0.5 * frontal_area * drag_cof * air_density *
        velocity * velocity.magnitude
     end
