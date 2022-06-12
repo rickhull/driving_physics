@@ -89,8 +89,20 @@ module DrivingPhysics
        velocity * velocity.magnitude
     end
 
-    def self.rotational_resistance(velocity, rot_cof: ROT_COF)
-      -1 * velocity * rot_cof
+    # return a force opposing velocity, representing friction / hysteresis
+    def self.rotational_resistance(velocity,
+                                   rot_const: ROT_CONST,
+                                   rot_cof: ROT_COF)
+      return velocity if velocity.zero?
+      -1 * velocity * rot_cof + -1 * velocity.normalize * rot_const
+    end
+
+    # return a torque opposing omega, representing friction / hysteresis
+    def self.omega_resistance(omega,
+                              rot_const: ROT_TQ_CONST,
+                              rot_cof: ROT_TQ_COF)
+      return 0 if omega == 0.0
+      omega * ROT_TQ_COF + ROT_TQ_CONST
     end
 
     # dir is drive_force vector or velocity vector; will be normalized
