@@ -101,7 +101,7 @@ module DrivingPhysics
                    radius: 350, width: 200, density: DENSITY,
                    temp: nil, mass: nil,
                    mu_s: 1.1, mu_k: 0.7,
-                   omega_friction: 0.002, base_friction: 0.001)
+                   omega_friction: 0.5, base_friction: 0.5)
       @env = env
       @radius = radius.to_f # mm
       @radius_m = @radius / 1000
@@ -160,7 +160,7 @@ module DrivingPhysics
     end
 
     # torque opposing omega
-    def frictional_loss(omega)
+    def friction_loss(omega)
       return omega if omega == 0.0
       @base_friction + @omega_friction * omega
     end

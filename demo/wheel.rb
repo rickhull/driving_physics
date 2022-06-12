@@ -52,8 +52,8 @@ theta = 0.0 # radians
 omega = 0.0 # radians/s
 
 (duration * env.hz).times { |i|
-  frictional_loss = wheel.frictional_loss(omega)
-  ndf = net_drive_force - frictional_loss / wheel.radius_m
+  friction_loss = wheel.friction_loss(omega)
+  ndf = net_drive_force - friction_loss / wheel.radius_m
   ndf = traction if ndf > traction  # traction limited
 
   # translational kinematics
@@ -73,7 +73,7 @@ omega = 0.0 # radians/s
     puts format("Wheel: %.1f r  %.2f r/s  %.3f r/s^2", theta, omega, alpha)
     puts format("  Car: %.1f m  %.2f m/s  %.3f m/s^2", dist, speed, acc)
     puts format("Force: %.2f N  Friction: %.3f Nm",
-                ndf, wheel.frictional_loss(omega))
+                ndf, wheel.friction_loss(omega))
     puts
   end
 }
