@@ -106,8 +106,8 @@ module DrivingPhysics
       @temp = @env.air_temp
       @mu_s = 11/10r # static friction
       @mu_k =  7/10r # kinetic friction
-      @base_friction = 5/10r
-      @omega_friction = 5/10r # scales with speed
+      @base_friction = 5/1_000r
+      @omega_friction = 3/10_000r # scales with speed
       @roll_cof = DrivingPhysics::ROLL_COF
 
       yield self if block_given?
@@ -161,13 +161,15 @@ module DrivingPhysics
     end
 
     # torque opposing omega
-    def friction_loss(omega)
-      return omega if omega == 0.0
-      @base_friction + @omega_friction * omega
+    def friction_loss(normal_force, omega)
+      return omega if omega.zero?
+      normal_force * (@base_friction + @omega_friction * omega)
     end
 
-    def rolling_loss(normal_force)
-      normal_force * @roll_cof
+    # rolling loss in terms of axle torque
+    def rolling_loss(normal_force, omega)
+      return omega if omega.zero?
+      (normal_force * @roll_cof) * @radius
     end
 
     # inertial loss in terms of axle torque when used as a drive wheel
@@ -193,8 +195,8 @@ module DrivingPhysics
 
     def net_torque(axle_torque, mass:, omega:, normal_force:)
       net = axle_torque -
-            self.rolling_loss(normal_force) -
-            self.friction_loss(omega)
+            self.rolling_loss(normal_force, omega) -
+            self.friction_loss(normal_force, omega)
       # inertial loss has interdependencies; calculate last
       net - self.inertial_loss(net, mass)
     end
