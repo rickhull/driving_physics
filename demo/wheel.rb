@@ -1,7 +1,5 @@
 require 'driving_physics/wheel'
 
-# drive force = (axle torque - inertia - friction) limited by traction
-
 include DrivingPhysics
 
 e = Environment.new
@@ -19,6 +17,7 @@ total_mass = supported_mass + 4 * w.mass
 corner_mass = Rational(total_mass) / 4
 normal_force = corner_mass * e.g
 axle_torque = 1000 # N*m
+friction_loss = 0.05 # 5% friction / hysteresis loss
 
 puts [format("Corner mass: %d kg", corner_mass),
       format("Normal force: %.1f N", normal_force),
@@ -29,14 +28,21 @@ puts
 traction = w.traction(normal_force)
 drive_force = w.force(axle_torque)
 inertial_loss = w.inertial_loss(axle_torque, supported_mass)
-net_axle_torque = axle_torque - inertial_loss
+friction_loss *= axle_torque # 5% of the axle torque
+
+# drive force = (axle torque - inertia - friction) limited by traction
+
+net_axle_torque = axle_torque - inertial_loss - friction_loss
 net_drive_force = w.force(net_axle_torque)
-acc = DrivingPhysics.acc(net_drive_force, supported_mass)
-alpha = acc / w.radius_m
+net_drive_force = traction if net_drive_force > traction  # traction limited
+
+acc = DrivingPhysics.acc(net_drive_force, supported_mass) # translational
+alpha = acc / w.radius_m                                  # angular
 
 puts [format("Traction: %.1f N", traction),
       format("Drive force: %.1f N", drive_force),
       format("Inertial loss: %.1f Nm", inertial_loss),
+      format("Friction loss: %.1f Nm", friction_loss),
       format("Net Axle Torque: %.1f Nm", net_axle_torque),
       format("Net Drive Force: %.1f N", net_drive_force),
       format("Acceleration: %.1f m/s/s", acc),
