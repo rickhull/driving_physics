@@ -2,6 +2,8 @@ require 'driving_physics/environment'
 require 'driving_physics/vector_force'
 
 module DrivingPhysics
+  # radius is always in meters
+
   # Rotational complements to acc/vel/pos
   # alpha - angular acceleration
   # omega - angular velocity (radians / s)
@@ -25,31 +27,31 @@ module DrivingPhysics
       normal_force * cof
     end
 
-    def self.force(axle_torque, radius_m)
-      axle_torque / radius_m.to_f
+    def self.force(axle_torque, radius)
+      axle_torque / radius.to_f
     end
 
     # in m^3
-    def self.volume(radius_m, width_m)
-      Math::PI * radius_m ** 2 * width_m.to_f
+    def self.volume(radius, width)
+      Math::PI * radius ** 2 * width
     end
 
     # in L
-    def self.volume_l(radius_m, width_m)
-      volume(radius_m, width_m) * 1000
+    def self.volume_l(radius, width)
+      volume(radius, width) * 1000
     end
 
     def self.density(mass, volume_l)
       mass.to_f / volume_l
     end
 
-    def self.mass(radius_m, width_m, density)
-      density * volume_l(radius_m, width_m)
+    def self.mass(radius, width, density)
+      volume_l(radius, width) * density
     end
 
     # I = 1/2 (m)(r^2) for a disk
-    def self.rotational_inertia(radius_m, mass)
-      mass * radius_m**2 / 2.0
+    def self.rotational_inertia(radius, mass)
+      mass * radius**2 / 2.0
     end
     class << self
       alias_method(:moment_of_inertia, :rotational_inertia)
@@ -60,13 +62,8 @@ module DrivingPhysics
       torque / inertia
     end
 
-    def self.tangential(rotational, radius_m)
-      rotational * radius_m
-    end
-    class << self
-      alias_method(:tangential_a, :tangential)
-      alias_method(:tangential_v, :tangential)
-      alias_method(:tangential_p, :tangential)
+    def self.tangential(rotational, radius)
+      rotational * radius
     end
 
     # vectors only
@@ -158,6 +155,10 @@ module DrivingPhysics
 
     def force(axle_torque)
       self.class.force(axle_torque, @radius)
+    end
+
+    def tangential(rotational)
+      self.class.tangential(rotational, @radius)
     end
 
     # torque opposing omega
