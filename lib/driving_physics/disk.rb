@@ -93,7 +93,7 @@ module DrivingPhysics
     end
 
     attr_reader :env
-    attr_accessor :radius, :width, :density
+    attr_accessor :radius, :width, :density, :base_friction, :omega_friction
 
     def initialize(env)
       @env = env
