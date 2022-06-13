@@ -51,7 +51,10 @@ speed = 0.0 # meters/s
 theta = 0.0 # radians
 omega = 0.0 # radians/s
 
-(duration * env.hz).times { |i|
+t = Time.now
+num_ticks = duration * env.hz
+
+num_ticks.times { |i|
   torque = wheel.net_tractable_torque(axle_torque,
                                       mass: total_mass,
                                       omega: omega,
@@ -81,3 +84,6 @@ omega = 0.0 # radians/s
     puts
   end
 }
+
+elapsed = Time.now - t
+puts format("%.2f s (%d ticks / s)", elapsed, num_ticks / elapsed)

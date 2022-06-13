@@ -21,7 +21,10 @@ speed = 0.0
 theta = 0.0
 omega = 0.0
 
-(duration * env.hz).times { |i|
+t = Time.now
+num_ticks = duration * env.hz
+
+num_ticks.times { |i|
   ar = car.air_resistance(speed)
   rr = car.rolling_resistance(omega)
   rf = car.rotational_friction(omega)
@@ -43,16 +46,20 @@ omega = 0.0
     (i % 10_000 == 0) or
     i == duration * env.hz - 1
 
+    tq = car.powertrain.axle_torque
+    loss = (1.0 - force * car.wheel.radius / tq) * 100
+
     puts DrivingPhysics.elapsed_display(i)
     puts format("Wheel: %.1f r  %.2f r/s  %.3f r/s^2", theta, omega, alpha)
     puts format("  Car: %.1f m  %.2f m/s  %.3f m/s^2", dist, speed, acc)
     puts format("Axle Torque: %.1f Nm (%d N) Drive: %.1f N  Loss: %.1f%%",
-                car.powertrain.axle_torque, car.nominal_drive_force, force,
-                (1.0 - force * car.wheel.radius /
-                       car.powertrain.axle_torque) * 100)
+                tq, car.nominal_drive_force, force, loss)
     puts format(%w[Air Rolling Rotational Inertial].map { |s|
                   "#{s}: %.2f N"
                 }.join('  '), ar, rr, rf, ir)
     puts
   end
 }
+
+elapsed = Time.now - t
+puts format("%.2f s (%d ticks / s)", elapsed, num_ticks / elapsed)

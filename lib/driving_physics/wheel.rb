@@ -106,8 +106,8 @@ module DrivingPhysics
       @temp = @env.air_temp
       @mu_s = 11/10r # static friction
       @mu_k =  7/10r # kinetic friction
-      @base_friction = 5/1_000r
-      @omega_friction = 3/10_000r # scales with speed
+      @base_friction = 5/10_000r
+      @omega_friction = 5/100_000r # scales with speed
       @roll_cof = DrivingPhysics::ROLL_COF
 
       yield self if block_given?

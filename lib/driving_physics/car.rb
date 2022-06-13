@@ -26,11 +26,6 @@ module DrivingPhysics
       yield self if block_given?
     end
 
-    # air resistance
-    # rolling resistance x4
-    # rotational friction x4
-    # inertial resistance x4
-
     # force
     def air_resistance(speed)
       0.5 * @frontal_area * @cd * @env.air_density * speed ** 2
@@ -38,22 +33,14 @@ module DrivingPhysics
 
     # force
     def rolling_resistance(omega)
-      return omega if omega.zero?
-      @num_wheels * self.normal_force * @wheel.roll_cof
+      @num_wheels * @wheel.rolling_loss(self.normal_force, omega) /
+        @wheel.radius
     end
 
     #  force
     def rotational_friction(omega)
-      return omega if omega.zero?
-      @num_wheels * @wheel.friction_loss(self.normal_force, omega)
-    end
-
-    # force
-    def speed_resistance(speed)
-      return speed if speed.zero?
-      self.air_resistance(speed) +
-        self.rolling_resistance(speed / @wheel.radius) +
-        self.rotational_friction(speed / @wheel.radius)
+      @num_wheels * @wheel.friction_loss(self.normal_force, omega) /
+        @wheel.radius
     end
 
     # force
