@@ -1,15 +1,7 @@
 require 'driving_physics/wheel'
-require 'driving_physics/scalar_force'
+require 'driving_physics/powertrain'
 
 module DrivingPhysics
-  attr_reader :axle_torque
-
-  class Powertrain
-    def initialize(axle_torque)
-      @axle_torque = axle_torque
-    end
-  end
-
   class Car
     attr_reader :wheel, :powertrain, :env
     attr_accessor :num_wheels, :mass, :frontal_area, :cd
@@ -57,18 +49,26 @@ module DrivingPhysics
 
     def to_s
       [[format("Mass: %.1f kg", self.total_mass),
-        format("Axle Torque: %.1f Nm", @powertrain.axle_torque),
         format("Fr.A: %.2f m^2", @frontal_area),
         format("cD: %.2f", @cd),
        ].join(' | '),
+       format("Powertrain: %s", @powertrain),
        format("Wheels: %s", @wheel),
        format("Corner mass: %.1f kg | Normal force: %.1f N",
               self.corner_mass, self.normal_force),
       ].join("\n")
     end
 
-    def nominal_drive_force
-      @wheel.force(@powertrain.axle_torque)
+    def drive_force(rpm)
+      @wheel.force(@powertrain.axle_torque(rpm))
+    end
+
+    def wheel_speed(rpm)
+      @wheel.tangential(@powertrain.axle_omega(rpm))
+    end
+
+    def rpm(wheel_speed)
+      @wheel.foo
     end
 
     def total_mass
