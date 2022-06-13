@@ -50,13 +50,13 @@ num_ticks.times { |i|
     loss = (1.0 - force * car.wheel.radius / tq) * 100
 
     puts DrivingPhysics.elapsed_display(i)
-    puts format("Wheel: %.1f r  %.2f r/s  %.3f r/s^2", theta, omega, alpha)
-    puts format("  Car: %.1f m  %.2f m/s  %.3f m/s^2", dist, speed, acc)
-    puts format("Axle Torque: %.1f Nm (%d N) Drive: %.1f N  Loss: %.1f%%",
+    puts format(" Wheel: %.1f r  %.2f r/s  %.3f r/s^2", theta, omega, alpha)
+    puts format("   Car: %.1f m  %.2f m/s  %.3f m/s^2", dist, speed, acc)
+    puts format("Torque: %.1f Nm (%d N) Drive: %.1f N  Loss: %.1f%%",
                 tq, car.nominal_drive_force, force, loss)
-    puts format(%w[Air Rolling Rotational Inertial].map { |s|
-                  "#{s}: %.2f N"
-                }.join('  '), ar, rr, rf, ir)
+    puts "Resistance: " + format(%w[Air Roll Spin Inertial].map { |s|
+                                   "#{s} %.1f N"
+                                 }.join('  '), ar, rr, rf, ir)
     puts
   end
 }
