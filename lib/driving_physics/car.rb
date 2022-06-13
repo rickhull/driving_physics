@@ -12,7 +12,7 @@ module DrivingPhysics
 
   class Car
     attr_reader :wheel, :powertrain, :env
-    attr_accessor :mass, :frontal_area, :cd, :num_wheels
+    attr_accessor :num_wheels, :mass, :frontal_area, :cd
 
     def initialize(wheel:, powertrain:)
       @num_wheels = 4
@@ -26,6 +26,48 @@ module DrivingPhysics
       yield self if block_given?
     end
 
+    # air resistance
+    # rolling resistance x4
+    # rotational friction x4
+    # inertial resistance x4
+
+    # force
+    def air_resistance(speed)
+      0.5 * @frontal_area * @cd * @env.air_density * speed ** 2
+    end
+
+    # force
+    def rolling_resistance(omega)
+      return omega if omega.zero?
+      @num_wheels * self.normal_force * @wheel.roll_cof
+    end
+
+    #  force
+    def rotational_friction(omega)
+      return omega if omega.zero?
+      @num_wheels * @wheel.friction_loss(self.normal_force, omega)
+    end
+
+    # force
+    def speed_resistance(speed)
+      return speed if speed.zero?
+      self.air_resistance(speed) +
+        self.rolling_resistance(speed / @wheel.radius) +
+        self.rotational_friction(speed / @wheel.radius)
+    end
+
+    # force
+    def inertial_resistance(force)
+      force_loss = 0
+      5.times {
+        acc = DrivingPhysics.acc(force - force_loss, self.total_mass)
+        alpha = acc / @wheel.radius
+        force_loss = @num_wheels * @wheel.inertial_torque(alpha) /
+                     @wheel.radius
+      }
+      force_loss
+    end
+
     def to_s
       [[format("Mass: %.1f kg", self.total_mass),
         format("Axle Torque: %.1f Nm", @powertrain.axle_torque),
@@ -36,6 +78,10 @@ module DrivingPhysics
        format("Corner mass: %.1f kg | Normal force: %.1f N",
               self.corner_mass, self.normal_force),
       ].join("\n")
+    end
+
+    def nominal_drive_force
+      @wheel.force(@powertrain.axle_torque)
     end
 
     def total_mass
