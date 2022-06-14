@@ -92,7 +92,7 @@ EOF
 
     tq = car.powertrain.axle_torque(rpm)
 
-    if i % 100 == 0
+    if (i < 1000 and i % 100 == 0) or (i % 1000 == 0)
       puts DrivingPhysics.elapsed_display(i)
       puts format("  Tire: %.1f r  %.2f r/s  %.3f r/s^2",
                   tire_theta, tire_omega, tire_alpha)
