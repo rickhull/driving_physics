@@ -7,7 +7,8 @@ puts env
 
 tire = Tire.new(env)
 motor = Motor.new(env)
-pt = Powertrain.new(motor, Gearbox.new)
+gearbox = Gearbox.new(env)
+pt = Powertrain.new(motor, gearbox)
 
 car = Car.new(tire: tire, powertrain: pt) { |c|
   c.mass = 1050.0
@@ -114,8 +115,19 @@ EOF
       gets
     end
 
-    rpm = new_rpm if clutch == :ok
-    car.powertrain.gearbox.shift!(rpm)
+    case clutch
+    when :ok
+      rpm = new_rpm
+    when :mismatch
+      puts "LURCH!"
+      rpm = new_rpm
+    end
+    next_gear = car.powertrain.gearbox.next_gear(rpm)
+    if next_gear != gearbox.gear
+      puts "Gear Change: #{next_gear}"
+      car.powertrain.select_gear(next_gear)
+      gets
+    end
   end
 }
 
