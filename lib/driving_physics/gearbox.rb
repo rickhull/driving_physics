@@ -69,9 +69,9 @@ module DrivingPhysics
 
     def next_gear(rpm, floor: 2000, ceiling: 6800)
       if rpm < floor and @gear > 1
-        @gear + 1
-      elsif rpm > ceiling and @gear < self.top_gear
         @gear - 1
+      elsif rpm > ceiling and @gear < self.top_gear
+        @gear + 1
       else
         @gear
       end
