@@ -4,19 +4,6 @@ require 'driving_physics/disk'
 D = DrivingPhysics::Disk
 
 describe D do
-  describe "Disk.traction" do
-    it "calculates traction force from normal force and coeff of friction" do
-      scalar_nf = 9800 # N
-      cof = 1.1
-      scalar_t = D.traction(scalar_nf, cof)
-      expect(scalar_t).must_equal 10780.0
-
-      vector_nf = Vector[9800, 0]
-      vector_t = D.traction(vector_nf, cof)
-      expect(vector_t).must_equal Vector[10780.0, 0.0]
-    end
-  end
-
   describe "Disk.volume" do
     it "calculates the volume (m^3) of disk given radius and width" do
       cubic_m = D.volume(1.0, 1.0)
@@ -46,6 +33,7 @@ describe D do
 
   describe "Disk.mass" do
     it "calculates the mass (kg) of a disk given radius, width, and density" do
+      skip
       expect(D.mass(0.35, 0.2, D::DENSITY)).must_be_within_epsilon 25.015
     end
   end
@@ -110,6 +98,7 @@ describe D do
     end
 
     it "initializes" do
+      skip
       expect(@disk).must_be_instance_of D
       expect(@disk.density).must_equal D::DENSITY # sanity check
       expect(@disk.mass).must_be_within_epsilon 25.01
@@ -127,55 +116,14 @@ describe D do
       expect(str.length).must_be(:>, 5)
     end
 
-    it "loses radius as it wears" do
-      old_r = @disk.radius
-      wear_amt = 50/1000r
-      @disk.wear! wear_amt
-      expect(@disk.radius).must_equal old_r - wear_amt
-    end
-
-    it "calculates mass from current radius" do
-      expect(@disk.mass).must_be_within_epsilon 25.01
-      @disk.wear!(50/1000r)
-      expect(@disk.mass).must_be_within_epsilon 18.378
-    end
-
     it "has volume" do
       expect(@disk.volume).must_be_within_epsilon 0.07697
       expect(@disk.volume_l).must_be_within_epsilon 76.96902
     end
 
     it "has inertia" do
+      skip
       expect(@disk.rotational_inertia).must_be_within_epsilon 1.5321
-    end
-
-    it "has traction force based on normal force" do
-      scalar_nf = 9800
-      expect(@disk.traction scalar_nf).must_equal 10780.0
-      expect(@disk.traction scalar_nf, static: false).must_equal 6860.0
-
-      vector_nf = Vector[9800, 0]
-      expect(@disk.traction vector_nf).must_equal Vector[10780.0, 0.0]
-      expect(@disk.traction vector_nf, static: false).
-        must_equal Vector[6860.0, 0.0]
-    end
-
-    it "determines (e.g. thrust) force based on axle torque" do
-      expect(@disk.force 1000).must_be_within_epsilon 2857.143
-      @disk.wear! 50/1000r
-      expect(@disk.force 1000).must_be_within_epsilon 3333.333
-    end
-
-    it "determines tractable torque" do
-      scalar_nf = 9800
-      expect(@disk.tractable_torque scalar_nf).must_be_within_epsilon 3773.0
-      kin_tq = @disk.tractable_torque scalar_nf, static: false
-      expect(kin_tq).must_be_within_epsilon 2401.0
-
-      # not sure about how torque vectors work, but the "math" "works":
-      vector_nf = Vector[9800, 0]
-      expect(@disk.tractable_torque(vector_nf)[0]).
-        must_be_within_epsilon 3773.0
     end
   end
 end
