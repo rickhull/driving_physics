@@ -1,4 +1,5 @@
 require 'driving_physics/car'
+require 'driving_physics/imperial'
 
 include DrivingPhysics
 
@@ -15,12 +16,9 @@ car = Car.new(tire: tire, powertrain: pt) { |c|
   c.frontal_area = 2.5
   c.cd = 0.5
 }
-
 puts car
 
-rpm = 0 # off
-
-duration = 60
+duration = 120
 
 speed = 0.0
 dist = 0.0
@@ -32,10 +30,11 @@ crank_omega = 0.0
 crank_theta = 0.0
 
 t = Time.now
-num_ticks = duration * env.hz
+num_ticks = duration * env.hz + 1
 
 clutch = :ok
 phase = :ignition
+rpm = 0
 puts <<EOF
 
 #
@@ -90,18 +89,21 @@ EOF
     tire_omega += tire_alpha * env.tick
     tire_theta += tire_omega * env.tick
 
-    tq = car.powertrain.axle_torque(rpm)
+    axle_torque = car.powertrain.axle_torque(rpm)
+    crank_torque = car.powertrain.motor.torque(rpm)
 
     if (i < 1000 and i % 100 == 0) or (i % 1000 == 0)
       puts DrivingPhysics.elapsed_display(i)
       puts format("  Tire: %.1f r  %.2f r/s  %.3f r/s^2",
                   tire_theta, tire_omega, tire_alpha)
-      puts format("   Car: %.1f m  %.2f m/s  %.3f m/s^2", dist, speed, acc)
-      puts format("   RPM: %d  %.1f Nm (%d N)  Drive: %d N",
-                  rpm, tq, car.drive_force(rpm), force)
-      puts "Resistance: " + format(%w[Air Roll Spin Inertial].map { |s|
-                                     "#{s} %.1f N"
-                                   }.join('  '), ar, rr, rf, ir)
+      puts format("   Car: %.1f m  %.2f m/s  %.3f m/s^2 (%.1f MPH)",
+                  dist, speed, acc, Imperial.mph(speed))
+      puts format(" Motor: %d RPM  %.1f Nm", rpm, crank_torque)
+      puts format("  Axle: %.1f Nm (%d N)  Net Force: %.1f N",
+                  axle_torque, car.drive_force(rpm), force)
+      puts        "Resist: " + format(%w[Air Roll Spin Inertial].map { |s|
+                                        "#{s}: %.1f N"
+                                      }.join('  '), ar, rr, rf, ir)
       puts
     end
 
@@ -110,12 +112,13 @@ EOF
     new_clutch, proportion = car.powertrain.gearbox.match_rpms(rpm, new_rpm)
 
     if new_clutch != clutch
-      p [new_clutch, proportion, new_rpm]
+      puts format("Clutch: [%s] %d RPM is %.1f%% from %d RPM",
+                  new_clutch, new_rpm, proportion * 100, rpm)
       clutch = new_clutch
       gets
     end
 
-    case clutch
+    case new_clutch
     when :ok
       rpm = new_rpm
     when :mismatch
