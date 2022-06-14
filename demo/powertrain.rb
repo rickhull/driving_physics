@@ -3,7 +3,9 @@ require 'driving_physics/imperial'
 
 include DrivingPhysics
 
-motor = Motor.new(Environment.new)
+env = Environment.new
+motor = Motor.new(env)
+
 puts "Rev it up!"
 800.upto(7000) { |rpm|
   next unless rpm % 200 == 0
@@ -15,7 +17,9 @@ puts "Rev it up!"
 }
 puts
 
-pt = Powertrain.new(motor, Gearbox.new)
+gearbox = Gearbox.new(env)
+
+pt = Powertrain.new(motor, gearbox)
 puts pt
 
 # Run through the gears
