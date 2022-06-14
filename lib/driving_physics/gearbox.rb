@@ -7,19 +7,26 @@ module DrivingPhysics
     RATIOS = [5r, 5/2r, 9/5r, 7/5r, 1r, 4/5r]
     REAR_END = 41/11r # 3.73
 
-    attr_accessor :gear, :ratios, :rear_end, :rotating_mass, :fixed_mass
+    attr_accessor :gear, :ratios, :rear_end, :spinner, :fixed_mass
 
     def initialize(env)
       @ratios = RATIOS
       @rear_end = REAR_END
       @gear = 0 # neutral
 
-      @rotating_mass = Disk.new(env) { |m|
-        m.mass = 20
+      @spinner = Disk.new(env) { |m|
+        m.mass = 15
+        m.radius = 0.15
+        m.base_friction = 5/1000r
+        m.omega_friction = 5/10_000r
       }
       @fixed_mass = 30 # kg
 
       yield self if block_given?
+    end
+
+    def mass
+      @fixed_mass + @spinner.mass
     end
 
     def top_gear
