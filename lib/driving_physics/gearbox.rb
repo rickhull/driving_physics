@@ -14,6 +14,7 @@ module DrivingPhysics
       @rear_end = REAR_END
       @gear = 0 # neutral
 
+      # represent all rotating mass
       @spinner = Disk.new(env) { |m|
         m.mass = 15
         m.radius = 0.15
@@ -23,6 +24,11 @@ module DrivingPhysics
       @fixed_mass = 30 # kg
 
       yield self if block_given?
+    end
+
+    def resistance_torque(alpha, omega)
+      -1 * @spinner.inertial_torque(alpha) +
+        @spinner.rotating_friction(omega)
     end
 
     def mass
