@@ -18,12 +18,16 @@ module DrivingPhysics
       @gearbox.gear = gear
     end
 
-    def output(rpm)
-      [self.axle_torque(rpm), self.axle_omega(rpm)]
+    def output(rpm, crank_a: 0, crank_o: 0, axle_a: 0, axle_o: 0)
+      [self.axle_torque(rpm, crank_a: crank_a, crank_o: crank_o,
+                        axle_a: axle_a, axle_o: axle_o),
+       self.axle_omega(rpm)]
     end
 
-    def axle_torque(rpm)
-      @motor.torque(rpm) * @gearbox.ratio
+    # convert rpm to axle torque, taking motor and gearbox losses into account
+    def axle_torque(rpm, crank_a: 0, crank_o: 0, axle_a: 0, axle_o: 0)
+      @motor.net_torque(rpm, alpha: crank_alpha) * @gearbox.ratio +
+        @gearbox.resistance_torque(axle_a, axle_o)
     end
 
     def axle_omega(rpm)
