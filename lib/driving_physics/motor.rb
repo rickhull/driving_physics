@@ -24,7 +24,7 @@ module DrivingPhysics
       @spinner = Disk.new(@env) { |fly|
         fly.radius =  0.25 # m
         fly.mass   = 75    # kg
-        fly.base_friction  = 5/100r
+        fly.base_friction  = 5/1000r
         fly.omega_friction = 5/10_000r
       }
       @starter_torque = 500  # Nm
@@ -47,16 +47,21 @@ module DrivingPhysics
       @spinner.mass + @fixed_mass
     end
 
-    def starter_alpha(omega = 0)
-      @spinner.alpha(@starter_torque + @spinner.rotating_friction(omega))
+    # given torque, determine crank alpha after inertia and friction
+    def alpha(torque: nil, omega: 0)
+      torque = @starter_torque if torque.nil?
+      @spinner.alpha(torque + @spinner.rotating_friction(omega))
     end
 
-    def rotating_friction(omega)
-      @spinner.rotating_friction(omega)
-    end
-
-    def inertial_torque(alpha)
-      -1 * @spinner.inertial_torque(alpha)
+    # How much torque is required to accelerate spinner up to alpha,
+    # overcoming both inertia and friction
+    # Presumably we have more input torque available, but this will be
+    # used to do more work than just spinning up the motor
+    #
+    def resistance_torque(alpha, omega)
+      # reverse sign on inertial_torque as it is not modeled as a resistance
+      -1 * @spinner.inertial_torque(alpha) +
+        @spinner.rotating_friction(omega)
     end
 
     # interpolate based on torque curve points
@@ -67,6 +72,7 @@ module DrivingPhysics
       last_rpm = 99999
       last_tq = -1
 
+      # christ this is awful; there must be a better way
       @rpms.each_with_index { |r, i|
         tq = @torques[i]
         if last_rpm <= rpm and rpm <= r
@@ -77,6 +83,10 @@ module DrivingPhysics
         last_tq = tq
       }
       raise(SanityCheck, "RPM #{rpm}")
+    end
+
+    def net_torque(rpm, alpha: 0)
+      self.torque(rpm) + resistance_torque(alpha, DrivingPhysics.omega(rpm))
     end
   end
 end
