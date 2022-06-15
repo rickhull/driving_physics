@@ -3,6 +3,12 @@ require 'driving_physics/imperial'
 
 include DrivingPhysics
 
+def prompt(msg = "")
+  puts msg
+  puts "                    [Press Enter]"
+  gets
+end
+
 env = Environment.new
 puts env
 
@@ -34,6 +40,7 @@ num_ticks = duration * env.hz + 1
 
 clutch = :ok
 phase = :ignition
+flag = false
 rpm = 0
 puts <<EOF
 
@@ -46,7 +53,7 @@ EOF
 num_ticks.times { |i|
   if phase == :ignition
     # ignition phase
-    crank_alpha = motor.starter_alpha(crank_omega)
+    crank_alpha = motor.alpha(omega: crank_omega)
     crank_omega += crank_alpha * env.tick
     crank_theta += crank_omega * env.tick
 
@@ -73,12 +80,14 @@ num_ticks.times { |i|
 EOF
     end
   elsif phase == :running
-    ar = car.air_resistance(speed)
-    rr = car.rolling_resistance(tire_omega)
-    rf = car.rotational_resistance(tire_omega)
+    # track crank_alpha/omega/theta
+
+    ar = car.air_force(speed)
+    rr = car.tire_rolling_force(tire_omega)
+    rf = car.tire_rotational_force(tire_omega)
 
     force = car.drive_force(rpm) + ar + rr + rf
-    ir = car.inertial_resistance(force)
+    ir = car.tire_inertial_force(force)
     force += ir
 
     acc = DrivingPhysics.acc(force, car.total_mass)
@@ -89,10 +98,18 @@ EOF
     tire_omega += tire_alpha * env.tick
     tire_theta += tire_omega * env.tick
 
-    axle_torque = car.powertrain.axle_torque(rpm)
+    crank_alpha = tire_alpha / car.powertrain.gearbox.ratio
+    crank_omega += crank_alpha * env.tick
+    crank_theta += crank_omega * env.tick
+
+    axle_torque = car.powertrain.axle_torque(rpm,
+                                             crank_a: crank_alpha,
+                                             crank_o: crank_omega,
+                                             axle_a: tire_alpha,
+                                             axle_o: tire_omega)
     crank_torque = car.powertrain.motor.torque(rpm)
 
-    if (i < 1000 and i % 100 == 0) or (i % 1000 == 0)
+    if flag or (i < 5000 and i % 100 == 0) or (i % 1000 == 0)
       puts DrivingPhysics.elapsed_display(i)
       puts format("  Tire: %.1f r  %.2f r/s  %.3f r/s^2",
                   tire_theta, tire_omega, tire_alpha)
@@ -105,6 +122,7 @@ EOF
                                         "#{s}: %.1f N"
                                       }.join('  '), ar, rr, rf, ir)
       puts
+      flag = false
     end
 
     # tire_omega determines new rpm
@@ -112,24 +130,28 @@ EOF
     new_clutch, proportion = car.powertrain.gearbox.match_rpms(rpm, new_rpm)
 
     if new_clutch != clutch
+      flag = true
       puts format("Clutch: [%s] %d RPM is %.1f%% from %d RPM",
                   new_clutch, new_rpm, proportion * 100, rpm)
       clutch = new_clutch
-      gets
+      prompt
     end
 
     case new_clutch
     when :ok
       rpm = new_rpm
     when :mismatch
+      flag = true
       puts "LURCH!"
+      puts
       rpm = new_rpm
     end
     next_gear = car.powertrain.gearbox.next_gear(rpm)
     if next_gear != gearbox.gear
+      flag = true
       puts "Gear Change: #{next_gear}"
       car.powertrain.select_gear(next_gear)
-      gets
+      prompt
     end
   end
 }
