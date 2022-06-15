@@ -19,26 +19,26 @@ module DrivingPhysics
     end
 
     # force opposing speed
-    def air_resistance(speed)
+    def air_force(speed)
       -0.5 * @frontal_area * @cd * @env.air_density * speed ** 2
     end
 
     # force of opposite sign to omega
-    def rolling_resistance(omega)
+    def tire_rolling_force(omega)
       @num_tires *
         @tire.rolling_friction(omega, normal_force: self.normal_force) /
         @tire.radius
     end
 
     # force of opposite sign to omega
-    def rotational_resistance(omega)
+    def tire_rotational_force(omega)
       @num_tires *
         @tire.rotating_friction(omega, normal_force: self.normal_force) /
         @tire.radius
     end
 
     # force of opposite sign to force
-    def inertial_resistance(force)
+    def tire_inertial_force(force)
       mag = force.abs
       sign = force / mag
       force_loss = 0
@@ -74,8 +74,8 @@ module DrivingPhysics
       @tire.tangential(@powertrain.axle_omega(rpm))
     end
 
-    def rpm(tire_speed)
-      @tire.foo
+    def motor_rpm(tire_speed)
+      @powertrain.gearbox.crank_rpm(tire_speed / @tire_radius)
     end
 
     def total_mass
