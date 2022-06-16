@@ -10,7 +10,7 @@ module DrivingPhysics
     # press Enter to continue
     def self.pause(msg = '')
       puts msg unless msg.empty?
-      puts "     [ Press Enter ]"
+      puts '     [ Press Enter ]'
       $stdin.gets
     end
   end

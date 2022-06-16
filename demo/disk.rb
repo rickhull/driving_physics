@@ -1,4 +1,5 @@
 require 'driving_physics/disk'
+require 'driving_physics/cli'
 
 include DrivingPhysics
 
@@ -18,7 +19,7 @@ puts [format("Axle torque: %.1f Nm", axle_torque),
       format("Drive force: %.1f N", drive_force),
      ].join("\n")
 puts
-gets
+CLI.pause
 
 duration = 750 # sec
 
@@ -29,11 +30,20 @@ theta = 0.0 # radians
 omega = 0.0 # radians/s
 
 t = Time.now
+elapsed = 0.0
 num_ticks = duration * env.hz
 
 num_ticks.times { |i|
   # shut off the powah!
-  axle_torque = 0 if i == 19_000
+  if i == 19_000
+    puts
+    puts "     ### CUT POWER ###"
+    puts
+    axle_torque = 0
+    elapsed += Time.now - t
+    CLI.pause
+    t = Time.now
+  end
 
   rotating_friction = disk.rotating_friction(omega)
   net_torque = axle_torque + rotating_friction
@@ -62,5 +72,5 @@ num_ticks.times { |i|
   end
 }
 
-elapsed = Time.now - t
+elapsed += Time.now - t
 puts format("%.2f s (%d ticks / s)", elapsed, num_ticks / elapsed)
