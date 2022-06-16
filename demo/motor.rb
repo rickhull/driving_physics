@@ -26,8 +26,7 @@ status = :ignition
 rpm = 0
 
 (duration * env.hz + 1).times { |i|
-  # spin up the motor with starter_torque,
-  # then let it spin down under friction
+  # this is an input torque; alpha is determined after inertia and friction
   torque = case status
            when :ignition
              motor.starter_torque
@@ -37,6 +36,7 @@ rpm = 0
              0
            end
 
+  # Motor#alpha incorporates inertia and friction
   alpha = motor.alpha(torque: torque, omega: omega)
   omega += alpha * env.tick
   theta += omega * env.tick
@@ -66,6 +66,8 @@ rpm = 0
                 motor.spinner.rotating_friction(omega))
     puts format("%d rad  %.1f rad/s  %.1f rad/s/s", theta, omega, alpha)
     puts
+
+    CLI.pause if flag
     flag = false
   end
 }

@@ -86,7 +86,7 @@ module DrivingPhysics
     end
 
     def net_torque(rpm, alpha: 0)
-      self.torque(rpm) + resistance_torque(alpha, DrivingPhysics.omega(rpm))
+      torque(rpm) + resistance_torque(alpha, DrivingPhysics.omega(rpm))
     end
   end
 end
