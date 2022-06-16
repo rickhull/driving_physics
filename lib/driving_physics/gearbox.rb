@@ -17,26 +17,26 @@ module DrivingPhysics
     RATIOS = [1/5r, 2/5r, 5/9r, 5/7r, 1r, 5/4r]
     FINAL_DRIVE = 11/41r # 1/3.73
 
-    attr_accessor :gear, :ratios, :rear_end, :spinner, :fixed_mass
+    attr_accessor :gear, :ratios, :final_drive, :spinner, :fixed_mass
 
     def initialize(env)
       @ratios = RATIOS
-      @rear_end = REAR_END
+      @final_drive = FINAL_DRIVE
       @gear = 0 # neutral
 
       # represent all rotating mass
       @spinner = Disk.new(env) { |m|
-        m.mass = 15
         m.radius = 0.15
         m.base_friction = 5/1000r
         m.omega_friction = 5/10_000r
+        m.mass = 15
       }
       @fixed_mass = 30 # kg
 
       yield self if block_given?
     end
 
-    # given torque, determine crank alpha after inertia and friction
+    # given torque, apply friction, determine alpha
     def alpha(torque, omega: 0)
       @spinner.alpha(torque + @spinner.rotating_friction(omega))
     end
@@ -60,14 +60,19 @@ module DrivingPhysics
     def to_s
       [format("Ratios: %s", @ratios.inspect),
        format(" Final: %s  Mass: %.1f kg  Rotating: %.1f kg",
-              @rear_end.inspect, self.mass, @spinner.mass),
+              @final_drive.inspect, self.mass, @spinner.mass),
       ].join("\n")
     end
 
     def ratio(gear = nil)
       gear ||= @gear
       return 0 if gear == 0
-      @ratios.fetch(gear - 1) * @rear_end
+      @ratios.fetch(gear - 1) * @final_drive
+    end
+
+    def axle_torque(crank_torque)
+      raise(Disengaged, "Cannot determine axle omega") if @gear == 0
+      crank_torque / self.ratio
     end
 
     def axle_omega(crank_rpm)
