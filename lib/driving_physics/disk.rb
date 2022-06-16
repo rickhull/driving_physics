@@ -134,6 +134,10 @@ module DrivingPhysics
       torque / self.rotational_inertia
     end
 
+    def implied_torque(alpha)
+      alpha * self.rotational_inertia
+    end
+
     def mass
       self.class.mass(@radius, @width, @density)
     end
@@ -175,11 +179,6 @@ module DrivingPhysics
       sign = omega / mag
       -1 * sign * (normal_force || self.normal_force) *
        (@base_friction + @omega_friction * mag)
-    end
-
-    # how much torque to accelerate rotational inertia at alpha
-    def inertial_torque(alpha)
-      alpha * self.rotational_inertia
     end
   end
 end
