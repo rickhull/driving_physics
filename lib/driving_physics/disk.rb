@@ -3,24 +3,30 @@ require 'driving_physics/vector_force'
 
 module DrivingPhysics
   # radius is always in meters
+  # force in N
+  # torque in Nm
 
   # Rotational complements to acc/vel/pos
-  # alpha - angular acceleration
+  # alpha - angular acceleration (radians / s / s)
   # omega - angular velocity (radians / s)
   # theta - radians
 
+  # convert radians to revolutions; works for alpha/omega/theta
   def self.revs(rads)
     rads / (2 * Math::PI)
   end
 
+  # convert revs to rads; works for alpha/omega/theta
   def self.rads(revs)
     revs * 2 * Math::PI
   end
 
+  # convert rpm to omega (rads / s)
   def self.omega(rpm)
     self.rads(rpm / 60.0)
   end
 
+  # convert omega to RPM (revs per minute)
   def self.rpm(omega)
     self.revs(omega) * 60
   end
@@ -28,6 +34,7 @@ module DrivingPhysics
   class Disk
     DENSITY = 1.0 # kg / L
 
+    # torque = force * distance
     def self.force(axle_torque, radius)
       axle_torque / radius.to_f
     end
@@ -63,8 +70,14 @@ module DrivingPhysics
       torque / inertia
     end
 
+    # convert alpha/omega/theta to acc/vel/pos
     def self.tangential(rotational, radius)
       rotational * radius
+    end
+
+    # convert acc/vel/pos to alpha/omega/theta
+    def self.rotational(tangential, radius)
+      tangential.to_f / radius
     end
 
     # vectors only
