@@ -1,15 +1,26 @@
 require 'driving_physics/motor'
 require 'driving_physics/cli'
 
+# fun idea for a different demo: keep increasing torque until idle is
+# maintained
+
 include DrivingPhysics
 
 env = Environment.new
 motor = Motor.new(env)
-
-# fun idea for a different demo: keep increasing torque until idle is
-# maintained
-
+puts env
 puts motor
+
+puts "Rev it up!"
+800.upto(7000) { |rpm|
+  next unless rpm % 200 == 0
+  tq = motor.torque(rpm).to_f
+  puts format("%s RPM: %s Nm\t%s",
+              rpm.to_s.rjust(4, ' '),
+              tq.round(1).to_s.rjust(5, ' '),
+              '#' * (tq.to_f / 10).round)
+}
+
 puts
 puts "* Spin the motor up to #{motor.idle_rpm} RPM with the starter motor."
 puts "* Rev it up with the throttle."

@@ -5,21 +5,9 @@ include DrivingPhysics
 
 env = Environment.new
 motor = Motor.new(env)
-
-puts "Rev it up!"
-800.upto(7000) { |rpm|
-  next unless rpm % 200 == 0
-  tq = motor.torque(rpm).to_f
-  puts format("%s RPM: %s Nm\t%s",
-              rpm.to_s.rjust(4, ' '),
-              tq.round(1).to_s.rjust(5, ' '),
-              '#' * (tq.to_f / 10).round)
-}
-puts
-
 gearbox = Gearbox.new(env)
-
 pt = Powertrain.new(motor, gearbox)
+puts env
 puts pt
 
 # Run through the gears
