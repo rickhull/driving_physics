@@ -26,7 +26,7 @@ module DrivingPhysics
 
     # convert rpm to axle torque, taking motor and gearbox losses into account
     def axle_torque(rpm, crank_a: 0, crank_o: 0, axle_a: 0, axle_o: 0)
-      @motor.net_torque(rpm, alpha: crank_alpha) * @gearbox.ratio +
+      @motor.net_torque(rpm, alpha: crank_a) * @gearbox.ratio +
         @gearbox.resistance_torque(axle_a, axle_o)
     end
 
