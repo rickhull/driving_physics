@@ -11,9 +11,9 @@ motor = Motor.new(env)
 
 puts motor
 puts
-puts "Spin the motor up to #{motor.idle_rpm} RPM with the starter motor."
-puts "Then rev it up with the throttle."
-puts "Then let it die."
+puts "* Spin the motor up to #{motor.idle_rpm} RPM with the starter motor."
+puts "* Rev it up with the throttle."
+puts "* Let it die."
 CLI.pause
 
 alpha = 0.0
@@ -37,7 +37,7 @@ rpm = 0
            end
 
   # Motor#alpha incorporates inertia and friction
-  alpha = motor.alpha(torque: torque, omega: omega)
+  alpha = motor.alpha(torque, omega: omega)
   omega += alpha * env.tick
   theta += omega * env.tick
 

@@ -48,8 +48,7 @@ module DrivingPhysics
     end
 
     # given torque, determine crank alpha after inertia and friction
-    def alpha(torque: nil, omega: 0)
-      torque = @starter_torque if torque.nil?
+    def alpha(torque, omega: 0)
       @spinner.alpha(torque + @spinner.rotating_friction(omega))
     end
 
