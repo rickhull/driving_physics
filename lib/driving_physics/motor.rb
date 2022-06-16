@@ -6,7 +6,7 @@ module DrivingPhysics
     class OverRev < RuntimeError; end
     class SanityCheck < RuntimeError; end
 
-    TORQUES = [  0,   20,  100,  150,  200,  250,  240,  200,  150,    0]
+    TORQUES = [  0,   50,  130,  200,  250,  320,  320,  320,  260,    0]
     RPMS    = [500, 1000, 1500, 2000, 2500, 3500, 5000, 6000, 7000, 7100]
 
     attr_reader :env
@@ -25,7 +25,7 @@ module DrivingPhysics
         fly.radius =  0.25 # m
         fly.mass   = 75    # kg
         fly.base_friction  = 5/1000r
-        fly.omega_friction = 5/10_000r
+        fly.omega_friction = 2/10_000r
       }
       @starter_torque = 500  # Nm
       @idle_rpm       = 1000 # RPM
