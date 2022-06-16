@@ -26,6 +26,12 @@ module DrivingPhysics
       yield self if block_given?
     end
 
+    # given torque, determine crank alpha after inertia and friction
+    def alpha(torque, omega: 0)
+      @spinner.alpha(torque + @spinner.rotating_friction(omega))
+    end
+
+
     def resistance_torque(alpha, omega)
       -1 * @spinner.inertial_torque(alpha) +
         @spinner.rotating_friction(omega)
@@ -40,7 +46,10 @@ module DrivingPhysics
     end
 
     def to_s
-      "Gearbox: #{@ratios.inspect}"
+      [format("Ratios: %s", @ratios.inspect),
+       format(" Final: %s  Mass: %.1f kg  Rotating: %.1f kg",
+              @rear_end.inspect, self.mass, @spinner.mass),
+      ].join("\n")
     end
 
     def ratio(gear = nil)
