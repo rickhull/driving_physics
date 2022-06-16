@@ -43,6 +43,10 @@ module DrivingPhysics
       ary.join("\n")
     end
 
+    def rotational_inertia
+      @spinner.rotational_inertia
+    end
+
     def mass
       @spinner.mass + @fixed_mass
     end
@@ -52,16 +56,20 @@ module DrivingPhysics
       @spinner.alpha(torque + @spinner.rotating_friction(omega))
     end
 
+    def implied_torque(alpha)
+      @spinner.implied_torque(alpha)
+    end
+
     # How much torque is required to accelerate spinner up to alpha,
     # overcoming both inertia and friction
     # Presumably we have more input torque available, but this will be
     # used to do more work than just spinning up the motor
     #
-    def resistance_torque(alpha, omega)
-      # reverse sign on inertial_torque as it is not modeled as a resistance
-      -1 * @spinner.inertial_torque(alpha) +
-        @spinner.rotating_friction(omega)
-    end
+    #def resistance_torque(alpha, omega)
+    #  # reverse sign on inertial_torque as it is not modeled as a resistance
+    #  -1 * @spinner.inertial_torque(alpha) +
+    #    @spinner.rotating_friction(omega)
+    #end
 
     # interpolate based on torque curve points
     def torque(rpm)
