@@ -1,0 +1,536 @@
+Tick: 1000 Hz | G: 9.80 m/s^2 | Air: 25.0 C 1.29 kg/m^3 | Petrol: 0.71 kg/L
+350 mm x 200 mm (RxW) | 77.0 kg  1.00 kg/L
+
+Axle torque: 50.0 Nm
+      Alpha: 10.6 rad/s/s
+Drive force: 142.9 N
+
+* Spin up the disk with 50 Nm of torque
+* Cut the power at some point
+* Observe
+     [ Press Enter ]
+00:00:00.000
+ Torque: 50.0 Nm (50 Nm)  Friction: 0.0 Nm
+Radians: 0.0 r  0.01 r/s  10.606 r/s^2
+   Revs: 0 revs  0 revs/s  0 rpm
+
+00:00:00.001
+ Torque: 50.0 Nm (50 Nm)  Friction: -0.0 Nm
+Radians: 0.0 r  0.02 r/s  10.598 r/s^2
+   Revs: 0 revs  0 revs/s  0 rpm
+
+00:00:00.002
+ Torque: 50.0 Nm (50 Nm)  Friction: -0.0 Nm
+Radians: 0.0 r  0.03 r/s  10.598 r/s^2
+   Revs: 0 revs  0 revs/s  0 rpm
+
+00:00:00.003
+ Torque: 50.0 Nm (50 Nm)  Friction: -0.0 Nm
+Radians: 0.0 r  0.04 r/s  10.598 r/s^2
+   Revs: 0 revs  0 revs/s  0 rpm
+
+00:00:00.004
+ Torque: 50.0 Nm (50 Nm)  Friction: -0.0 Nm
+Radians: 0.0 r  0.05 r/s  10.598 r/s^2
+   Revs: 0 revs  0 revs/s  0 rpm
+
+00:00:00.005
+ Torque: 50.0 Nm (50 Nm)  Friction: -0.0 Nm
+Radians: 0.0 r  0.06 r/s  10.597 r/s^2
+   Revs: 0 revs  0 revs/s  0 rpm
+
+00:00:00.006
+ Torque: 50.0 Nm (50 Nm)  Friction: -0.0 Nm
+Radians: 0.0 r  0.07 r/s  10.597 r/s^2
+   Revs: 0 revs  0 revs/s  0 rpm
+
+00:00:00.007
+ Torque: 50.0 Nm (50 Nm)  Friction: -0.0 Nm
+Radians: 0.0 r  0.08 r/s  10.597 r/s^2
+   Revs: 0 revs  0 revs/s  0 rpm
+
+00:00:00.008
+ Torque: 50.0 Nm (50 Nm)  Friction: -0.0 Nm
+Radians: 0.0 r  0.10 r/s  10.597 r/s^2
+   Revs: 0 revs  0 revs/s  0 rpm
+
+00:00:00.009
+ Torque: 50.0 Nm (50 Nm)  Friction: -0.0 Nm
+Radians: 0.0 r  0.11 r/s  10.597 r/s^2
+   Revs: 0 revs  0 revs/s  1 rpm
+
+00:00:01.000
+ Torque: 49.6 Nm (50 Nm)  Friction: -0.4 Nm
+Radians: 5.3 r  10.57 r/s  10.513 r/s^2
+   Revs: 0 revs  1 revs/s  100 rpm
+
+00:00:02.000
+ Torque: 49.2 Nm (50 Nm)  Friction: -0.8 Nm
+Radians: 21.1 r  21.04 r/s  10.430 r/s^2
+   Revs: 3 revs  3 revs/s  200 rpm
+
+00:00:03.000
+ Torque: 48.8 Nm (50 Nm)  Friction: -1.2 Nm
+Radians: 47.4 r  31.43 r/s  10.347 r/s^2
+   Revs: 7 revs  5 revs/s  300 rpm
+
+00:00:04.000
+ Torque: 48.4 Nm (50 Nm)  Friction: -1.6 Nm
+Radians: 83.9 r  41.73 r/s  10.264 r/s^2
+   Revs: 13 revs  6 revs/s  398 rpm
+
+00:00:05.000
+ Torque: 48.0 Nm (50 Nm)  Friction: -2.0 Nm
+Radians: 130.8 r  51.95 r/s  10.182 r/s^2
+   Revs: 20 revs  8 revs/s  496 rpm
+
+00:00:06.000
+ Torque: 47.6 Nm (50 Nm)  Friction: -2.4 Nm
+Radians: 187.8 r  62.10 r/s  10.101 r/s^2
+   Revs: 29 revs  9 revs/s  592 rpm
+
+00:00:07.000
+ Torque: 47.2 Nm (50 Nm)  Friction: -2.8 Nm
+Radians: 255.0 r  72.16 r/s  10.021 r/s^2
+   Revs: 40 revs  11 revs/s  689 rpm
+
+00:00:08.000
+ Torque: 46.9 Nm (50 Nm)  Friction: -3.1 Nm
+Radians: 332.1 r  82.14 r/s  9.941 r/s^2
+   Revs: 52 revs  13 revs/s  784 rpm
+
+00:00:09.000
+ Torque: 46.5 Nm (50 Nm)  Friction: -3.5 Nm
+Radians: 419.2 r  92.04 r/s  9.862 r/s^2
+   Revs: 66 revs  14 revs/s  878 rpm
+
+00:00:10.000
+ Torque: 46.1 Nm (50 Nm)  Friction: -3.9 Nm
+Radians: 516.2 r  101.86 r/s  9.783 r/s^2
+   Revs: 82 revs  16 revs/s  972 rpm
+
+00:00:11.000
+ Torque: 45.8 Nm (50 Nm)  Friction: -4.2 Nm
+Radians: 622.9 r  111.60 r/s  9.705 r/s^2
+   Revs: 99 revs  17 revs/s  1065 rpm
+
+00:00:12.000
+ Torque: 45.4 Nm (50 Nm)  Friction: -4.6 Nm
+Radians: 739.4 r  121.27 r/s  9.628 r/s^2
+   Revs: 117 revs  19 revs/s  1158 rpm
+
+00:00:13.000
+ Torque: 45.0 Nm (50 Nm)  Friction: -5.0 Nm
+Radians: 865.5 r  130.86 r/s  9.551 r/s^2
+   Revs: 137 revs  20 revs/s  1249 rpm
+
+00:00:14.000
+ Torque: 44.7 Nm (50 Nm)  Friction: -5.3 Nm
+Radians: 1001.1 r  140.37 r/s  9.475 r/s^2
+   Revs: 159 revs  22 revs/s  1340 rpm
+
+00:00:15.000
+ Torque: 44.3 Nm (50 Nm)  Friction: -5.7 Nm
+Radians: 1146.2 r  149.81 r/s  9.399 r/s^2
+   Revs: 182 revs  23 revs/s  1430 rpm
+
+00:00:16.000
+ Torque: 44.0 Nm (50 Nm)  Friction: -6.0 Nm
+Radians: 1300.7 r  159.17 r/s  9.325 r/s^2
+   Revs: 207 revs  25 revs/s  1519 rpm
+
+00:00:17.000
+ Torque: 43.6 Nm (50 Nm)  Friction: -6.4 Nm
+Radians: 1464.5 r  168.46 r/s  9.250 r/s^2
+   Revs: 233 revs  26 revs/s  1608 rpm
+
+00:00:18.000
+ Torque: 43.3 Nm (50 Nm)  Friction: -6.7 Nm
+Radians: 1637.6 r  177.67 r/s  9.177 r/s^2
+   Revs: 260 revs  28 revs/s  1696 rpm
+
+
+     ### CUT POWER ###
+
+00:00:19.000
+ Torque: -7.1 Nm (0 Nm)  Friction: -7.1 Nm
+Radians: 1819.9 r  186.80 r/s  -1.502 r/s^2
+   Revs: 289 revs  29 revs/s  1783 rpm
+
+     [ Press Enter ]
+00:00:20.000
+ Torque: -7.0 Nm (0 Nm)  Friction: -7.0 Nm
+Radians: 2005.9 r  185.31 r/s  -1.490 r/s^2
+   Revs: 319 revs  29 revs/s  1769 rpm
+
+00:00:30.000
+ Torque: -6.5 Nm (0 Nm)  Friction: -6.5 Nm
+Radians: 3786.4 r  170.98 r/s  -1.376 r/s^2
+   Revs: 602 revs  27 revs/s  1632 rpm
+
+00:00:40.000
+ Torque: -6.0 Nm (0 Nm)  Friction: -6.0 Nm
+Radians: 5429.2 r  157.76 r/s  -1.270 r/s^2
+   Revs: 864 revs  25 revs/s  1506 rpm
+
+00:00:50.000
+ Torque: -5.5 Nm (0 Nm)  Friction: -5.5 Nm
+Radians: 6945.0 r  145.55 r/s  -1.172 r/s^2
+   Revs: 1105 revs  23 revs/s  1389 rpm
+
+00:01:00.000
+ Torque: -5.1 Nm (0 Nm)  Friction: -5.1 Nm
+Radians: 8343.4 r  134.29 r/s  -1.082 r/s^2
+   Revs: 1327 revs  21 revs/s  1282 rpm
+
+00:01:10.000
+ Torque: -4.7 Nm (0 Nm)  Friction: -4.7 Nm
+Radians: 9633.6 r  123.88 r/s  -0.999 r/s^2
+   Revs: 1533 revs  19 revs/s  1183 rpm
+
+00:01:20.000
+ Torque: -4.3 Nm (0 Nm)  Friction: -4.3 Nm
+Radians: 10823.8 r  114.28 r/s  -0.922 r/s^2
+   Revs: 1722 revs  18 revs/s  1091 rpm
+
+00:01:30.000
+ Torque: -4.0 Nm (0 Nm)  Friction: -4.0 Nm
+Radians: 11921.7 r  105.42 r/s  -0.851 r/s^2
+   Revs: 1897 revs  16 revs/s  1006 rpm
+
+00:01:40.000
+ Torque: -3.7 Nm (0 Nm)  Friction: -3.7 Nm
+Radians: 12934.4 r  97.24 r/s  -0.786 r/s^2
+   Revs: 2058 revs  15 revs/s  928 rpm
+
+00:01:50.000
+ Torque: -3.4 Nm (0 Nm)  Friction: -3.4 Nm
+Radians: 13868.5 r  89.68 r/s  -0.725 r/s^2
+   Revs: 2207 revs  14 revs/s  856 rpm
+
+00:02:00.000
+ Torque: -3.2 Nm (0 Nm)  Friction: -3.2 Nm
+Radians: 14730.0 r  82.71 r/s  -0.670 r/s^2
+   Revs: 2344 revs  13 revs/s  789 rpm
+
+00:02:10.000
+ Torque: -2.9 Nm (0 Nm)  Friction: -2.9 Nm
+Radians: 15524.6 r  76.28 r/s  -0.618 r/s^2
+   Revs: 2470 revs  12 revs/s  728 rpm
+
+00:02:20.000
+ Torque: -2.7 Nm (0 Nm)  Friction: -2.7 Nm
+Radians: 16257.2 r  70.34 r/s  -0.571 r/s^2
+   Revs: 2587 revs  11 revs/s  671 rpm
+
+00:02:30.000
+ Torque: -2.5 Nm (0 Nm)  Friction: -2.5 Nm
+Radians: 16932.8 r  64.85 r/s  -0.527 r/s^2
+   Revs: 2694 revs  10 revs/s  619 rpm
+
+00:02:40.000
+ Torque: -2.3 Nm (0 Nm)  Friction: -2.3 Nm
+Radians: 17555.6 r  59.79 r/s  -0.486 r/s^2
+   Revs: 2794 revs  9 revs/s  570 rpm
+
+00:02:50.000
+ Torque: -2.1 Nm (0 Nm)  Friction: -2.1 Nm
+Radians: 18129.8 r  55.11 r/s  -0.449 r/s^2
+   Revs: 2885 revs  8 revs/s  526 rpm
+
+00:03:00.000
+ Torque: -2.0 Nm (0 Nm)  Friction: -2.0 Nm
+Radians: 18659.1 r  50.80 r/s  -0.414 r/s^2
+   Revs: 2969 revs  8 revs/s  485 rpm
+
+00:03:10.000
+ Torque: -1.8 Nm (0 Nm)  Friction: -1.8 Nm
+Radians: 19146.9 r  46.82 r/s  -0.383 r/s^2
+   Revs: 3047 revs  7 revs/s  447 rpm
+
+00:03:20.000
+ Torque: -1.7 Nm (0 Nm)  Friction: -1.7 Nm
+Radians: 19596.5 r  43.14 r/s  -0.353 r/s^2
+   Revs: 3118 revs  6 revs/s  411 rpm
+
+00:03:30.000
+ Torque: -1.5 Nm (0 Nm)  Friction: -1.5 Nm
+Radians: 20010.7 r  39.75 r/s  -0.326 r/s^2
+   Revs: 3184 revs  6 revs/s  379 rpm
+
+00:03:40.000
+ Torque: -1.4 Nm (0 Nm)  Friction: -1.4 Nm
+Radians: 20392.3 r  36.61 r/s  -0.301 r/s^2
+   Revs: 3245 revs  5 revs/s  349 rpm
+
+00:03:50.000
+ Torque: -1.3 Nm (0 Nm)  Friction: -1.3 Nm
+Radians: 20743.8 r  33.72 r/s  -0.278 r/s^2
+   Revs: 3301 revs  5 revs/s  322 rpm
+
+00:04:00.000
+ Torque: -1.2 Nm (0 Nm)  Friction: -1.2 Nm
+Radians: 21067.5 r  31.05 r/s  -0.256 r/s^2
+   Revs: 3352 revs  4 revs/s  296 rpm
+
+00:04:10.000
+ Torque: -1.1 Nm (0 Nm)  Friction: -1.1 Nm
+Radians: 21365.5 r  28.59 r/s  -0.237 r/s^2
+   Revs: 3400 revs  4 revs/s  273 rpm
+
+00:04:20.000
+ Torque: -1.0 Nm (0 Nm)  Friction: -1.0 Nm
+Radians: 21639.9 r  26.31 r/s  -0.219 r/s^2
+   Revs: 3444 revs  4 revs/s  251 rpm
+
+00:04:30.000
+ Torque: -1.0 Nm (0 Nm)  Friction: -1.0 Nm
+Radians: 21892.4 r  24.21 r/s  -0.202 r/s^2
+   Revs: 3484 revs  3 revs/s  231 rpm
+
+00:04:40.000
+ Torque: -0.9 Nm (0 Nm)  Friction: -0.9 Nm
+Radians: 22124.7 r  22.28 r/s  -0.186 r/s^2
+   Revs: 3521 revs  3 revs/s  212 rpm
+
+00:04:50.000
+ Torque: -0.8 Nm (0 Nm)  Friction: -0.8 Nm
+Radians: 22338.4 r  20.49 r/s  -0.172 r/s^2
+   Revs: 3555 revs  3 revs/s  195 rpm
+
+00:05:00.000
+ Torque: -0.7 Nm (0 Nm)  Friction: -0.7 Nm
+Radians: 22534.8 r  18.83 r/s  -0.159 r/s^2
+   Revs: 3586 revs  2 revs/s  179 rpm
+
+00:05:10.000
+ Torque: -0.7 Nm (0 Nm)  Friction: -0.7 Nm
+Radians: 22715.5 r  17.31 r/s  -0.146 r/s^2
+   Revs: 3615 revs  2 revs/s  165 rpm
+
+00:05:20.000
+ Torque: -0.6 Nm (0 Nm)  Friction: -0.6 Nm
+Radians: 22881.4 r  15.90 r/s  -0.135 r/s^2
+   Revs: 3641 revs  2 revs/s  151 rpm
+
+00:05:30.000
+ Torque: -0.6 Nm (0 Nm)  Friction: -0.6 Nm
+Radians: 23033.8 r  14.60 r/s  -0.125 r/s^2
+   Revs: 3665 revs  2 revs/s  139 rpm
+
+00:05:40.000
+ Torque: -0.5 Nm (0 Nm)  Friction: -0.5 Nm
+Radians: 23173.8 r  13.40 r/s  -0.115 r/s^2
+   Revs: 3688 revs  2 revs/s  127 rpm
+
+00:05:50.000
+ Torque: -0.5 Nm (0 Nm)  Friction: -0.5 Nm
+Radians: 23302.2 r  12.29 r/s  -0.106 r/s^2
+   Revs: 3708 revs  1 revs/s  117 rpm
+
+00:06:00.000
+ Torque: -0.5 Nm (0 Nm)  Friction: -0.5 Nm
+Radians: 23420.0 r  11.27 r/s  -0.098 r/s^2
+   Revs: 3727 revs  1 revs/s  107 rpm
+
+00:06:10.000
+ Torque: -0.4 Nm (0 Nm)  Friction: -0.4 Nm
+Radians: 23527.9 r  10.33 r/s  -0.091 r/s^2
+   Revs: 3744 revs  1 revs/s  98 rpm
+
+00:06:20.000
+ Torque: -0.4 Nm (0 Nm)  Friction: -0.4 Nm
+Radians: 23626.8 r  9.46 r/s  -0.084 r/s^2
+   Revs: 3760 revs  1 revs/s  90 rpm
+
+00:06:30.000
+ Torque: -0.4 Nm (0 Nm)  Friction: -0.4 Nm
+Radians: 23717.3 r  8.65 r/s  -0.077 r/s^2
+   Revs: 3774 revs  1 revs/s  82 rpm
+
+00:06:40.000
+ Torque: -0.3 Nm (0 Nm)  Friction: -0.3 Nm
+Radians: 23800.1 r  7.91 r/s  -0.071 r/s^2
+   Revs: 3787 revs  1 revs/s  75 rpm
+
+00:06:50.000
+ Torque: -0.3 Nm (0 Nm)  Friction: -0.3 Nm
+Radians: 23875.7 r  7.23 r/s  -0.066 r/s^2
+   Revs: 3799 revs  1 revs/s  69 rpm
+
+00:07:00.000
+ Torque: -0.3 Nm (0 Nm)  Friction: -0.3 Nm
+Radians: 23944.8 r  6.59 r/s  -0.061 r/s^2
+   Revs: 3810 revs  1 revs/s  62 rpm
+
+00:07:10.000
+ Torque: -0.3 Nm (0 Nm)  Friction: -0.3 Nm
+Radians: 24007.8 r  6.01 r/s  -0.056 r/s^2
+   Revs: 3820 revs  0 revs/s  57 rpm
+
+00:07:20.000
+ Torque: -0.2 Nm (0 Nm)  Friction: -0.2 Nm
+Radians: 24065.1 r  5.47 r/s  -0.052 r/s^2
+   Revs: 3830 revs  0 revs/s  52 rpm
+
+00:07:30.000
+ Torque: -0.2 Nm (0 Nm)  Friction: -0.2 Nm
+Radians: 24117.3 r  4.97 r/s  -0.048 r/s^2
+   Revs: 3838 revs  0 revs/s  47 rpm
+
+00:07:40.000
+ Torque: -0.2 Nm (0 Nm)  Friction: -0.2 Nm
+Radians: 24164.7 r  4.51 r/s  -0.044 r/s^2
+   Revs: 3845 revs  0 revs/s  43 rpm
+
+00:07:50.000
+ Torque: -0.2 Nm (0 Nm)  Friction: -0.2 Nm
+Radians: 24207.7 r  4.09 r/s  -0.041 r/s^2
+   Revs: 3852 revs  0 revs/s  39 rpm
+
+00:08:00.000
+ Torque: -0.2 Nm (0 Nm)  Friction: -0.2 Nm
+Radians: 24246.6 r  3.70 r/s  -0.038 r/s^2
+   Revs: 3858 revs  0 revs/s  35 rpm
+
+00:08:10.000
+ Torque: -0.2 Nm (0 Nm)  Friction: -0.2 Nm
+Radians: 24281.8 r  3.34 r/s  -0.035 r/s^2
+   Revs: 3864 revs  0 revs/s  31 rpm
+
+00:08:20.000
+ Torque: -0.2 Nm (0 Nm)  Friction: -0.2 Nm
+Radians: 24313.5 r  3.00 r/s  -0.032 r/s^2
+   Revs: 3869 revs  0 revs/s  28 rpm
+
+00:08:30.000
+ Torque: -0.1 Nm (0 Nm)  Friction: -0.1 Nm
+Radians: 24342.0 r  2.70 r/s  -0.030 r/s^2
+   Revs: 3874 revs  0 revs/s  25 rpm
+
+00:08:40.000
+ Torque: -0.1 Nm (0 Nm)  Friction: -0.1 Nm
+Radians: 24367.5 r  2.41 r/s  -0.027 r/s^2
+   Revs: 3878 revs  0 revs/s  23 rpm
+
+00:08:50.000
+ Torque: -0.1 Nm (0 Nm)  Friction: -0.1 Nm
+Radians: 24390.3 r  2.15 r/s  -0.025 r/s^2
+   Revs: 3881 revs  0 revs/s  20 rpm
+
+00:09:00.000
+ Torque: -0.1 Nm (0 Nm)  Friction: -0.1 Nm
+Radians: 24410.6 r  1.91 r/s  -0.023 r/s^2
+   Revs: 3885 revs  0 revs/s  18 rpm
+
+00:09:10.000
+ Torque: -0.1 Nm (0 Nm)  Friction: -0.1 Nm
+Radians: 24428.5 r  1.68 r/s  -0.021 r/s^2
+   Revs: 3887 revs  0 revs/s  16 rpm
+
+00:09:20.000
+ Torque: -0.1 Nm (0 Nm)  Friction: -0.1 Nm
+Radians: 24444.3 r  1.48 r/s  -0.020 r/s^2
+   Revs: 3890 revs  0 revs/s  14 rpm
+
+00:09:30.000
+ Torque: -0.1 Nm (0 Nm)  Friction: -0.1 Nm
+Radians: 24458.1 r  1.29 r/s  -0.018 r/s^2
+   Revs: 3892 revs  0 revs/s  12 rpm
+
+00:09:40.000
+ Torque: -0.1 Nm (0 Nm)  Friction: -0.1 Nm
+Radians: 24470.1 r  1.11 r/s  -0.017 r/s^2
+   Revs: 3894 revs  0 revs/s  10 rpm
+
+00:09:50.000
+ Torque: -0.1 Nm (0 Nm)  Friction: -0.1 Nm
+Radians: 24480.4 r  0.95 r/s  -0.016 r/s^2
+   Revs: 3896 revs  0 revs/s  9 rpm
+
+00:10:00.000
+ Torque: -0.1 Nm (0 Nm)  Friction: -0.1 Nm
+Radians: 24489.1 r  0.80 r/s  -0.014 r/s^2
+   Revs: 3897 revs  0 revs/s  7 rpm
+
+00:10:10.000
+ Torque: -0.1 Nm (0 Nm)  Friction: -0.1 Nm
+Radians: 24496.4 r  0.66 r/s  -0.013 r/s^2
+   Revs: 3898 revs  0 revs/s  6 rpm
+
+00:10:20.000
+ Torque: -0.1 Nm (0 Nm)  Friction: -0.1 Nm
+Radians: 24502.4 r  0.53 r/s  -0.012 r/s^2
+   Revs: 3899 revs  0 revs/s  5 rpm
+
+00:10:30.000
+ Torque: -0.1 Nm (0 Nm)  Friction: -0.1 Nm
+Radians: 24507.1 r  0.42 r/s  -0.011 r/s^2
+   Revs: 3900 revs  0 revs/s  3 rpm
+
+00:10:40.000
+ Torque: -0.0 Nm (0 Nm)  Friction: -0.0 Nm
+Radians: 24510.7 r  0.31 r/s  -0.010 r/s^2
+   Revs: 3901 revs  0 revs/s  2 rpm
+
+00:10:50.000
+ Torque: -0.0 Nm (0 Nm)  Friction: -0.0 Nm
+Radians: 24513.3 r  0.21 r/s  -0.010 r/s^2
+   Revs: 3901 revs  0 revs/s  1 rpm
+
+00:11:00.000
+ Torque: -0.0 Nm (0 Nm)  Friction: -0.0 Nm
+Radians: 24514.9 r  0.11 r/s  -0.009 r/s^2
+   Revs: 3901 revs  0 revs/s  1 rpm
+
+00:11:10.000
+ Torque: -0.0 Nm (0 Nm)  Friction: -0.0 Nm
+Radians: 24515.6 r  0.03 r/s  -0.008 r/s^2
+   Revs: 3901 revs  0 revs/s  0 rpm
+
+00:11:20.000
+ Torque: 0.0 Nm (0 Nm)  Friction: 0.0 Nm
+Radians: 24515.6 r  0.00 r/s  0.000 r/s^2
+   Revs: 3901 revs  0 revs/s  0 rpm
+
+00:11:30.000
+ Torque: 0.0 Nm (0 Nm)  Friction: 0.0 Nm
+Radians: 24515.6 r  0.00 r/s  0.000 r/s^2
+   Revs: 3901 revs  0 revs/s  0 rpm
+
+00:11:40.000
+ Torque: 0.0 Nm (0 Nm)  Friction: 0.0 Nm
+Radians: 24515.6 r  0.00 r/s  0.000 r/s^2
+   Revs: 3901 revs  0 revs/s  0 rpm
+
+00:11:50.000
+ Torque: 0.0 Nm (0 Nm)  Friction: 0.0 Nm
+Radians: 24515.6 r  0.00 r/s  0.000 r/s^2
+   Revs: 3901 revs  0 revs/s  0 rpm
+
+00:12:00.000
+ Torque: 0.0 Nm (0 Nm)  Friction: 0.0 Nm
+Radians: 24515.6 r  0.00 r/s  0.000 r/s^2
+   Revs: 3901 revs  0 revs/s  0 rpm
+
+00:12:10.000
+ Torque: 0.0 Nm (0 Nm)  Friction: 0.0 Nm
+Radians: 24515.6 r  0.00 r/s  0.000 r/s^2
+   Revs: 3901 revs  0 revs/s  0 rpm
+
+00:12:20.000
+ Torque: 0.0 Nm (0 Nm)  Friction: 0.0 Nm
+Radians: 24515.6 r  0.00 r/s  0.000 r/s^2
+   Revs: 3901 revs  0 revs/s  0 rpm
+
+00:12:29.999
+ Torque: 0.0 Nm (0 Nm)  Friction: 0.0 Nm
+Radians: 24515.6 r  0.00 r/s  0.000 r/s^2
+   Revs: 3901 revs  0 revs/s  0 rpm
+
+00:12:30.000
+ Torque: 0.0 Nm (0 Nm)  Friction: 0.0 Nm
+Radians: 24515.6 r  0.00 r/s  0.000 r/s^2
+   Revs: 3901 revs  0 revs/s  0 rpm
+
+1.72 s (435745 ticks / s)
