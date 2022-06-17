@@ -1,0 +1,213 @@
+Tick: 1000 Hz | G: 9.80 m/s^2 | Air: 25.0 C 1.29 kg/m^3 | Petrol: 0.71 kg/L
+350 mm x 200 mm (RxW) | 25.0 kg  25.0 C | cF: 1.1 / 0.7
+Given:
+* 1000 Nm axle torque
+* 1000 kg supported mass
+* 4 tires
+* 100 seconds
+
+Therefore:
+* 1100.1 kg total mass
+* 275.0 kg per corner
+* 2695.1 N normal force
+
+Tires:
+* 2964.7 N traction
+* 2857.1 N drive force
+     [ Press Enter ]
+00:00:00.000
+  Tire: 0.0 r  0.01 r/s  8.071 r/s^2
+   Car: 0.0 m  0.00 m/s  2.825 m/s^2  (0 mph)
+Torque: 988.8 Nm (2825 N)  Loss: 1.1%
+
+00:00:00.001
+  Tire: 0.0 r  0.02 r/s  7.984 r/s^2
+   Car: 0.0 m  0.01 m/s  2.795 m/s^2  (0 mph)
+Torque: 978.1 Nm (2794 N)  Loss: 2.2%
+
+00:00:00.002
+  Tire: 0.0 r  0.02 r/s  7.984 r/s^2
+   Car: 0.0 m  0.01 m/s  2.795 m/s^2  (0 mph)
+Torque: 978.1 Nm (2794 N)  Loss: 2.2%
+
+00:00:00.003
+  Tire: 0.0 r  0.03 r/s  7.984 r/s^2
+   Car: 0.0 m  0.01 m/s  2.795 m/s^2  (0 mph)
+Torque: 978.1 Nm (2794 N)  Loss: 2.2%
+
+00:00:00.004
+  Tire: 0.0 r  0.04 r/s  7.984 r/s^2
+   Car: 0.0 m  0.01 m/s  2.795 m/s^2  (0 mph)
+Torque: 978.1 Nm (2794 N)  Loss: 2.2%
+
+00:00:00.005
+  Tire: 0.0 r  0.05 r/s  7.984 r/s^2
+   Car: 0.0 m  0.02 m/s  2.795 m/s^2  (0 mph)
+Torque: 978.1 Nm (2794 N)  Loss: 2.2%
+
+00:00:00.006
+  Tire: 0.0 r  0.06 r/s  7.984 r/s^2
+   Car: 0.0 m  0.02 m/s  2.795 m/s^2  (0 mph)
+Torque: 978.1 Nm (2794 N)  Loss: 2.2%
+
+00:00:00.007
+  Tire: 0.0 r  0.06 r/s  7.984 r/s^2
+   Car: 0.0 m  0.02 m/s  2.795 m/s^2  (0 mph)
+Torque: 978.1 Nm (2794 N)  Loss: 2.2%
+
+00:00:00.008
+  Tire: 0.0 r  0.07 r/s  7.984 r/s^2
+   Car: 0.0 m  0.03 m/s  2.795 m/s^2  (0 mph)
+Torque: 978.1 Nm (2794 N)  Loss: 2.2%
+
+00:00:00.009
+  Tire: 0.0 r  0.08 r/s  7.984 r/s^2
+   Car: 0.0 m  0.03 m/s  2.795 m/s^2  (0 mph)
+Torque: 978.1 Nm (2794 N)  Loss: 2.2%
+
+00:00:01.000
+  Tire: 4.0 r  7.99 r/s  7.976 r/s^2
+   Car: 1.4 m  2.80 m/s  2.792 m/s^2  (6 mph)
+Torque: 977.0 Nm (2791 N)  Loss: 2.3%
+
+00:00:02.000
+  Tire: 16.0 r  15.96 r/s  7.967 r/s^2
+   Car: 5.6 m  5.59 m/s  2.788 m/s^2  (12 mph)
+Torque: 976.0 Nm (2788 N)  Loss: 2.4%
+
+00:00:03.000
+  Tire: 35.9 r  23.92 r/s  7.958 r/s^2
+   Car: 12.6 m  8.37 m/s  2.785 m/s^2  (18 mph)
+Torque: 974.9 Nm (2785 N)  Loss: 2.5%
+
+00:00:04.000
+  Tire: 63.8 r  31.88 r/s  7.950 r/s^2
+   Car: 22.3 m  11.16 m/s  2.782 m/s^2  (24 mph)
+Torque: 973.9 Nm (2782 N)  Loss: 2.6%
+
+00:00:05.000
+  Tire: 99.7 r  39.82 r/s  7.941 r/s^2
+   Car: 34.9 m  13.94 m/s  2.779 m/s^2  (31 mph)
+Torque: 972.8 Nm (2779 N)  Loss: 2.7%
+
+00:00:06.000
+  Tire: 143.5 r  47.76 r/s  7.933 r/s^2
+   Car: 50.2 m  16.72 m/s  2.776 m/s^2  (37 mph)
+Torque: 971.7 Nm (2776 N)  Loss: 2.8%
+
+00:00:07.000
+  Tire: 195.2 r  55.69 r/s  7.924 r/s^2
+   Car: 68.3 m  19.49 m/s  2.773 m/s^2  (43 mph)
+Torque: 970.7 Nm (2773 N)  Loss: 2.9%
+
+00:00:08.000
+  Tire: 254.9 r  63.61 r/s  7.915 r/s^2
+   Car: 89.2 m  22.26 m/s  2.770 m/s^2  (49 mph)
+Torque: 969.6 Nm (2770 N)  Loss: 3.0%
+
+00:00:09.000
+  Tire: 322.4 r  71.52 r/s  7.907 r/s^2
+   Car: 112.8 m  25.03 m/s  2.767 m/s^2  (55 mph)
+Torque: 968.6 Nm (2767 N)  Loss: 3.1%
+
+00:00:10.000
+  Tire: 397.9 r  79.42 r/s  7.898 r/s^2
+   Car: 139.3 m  27.80 m/s  2.764 m/s^2  (62 mph)
+Torque: 967.5 Nm (2764 N)  Loss: 3.2%
+
+00:00:11.000
+  Tire: 481.3 r  87.31 r/s  7.890 r/s^2
+   Car: 168.4 m  30.56 m/s  2.761 m/s^2  (68 mph)
+Torque: 966.5 Nm (2761 N)  Loss: 3.4%
+
+00:00:12.000
+  Tire: 572.5 r  95.20 r/s  7.881 r/s^2
+   Car: 200.4 m  33.32 m/s  2.758 m/s^2  (74 mph)
+Torque: 965.4 Nm (2758 N)  Loss: 3.5%
+
+00:00:13.000
+  Tire: 671.7 r  103.08 r/s  7.872 r/s^2
+   Car: 235.1 m  36.08 m/s  2.755 m/s^2  (80 mph)
+Torque: 964.4 Nm (2755 N)  Loss: 3.6%
+
+00:00:14.000
+  Tire: 778.7 r  110.94 r/s  7.864 r/s^2
+   Car: 272.5 m  38.83 m/s  2.752 m/s^2  (86 mph)
+Torque: 963.3 Nm (2752 N)  Loss: 3.7%
+
+00:00:15.000
+  Tire: 893.6 r  118.80 r/s  7.855 r/s^2
+   Car: 312.7 m  41.58 m/s  2.749 m/s^2  (93 mph)
+Torque: 962.3 Nm (2749 N)  Loss: 3.8%
+
+00:00:16.000
+  Tire: 1016.3 r  126.65 r/s  7.847 r/s^2
+   Car: 355.7 m  44.33 m/s  2.746 m/s^2  (99 mph)
+Torque: 961.2 Nm (2746 N)  Loss: 3.9%
+
+00:00:17.000
+  Tire: 1146.9 r  134.50 r/s  7.838 r/s^2
+   Car: 401.4 m  47.07 m/s  2.743 m/s^2  (105 mph)
+Torque: 960.2 Nm (2743 N)  Loss: 4.0%
+
+00:00:18.000
+  Tire: 1285.3 r  142.33 r/s  7.830 r/s^2
+   Car: 449.9 m  49.82 m/s  2.740 m/s^2  (111 mph)
+Torque: 959.1 Nm (2740 N)  Loss: 4.1%
+
+00:00:19.000
+  Tire: 1431.5 r  150.16 r/s  7.821 r/s^2
+   Car: 501.0 m  52.55 m/s  2.737 m/s^2  (117 mph)
+Torque: 958.1 Nm (2737 N)  Loss: 4.2%
+
+00:00:20.000
+  Tire: 1585.6 r  157.97 r/s  7.813 r/s^2
+   Car: 555.0 m  55.29 m/s  2.734 m/s^2  (123 mph)
+Torque: 957.1 Nm (2734 N)  Loss: 4.3%
+
+00:00:30.000
+  Tire: 3554.6 r  235.68 r/s  7.728 r/s^2
+   Car: 1244.1 m  82.49 m/s  2.705 m/s^2  (184 mph)
+Torque: 946.7 Nm (2704 N)  Loss: 5.3%
+
+00:00:40.000
+  Tire: 6296.4 r  312.54 r/s  7.645 r/s^2
+   Car: 2203.7 m  109.39 m/s  2.676 m/s^2  (244 mph)
+Torque: 936.5 Nm (2675 N)  Loss: 6.4%
+
+00:00:50.000
+  Tire: 9802.7 r  388.57 r/s  7.562 r/s^2
+   Car: 3430.9 m  136.00 m/s  2.647 m/s^2  (304 mph)
+Torque: 926.3 Nm (2646 N)  Loss: 7.4%
+
+00:01:00.000
+  Tire: 14065.2 r  463.78 r/s  7.480 r/s^2
+   Car: 4922.8 m  162.32 m/s  2.618 m/s^2  (363 mph)
+Torque: 916.3 Nm (2618 N)  Loss: 8.4%
+
+00:01:10.000
+  Tire: 19075.6 r  538.17 r/s  7.399 r/s^2
+   Car: 6676.5 m  188.36 m/s  2.590 m/s^2  (421 mph)
+Torque: 906.4 Nm (2589 N)  Loss: 9.4%
+
+00:01:20.000
+  Tire: 24826.0 r  611.76 r/s  7.319 r/s^2
+   Car: 8689.1 m  214.12 m/s  2.562 m/s^2  (478 mph)
+Torque: 896.6 Nm (2561 N)  Loss: 10.3%
+
+00:01:30.000
+  Tire: 31308.3 r  684.56 r/s  7.240 r/s^2
+   Car: 10957.9 m  239.60 m/s  2.534 m/s^2  (535 mph)
+Torque: 886.9 Nm (2533 N)  Loss: 11.3%
+
+00:01:39.999
+  Tire: 38513.9 r  756.56 r/s  7.162 r/s^2
+   Car: 13479.9 m  264.80 m/s  2.507 m/s^2  (592 mph)
+Torque: 877.3 Nm (2506 N)  Loss: 12.3%
+
+00:01:40.000
+  Tire: 38514.6 r  756.56 r/s  7.162 r/s^2
+   Car: 13480.1 m  264.80 m/s  2.507 m/s^2  (592 mph)
+Torque: 877.3 Nm (2506 N)  Loss: 12.3%
+
+1.21 s (82338 ticks / s)

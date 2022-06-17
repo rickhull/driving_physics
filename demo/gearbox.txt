@@ -1,0 +1,239 @@
+Tick: 1000 Hz | G: 9.80 m/s^2 | Air: 25.0 C 1.29 kg/m^3 | Petrol: 0.71 kg/L
+Ratios: [(1/5), (2/5), (5/9), (5/7), (1/1), (5/4)]
+ Final: (11/41)  Mass: 45.0 kg  Rotating: 15.0 kg
+
+Spin up the gearbox with 30 Nm of input torque
+How fast will it go in 30 seconds?
+     [ Press Enter ]
+00:00:00.000
+RPM 1  Torque: 30.000 Nm (30 Nm) Friction: 0.000 Nm
+0.0 rad  0.2 rad/s  177.8 rad/s/s
+
+00:00:00.001
+RPM 3  Torque: 29.261 Nm (30 Nm) Friction: -0.739 Nm
+0.0 rad  0.4 rad/s  173.4 rad/s/s
+
+00:00:00.002
+RPM 5  Torque: 29.257 Nm (30 Nm) Friction: -0.743 Nm
+0.0 rad  0.5 rad/s  173.4 rad/s/s
+
+00:00:00.003
+RPM 6  Torque: 29.253 Nm (30 Nm) Friction: -0.747 Nm
+0.0 rad  0.7 rad/s  173.4 rad/s/s
+
+00:00:00.004
+RPM 8  Torque: 29.250 Nm (30 Nm) Friction: -0.750 Nm
+0.0 rad  0.9 rad/s  173.3 rad/s/s
+
+00:00:00.005
+RPM 9  Torque: 29.246 Nm (30 Nm) Friction: -0.754 Nm
+0.0 rad  1.0 rad/s  173.3 rad/s/s
+
+00:00:00.006
+RPM 11  Torque: 29.242 Nm (30 Nm) Friction: -0.758 Nm
+0.0 rad  1.2 rad/s  173.3 rad/s/s
+
+00:00:00.007
+RPM 13  Torque: 29.238 Nm (30 Nm) Friction: -0.762 Nm
+0.0 rad  1.4 rad/s  173.3 rad/s/s
+
+00:00:00.008
+RPM 14  Torque: 29.234 Nm (30 Nm) Friction: -0.766 Nm
+0.0 rad  1.6 rad/s  173.2 rad/s/s
+
+00:00:00.009
+RPM 16  Torque: 29.231 Nm (30 Nm) Friction: -0.769 Nm
+0.0 rad  1.7 rad/s  173.2 rad/s/s
+
+00:00:00.010
+RPM 18  Torque: 29.227 Nm (30 Nm) Friction: -0.773 Nm
+0.0 rad  1.9 rad/s  173.2 rad/s/s
+
+00:00:00.020
+RPM 34  Torque: 29.189 Nm (30 Nm) Friction: -0.811 Nm
+0.0 rad  3.6 rad/s  173.0 rad/s/s
+
+00:00:00.030
+RPM 51  Torque: 29.150 Nm (30 Nm) Friction: -0.850 Nm
+0.1 rad  5.4 rad/s  172.7 rad/s/s
+
+00:00:00.040
+RPM 67  Torque: 29.112 Nm (30 Nm) Friction: -0.888 Nm
+0.1 rad  7.1 rad/s  172.5 rad/s/s
+
+00:00:00.050
+RPM 84  Torque: 29.074 Nm (30 Nm) Friction: -0.926 Nm
+0.2 rad  8.8 rad/s  172.3 rad/s/s
+
+00:00:00.060
+RPM 100  Torque: 29.036 Nm (30 Nm) Friction: -0.964 Nm
+0.3 rad  10.5 rad/s  172.1 rad/s/s
+
+00:00:00.070
+RPM 117  Torque: 28.998 Nm (30 Nm) Friction: -1.002 Nm
+0.4 rad  12.3 rad/s  171.8 rad/s/s
+
+00:00:00.080
+RPM 133  Torque: 28.961 Nm (30 Nm) Friction: -1.039 Nm
+0.6 rad  14.0 rad/s  171.6 rad/s/s
+
+00:00:00.090
+RPM 149  Torque: 28.923 Nm (30 Nm) Friction: -1.077 Nm
+0.7 rad  15.7 rad/s  171.4 rad/s/s
+
+00:00:00.100
+RPM 166  Torque: 28.885 Nm (30 Nm) Friction: -1.115 Nm
+0.9 rad  17.4 rad/s  171.2 rad/s/s
+
+00:00:00.200
+RPM 328  Torque: 28.510 Nm (30 Nm) Friction: -1.490 Nm
+3.5 rad  34.4 rad/s  168.9 rad/s/s
+
+00:00:00.300
+RPM 488  Torque: 28.140 Nm (30 Nm) Friction: -1.860 Nm
+7.8 rad  51.2 rad/s  166.8 rad/s/s
+
+00:00:00.400
+RPM 647  Torque: 27.775 Nm (30 Nm) Friction: -2.225 Nm
+13.7 rad  67.8 rad/s  164.6 rad/s/s
+
+00:00:00.500
+RPM 803  Torque: 27.414 Nm (30 Nm) Friction: -2.586 Nm
+21.3 rad  84.1 rad/s  162.5 rad/s/s
+
+00:00:00.600
+RPM 957  Torque: 27.058 Nm (30 Nm) Friction: -2.942 Nm
+30.6 rad  100.2 rad/s  160.3 rad/s/s
+
+00:00:00.700
+RPM 1109  Torque: 26.707 Nm (30 Nm) Friction: -3.293 Nm
+41.4 rad  116.2 rad/s  158.3 rad/s/s
+
+00:00:00.800
+RPM 1259  Torque: 26.360 Nm (30 Nm) Friction: -3.640 Nm
+53.8 rad  131.9 rad/s  156.2 rad/s/s
+
+00:00:00.900
+RPM 1407  Torque: 26.018 Nm (30 Nm) Friction: -3.982 Nm
+67.8 rad  147.4 rad/s  154.2 rad/s/s
+
+00:00:01.000
+RPM 1554  Torque: 25.680 Nm (30 Nm) Friction: -4.320 Nm
+83.3 rad  162.7 rad/s  152.2 rad/s/s
+
+00:00:02.000
+RPM 2916  Torque: 22.534 Nm (30 Nm) Friction: -7.466 Nm
+319.0 rad  305.4 rad/s  133.5 rad/s/s
+
+00:00:03.000
+RPM 4111  Torque: 19.774 Nm (30 Nm) Friction: -10.226 Nm
+688.4 rad  430.6 rad/s  117.2 rad/s/s
+
+00:00:04.000
+RPM 5160  Torque: 17.352 Nm (30 Nm) Friction: -12.648 Nm
+1175.1 rad  540.4 rad/s  102.8 rad/s/s
+
+00:00:05.000
+RPM 6080  Torque: 15.226 Nm (30 Nm) Friction: -14.774 Nm
+1764.8 rad  636.8 rad/s  90.2 rad/s/s
+
+00:00:06.000
+RPM 6888  Torque: 13.361 Nm (30 Nm) Friction: -16.639 Nm
+2444.8 rad  721.4 rad/s  79.2 rad/s/s
+
+00:00:07.000
+RPM 7597  Torque: 11.724 Nm (30 Nm) Friction: -18.276 Nm
+3204.1 rad  795.6 rad/s  69.5 rad/s/s
+
+00:00:08.000
+RPM 8218  Torque: 10.288 Nm (30 Nm) Friction: -19.712 Nm
+4033.0 rad  860.7 rad/s  61.0 rad/s/s
+
+00:00:09.000
+RPM 8764  Torque: 9.028 Nm (30 Nm) Friction: -20.972 Nm
+4922.9 rad  917.8 rad/s  53.5 rad/s/s
+
+00:00:10.000
+RPM 9243  Torque: 7.922 Nm (30 Nm) Friction: -22.078 Nm
+5866.4 rad  968.0 rad/s  46.9 rad/s/s
+
+00:00:11.000
+RPM 9663  Torque: 6.952 Nm (30 Nm) Friction: -23.048 Nm
+6856.9 rad  1012.0 rad/s  41.2 rad/s/s
+
+00:00:12.000
+RPM 10032  Torque: 6.100 Nm (30 Nm) Friction: -23.900 Nm
+7888.6 rad  1050.6 rad/s  36.1 rad/s/s
+
+00:00:13.000
+RPM 10356  Torque: 5.353 Nm (30 Nm) Friction: -24.647 Nm
+8956.5 rad  1084.5 rad/s  31.7 rad/s/s
+
+00:00:14.000
+RPM 10640  Torque: 4.697 Nm (30 Nm) Friction: -25.303 Nm
+10056.2 rad  1114.2 rad/s  27.8 rad/s/s
+
+00:00:15.000
+RPM 10889  Torque: 4.122 Nm (30 Nm) Friction: -25.878 Nm
+11183.8 rad  1140.3 rad/s  24.4 rad/s/s
+
+00:00:16.000
+RPM 11107  Torque: 3.617 Nm (30 Nm) Friction: -26.383 Nm
+12335.8 rad  1163.2 rad/s  21.4 rad/s/s
+
+00:00:17.000
+RPM 11299  Torque: 3.174 Nm (30 Nm) Friction: -26.826 Nm
+13509.3 rad  1183.3 rad/s  18.8 rad/s/s
+
+00:00:18.000
+RPM 11467  Torque: 2.785 Nm (30 Nm) Friction: -27.215 Nm
+14701.6 rad  1200.9 rad/s  16.5 rad/s/s
+
+00:00:19.000
+RPM 11615  Torque: 2.444 Nm (30 Nm) Friction: -27.556 Nm
+15910.4 rad  1216.4 rad/s  14.5 rad/s/s
+
+00:00:20.000
+RPM 11745  Torque: 2.144 Nm (30 Nm) Friction: -27.856 Nm
+17133.8 rad  1230.0 rad/s  12.7 rad/s/s
+
+00:00:21.000
+RPM 11859  Torque: 1.882 Nm (30 Nm) Friction: -28.118 Nm
+18369.8 rad  1241.9 rad/s  11.2 rad/s/s
+
+00:00:22.000
+RPM 11958  Torque: 1.651 Nm (30 Nm) Friction: -28.349 Nm
+19617.1 rad  1252.3 rad/s  9.8 rad/s/s
+
+00:00:23.000
+RPM 12046  Torque: 1.449 Nm (30 Nm) Friction: -28.551 Nm
+20874.1 rad  1261.5 rad/s  8.6 rad/s/s
+
+00:00:24.000
+RPM 12123  Torque: 1.271 Nm (30 Nm) Friction: -28.729 Nm
+22139.7 rad  1269.6 rad/s  7.5 rad/s/s
+
+00:00:25.000
+RPM 12190  Torque: 1.116 Nm (30 Nm) Friction: -28.884 Nm
+23412.9 rad  1276.6 rad/s  6.6 rad/s/s
+
+00:00:26.000
+RPM 12249  Torque: 0.979 Nm (30 Nm) Friction: -29.021 Nm
+24692.7 rad  1282.8 rad/s  5.8 rad/s/s
+
+00:00:27.000
+RPM 12301  Torque: 0.859 Nm (30 Nm) Friction: -29.141 Nm
+25978.3 rad  1288.3 rad/s  5.1 rad/s/s
+
+00:00:28.000
+RPM 12347  Torque: 0.754 Nm (30 Nm) Friction: -29.246 Nm
+27269.0 rad  1293.0 rad/s  4.5 rad/s/s
+
+00:00:29.000
+RPM 12387  Torque: 0.662 Nm (30 Nm) Friction: -29.338 Nm
+28564.1 rad  1297.2 rad/s  3.9 rad/s/s
+
+00:00:30.000
+RPM 12422  Torque: 0.580 Nm (30 Nm) Friction: -29.420 Nm
+29863.2 rad  1300.9 rad/s  3.4 rad/s/s
+

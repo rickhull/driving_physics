@@ -1,0 +1,115 @@
+Tick: 1000 Hz | G: 9.80 m/s^2 | Air: 25.0 C 1.29 kg/m^3 | Petrol: 0.71 kg/L
+	[MOTOR]
+Torque:
+   0 Nm   500 RPM
+  50 Nm  1000 RPM
+ 130 Nm  1500 RPM
+ 200 Nm  2000 RPM
+ 250 Nm  2500 RPM
+ 320 Nm  3500 RPM
+ 330 Nm  5000 RPM
+ 320 Nm  6000 RPM
+ 260 Nm  7000 RPM
+   0 Nm  7100 RPM
+Mass: 200.0 kg  Fixed: 125 kg
+Rotating: 250 mm x 200 mm (RxW) | 75.0 kg  1.91 kg/L
+	[GEARBOX]
+Ratios: [(1/5), (2/5), (5/9), (5/7), (1/1), (5/4)]
+ Final: (11/41)  Mass: 45.0 kg  Rotating: 15.0 kg
+     [ Press Enter ]
+
+# GEAR 1 (11/205)
+#
+1000 RPM:  575.6 Nm  4 mph
+1500 RPM:  1923.0 Nm  6 mph
+2000 RPM:  3084.0 Nm  8 mph
+2500 RPM:  3872.3 Nm  10 mph
+3000 RPM:  4381.1 Nm  12 mph
+3500 RPM:  4889.9 Nm  14 mph
+4000 RPM:  4808.5 Nm  16 mph
+4500 RPM:  4727.1 Nm  18 mph
+5000 RPM:  4645.7 Nm  20 mph
+5500 RPM:  4409.0 Nm  22 mph
+6000 RPM:  4172.4 Nm  24 mph
+6500 RPM:  3469.8 Nm  26 mph
+7000 RPM:  2767.2 Nm  28 mph
+
+# GEAR 2 (22/205)
+#
+1000 RPM:  287.2 Nm  8 mph
+1500 RPM:  960.8 Nm  12 mph
+2000 RPM:  1541.3 Nm  16 mph
+2500 RPM:  1935.3 Nm  20 mph
+3000 RPM:  2189.6 Nm  24 mph
+3500 RPM:  2443.9 Nm  28 mph
+4000 RPM:  2403.1 Nm  32 mph
+4500 RPM:  2362.4 Nm  36 mph
+5000 RPM:  2321.6 Nm  40 mph
+5500 RPM:  2203.1 Nm  44 mph
+6000 RPM:  2084.7 Nm  48 mph
+6500 RPM:  1733.3 Nm  52 mph
+7000 RPM:  1381.9 Nm  56 mph
+
+# GEAR 3 (55/369)
+#
+1000 RPM:  206.4 Nm  11 mph
+1500 RPM:  691.4 Nm  16 mph
+2000 RPM:  1109.2 Nm  22 mph
+2500 RPM:  1392.8 Nm  27 mph
+3000 RPM:  1575.8 Nm  33 mph
+3500 RPM:  1758.8 Nm  39 mph
+4000 RPM:  1729.4 Nm  44 mph
+4500 RPM:  1699.9 Nm  50 mph
+5000 RPM:  1670.5 Nm  55 mph
+5500 RPM:  1585.1 Nm  61 mph
+6000 RPM:  1499.8 Nm  67 mph
+6500 RPM:  1246.7 Nm  72 mph
+7000 RPM:  993.6 Nm  78 mph
+
+# GEAR 4 (55/287)
+#
+1000 RPM:  160.2 Nm  14 mph
+1500 RPM:  537.3 Nm  21 mph
+2000 RPM:  862.2 Nm  28 mph
+2500 RPM:  1082.7 Nm  35 mph
+3000 RPM:  1225.0 Nm  43 mph
+3500 RPM:  1367.2 Nm  50 mph
+4000 RPM:  1344.2 Nm  57 mph
+4500 RPM:  1321.2 Nm  64 mph
+5000 RPM:  1298.2 Nm  71 mph
+5500 RPM:  1231.8 Nm  79 mph
+6000 RPM:  1165.3 Nm  86 mph
+6500 RPM:  968.4 Nm  93 mph
+7000 RPM:  771.4 Nm  100 mph
+
+# GEAR 5 (11/41)
+#
+1000 RPM:  113.9 Nm  20 mph
+1500 RPM:  383.1 Nm  30 mph
+2000 RPM:  615.0 Nm  40 mph
+2500 RPM:  772.4 Nm  50 mph
+3000 RPM:  873.9 Nm  60 mph
+3500 RPM:  975.3 Nm  70 mph
+4000 RPM:  958.7 Nm  80 mph
+4500 RPM:  942.2 Nm  90 mph
+5000 RPM:  925.6 Nm  100 mph
+5500 RPM:  878.0 Nm  110 mph
+6000 RPM:  830.3 Nm  120 mph
+6500 RPM:  689.5 Nm  130 mph
+7000 RPM:  548.7 Nm  140 mph
+
+# GEAR 6 (55/164)
+#
+1000 RPM:  90.7 Nm  25 mph
+1500 RPM:  305.9 Nm  37 mph
+2000 RPM:  491.3 Nm  50 mph
+2500 RPM:  617.1 Nm  62 mph
+3000 RPM:  698.1 Nm  75 mph
+3500 RPM:  779.1 Nm  87 mph
+4000 RPM:  765.7 Nm  100 mph
+4500 RPM:  752.3 Nm  113 mph
+5000 RPM:  738.9 Nm  125 mph
+5500 RPM:  700.7 Nm  138 mph
+6000 RPM:  662.4 Nm  150 mph
+6500 RPM:  549.6 Nm  163 mph
+7000 RPM:  436.8 Nm  175 mph
