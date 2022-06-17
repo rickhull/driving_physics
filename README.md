@@ -6,7 +6,18 @@ Physical simulation of how to make a car go around a track quickly, in pure
 Ruby with minimal dependencies.  Physics from first principles, often
 using `Vector` class from `matrix.rb` in stdlib.
 
-Note, this is very much a **Work In Progress**.
+## Work In Progress
+
+This is very much a **Work In Progress**.  Implemented so far:
+
+* Spinning: rotational inertia and friction / hysteresis
+* Tires: traction force via friction and the normal force
+* Vectors: 2D Vector forces and 3D Vector torques
+* Motor: torque curves, rotating mass with friction
+* Gearbox: gear ratios, final drive, rotating mass with friction
+* Powertrain: combines motor and gearbox
+* Car: 4 tires, powertrain, extra mass presents a load to the powertrain
+* Acceleration: via drive traction from "first principles"
 
 ## Rationale
 
