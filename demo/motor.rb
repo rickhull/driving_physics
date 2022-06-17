@@ -31,7 +31,7 @@ alpha = 0.0
 omega = 0.0
 theta = 0.0
 
-duration = 20
+duration = 40
 
 status = :ignition
 rpm = 0
@@ -69,7 +69,9 @@ rpm = 0
   if flag or
     (i < 10) or
     (i < 100 and i % 10 == 0) or
-    (i < 1000 and i % 100 == 0) or (i % 500 == 0)
+    (i < 1000 and i % 100 == 0) or
+    (i < 10_000 and i % 500 == 0) or
+    i % 1000 == 0
     puts DrivingPhysics.elapsed_display(i)
     puts format("%d RPM  %d Nm  Friction: %.1f Nm",
                 DrivingPhysics.rpm(omega),
