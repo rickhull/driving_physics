@@ -8,10 +8,11 @@ env = Environment.new
 tire = Tire.new(env)
 puts env
 puts tire
+puts
 
 duration = 100 # sec
-axle_torque = 1000 # N*m
-supported_mass = 1000 # kg
+axle_torque = 500 # N*m
+supported_mass = 1500 # kg
 
 puts "Given:"
 puts "* #{axle_torque} Nm axle torque"
@@ -32,7 +33,6 @@ puts
 
 traction = tire.traction(normal_force)
 drive_force = tire.force(axle_torque)
-
 
 puts "Tires:"
 puts format("* %.1f N traction", traction)
@@ -59,7 +59,7 @@ num_ticks.times { |i|
   force = tire.force(torque)
 
   # translational kinematics
-  acc = DrivingPhysics.acc(force, supported_mass)
+  acc = DrivingPhysics.acc(force, total_mass)
   speed += acc * env.tick
   dist += speed * env.tick
   mph = Imperial.mph(speed)
@@ -71,8 +71,7 @@ num_ticks.times { |i|
 
   if i < 10 or
     (i < 20_000 and i%1000 == 0) or
-    (i % 10_000 == 0) or
-    i == duration * env.hz - 1
+    (i % 10_000 == 0)
 
     puts DrivingPhysics.elapsed_display(i)
     puts format("  Tire: %.1f r  %.2f r/s  %.3f r/s^2", theta, omega, alpha)
