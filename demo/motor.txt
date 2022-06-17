@@ -12,6 +12,7 @@ Torque:
    0 Nm  7100 RPM
 Mass: 200.0 kg  Fixed: 125 kg
 Rotating: 250 mm x 200 mm (RxW) | 75.0 kg  1.91 kg/L
+
 Rev it up!
 
 TORQUE:
@@ -82,6 +83,8 @@ POWER:
 6800 RPM: 193.7 kW	PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
 7000 RPM: 190.6 kW	PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
 
+Now, the simulation begins...
+---
 * Spin the motor up to 1000 RPM with the starter motor.
 * Rev it up with the throttle.
 * Let it die.

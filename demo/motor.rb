@@ -11,6 +11,7 @@ env = Environment.new
 motor = Motor.new(env)
 puts env
 puts motor
+puts
 
 puts "Rev it up!"
 [:torque, :power].each { |run|
@@ -45,6 +46,8 @@ puts "Rev it up!"
 }
 
 puts
+puts "Now, the simulation begins..."
+puts "---"
 puts "* Spin the motor up to #{motor.idle_rpm} RPM with the starter motor."
 puts "* Rev it up with the throttle."
 puts "* Let it die."
