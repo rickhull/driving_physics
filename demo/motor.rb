@@ -1,5 +1,6 @@
 require 'driving_physics/motor'
 require 'driving_physics/cli'
+require 'driving_physics/power'
 
 # fun idea for a different demo: keep increasing torque until idle is
 # maintained
@@ -12,13 +13,35 @@ puts env
 puts motor
 
 puts "Rev it up!"
-800.upto(7000) { |rpm|
-  next unless rpm % 200 == 0
-  tq = motor.torque(rpm).to_f
-  puts format("%s RPM: %s Nm\t%s",
-              rpm.to_s.rjust(4, ' '),
-              tq.round(1).to_s.rjust(5, ' '),
-              '#' * (tq.to_f / 10).round)
+[:torque, :power].each { |run|
+  puts
+  puts run.to_s.upcase + ':'
+
+  800.upto(7000) { |rpm|
+    next unless rpm % 200 == 0
+    omega = DrivingPhysics.omega(rpm)
+    torque = motor.torque(rpm)
+    case run
+    when :torque
+      count = (torque.to_f / 10).round
+      char = 'T'
+      val = torque.round.to_s.rjust(5, ' ')
+      fmt = "%s Nm"
+    when :power
+      power = DrivingPhysics.power(torque, omega)
+      kw = power.to_f / 1000
+      count = (kw / 5).round
+      char = 'P'
+      val = kw.round(1).to_s.rjust(5, ' ')
+      fmt = "%s kW"
+    else
+      raise "unknown"
+    end
+    puts format("%s RPM: #{fmt}\t%s",
+                rpm.to_s.rjust(4, ' '),
+                val,
+                char * count)
+  }
 }
 
 puts
@@ -58,6 +81,8 @@ rpm = 0
   omega = 0 if omega < 0.00001
   rpm = DrivingPhysics.rpm(omega)
 
+  power = DrivingPhysics.power(net_torque, omega)
+
   if rpm > motor.idle_rpm and status == :ignition
     status = :running
     flag = true
@@ -75,10 +100,11 @@ rpm = 0
     (i < 10_000 and i % 500 == 0) or
     i % 5000 == 0
     puts DrivingPhysics.elapsed_display(i)
-    puts format("%d RPM  %.1f Nm (%d Nm)  Friction: %.1f Nm",
+    puts format("%d RPM  %.1f Nm (%d Nm)  %.1f kW   Friction: %.1f Nm",
                 DrivingPhysics.rpm(omega),
                 net_torque,
                 torque,
+                power / 1000,
                 motor.spinner.rotating_friction(omega))
     puts format("%d rad  %.1f rad/s  %.1f rad/s/s", theta, omega, alpha)
     puts
