@@ -47,7 +47,7 @@ module DrivingPhysics
         acc = DrivingPhysics.acc(mag - force_loss, self.total_mass)
         alpha = acc / @tire.radius
         # this will be a positive number
-        force_loss = @num_tires * @tire.inertial_torque(alpha) /
+        force_loss = @num_tires * @tire.implied_torque(alpha) /
                      @tire.radius
       }
       # oppose initial force
