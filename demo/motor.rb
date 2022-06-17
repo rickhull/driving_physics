@@ -31,7 +31,7 @@ alpha = 0.0
 omega = 0.0
 theta = 0.0
 
-duration = 40
+duration = 60
 
 status = :ignition
 rpm = 0
@@ -52,6 +52,8 @@ rpm = 0
   omega += alpha * env.tick
   theta += omega * env.tick
 
+  net_torque = motor.implied_torque(alpha)
+
   # prevent silly oscillations due to tiny floating point errors
   omega = 0 if omega < 0.00001
   rpm = DrivingPhysics.rpm(omega)
@@ -71,10 +73,11 @@ rpm = 0
     (i < 100 and i % 10 == 0) or
     (i < 1000 and i % 100 == 0) or
     (i < 10_000 and i % 500 == 0) or
-    i % 1000 == 0
+    i % 5000 == 0
     puts DrivingPhysics.elapsed_display(i)
-    puts format("%d RPM  %d Nm  Friction: %.1f Nm",
+    puts format("%d RPM  %.1f Nm (%d Nm)  Friction: %.1f Nm",
                 DrivingPhysics.rpm(omega),
+                net_torque,
                 torque,
                 motor.spinner.rotating_friction(omega))
     puts format("%d rad  %.1f rad/s  %.1f rad/s/s", theta, omega, alpha)
