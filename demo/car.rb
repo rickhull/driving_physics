@@ -1,13 +1,8 @@
 require 'driving_physics/car'
 require 'driving_physics/imperial'
+require 'driving_physics/cli'
 
 include DrivingPhysics
-
-def prompt(msg = "")
-  puts msg
-  puts "                    [Press Enter]"
-  gets
-end
 
 env = Environment.new
 puts env
@@ -16,13 +11,13 @@ tire = Tire.new(env)
 motor = Motor.new(env)
 gearbox = Gearbox.new(env)
 pt = Powertrain.new(motor, gearbox)
-
 car = Car.new(tire: tire, powertrain: pt) { |c|
   c.mass = 1050.0
   c.frontal_area = 2.5
   c.cd = 0.5
 }
 puts car
+CLI.pause
 
 duration = 120
 
@@ -53,7 +48,7 @@ EOF
 num_ticks.times { |i|
   if phase == :ignition
     # ignition phase
-    crank_alpha = motor.alpha(omega: crank_omega)
+    crank_alpha = motor.alpha(motor.starter_torque, omega: crank_omega)
     crank_omega += crank_alpha * env.tick
     crank_theta += crank_omega * env.tick
 
@@ -87,6 +82,8 @@ EOF
     rf = car.tire_rotational_force(tire_omega)
 
     force = car.drive_force(rpm) + ar + rr + rf
+
+
     ir = car.tire_inertial_force(force)
     force += ir
 
@@ -102,11 +99,7 @@ EOF
     crank_omega += crank_alpha * env.tick
     crank_theta += crank_omega * env.tick
 
-    axle_torque = car.powertrain.axle_torque(rpm,
-                                             crank_a: crank_alpha,
-                                             crank_o: crank_omega,
-                                             axle_a: tire_alpha,
-                                             axle_o: tire_omega)
+    axle_torque = car.powertrain.axle_torque(rpm)
     crank_torque = car.powertrain.motor.torque(rpm)
 
     if flag or (i < 5000 and i % 100 == 0) or (i % 1000 == 0)
@@ -134,7 +127,7 @@ EOF
       puts format("Clutch: [%s] %d RPM is %.1f%% from %d RPM",
                   new_clutch, new_rpm, proportion * 100, rpm)
       clutch = new_clutch
-      prompt
+      CLI.pause
     end
 
     case new_clutch
@@ -151,7 +144,7 @@ EOF
       flag = true
       puts "Gear Change: #{next_gear}"
       car.powertrain.select_gear(next_gear)
-      prompt
+      CLI.pause
     end
   end
 }
