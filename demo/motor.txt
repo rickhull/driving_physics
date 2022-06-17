@@ -1,0 +1,326 @@
+Tick: 1000 Hz | G: 9.80 m/s^2 | Air: 25.0 C 1.29 kg/m^3 | Petrol: 0.71 kg/L
+Torque:
+   0 Nm   500 RPM
+  50 Nm  1000 RPM
+ 130 Nm  1500 RPM
+ 200 Nm  2000 RPM
+ 250 Nm  2500 RPM
+ 320 Nm  3500 RPM
+ 330 Nm  5000 RPM
+ 320 Nm  6000 RPM
+ 260 Nm  7000 RPM
+   0 Nm  7100 RPM
+Mass: 200.0 kg  Fixed: 125 kg
+Rotating: 250 mm x 200 mm (RxW) | 75.0 kg  1.91 kg/L
+Rev it up!
+
+TORQUE:
+ 800 RPM:    30 Nm	TTT
+1000 RPM:    50 Nm	TTTTT
+1200 RPM:    82 Nm	TTTTTTTT
+1400 RPM:   114 Nm	TTTTTTTTTTT
+1600 RPM:   144 Nm	TTTTTTTTTTTTTT
+1800 RPM:   172 Nm	TTTTTTTTTTTTTTTTT
+2000 RPM:   200 Nm	TTTTTTTTTTTTTTTTTTTT
+2200 RPM:   220 Nm	TTTTTTTTTTTTTTTTTTTTTT
+2400 RPM:   240 Nm	TTTTTTTTTTTTTTTTTTTTTTTT
+2600 RPM:   257 Nm	TTTTTTTTTTTTTTTTTTTTTTTTTT
+2800 RPM:   271 Nm	TTTTTTTTTTTTTTTTTTTTTTTTTTT
+3000 RPM:   285 Nm	TTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+3200 RPM:   299 Nm	TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+3400 RPM:   313 Nm	TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+3600 RPM:   321 Nm	TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+3800 RPM:   322 Nm	TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+4000 RPM:   323 Nm	TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+4200 RPM:   325 Nm	TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+4400 RPM:   326 Nm	TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+4600 RPM:   327 Nm	TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+4800 RPM:   329 Nm	TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+5000 RPM:   330 Nm	TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+5200 RPM:   328 Nm	TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+5400 RPM:   326 Nm	TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+5600 RPM:   324 Nm	TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+5800 RPM:   322 Nm	TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+6000 RPM:   320 Nm	TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+6200 RPM:   308 Nm	TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+6400 RPM:   296 Nm	TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+6600 RPM:   284 Nm	TTTTTTTTTTTTTTTTTTTTTTTTTTTT
+6800 RPM:   272 Nm	TTTTTTTTTTTTTTTTTTTTTTTTTTT
+7000 RPM:   260 Nm	TTTTTTTTTTTTTTTTTTTTTTTTTT
+
+POWER:
+ 800 RPM:   2.5 kW	P
+1000 RPM:   5.2 kW	P
+1200 RPM:  10.3 kW	PP
+1400 RPM:  16.7 kW	PPP
+1600 RPM:  24.1 kW	PPPPP
+1800 RPM:  32.4 kW	PPPPPP
+2000 RPM:  41.9 kW	PPPPPPPP
+2200 RPM:  50.7 kW	PPPPPPPPPP
+2400 RPM:  60.3 kW	PPPPPPPPPPPP
+2600 RPM:  70.0 kW	PPPPPPPPPPPPPP
+2800 RPM:  79.5 kW	PPPPPPPPPPPPPPPP
+3000 RPM:  89.5 kW	PPPPPPPPPPPPPPPPPP
+3200 RPM: 100.2 kW	PPPPPPPPPPPPPPPPPPPP
+3400 RPM: 111.4 kW	PPPPPPPPPPPPPPPPPPPPPP
+3600 RPM: 120.9 kW	PPPPPPPPPPPPPPPPPPPPPPPP
+3800 RPM: 128.1 kW	PPPPPPPPPPPPPPPPPPPPPPPPPP
+4000 RPM: 135.4 kW	PPPPPPPPPPPPPPPPPPPPPPPPPPP
+4200 RPM: 142.8 kW	PPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+4400 RPM: 150.2 kW	PPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+4600 RPM: 157.7 kW	PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+4800 RPM: 165.2 kW	PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+5000 RPM: 172.8 kW	PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+5200 RPM: 178.6 kW	PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+5400 RPM: 184.3 kW	PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+5600 RPM: 190.0 kW	PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+5800 RPM: 195.6 kW	PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+6000 RPM: 201.1 kW	PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+6200 RPM: 200.0 kW	PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+6400 RPM: 198.4 kW	PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+6600 RPM: 196.3 kW	PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+6800 RPM: 193.7 kW	PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+7000 RPM: 190.6 kW	PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+
+* Spin the motor up to 1000 RPM with the starter motor.
+* Rev it up with the throttle.
+* Let it die.
+     [ Press Enter ]
+00:00:00.000
+2 RPM  500.0 Nm (500 Nm)  0.1 kW   Friction: -3.7 Nm
+0 rad  0.2 rad/s  213.3 rad/s/s
+
+00:00:00.001
+4 RPM  496.3 Nm (500 Nm)  0.2 kW   Friction: -3.7 Nm
+0 rad  0.4 rad/s  211.8 rad/s/s
+
+00:00:00.002
+6 RPM  496.3 Nm (500 Nm)  0.3 kW   Friction: -3.8 Nm
+0 rad  0.6 rad/s  211.7 rad/s/s
+
+00:00:00.003
+8 RPM  496.2 Nm (500 Nm)  0.4 kW   Friction: -3.8 Nm
+0 rad  0.8 rad/s  211.7 rad/s/s
+
+00:00:00.004
+10 RPM  496.2 Nm (500 Nm)  0.5 kW   Friction: -3.8 Nm
+0 rad  1.1 rad/s  211.7 rad/s/s
+
+00:00:00.005
+12 RPM  496.2 Nm (500 Nm)  0.6 kW   Friction: -3.9 Nm
+0 rad  1.3 rad/s  211.7 rad/s/s
+
+00:00:00.006
+14 RPM  496.1 Nm (500 Nm)  0.7 kW   Friction: -3.9 Nm
+0 rad  1.5 rad/s  211.7 rad/s/s
+
+00:00:00.007
+16 RPM  496.1 Nm (500 Nm)  0.8 kW   Friction: -3.9 Nm
+0 rad  1.7 rad/s  211.7 rad/s/s
+
+00:00:00.008
+18 RPM  496.1 Nm (500 Nm)  0.9 kW   Friction: -4.0 Nm
+0 rad  1.9 rad/s  211.7 rad/s/s
+
+00:00:00.009
+20 RPM  496.0 Nm (500 Nm)  1.1 kW   Friction: -4.0 Nm
+0 rad  2.1 rad/s  211.6 rad/s/s
+
+00:00:00.010
+22 RPM  496.0 Nm (500 Nm)  1.2 kW   Friction: -4.0 Nm
+0 rad  2.3 rad/s  211.6 rad/s/s
+
+00:00:00.020
+42 RPM  495.7 Nm (500 Nm)  2.2 kW   Friction: -4.3 Nm
+0 rad  4.4 rad/s  211.5 rad/s/s
+
+00:00:00.030
+62 RPM  495.4 Nm (500 Nm)  3.2 kW   Friction: -4.6 Nm
+0 rad  6.6 rad/s  211.4 rad/s/s
+
+00:00:00.040
+82 RPM  495.1 Nm (500 Nm)  4.3 kW   Friction: -4.9 Nm
+0 rad  8.7 rad/s  211.2 rad/s/s
+
+00:00:00.050
+102 RPM  494.8 Nm (500 Nm)  5.3 kW   Friction: -5.3 Nm
+0 rad  10.8 rad/s  211.1 rad/s/s
+
+00:00:00.060
+123 RPM  494.5 Nm (500 Nm)  6.4 kW   Friction: -5.6 Nm
+0 rad  12.9 rad/s  211.0 rad/s/s
+
+00:00:00.070
+143 RPM  494.2 Nm (500 Nm)  7.4 kW   Friction: -5.9 Nm
+0 rad  15.0 rad/s  210.8 rad/s/s
+
+00:00:00.080
+163 RPM  493.8 Nm (500 Nm)  8.5 kW   Friction: -6.2 Nm
+0 rad  17.1 rad/s  210.7 rad/s/s
+
+00:00:00.090
+183 RPM  493.5 Nm (500 Nm)  9.5 kW   Friction: -6.5 Nm
+0 rad  19.2 rad/s  210.6 rad/s/s
+
+00:00:00.100
+203 RPM  493.2 Nm (500 Nm)  10.5 kW   Friction: -6.8 Nm
+1 rad  21.3 rad/s  210.4 rad/s/s
+
+00:00:00.200
+403 RPM  490.1 Nm (500 Nm)  20.7 kW   Friction: -9.9 Nm
+4 rad  42.3 rad/s  209.1 rad/s/s
+
+00:00:00.300
+603 RPM  487.1 Nm (500 Nm)  30.8 kW   Friction: -13.0 Nm
+9 rad  63.1 rad/s  207.8 rad/s/s
+
+00:00:00.400
+800 RPM  484.0 Nm (500 Nm)  40.6 kW   Friction: -16.0 Nm
+16 rad  83.9 rad/s  206.5 rad/s/s
+
+00:00:00.500
+997 RPM  481.0 Nm (500 Nm)  50.2 kW   Friction: -19.0 Nm
+26 rad  104.4 rad/s  205.2 rad/s/s
+
+00:00:00.502
+1001 RPM  480.9 Nm (500 Nm)  50.4 kW   Friction: -19.1 Nm
+26 rad  104.9 rad/s  205.2 rad/s/s
+
+     [ Press Enter ]
+00:00:00.600
+1014 RPM  33.0 Nm (52 Nm)  3.5 kW   Friction: -19.3 Nm
+36 rad  106.2 rad/s  14.1 rad/s/s
+
+00:00:00.700
+1027 RPM  35.0 Nm (54 Nm)  3.8 kW   Friction: -19.5 Nm
+47 rad  107.6 rad/s  14.9 rad/s/s
+
+00:00:00.800
+1042 RPM  37.1 Nm (56 Nm)  4.0 kW   Friction: -19.7 Nm
+58 rad  109.2 rad/s  15.8 rad/s/s
+
+00:00:00.900
+1058 RPM  39.3 Nm (59 Nm)  4.4 kW   Friction: -20.0 Nm
+69 rad  110.8 rad/s  16.8 rad/s/s
+
+00:00:01.000
+1074 RPM  41.7 Nm (61 Nm)  4.7 kW   Friction: -20.2 Nm
+80 rad  112.5 rad/s  17.8 rad/s/s
+
+00:00:01.500
+1173 RPM  56.0 Nm (77 Nm)  6.9 kW   Friction: -21.7 Nm
+139 rad  122.9 rad/s  23.9 rad/s/s
+
+00:00:02.000
+1306 RPM  75.2 Nm (98 Nm)  10.3 kW   Friction: -23.8 Nm
+204 rad  136.8 rad/s  32.1 rad/s/s
+
+00:00:02.500
+1484 RPM  100.9 Nm (127 Nm)  15.7 kW   Friction: -26.5 Nm
+276 rad  155.4 rad/s  43.1 rad/s/s
+
+00:00:03.000
+1719 RPM  130.5 Nm (160 Nm)  23.5 kW   Friction: -30.1 Nm
+360 rad  180.0 rad/s  55.7 rad/s/s
+
+00:00:03.500
+2021 RPM  167.3 Nm (202 Nm)  35.4 kW   Friction: -34.8 Nm
+458 rad  211.7 rad/s  71.4 rad/s/s
+
+00:00:04.000
+2393 RPM  198.8 Nm (239 Nm)  49.8 kW   Friction: -40.5 Nm
+573 rad  250.7 rad/s  84.8 rad/s/s
+
+00:00:04.500
+2828 RPM  225.7 Nm (272 Nm)  66.8 kW   Friction: -47.2 Nm
+710 rad  296.2 rad/s  96.3 rad/s/s
+
+00:00:05.000
+3314 RPM  252.3 Nm (306 Nm)  87.6 kW   Friction: -54.7 Nm
+870 rad  347.1 rad/s  107.6 rad/s/s
+
+00:00:05.500
+3843 RPM  259.5 Nm (322 Nm)  104.4 kW   Friction: -62.8 Nm
+1058 rad  402.5 rad/s  110.7 rad/s/s
+
+00:00:06.000
+4367 RPM  254.9 Nm (325 Nm)  116.6 kW   Friction: -70.9 Nm
+1273 rad  457.4 rad/s  108.8 rad/s/s
+
+00:00:06.500
+4882 RPM  250.4 Nm (329 Nm)  128.0 kW   Friction: -78.8 Nm
+1515 rad  511.3 rad/s  106.8 rad/s/s
+
+00:00:07.000
+5382 RPM  239.7 Nm (326 Nm)  135.1 kW   Friction: -86.5 Nm
+1784 rad  563.7 rad/s  102.3 rad/s/s
+
+00:00:07.500
+5858 RPM  227.6 Nm (321 Nm)  139.6 kW   Friction: -93.9 Nm
+2078 rad  613.5 rad/s  97.1 rad/s/s
+
+00:00:08.000
+6299 RPM  201.4 Nm (302 Nm)  132.9 kW   Friction: -100.7 Nm
+2397 rad  659.7 rad/s  85.9 rad/s/s
+
+00:00:08.500
+6680 RPM  172.7 Nm (279 Nm)  120.8 kW   Friction: -106.5 Nm
+2737 rad  699.5 rad/s  73.7 rad/s/s
+
+00:00:08.990
+7000 RPM  148.6 Nm (260 Nm)  108.9 kW   Friction: -111.4 Nm
+3088 rad  733.1 rad/s  63.4 rad/s/s
+
+     [ Press Enter ]
+00:00:09.000
+6995 RPM  -111.4 Nm (0 Nm)  -81.6 kW   Friction: -111.4 Nm
+3095 rad  732.6 rad/s  -47.5 rad/s/s
+
+00:00:09.500
+6772 RPM  -107.9 Nm (0 Nm)  -76.5 kW   Friction: -107.9 Nm
+3456 rad  709.2 rad/s  -46.1 rad/s/s
+
+00:00:10.000
+6555 RPM  -104.6 Nm (0 Nm)  -71.8 kW   Friction: -104.6 Nm
+3805 rad  686.5 rad/s  -44.6 rad/s/s
+
+00:00:15.000
+4726 RPM  -76.4 Nm (0 Nm)  -37.8 kW   Friction: -76.4 Nm
+6733 rad  495.0 rad/s  -32.6 rad/s/s
+
+00:00:20.000
+3390 RPM  -55.9 Nm (0 Nm)  -19.8 kW   Friction: -55.9 Nm
+8840 rad  355.0 rad/s  -23.8 rad/s/s
+
+00:00:25.000
+2413 RPM  -40.8 Nm (0 Nm)  -10.3 kW   Friction: -40.8 Nm
+10346 rad  252.7 rad/s  -17.4 rad/s/s
+
+00:00:30.000
+1699 RPM  -29.8 Nm (0 Nm)  -5.3 kW   Friction: -29.8 Nm
+11413 rad  178.0 rad/s  -12.7 rad/s/s
+
+00:00:35.000
+1177 RPM  -21.8 Nm (0 Nm)  -2.7 kW   Friction: -21.8 Nm
+12159 rad  123.3 rad/s  -9.3 rad/s/s
+
+00:00:40.000
+796 RPM  -15.9 Nm (0 Nm)  -1.3 kW   Friction: -15.9 Nm
+12670 rad  83.4 rad/s  -6.8 rad/s/s
+
+00:00:45.000
+517 RPM  -11.6 Nm (0 Nm)  -0.6 kW   Friction: -11.6 Nm
+13010 rad  54.2 rad/s  -5.0 rad/s/s
+
+00:00:50.000
+314 RPM  -8.5 Nm (0 Nm)  -0.3 kW   Friction: -8.5 Nm
+13225 rad  32.9 rad/s  -3.6 rad/s/s
+
+00:00:55.000
+165 RPM  -6.2 Nm (0 Nm)  -0.1 kW   Friction: -6.2 Nm
+13349 rad  17.3 rad/s  -2.7 rad/s/s
+
+00:01:00.000
+56 RPM  -4.5 Nm (0 Nm)  -0.0 kW   Friction: -4.5 Nm
+13405 rad  5.9 rad/s  -1.9 rad/s/s
+
