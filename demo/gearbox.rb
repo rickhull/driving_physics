@@ -5,20 +5,21 @@ include DrivingPhysics
 
 env = Environment.new
 gearbox = Gearbox.new(env)
+
+torque = 30
+duration = 30
+
 puts env
 puts gearbox
 puts
-puts "Spin up the gearbox with 15 Nm of input torque"
-puts "How fast will it go?"
+puts "Spin up the gearbox with #{torque} Nm of input torque"
+puts "How fast will it go in #{duration} seconds?"
 CLI.pause
 
 # rotational kinematics
 alpha = 0.0
 omega = 0.0
 theta = 0.0
-
-torque = 15
-duration = 20
 
 (duration * env.hz + 1).times { |i|
   # just for info, not used in the simulation
