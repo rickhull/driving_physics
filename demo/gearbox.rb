@@ -23,13 +23,14 @@ duration = 20
 (duration * env.hz + 1).times { |i|
   # just for info, not used in the simulation
   friction = gearbox.spinner.rotating_friction(omega)
-  net_torque = torque + gearbox.resistance_torque(alpha, omega)
 
   # update rotational kinematics
   # gearbox.alpha incorporates friction and inertia
   alpha = gearbox.alpha(torque, omega: omega)
   omega += alpha * env.tick
   theta += omega * env.tick
+
+  net_torque = gearbox.implied_torque(alpha)
 
   # periodic output
   if i < 10 or
