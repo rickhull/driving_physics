@@ -19,6 +19,10 @@ puts [format("Axle torque: %.1f Nm", axle_torque),
       format("Drive force: %.1f N", drive_force),
      ].join("\n")
 puts
+
+puts "* Spin up the disk with #{axle_torque} Nm of torque"
+puts "* Cut the power at some point"
+puts "* Observe"
 CLI.pause
 
 duration = 750 # sec
@@ -31,18 +35,16 @@ omega = 0.0 # radians/s
 
 t = Time.now
 elapsed = 0.0
-num_ticks = duration * env.hz
+num_ticks = duration * env.hz + 1
 
 num_ticks.times { |i|
   # shut off the powah!
   if i == 19_000
+    flag = true
     puts
     puts "     ### CUT POWER ###"
     puts
     axle_torque = 0
-    elapsed += Time.now - t
-    CLI.pause
-    t = Time.now
   end
 
   rotating_friction = disk.rotating_friction(omega)
@@ -55,7 +57,7 @@ num_ticks.times { |i|
   omega = 0.0 if omega.abs < 0.0001
   theta += omega * env.tick
 
-  if i < 10 or
+  if flag or i < 10 or
     (i < 20_000 and i%1000 == 0) or
     (i % 10_000 == 0) or
     i == duration * env.hz - 1
@@ -69,6 +71,12 @@ num_ticks.times { |i|
                 DrivingPhysics.revs(omega),
                 DrivingPhysics.rpm(omega))
     puts
+    if flag
+      elapsed += Time.now - t
+      CLI.pause
+      t = Time.now
+      flag = false
+    end
   end
 }
 
