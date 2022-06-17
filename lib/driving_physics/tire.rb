@@ -83,7 +83,7 @@ module DrivingPhysics
       5.times {
         acc = DrivingPhysics.acc(drive_force - force_loss, driven_mass)
         alpha = acc / @radius
-        force_loss = self.inertial_torque(alpha) / @radius
+        force_loss = self.implied_torque(alpha) / @radius
       }
       force_loss * @radius
     end
