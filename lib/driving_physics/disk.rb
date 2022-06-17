@@ -130,8 +130,9 @@ module DrivingPhysics
       @normal_force
     end
 
-    def alpha(torque)
-      torque / self.rotational_inertia
+    def alpha(torque, omega: 0, normal_force: nil)
+      (torque - self.rotating_friction(omega, normal_force: normal_force)) /
+        self.rotational_inertia
     end
 
     def implied_torque(alpha)
@@ -175,10 +176,10 @@ module DrivingPhysics
     # maybe not physically faithful but close enough
     def rotating_friction(omega, normal_force: nil)
       return omega if omega.zero?
+      normal_force = self.normal_force if normal_force.nil?
       mag = omega.abs
       sign = omega / mag
-      -1 * sign * (normal_force || self.normal_force) *
-       (@base_friction + @omega_friction * mag)
+      -1 * sign * normal_force * (@base_friction + mag * @omega_friction)
     end
   end
 end
