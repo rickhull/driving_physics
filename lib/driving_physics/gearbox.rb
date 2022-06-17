@@ -28,7 +28,7 @@ module DrivingPhysics
       @spinner = Disk.new(env) { |m|
         m.radius = 0.15
         m.base_friction = 5/1000r
-        m.omega_friction = 5/10_000r
+        m.omega_friction = 15/100_000r
         m.mass = 15
       }
       @fixed_mass = 30 # kg
@@ -66,22 +66,19 @@ module DrivingPhysics
 
     def ratio(gear = nil)
       gear ||= @gear
-      return 0 if gear == 0
+      raise(Disengaged, "Cannot determine gear ratio") if @gear == 0
       @ratios.fetch(gear - 1) * @final_drive
     end
 
     def axle_torque(crank_torque)
-      raise(Disengaged, "Cannot determine axle omega") if @gear == 0
       crank_torque / self.ratio
     end
 
     def axle_omega(crank_rpm)
-      raise(Disengaged, "Cannot determine axle omega") if @gear == 0
       DrivingPhysics.omega(crank_rpm) * self.ratio
     end
 
     def crank_rpm(axle_omega)
-      raise(Disengaged, "Cannot determine crank rpm") if @gear == 0
       DrivingPhysics.rpm(axle_omega) / self.ratio
     end
 
