@@ -1,69 +1,68 @@
 require 'driving_physics/tire'
+require 'driving_physics/imperial'
+require 'driving_physics/cli'
 
 include DrivingPhysics
 
 env = Environment.new
 tire = Tire.new(env)
-
 puts env
 puts tire
 
-# 1000 kg car
-# 4 tires
-# 250 kg per tire plus tire mass
-
+duration = 100 # sec
+axle_torque = 1000 # N*m
 supported_mass = 1000 # kg
+
+puts "Given:"
+puts "* #{axle_torque} Nm axle torque"
+puts "* #{supported_mass} kg supported mass"
+puts "* 4 tires"
+puts "* #{duration} seconds"
+puts
+
 total_mass = supported_mass + 4 * tire.mass
 corner_mass = Rational(total_mass) / 4
 normal_force = corner_mass * env.g
-axle_torque = 1000 # N*m
 
-puts [format("Corner mass: %d kg", corner_mass),
-      format("Normal force: %.1f N", normal_force),
-      format("Axle torque: %d Nm", axle_torque),
-     ].join("\n")
+puts "Therefore:"
+puts format("* %.1f kg total mass",  total_mass)
+puts format("* %.1f kg per corner",  corner_mass)
+puts format("* %.1f N normal force", normal_force)
 puts
 
 traction = tire.traction(normal_force)
 drive_force = tire.force(axle_torque)
-inertial_loss = tire.inertial_loss(axle_torque, driven_mass: supported_mass)
-net_axle_torque = axle_torque - inertial_loss
-net_drive_force = tire.force(net_axle_torque)
-acc = DrivingPhysics.acc(net_drive_force, supported_mass) # translational
-alpha = acc / tire.radius
 
-puts [format("Traction: %.1f N", traction),
-      format("Drive force: %.1f N", drive_force),
-      format("Inertial loss: %.1f Nm", inertial_loss),
-      format("Net Axle Torque: %.1f Nm", net_axle_torque),
-      format("Net Drive Force: %.1f N", net_drive_force),
-      format("Acceleration: %.1f m/s/s", acc),
-      format("Alpha: %.2f r/s/s", alpha),
-     ].join("\n")
-puts
 
-duration = 100 # sec
+puts "Tires:"
+puts format("* %.1f N traction", traction)
+puts format("* %.1f N drive force", drive_force)
 
-dist = 0.0  # meters
+CLI.pause
+
+acc = 0.0   # meters/s/s
 speed = 0.0 # meters/s
+dist = 0.0  # meters
 
-theta = 0.0 # radians
+alpha = 0.0 # radians/s/s
 omega = 0.0 # radians/s
+theta = 0.0 # radians
 
 t = Time.now
-num_ticks = duration * env.hz
+num_ticks = duration * env.hz + 1
 
 num_ticks.times { |i|
   torque = tire.net_tractable_torque(axle_torque,
-                                      mass: total_mass,
-                                      omega: omega,
-                                      normal_force: normal_force)
+                                     mass: total_mass,
+                                     omega: omega,
+                                     normal_force: normal_force)
   force = tire.force(torque)
 
   # translational kinematics
   acc = DrivingPhysics.acc(force, supported_mass)
   speed += acc * env.tick
   dist += speed * env.tick
+  mph = Imperial.mph(speed)
 
   # rotational kinematics
   alpha = acc / tire.radius
@@ -77,7 +76,8 @@ num_ticks.times { |i|
 
     puts DrivingPhysics.elapsed_display(i)
     puts format("  Tire: %.1f r  %.2f r/s  %.3f r/s^2", theta, omega, alpha)
-    puts format("   Car: %.1f m  %.2f m/s  %.3f m/s^2", dist, speed, acc)
+    puts format("   Car: %.1f m  %.2f m/s  %.3f m/s^2  (%d mph)",
+                dist, speed, acc, mph)
     puts format("Torque: %.1f Nm (%d N)  Loss: %.1f%%",
                 torque, force, (1.0 - torque / axle_torque) * 100)
     puts
