@@ -7,6 +7,7 @@ module DrivingPhysics
     MPH = (FEET_PER_METER / FEET_PER_MILE) * SECS_PER_HOUR
     CI_PER_LITER = 61.024
     GAL_PER_LITER = 0.264172
+    PS_PER_KW = 1.3596216173039
 
     def self.feet(meters)
       meters * FEET_PER_METER
@@ -34,6 +35,11 @@ module DrivingPhysics
 
     def self.kph(mph)
       DP::kph(mps(mph))
+    end
+
+    # convert kilowatts to horsepower
+    def self.ps(kw)
+      kw * PS_PER_KW
     end
 
     def self.deg_c(deg_f)
