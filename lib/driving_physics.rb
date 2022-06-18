@@ -36,6 +36,7 @@ module DrivingPhysics
   MINS_PER_HOUR = 60
   SECS_PER_HOUR = SECS_PER_MIN * MINS_PER_HOUR
 
+  # HH::MM::SS.mmm
   def self.elapsed_display(elapsed_ms)
     elapsed_s, ms = elapsed_ms.divmod 1000
 
