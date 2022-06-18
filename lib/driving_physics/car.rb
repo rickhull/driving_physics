@@ -4,18 +4,38 @@ require 'driving_physics/powertrain'
 module DrivingPhysics
   class Car
     attr_reader :tire, :powertrain, :env
-    attr_accessor :num_tires, :mass, :frontal_area, :cd
+    attr_accessor :num_tires, :body_mass, :frontal_area, :cd
 
     def initialize(tire:, powertrain:)
       @num_tires = 4
       @tire = tire
       @env = @tire.env
       @powertrain = powertrain
-      @mass = Rational(1000)
+      @body_mass = 1000.0
       @frontal_area = DrivingPhysics::FRONTAL_AREA
       @cd = DrivingPhysics::DRAG_COF
 
       yield self if block_given?
+    end
+
+    def throttle
+      @powertrain.motor.throttle
+    end
+
+    def throttle=(val)
+      @powertrain.motor.throttle = val
+    end
+
+    def gear
+      @powertrain.gearbox.gear
+    end
+
+    def gear=(val)
+      @powertrain.gearbox.gear = val
+    end
+
+    def top_gear
+      @powertrain.gearbox.top_gear
     end
 
     # force opposing speed
@@ -59,7 +79,7 @@ module DrivingPhysics
         format("Fr.A: %.2f m^2", @frontal_area),
         format("cD: %.2f", @cd),
        ].join(' | '),
-       format("Powertrain: %s", @powertrain),
+       format("POWERTRAIN:\n%s", @powertrain),
        format("Tires: %s", @tire),
        format("Corner mass: %.1f kg | Normal force: %.1f N",
               self.corner_mass, self.normal_force),
@@ -79,7 +99,7 @@ module DrivingPhysics
     end
 
     def total_mass
-      @mass + @tire.mass * @num_tires
+      @body_mass + @powertrain.mass + @tire.mass * @num_tires
     end
 
     def corner_mass
