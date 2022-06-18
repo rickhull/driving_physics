@@ -1,8 +1,9 @@
 Tick: 1000 Hz | G: 9.80 m/s^2 | Air: 25.0 C 1.29 kg/m^3 | Petrol: 0.71 kg/L
 	[MOTOR]
+Throttle: 100.0%
 Torque:
    0 Nm   500 RPM
-  50 Nm  1000 RPM
+  70 Nm  1000 RPM
  130 Nm  1500 RPM
  200 Nm  2000 RPM
  250 Nm  2500 RPM
@@ -20,96 +21,210 @@ Ratios: [(1/5), (2/5), (5/9), (5/7), (1/1), (5/4)]
 
 # GEAR 1 (11/205)
 #
-1000 RPM:  575.6 Nm  4 mph
-1500 RPM:  1923.0 Nm  6 mph
-2000 RPM:  3084.0 Nm  8 mph
-2500 RPM:  3872.3 Nm  10 mph
-3000 RPM:  4381.1 Nm  12 mph
-3500 RPM:  4889.9 Nm  14 mph
-4000 RPM:  4808.5 Nm  16 mph
-4500 RPM:  4727.1 Nm  18 mph
-5000 RPM:  4645.7 Nm  20 mph
-5500 RPM:  4409.0 Nm  22 mph
-6000 RPM:  4172.4 Nm  24 mph
-6500 RPM:  3469.8 Nm  26 mph
-7000 RPM:  2767.2 Nm  28 mph
+ 800 RPM: 483.9 Nm    2.2 kW     3 PS	  3 mph
+1000 RPM: 948.3 Nm    5.3 kW     7 PS	  4 mph
+1200 RPM: 1338.2 Nm    9.0 kW    12 PS	  5 mph
+1400 RPM: 1728.1 Nm   13.6 kW    18 PS	  6 mph
+1600 RPM: 2155.2 Nm   19.4 kW    26 PS	  6 mph
+1800 RPM: 2619.6 Nm   26.5 kW    36 PS	  7 mph
+2000 RPM: 3084.0 Nm   34.7 kW    47 PS	  8 mph
+2200 RPM: 3399.4 Nm   42.0 kW    57 PS	  9 mph
+2400 RPM: 3714.7 Nm   50.1 kW    68 PS	 10 mph
+2600 RPM: 3974.1 Nm   58.1 kW    79 PS	 10 mph
+2800 RPM: 4177.6 Nm   65.7 kW    89 PS	 11 mph
+3000 RPM: 4381.1 Nm   73.9 kW   100 PS	 12 mph
+3200 RPM: 4584.6 Nm   82.4 kW   112 PS	 13 mph
+3400 RPM: 4788.1 Nm   91.5 kW   124 PS	 14 mph
+3600 RPM: 4873.6 Nm   98.6 kW   134 PS	 14 mph
+3800 RPM: 4841.1 Nm  103.4 kW   141 PS	 15 mph
+4000 RPM: 4808.5 Nm  108.1 kW   147 PS	 16 mph
+4200 RPM: 4775.9 Nm  112.7 kW   153 PS	 17 mph
+4400 RPM: 4743.4 Nm  117.3 kW   159 PS	 18 mph
+4600 RPM: 4710.8 Nm  121.8 kW   166 PS	 19 mph
+4800 RPM: 4678.3 Nm  126.2 kW   172 PS	 19 mph
+5000 RPM: 4645.7 Nm  130.5 kW   177 PS	 20 mph
+5200 RPM: 4551.1 Nm  133.0 kW   181 PS	 21 mph
+5400 RPM: 4456.4 Nm  135.2 kW   184 PS	 22 mph
+5600 RPM: 4361.7 Nm  137.2 kW   187 PS	 23 mph
+5800 RPM: 4267.0 Nm  139.1 kW   189 PS	 23 mph
+6000 RPM: 4172.4 Nm  140.7 kW   191 PS	 24 mph
+6200 RPM: 3891.3 Nm  135.6 kW   184 PS	 25 mph
+6400 RPM: 3610.3 Nm  129.8 kW   177 PS	 26 mph
+6600 RPM: 3329.2 Nm  123.5 kW   168 PS	 27 mph
+6800 RPM: 3048.2 Nm  116.5 kW   158 PS	 27 mph
+7000 RPM: 2767.2 Nm  108.8 kW   148 PS	 28 mph
 
 # GEAR 2 (22/205)
 #
-1000 RPM:  287.2 Nm  8 mph
-1500 RPM:  960.8 Nm  12 mph
-2000 RPM:  1541.3 Nm  16 mph
-2500 RPM:  1935.3 Nm  20 mph
-3000 RPM:  2189.6 Nm  24 mph
-3500 RPM:  2443.9 Nm  28 mph
-4000 RPM:  2403.1 Nm  32 mph
-4500 RPM:  2362.4 Nm  36 mph
-5000 RPM:  2321.6 Nm  40 mph
-5500 RPM:  2203.1 Nm  44 mph
-6000 RPM:  2084.7 Nm  48 mph
-6500 RPM:  1733.3 Nm  52 mph
-7000 RPM:  1381.9 Nm  56 mph
+ 800 RPM: 241.4 Nm    2.2 kW     3 PS	  6 mph
+1000 RPM: 473.6 Nm    5.3 kW     7 PS	  8 mph
+1200 RPM: 668.5 Nm    9.0 kW    12 PS	 10 mph
+1400 RPM: 863.4 Nm   13.6 kW    18 PS	 11 mph
+1600 RPM: 1076.9 Nm   19.4 kW    26 PS	 13 mph
+1800 RPM: 1309.1 Nm   26.5 kW    36 PS	 14 mph
+2000 RPM: 1541.3 Nm   34.6 kW    47 PS	 16 mph
+2200 RPM: 1698.9 Nm   42.0 kW    57 PS	 18 mph
+2400 RPM: 1856.5 Nm   50.1 kW    68 PS	 19 mph
+2600 RPM: 1986.2 Nm   58.0 kW    79 PS	 21 mph
+2800 RPM: 2087.9 Nm   65.7 kW    89 PS	 23 mph
+3000 RPM: 2189.6 Nm   73.8 kW   100 PS	 24 mph
+3200 RPM: 2291.3 Nm   82.4 kW   112 PS	 26 mph
+3400 RPM: 2393.1 Nm   91.4 kW   124 PS	 27 mph
+3600 RPM: 2435.8 Nm   98.5 kW   134 PS	 29 mph
+3800 RPM: 2419.5 Nm  103.3 kW   140 PS	 31 mph
+4000 RPM: 2403.1 Nm  108.0 kW   147 PS	 32 mph
+4200 RPM: 2386.8 Nm  112.7 kW   153 PS	 34 mph
+4400 RPM: 2370.5 Nm  117.2 kW   159 PS	 35 mph
+4600 RPM: 2354.2 Nm  121.7 kW   165 PS	 37 mph
+4800 RPM: 2337.9 Nm  126.1 kW   171 PS	 39 mph
+5000 RPM: 2321.6 Nm  130.5 kW   177 PS	 40 mph
+5200 RPM: 2274.2 Nm  132.9 kW   181 PS	 42 mph
+5400 RPM: 2226.8 Nm  135.1 kW   184 PS	 43 mph
+5600 RPM: 2179.4 Nm  137.2 kW   186 PS	 45 mph
+5800 RPM: 2132.1 Nm  139.0 kW   189 PS	 47 mph
+6000 RPM: 2084.7 Nm  140.6 kW   191 PS	 48 mph
+6200 RPM: 1944.1 Nm  135.5 kW   184 PS	 50 mph
+6400 RPM: 1803.6 Nm  129.7 kW   176 PS	 51 mph
+6600 RPM: 1663.0 Nm  123.4 kW   168 PS	 53 mph
+6800 RPM: 1522.5 Nm  116.3 kW   158 PS	 55 mph
+7000 RPM: 1381.9 Nm  108.7 kW   148 PS	 56 mph
 
 # GEAR 3 (55/369)
 #
-1000 RPM:  206.4 Nm  11 mph
-1500 RPM:  691.4 Nm  16 mph
-2000 RPM:  1109.2 Nm  22 mph
-2500 RPM:  1392.8 Nm  27 mph
-3000 RPM:  1575.8 Nm  33 mph
-3500 RPM:  1758.8 Nm  39 mph
-4000 RPM:  1729.4 Nm  44 mph
-4500 RPM:  1699.9 Nm  50 mph
-5000 RPM:  1670.5 Nm  55 mph
-5500 RPM:  1585.1 Nm  61 mph
-6000 RPM:  1499.8 Nm  67 mph
-6500 RPM:  1246.7 Nm  72 mph
-7000 RPM:  993.6 Nm  78 mph
+ 800 RPM: 173.5 Nm    2.2 kW     3 PS	  9 mph
+1000 RPM: 340.6 Nm    5.3 kW     7 PS	 11 mph
+1200 RPM: 480.9 Nm    9.0 kW    12 PS	 13 mph
+1400 RPM: 621.2 Nm   13.6 kW    18 PS	 16 mph
+1600 RPM: 774.9 Nm   19.4 kW    26 PS	 18 mph
+1800 RPM: 942.1 Nm   26.5 kW    36 PS	 20 mph
+2000 RPM: 1109.2 Nm   34.6 kW    47 PS	 22 mph
+2200 RPM: 1222.6 Nm   42.0 kW    57 PS	 25 mph
+2400 RPM: 1336.1 Nm   50.1 kW    68 PS	 27 mph
+2600 RPM: 1429.4 Nm   58.0 kW    79 PS	 29 mph
+2800 RPM: 1502.6 Nm   65.7 kW    89 PS	 31 mph
+3000 RPM: 1575.8 Nm   73.8 kW   100 PS	 34 mph
+3200 RPM: 1649.0 Nm   82.4 kW   112 PS	 36 mph
+3400 RPM: 1722.2 Nm   91.4 kW   124 PS	 38 mph
+3600 RPM: 1752.9 Nm   98.5 kW   134 PS	 40 mph
+3800 RPM: 1741.2 Nm  103.3 kW   140 PS	 42 mph
+4000 RPM: 1729.4 Nm  108.0 kW   147 PS	 45 mph
+4200 RPM: 1717.6 Nm  112.6 kW   153 PS	 47 mph
+4400 RPM: 1705.8 Nm  117.2 kW   159 PS	 49 mph
+4600 RPM: 1694.1 Nm  121.6 kW   165 PS	 51 mph
+4800 RPM: 1682.3 Nm  126.0 kW   171 PS	 54 mph
+5000 RPM: 1670.5 Nm  130.4 kW   177 PS	 56 mph
+5200 RPM: 1636.4 Nm  132.8 kW   181 PS	 58 mph
+5400 RPM: 1602.2 Nm  135.0 kW   184 PS	 60 mph
+5600 RPM: 1568.1 Nm  137.1 kW   186 PS	 63 mph
+5800 RPM: 1533.9 Nm  138.9 kW   189 PS	 65 mph
+6000 RPM: 1499.8 Nm  140.5 kW   191 PS	 67 mph
+6200 RPM: 1398.5 Nm  135.3 kW   184 PS	 69 mph
+6400 RPM: 1297.3 Nm  129.6 kW   176 PS	 72 mph
+6600 RPM: 1196.1 Nm  123.2 kW   168 PS	 74 mph
+6800 RPM: 1094.8 Nm  116.2 kW   158 PS	 76 mph
+7000 RPM: 993.6 Nm  108.6 kW   148 PS	 78 mph
 
 # GEAR 4 (55/287)
 #
-1000 RPM:  160.2 Nm  14 mph
-1500 RPM:  537.3 Nm  21 mph
-2000 RPM:  862.2 Nm  28 mph
-2500 RPM:  1082.7 Nm  35 mph
-3000 RPM:  1225.0 Nm  43 mph
-3500 RPM:  1367.2 Nm  50 mph
-4000 RPM:  1344.2 Nm  57 mph
-4500 RPM:  1321.2 Nm  64 mph
-5000 RPM:  1298.2 Nm  71 mph
-5500 RPM:  1231.8 Nm  79 mph
-6000 RPM:  1165.3 Nm  86 mph
-6500 RPM:  968.4 Nm  93 mph
-7000 RPM:  771.4 Nm  100 mph
+ 800 RPM: 134.6 Nm    2.2 kW     3 PS	 11 mph
+1000 RPM: 264.6 Nm    5.3 kW     7 PS	 14 mph
+1200 RPM: 373.7 Nm    9.0 kW    12 PS	 17 mph
+1400 RPM: 482.8 Nm   13.6 kW    18 PS	 20 mph
+1600 RPM: 602.3 Nm   19.3 kW    26 PS	 23 mph
+1800 RPM: 732.2 Nm   26.5 kW    36 PS	 26 mph
+2000 RPM: 862.2 Nm   34.6 kW    47 PS	 29 mph
+2200 RPM: 950.4 Nm   42.0 kW    57 PS	 32 mph
+2400 RPM: 1038.6 Nm   50.0 kW    68 PS	 34 mph
+2600 RPM: 1111.2 Nm   58.0 kW    79 PS	 37 mph
+2800 RPM: 1168.1 Nm   65.6 kW    89 PS	 40 mph
+3000 RPM: 1225.0 Nm   73.7 kW   100 PS	 43 mph
+3200 RPM: 1281.9 Nm   82.3 kW   112 PS	 46 mph
+3400 RPM: 1338.8 Nm   91.3 kW   124 PS	 49 mph
+3600 RPM: 1362.6 Nm   98.4 kW   134 PS	 52 mph
+3800 RPM: 1353.4 Nm  103.2 kW   140 PS	 55 mph
+4000 RPM: 1344.2 Nm  107.9 kW   147 PS	 57 mph
+4200 RPM: 1335.0 Nm  112.5 kW   153 PS	 60 mph
+4400 RPM: 1325.8 Nm  117.1 kW   159 PS	 63 mph
+4600 RPM: 1316.6 Nm  121.5 kW   165 PS	 66 mph
+4800 RPM: 1307.4 Nm  125.9 kW   171 PS	 69 mph
+5000 RPM: 1298.2 Nm  130.3 kW   177 PS	 72 mph
+5200 RPM: 1271.6 Nm  132.7 kW   180 PS	 75 mph
+5400 RPM: 1245.1 Nm  134.9 kW   183 PS	 78 mph
+5600 RPM: 1218.5 Nm  136.9 kW   186 PS	 80 mph
+5800 RPM: 1191.9 Nm  138.7 kW   189 PS	 83 mph
+6000 RPM: 1165.3 Nm  140.3 kW   191 PS	 86 mph
+6200 RPM: 1086.5 Nm  135.2 kW   184 PS	 89 mph
+6400 RPM: 1007.7 Nm  129.4 kW   176 PS	 92 mph
+6600 RPM: 929.0 Nm  123.0 kW   167 PS	 95 mph
+6800 RPM: 850.2 Nm  116.0 kW   158 PS	 98 mph
+7000 RPM: 771.4 Nm  108.4 kW   147 PS	101 mph
 
 # GEAR 5 (11/41)
 #
-1000 RPM:  113.9 Nm  20 mph
-1500 RPM:  383.1 Nm  30 mph
-2000 RPM:  615.0 Nm  40 mph
-2500 RPM:  772.4 Nm  50 mph
-3000 RPM:  873.9 Nm  60 mph
-3500 RPM:  975.3 Nm  70 mph
-4000 RPM:  958.7 Nm  80 mph
-4500 RPM:  942.2 Nm  90 mph
-5000 RPM:  925.6 Nm  100 mph
-5500 RPM:  878.0 Nm  110 mph
-6000 RPM:  830.3 Nm  120 mph
-6500 RPM:  689.5 Nm  130 mph
-7000 RPM:  548.7 Nm  140 mph
+ 800 RPM:  95.7 Nm    2.2 kW     3 PS	 16 mph
+1000 RPM: 188.5 Nm    5.3 kW     7 PS	 20 mph
+1200 RPM: 266.3 Nm    9.0 kW    12 PS	 24 mph
+1400 RPM: 344.2 Nm   13.5 kW    18 PS	 28 mph
+1600 RPM: 429.5 Nm   19.3 kW    26 PS	 32 mph
+1800 RPM: 522.3 Nm   26.4 kW    36 PS	 36 mph
+2000 RPM: 615.0 Nm   34.6 kW    47 PS	 40 mph
+2200 RPM: 678.0 Nm   41.9 kW    57 PS	 44 mph
+2400 RPM: 740.9 Nm   50.0 kW    68 PS	 48 mph
+2600 RPM: 792.7 Nm   57.9 kW    79 PS	 52 mph
+2800 RPM: 833.3 Nm   65.6 kW    89 PS	 56 mph
+3000 RPM: 873.9 Nm   73.7 kW   100 PS	 60 mph
+3200 RPM: 914.4 Nm   82.2 kW   112 PS	 64 mph
+3400 RPM: 955.0 Nm   91.2 kW   124 PS	 68 mph
+3600 RPM: 972.0 Nm   98.3 kW   134 PS	 72 mph
+3800 RPM: 965.4 Nm  103.1 kW   140 PS	 76 mph
+4000 RPM: 958.7 Nm  107.7 kW   146 PS	 80 mph
+4200 RPM: 952.1 Nm  112.3 kW   153 PS	 84 mph
+4400 RPM: 945.5 Nm  116.9 kW   159 PS	 88 mph
+4600 RPM: 938.8 Nm  121.3 kW   165 PS	 93 mph
+4800 RPM: 932.2 Nm  125.7 kW   171 PS	 97 mph
+5000 RPM: 925.6 Nm  130.0 kW   177 PS	101 mph
+5200 RPM: 906.5 Nm  132.4 kW   180 PS	105 mph
+5400 RPM: 887.5 Nm  134.6 kW   183 PS	109 mph
+5600 RPM: 868.4 Nm  136.6 kW   186 PS	113 mph
+5800 RPM: 849.4 Nm  138.4 kW   188 PS	117 mph
+6000 RPM: 830.3 Nm  140.0 kW   190 PS	121 mph
+6200 RPM: 774.0 Nm  134.8 kW   183 PS	125 mph
+6400 RPM: 717.7 Nm  129.0 kW   175 PS	129 mph
+6600 RPM: 661.3 Nm  122.6 kW   167 PS	133 mph
+6800 RPM: 605.0 Nm  115.6 kW   157 PS	137 mph
+7000 RPM: 548.7 Nm  107.9 kW   147 PS	141 mph
 
 # GEAR 6 (55/164)
 #
-1000 RPM:  90.7 Nm  25 mph
-1500 RPM:  305.9 Nm  37 mph
-2000 RPM:  491.3 Nm  50 mph
-2500 RPM:  617.1 Nm  62 mph
-3000 RPM:  698.1 Nm  75 mph
-3500 RPM:  779.1 Nm  87 mph
-4000 RPM:  765.7 Nm  100 mph
-4500 RPM:  752.3 Nm  113 mph
-5000 RPM:  738.9 Nm  125 mph
-5500 RPM:  700.7 Nm  138 mph
-6000 RPM:  662.4 Nm  150 mph
-6500 RPM:  549.6 Nm  163 mph
-7000 RPM:  436.8 Nm  175 mph
+ 800 RPM:  76.2 Nm    2.1 kW     3 PS	 20 mph
+1000 RPM: 150.4 Nm    5.3 kW     7 PS	 25 mph
+1200 RPM: 212.6 Nm    9.0 kW    12 PS	 30 mph
+1400 RPM: 274.8 Nm   13.5 kW    18 PS	 35 mph
+1600 RPM: 343.0 Nm   19.3 kW    26 PS	 40 mph
+1800 RPM: 417.2 Nm   26.4 kW    36 PS	 45 mph
+2000 RPM: 491.3 Nm   34.5 kW    47 PS	 50 mph
+2200 RPM: 541.6 Nm   41.8 kW    57 PS	 55 mph
+2400 RPM: 591.9 Nm   49.9 kW    68 PS	 60 mph
+2600 RPM: 633.3 Nm   57.8 kW    79 PS	 65 mph
+2800 RPM: 665.7 Nm   65.5 kW    89 PS	 70 mph
+3000 RPM: 698.1 Nm   73.6 kW   100 PS	 75 mph
+3200 RPM: 730.5 Nm   82.1 kW   112 PS	 80 mph
+3400 RPM: 762.9 Nm   91.1 kW   124 PS	 85 mph
+3600 RPM: 776.4 Nm   98.2 kW   133 PS	 91 mph
+3800 RPM: 771.1 Nm  102.9 kW   140 PS	 96 mph
+4000 RPM: 765.7 Nm  107.6 kW   146 PS	101 mph
+4200 RPM: 760.4 Nm  112.2 kW   152 PS	106 mph
+4400 RPM: 755.0 Nm  116.7 kW   159 PS	111 mph
+4600 RPM: 749.6 Nm  121.1 kW   165 PS	116 mph
+4800 RPM: 744.3 Nm  125.5 kW   171 PS	121 mph
+5000 RPM: 738.9 Nm  129.8 kW   176 PS	126 mph
+5200 RPM: 723.6 Nm  132.1 kW   180 PS	131 mph
+5400 RPM: 708.3 Nm  134.3 kW   183 PS	136 mph
+5600 RPM: 693.0 Nm  136.3 kW   185 PS	141 mph
+5800 RPM: 677.7 Nm  138.0 kW   188 PS	146 mph
+6000 RPM: 662.4 Nm  139.6 kW   190 PS	151 mph
+6200 RPM: 617.3 Nm  134.4 kW   183 PS	156 mph
+6400 RPM: 572.2 Nm  128.6 kW   175 PS	161 mph
+6600 RPM: 527.1 Nm  122.2 kW   166 PS	166 mph
+6800 RPM: 482.0 Nm  115.1 kW   156 PS	171 mph
+7000 RPM: 436.8 Nm  107.4 kW   146 PS	176 mph

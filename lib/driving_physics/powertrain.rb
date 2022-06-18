@@ -2,6 +2,9 @@ require 'driving_physics/motor'
 require 'driving_physics/gearbox'
 
 module DrivingPhysics
+  # Powertrain right now is pretty simple.  It combines the motor with
+  # the gearbox.
+
   class Powertrain
     attr_reader :motor, :gearbox
 
@@ -16,6 +19,12 @@ module DrivingPhysics
 
     def select_gear(gear)
       @gearbox.gear = gear
+    end
+
+    # power, torque, omega
+    def output(rpm)
+      t, o = self.axle_torque(rpm), self.axle_omega(rpm)
+      [t * o, t, o]
     end
 
     def axle_torque(rpm)
