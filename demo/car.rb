@@ -58,7 +58,7 @@ num_ticks.times { |i|
       puts DrivingPhysics.elapsed_display(i)
       puts format("%d rad  %d rad/s  %d rad/s/s",
                   crank_theta, crank_omega, crank_alpha)
-      puts "RPM: #{rpm.round}"
+      puts format("%d RPM  %d Nm starter torque", rpm, motor.starter_torque)
       puts
     end
 
@@ -135,7 +135,9 @@ EOF
       rpm = new_rpm
     when :mismatch
       flag = true
-      puts "LURCH!"
+      puts '#'
+      puts '# LURCH!'
+      puts '#'
       puts
       rpm = new_rpm
     end

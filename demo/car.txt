@@ -27,31 +27,31 @@ Corner mass: 287.5 kg | Normal force: 2817.6 N
 
 00:00:00.000
 0 rad  0 rad/s  213 rad/s/s
-RPM: 2
+2 RPM  500 Nm starter torque
 
 00:00:00.100
 1 rad  21 rad/s  210 rad/s/s
-RPM: 204
+203 RPM  500 Nm starter torque
 
 00:00:00.200
 4 rad  42 rad/s  209 rad/s/s
-RPM: 404
+403 RPM  500 Nm starter torque
 
 00:00:00.300
 9 rad  63 rad/s  207 rad/s/s
-RPM: 603
+603 RPM  500 Nm starter torque
 
 00:00:00.400
 16 rad  83 rad/s  206 rad/s/s
-RPM: 801
+800 RPM  500 Nm starter torque
 
 00:00:00.500
 26 rad  104 rad/s  205 rad/s/s
-RPM: 997
+997 RPM  500 Nm starter torque
 
 00:00:00.502
 26 rad  104 rad/s  205 rad/s/s
-RPM: 1001
+1001 RPM  500 Nm starter torque
 
 
 #
@@ -299,7 +299,9 @@ Resist: Air: -127.7 N  Roll: -112.7 N  Spin: -74.0 N  Inertial: -201.7 N
 
 Clutch: [mismatch] 3201 RPM is -50.0% from 6400 RPM
      [ Press Enter ]
-LURCH!
+#
+# LURCH!
+#
 
 00:00:03.476
   Tire: 28.8 r  35.99 r/s  14.841 r/s^2
@@ -447,7 +449,9 @@ Resist: Air: -511.0 N  Roll: -112.7 N  Spin: -131.9 N  Inertial: -123.0 N
 
 Clutch: [mismatch] 4608 RPM is -28.0% from 6400 RPM
      [ Press Enter ]
-LURCH!
+#
+# LURCH!
+#
 
 00:00:06.031
   Tire: 169.2 r  71.95 r/s  9.721 r/s^2
@@ -497,7 +501,9 @@ Resist: Air: -985.7 N  Roll: -112.7 N  Spin: -176.9 N  Inertial: -66.9 N
 
 Clutch: [mismatch] 4978 RPM is -22.2% from 6400 RPM
      [ Press Enter ]
-LURCH!
+#
+# LURCH!
+#
 
 00:00:09.484
   Tire: 469.8 r  99.91 r/s  5.801 r/s^2
@@ -575,7 +581,9 @@ Resist: Air: -1629.3 N  Roll: -112.7 N  Spin: -222.9 N  Inertial: -3.6 N
 
 Clutch: [mismatch] 4571 RPM is -28.6% from 6400 RPM
      [ Press Enter ]
-LURCH!
+#
+# LURCH!
+#
 
 00:00:16.600
   Tire: 1297.5 r  128.44 r/s  1.715 r/s^2
@@ -1321,4 +1329,4 @@ Resist: Air: -2193.1 N  Roll: -112.7 N  Spin: -256.0 N  Inertial: -0.0 N
   Axle: 896.6 Nm (2561 N)  Net Force: 0.0 N
 Resist: Air: -2193.1 N  Roll: -112.7 N  Spin: -256.0 N  Inertial: -0.0 N
 
-22.86 s (5249 ticks / s)
+13.81 s (8688 ticks / s)
