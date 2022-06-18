@@ -7,9 +7,9 @@ include DrivingPhysics
 
 env = Environment.new
 motor = Motor.new(env)
-motor.throttle = 1.0
 gearbox = Gearbox.new(env)
 powertrain = Powertrain.new(motor, gearbox)
+powertrain.throttle = 1.0
 puts env
 puts powertrain
 CLI.pause
