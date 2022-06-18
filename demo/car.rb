@@ -63,7 +63,7 @@ num_ticks.times { |i|
     end
 
     if rpm > motor.idle_rpm
-      pt.select_gear(1)
+      pt.gear = 1
       phase = :running
 
       puts <<EOF
@@ -145,7 +145,7 @@ EOF
     if next_gear != gearbox.gear
       flag = true
       puts "Gear Change: #{next_gear}"
-      car.powertrain.select_gear(next_gear)
+      car.powertrain.gear = next_gear
       CLI.pause
     end
   end

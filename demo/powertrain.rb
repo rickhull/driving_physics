@@ -22,7 +22,7 @@ axle_omega = 0.0
 
 # Run through the gears
 1.upto(6) { |gear|
-  powertrain.select_gear(gear)
+  powertrain.gear = gear
 
   puts <<EOF
 

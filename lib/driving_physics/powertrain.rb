@@ -17,8 +17,20 @@ module DrivingPhysics
       ["\t[MOTOR]", @motor, "\t[GEARBOX]", @gearbox].join("\n")
     end
 
-    def select_gear(gear)
-      @gearbox.gear = gear
+    def throttle
+      @motor.throttle
+    end
+
+    def throttle=(val)
+      @motor.throttle = val
+    end
+
+    def gear
+      @gearbox.gear
+    end
+
+    def gear=(val)
+      @gearbox.gear = val
     end
 
     # power, torque, omega
