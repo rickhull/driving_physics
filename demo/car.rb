@@ -21,12 +21,15 @@ CLI.pause
 
 duration = 120
 
+acc = 0.0
 speed = 0.0
 dist = 0.0
 
+tire_alpha = 0.0
 tire_omega = 0.0
 tire_theta = 0.0
 
+crank_alpha = 0.0
 crank_omega = 0.0
 crank_theta = 0.0
 
@@ -78,12 +81,15 @@ EOF
   elsif phase == :running
     # track crank_alpha/omega/theta
 
+    # cut throttle after 60 s
+    car.throttle = 0 if i > 60 * env.hz and car.throttle == 1.0
+
     ar = car.air_force(speed)
     rr = car.tire_rolling_force(tire_omega)
     rf = car.tire_rotational_force(tire_omega)
 
+    # note, this fails if we're in neutral
     force = car.drive_force(rpm) + ar + rr + rf
-
 
     ir = car.tire_inertial_force(force)
     force += ir
@@ -105,10 +111,10 @@ EOF
 
     if flag or (i < 5000 and i % 100 == 0) or (i % 1000 == 0)
       puts DrivingPhysics.elapsed_display(i)
-      puts format("  Tire: %.1f r  %.2f r/s  %.3f r/s^2",
-                  tire_theta, tire_omega, tire_alpha)
-      puts format("   Car: %.1f m  %.2f m/s  %.3f m/s^2 (%.1f MPH)",
-                  dist, speed, acc, Imperial.mph(speed))
+      puts format("  Tire: %.1f r/s/s  %.2f r/s  %.3f r",
+                  tire_alpha, tire_omega, tire_theta)
+      puts format("   Car: %.1f m/s/s  %.2f m/s  %.3f m  (%.1f MPH)",
+                  acc, speed, dist, Imperial.mph(speed))
       puts format(" Motor: %d RPM  %.1f Nm", rpm, crank_torque)
       puts format("  Axle: %.1f Nm (%d N)  Net Force: %.1f N",
                   axle_torque, car.drive_force(rpm), force)
@@ -149,6 +155,18 @@ EOF
       car.gear = next_gear
       CLI.pause
     end
+
+    # maintain idle when revs drop
+    if car.throttle == 0 and rpm < motor.idle_rpm
+      phase = :idling
+      car.gear = 0
+      CLI.pause
+    end
+
+
+  elsif phase == :idling
+    # fake
+    rpm = motor.idle_rpm
   end
 }
 
