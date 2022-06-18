@@ -15,6 +15,10 @@ module DrivingPhysics
       @gearbox = gearbox
     end
 
+    def mass
+      @motor.mass + @gearbox.mass
+    end
+
     def to_s
       ["\t[MOTOR]", @motor, "\t[GEARBOX]", @gearbox].join("\n")
     end
