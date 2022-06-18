@@ -1,26 +1,42 @@
 require 'driving_physics/vector_force'
+require 'driving_physics/environment'
+require 'driving_physics/cli'
 
-DP = DrivingPhysics
+include DrivingPhysics
 
-p = Vector[0, 0]      # m
-v = Vector[0, 0]      # m/s
+env = Environment.new
+
 mass = 1000           # kg
-weight = mass * DP::G # N
+weight = mass * env.g # N
+drive_force = DrivingPhysics.random_unit_vector * 7000 # N
 duration = 100        # seconds
-drive_force = DP.random_unit_vector * 7000 # N
-tick = 1.0 / DP::HZ
+num_ticks = duration * env.hz + 1
 
-(duration * DP::HZ).times { |i|
-  nf = drive_force + DP::VectorForce.all_resistance(v, dir: v, nf_mag: weight)
+pos = Vector[0, 0]      # m
+vel = Vector[0, 0]      # m/s
 
-  a = DP.acc(nf, mass)
-  v = DP.vel(v, a, dt: tick)
-  p = DP.pos(p, v, dt: tick)
+num_ticks.times { |i|
+  net_force = drive_force +
+              VectorForce.all_resistance(vel, dir: vel, nf_mag: weight)
 
-  if i % DP::HZ == 0
-    puts [i / DP::HZ,
-          format("%.2f m/s", v.magnitude),
-          format("%.2f m", p.magnitude),
+  acc = DrivingPhysics.acc(net_force, mass)
+  vel += acc * env.tick
+  pos += vel * env.tick
+
+  if vel.magnitude > 100
+    flag = true
+    drive_force = Vector[0, 0]
+  end
+
+  if flag or (i % 1000 == 0)
+    puts [i / env.hz,
+          format("%.3f m/s/s", acc.magnitude),
+          format("%.2f m/s", vel.magnitude),
+          format("%.1f m", pos.magnitude),
          ].join("\t")
+    if flag
+      CLI.pause
+      flag = false
+    end
   end
 }
