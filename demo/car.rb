@@ -33,7 +33,7 @@ crank_alpha = 0.0
 crank_omega = 0.0
 crank_theta = 0.0
 
-t = CLI.now
+start = Timer.now
 paused = 0.0
 num_ticks = duration * env.hz + 1
 
@@ -172,5 +172,4 @@ EOF
   end
 }
 
-elapsed = CLI.since(t) - paused
-puts format("%.2f s (%d ticks / s)", elapsed, num_ticks / elapsed.to_f)
+puts Timer.summary(Timer.since(start) - paused, num_ticks)

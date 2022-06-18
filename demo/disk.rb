@@ -33,7 +33,7 @@ speed = 0.0 # meters/s
 theta = 0.0 # radians
 omega = 0.0 # radians/s
 
-t = CLI.now
+start = Timer.now
 paused = 0.0
 num_ticks = duration * env.hz + 1
 
@@ -63,7 +63,7 @@ num_ticks.times { |i|
     (i % 10_000 == 0) or
     i == duration * env.hz - 1
 
-    puts DrivingPhysics.elapsed_display(i)
+    puts Timer.display(ms: i)
     puts format(" Torque: %.1f Nm (%d Nm)  Friction: %.1f Nm",
                 net_torque, axle_torque, rotating_friction)
     puts format("Radians: %.1f r  %.2f r/s  %.3f r/s^2", theta, omega, alpha)
@@ -79,5 +79,4 @@ num_ticks.times { |i|
   end
 }
 
-elapsed = CLI.since(t) - paused
-puts format("%.2f s (%d ticks / s)", elapsed, num_ticks / elapsed)
+puts Timer.summary(Timer.since(start) - paused, num_ticks)

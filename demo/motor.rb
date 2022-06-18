@@ -64,7 +64,7 @@ rpm = 0
 
 paused = 0.0
 num_ticks = duration * env.hz + 1
-t = CLI.now
+start = Timer.now
 
 num_ticks.times { |i|
   # this is an input torque; alpha is determined after inertia and friction
@@ -138,5 +138,4 @@ num_ticks.times { |i|
   end
 }
 
-elapsed = CLI.since(t) - paused
-puts format("%.2f s (%d ticks / s)", elapsed, num_ticks / elapsed.to_f)
+puts Timer.summary(Timer.since(start) - paused, num_ticks)
