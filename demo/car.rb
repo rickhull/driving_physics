@@ -33,7 +33,8 @@ crank_alpha = 0.0
 crank_omega = 0.0
 crank_theta = 0.0
 
-t = Time.now
+t = CLI.now
+paused = 0.0
 num_ticks = duration * env.hz + 1
 
 clutch = :ok
@@ -134,7 +135,7 @@ EOF
       puts format("Clutch: [%s] %d RPM is %.1f%% from %d RPM",
                   new_clutch, new_rpm, proportion * 100, rpm)
       clutch = new_clutch
-      CLI.pause
+      paused += CLI.pause
     end
 
     case new_clutch
@@ -153,22 +154,23 @@ EOF
       flag = true
       puts "Gear Change: #{next_gear}"
       car.gear = next_gear
-      CLI.pause
+      paused += CLI.pause
     end
 
     # maintain idle when revs drop
     if car.throttle == 0 and rpm < motor.idle_rpm
       phase = :idling
       car.gear = 0
-      CLI.pause
+      paused += CLI.pause
     end
 
 
   elsif phase == :idling
     # fake
     rpm = motor.idle_rpm
+    break
   end
 }
 
-elapsed = Time.now - t
-puts format("%.2f s (%d ticks / s)", elapsed, num_ticks / elapsed)
+elapsed = CLI.since(t) - paused
+puts format("%.2f s (%d ticks / s)", elapsed, num_ticks / elapsed.to_f)
