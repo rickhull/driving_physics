@@ -10,9 +10,9 @@ puts env
 tire = Tire.new(env)
 motor = Motor.new(env)
 gearbox = Gearbox.new(env)
-pt = Powertrain.new(motor, gearbox)
-car = Car.new(tire: tire, powertrain: pt) { |c|
-  c.mass = 1050.0
+powertrain = Powertrain.new(motor, gearbox)
+car = Car.new(tire: tire, powertrain: powertrain) { |c|
+  c.body_mass = 850.0
   c.frontal_area = 2.5
   c.cd = 0.5
 }
@@ -63,7 +63,8 @@ num_ticks.times { |i|
     end
 
     if rpm > motor.idle_rpm
-      pt.gear = 1
+      car.gear = 1
+      car.throttle = 1.0
       phase = :running
 
       puts <<EOF
@@ -145,7 +146,7 @@ EOF
     if next_gear != gearbox.gear
       flag = true
       puts "Gear Change: #{next_gear}"
-      car.powertrain.gear = next_gear
+      car.gear = next_gear
       CLI.pause
     end
   end
