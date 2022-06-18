@@ -33,16 +33,17 @@ speed = 0.0 # meters/s
 theta = 0.0 # radians
 omega = 0.0 # radians/s
 
-t = Time.now
-elapsed = 0.0
+t = CLI.now
+paused = 0.0
 num_ticks = duration * env.hz + 1
 
 num_ticks.times { |i|
   # shut off the powah!
-  if i == 19_000
+  if i == 18_950
     flag = true
-    puts
-    puts "     ### CUT POWER ###"
+    puts '#'
+    puts '# CUT POWER'
+    puts '#'
     puts
     axle_torque = 0
   end
@@ -72,13 +73,11 @@ num_ticks.times { |i|
                 DrivingPhysics.rpm(omega))
     puts
     if flag
-      elapsed += Time.now - t
-      CLI.pause
-      t = Time.now
+      paused += CLI.pause
       flag = false
     end
   end
 }
 
-elapsed += Time.now - t
+elapsed = CLI.since(t) - paused
 puts format("%.2f s (%d ticks / s)", elapsed, num_ticks / elapsed)

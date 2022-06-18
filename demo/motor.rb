@@ -62,7 +62,11 @@ duration = 60
 status = :ignition
 rpm = 0
 
-(duration * env.hz + 1).times { |i|
+paused = 0.0
+num_ticks = duration * env.hz + 1
+t = CLI.now
+
+num_ticks.times { |i|
   # this is an input torque; alpha is determined after inertia and friction
   torque = case status
            when :ignition
@@ -129,7 +133,10 @@ rpm = 0
     puts format("%d rad  %.1f rad/s  %.1f rad/s/s", theta, omega, alpha)
     puts
 
-    CLI.pause if flag
+    paused += CLI.pause if flag
     flag = false
   end
 }
+
+elapsed = CLI.since(t) - paused
+puts format("%.2f s (%d ticks / s)", elapsed, num_ticks / elapsed.to_f)
