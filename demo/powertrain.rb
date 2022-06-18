@@ -9,7 +9,7 @@ env = Environment.new
 motor = Motor.new(env)
 gearbox = Gearbox.new(env)
 powertrain = Powertrain.new(motor, gearbox)
-powertrain.throttle = 1.0
+motor.throttle = 1.0
 puts env
 puts powertrain
 CLI.pause
@@ -22,11 +22,11 @@ axle_omega = 0.0
 
 # Run through the gears
 1.upto(6) { |gear|
-  powertrain.gear = gear
+  gearbox.gear = gear
 
   puts <<EOF
 
-# GEAR #{gear} (#{powertrain.gearbox.ratio})
+# GEAR #{gear} (#{gearbox.ratio})
 #
 EOF
 

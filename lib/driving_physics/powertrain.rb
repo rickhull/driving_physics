@@ -2,9 +2,11 @@ require 'driving_physics/motor'
 require 'driving_physics/gearbox'
 
 module DrivingPhysics
-  # Powertrain right now is pretty simple.  It combines the motor with
-  # the gearbox.
-
+  # Powertrain right now is pretty simple.  It combines the motor with the
+  # gearbox.  It is focused on operations that require or involve both
+  # components. It does not pass through operations to the motor or gearbox.
+  # Instead, it provides direct access to each component.
+  #
   class Powertrain
     attr_reader :motor, :gearbox
 
@@ -17,23 +19,7 @@ module DrivingPhysics
       ["\t[MOTOR]", @motor, "\t[GEARBOX]", @gearbox].join("\n")
     end
 
-    def throttle
-      @motor.throttle
-    end
-
-    def throttle=(val)
-      @motor.throttle = val
-    end
-
-    def gear
-      @gearbox.gear
-    end
-
-    def gear=(val)
-      @gearbox.gear = val
-    end
-
-    # power, torque, omega
+    # returns [power, torque, omega]
     def output(rpm)
       t, o = self.axle_torque(rpm), self.axle_omega(rpm)
       [t * o, t, o]
