@@ -7,8 +7,7 @@ module DrivingPhysics
       $stdin.gets.chomp
     end
 
-    # press Enter to continue
-    # return the elapsed time
+    # press Enter to continue, ignore input, return elapsed time
     def self.pause(msg = '')
       t = Timer.now
       puts msg unless msg.empty?
@@ -44,7 +43,8 @@ module DrivingPhysics
       DrivingPhysics.elapsed_display(ms)
     end
 
-    def self.summary(elapsed, num_ticks)
+    def self.summary(start, num_ticks, paused = 0)
+      elapsed = self.since(start) - paused
       format("%.3f s (%d ticks/s)", elapsed, num_ticks.to_f / elapsed)
     end
   end

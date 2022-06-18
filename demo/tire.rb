@@ -48,7 +48,8 @@ alpha = 0.0 # radians/s/s
 omega = 0.0 # radians/s
 theta = 0.0 # radians
 
-t = Time.now
+start = Timer.now
+paused = 0.0
 num_ticks = duration * env.hz + 1
 
 num_ticks.times { |i|
@@ -83,5 +84,4 @@ num_ticks.times { |i|
   end
 }
 
-elapsed = Time.now - t
-puts format("%.2f s (%d ticks / s)", elapsed, num_ticks / elapsed)
+puts Timer.summary(start, num_ticks, paused)

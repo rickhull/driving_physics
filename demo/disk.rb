@@ -33,9 +33,10 @@ speed = 0.0 # meters/s
 theta = 0.0 # radians
 omega = 0.0 # radians/s
 
-start = Timer.now
-paused = 0.0
+paused = 0.0 # seconds
 num_ticks = duration * env.hz + 1
+flag = false # to display current stats
+start = Timer.now
 
 num_ticks.times { |i|
   # shut off the powah!
@@ -79,4 +80,4 @@ num_ticks.times { |i|
   end
 }
 
-puts Timer.summary(Timer.since(start) - paused, num_ticks)
+puts Timer.summary(start, num_ticks, paused)

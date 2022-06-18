@@ -122,7 +122,7 @@ num_ticks.times { |i|
     (i < 10_000 and i % 500 == 0) or
     (i % 5000 == 0) or
     (status == :idling and i % 100 == 0)
-    puts DrivingPhysics.elapsed_display(i)
+    puts Timer.display(i)
     puts format("Throttle: %.1f%%", motor.throttle * 100)
     puts format("%d RPM  %.1f Nm (%d Nm)  %.1f kW   Friction: %.1f Nm",
                 DrivingPhysics.rpm(omega),
@@ -138,4 +138,4 @@ num_ticks.times { |i|
   end
 }
 
-puts Timer.summary(Timer.since(start) - paused, num_ticks)
+puts Timer.summary(start, num_ticks, paused)

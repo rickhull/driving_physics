@@ -59,7 +59,7 @@ num_ticks.times { |i|
     rpm = DrivingPhysics.rpm(crank_omega)
 
     if i % 100 == 0 or rpm > motor.idle_rpm
-      puts DrivingPhysics.elapsed_display(i)
+      puts Timer.display(i)
       puts format("%d rad  %d rad/s  %d rad/s/s",
                   crank_theta, crank_omega, crank_alpha)
       puts format("%d RPM  %d Nm starter torque", rpm, motor.starter_torque)
@@ -111,7 +111,7 @@ EOF
     crank_torque = car.powertrain.motor.torque(rpm)
 
     if flag or (i < 5000 and i % 100 == 0) or (i % 1000 == 0)
-      puts DrivingPhysics.elapsed_display(i)
+      puts Timer.display(i)
       puts format("  Tire: %.1f r/s/s  %.2f r/s  %.3f r",
                   tire_alpha, tire_omega, tire_theta)
       puts format("   Car: %.1f m/s/s  %.2f m/s  %.3f m  (%.1f MPH)",
@@ -172,4 +172,4 @@ EOF
   end
 }
 
-puts Timer.summary(Timer.since(start) - paused, num_ticks)
+puts Timer.summary(start, num_ticks, paused)
