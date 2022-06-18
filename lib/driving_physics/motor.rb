@@ -6,10 +6,11 @@ module DrivingPhysics
     class OverRev < RuntimeError; end
     class SanityCheck < RuntimeError; end
 
-    TORQUES = [  0,   50,  130,  200,  250,  320,  330,  320,  260,    0]
+    TORQUES = [  0,   70,  130,  200,  250,  320,  330,  320,  260,    0]
     RPMS    = [500, 1000, 1500, 2000, 2500, 3500, 5000, 6000, 7000, 7100]
+    ENGINE_BRAKING = 0.2 # 20% of the torque at a given RPM
 
-    attr_reader :env
+    attr_reader :env, :throttle
     attr_accessor :torques, :rpms, :fixed_mass,
                   :spinner, :starter_torque, :idle_rpm
 
@@ -29,10 +30,12 @@ module DrivingPhysics
       }
       @starter_torque = 500  # Nm
       @idle_rpm       = 1000 # RPM
+      @throttle       = 0.0  # 0.0 - 1.0 (0% - 100%)
     end
 
     def to_s
-      ary = ["Torque:"]
+      ary = [format("Throttle: %.1f%%", @throttle * 100)]
+      ary << "Torque:"
       @rpms.each_with_index { |r, i|
         ary << format("%s Nm %s RPM",
                       @torques[i].round(1).to_s.rjust(4, ' '),
@@ -51,6 +54,13 @@ module DrivingPhysics
       @spinner.mass + @fixed_mass
     end
 
+    def throttle=(val)
+      if val < 0.0 or val > 1.0
+        raise(ArgumentError, "val #{val.inspect} should be between 0 and 1")
+      end
+      @throttle = val
+    end
+
     # given torque, determine crank alpha after inertia and friction
     def alpha(torque, omega: 0)
       @spinner.alpha(torque + @spinner.rotating_friction(omega))
@@ -60,17 +70,6 @@ module DrivingPhysics
       @spinner.implied_torque(alpha)
     end
 
-    # How much torque is required to accelerate spinner up to alpha,
-    # overcoming both inertia and friction
-    # Presumably we have more input torque available, but this will be
-    # used to do more work than just spinning up the motor
-    #
-    #def resistance_torque(alpha, omega)
-    #  # reverse sign on inertial_torque as it is not modeled as a resistance
-    #  -1 * @spinner.inertial_torque(alpha) +
-    #    @spinner.rotating_friction(omega)
-    #end
-
     # interpolate based on torque curve points
     def torque(rpm)
       raise(Stall, "RPM #{rpm}") if rpm < @rpms.first
@@ -78,22 +77,27 @@ module DrivingPhysics
 
       last_rpm = 99999
       last_tq = -1
+      torque = nil
 
       # ew; there must be a better way
       @rpms.each_with_index { |r, i|
         tq = @torques[i]
         if last_rpm <= rpm and rpm <= r
           proportion = Rational(rpm - last_rpm) / (r - last_rpm)
-          return last_tq + (tq - last_tq) * proportion
+          torque = last_tq + (tq - last_tq) * proportion
+          break
         end
         last_rpm = r
         last_tq = tq
       }
-      raise(SanityCheck, "RPM #{rpm}")
-    end
+      raise(SanityCheck, "RPM #{rpm}") if torque.nil?
 
-    def net_torque(rpm, alpha: 0)
-      torque(rpm) + resistance_torque(alpha, DrivingPhysics.omega(rpm))
+      if (@throttle <= 0.05) and (rpm > @idle_rpm * 1.5)
+        # engine braking: 20% of torque
+        -1 * torque * ENGINE_BRAKING
+      else
+        torque * @throttle
+      end
     end
   end
 end

@@ -2,8 +2,7 @@ require 'driving_physics/motor'
 require 'driving_physics/cli'
 require 'driving_physics/power'
 
-# fun idea for a different demo: keep increasing torque until idle is
-# maintained
+# next fun idea: PID controller
 
 include DrivingPhysics
 
@@ -14,6 +13,7 @@ puts motor
 puts
 
 puts "Rev it up!"
+motor.throttle = 1.0
 [:torque, :power].each { |run|
   puts
   puts run.to_s.upcase + ':'
@@ -67,7 +67,7 @@ rpm = 0
   torque = case status
            when :ignition
              motor.starter_torque
-           when :running
+           when :running, :off_throttle, :idling
              motor.torque(rpm)
            else
              0
@@ -92,8 +92,23 @@ rpm = 0
   end
 
   if rpm > 7000 and status == :running
-    status = :off
+    status = :off_throttle
+    motor.throttle = 0.0
     flag = true
+  end
+
+  if rpm < 1000 and status == :off_throttle
+    status = :idling
+    motor.throttle = 0.06
+    flag = true
+  end
+
+  if status == :idling
+    if rpm < 999
+      motor.throttle += (1.0 - motor.throttle) * 0.005
+    elsif rpm > 1001
+      motor.throttle -= motor.throttle * 0.005
+    end
   end
 
   if flag or
@@ -101,8 +116,10 @@ rpm = 0
     (i < 100 and i % 10 == 0) or
     (i < 1000 and i % 100 == 0) or
     (i < 10_000 and i % 500 == 0) or
-    i % 5000 == 0
+    (i % 5000 == 0) or
+    (status == :idling and i % 100 == 0)
     puts DrivingPhysics.elapsed_display(i)
+    puts format("Throttle: %.1f%%", motor.throttle * 100)
     puts format("%d RPM  %.1f Nm (%d Nm)  %.1f kW   Friction: %.1f Nm",
                 DrivingPhysics.rpm(omega),
                 net_torque,
