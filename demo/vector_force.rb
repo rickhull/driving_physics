@@ -15,6 +15,9 @@ num_ticks = duration * env.hz + 1
 pos = Vector[0, 0]      # m
 vel = Vector[0, 0]      # m/s
 
+flag = false
+phase = :accelerate
+
 num_ticks.times { |i|
   net_force = drive_force +
               VectorForce.all_resistance(vel, dir: vel, nf_mag: weight)
@@ -23,17 +26,15 @@ num_ticks.times { |i|
   vel += acc * env.tick
   pos += vel * env.tick
 
-  if vel.magnitude > 100
+  if phase == :accelerate and vel.magnitude > 100
     flag = true
+    phase = :coast
     drive_force = Vector[0, 0]
   end
 
   if flag or (i % 1000 == 0)
-    puts [i / env.hz,
-          format("%.3f m/s/s", acc.magnitude),
-          format("%.2f m/s", vel.magnitude),
-          format("%.1f m", pos.magnitude),
-         ].join("\t")
+    puts format("%d  %.3f m/s/s  %.2f m/s  %.1f m",
+                i.to_f / env.hz, acc.magnitude, vel.magnitude, pos.magnitude)
     if flag
       CLI.pause
       flag = false

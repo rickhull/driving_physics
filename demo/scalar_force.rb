@@ -1,26 +1,43 @@
 require 'driving_physics/scalar_force'
+require 'driving_physics/environment'
+require 'driving_physics/cli'
 
-DP = DrivingPhysics
+include DrivingPhysics
 
-pos = 0               # m
-spd = 0               # m/s
+env = Environment.new
+
 mass = 1000           # kg
-weight = mass * DP::G # N
+weight = mass * env.g # N
 drive_force = 7000    # N
 duration = 100        # seconds
-tick = 1.0 / DP::HZ
+num_ticks = duration * env.hz + 1
 
-(duration * DP::HZ).times { |i|
-  nf = drive_force - DP::ScalarForce.all_resistance(spd, nf_mag: weight)
+spd = 0.0 # m/s
+pos = 0.0 # m
 
-  a = DP.acc(nf, mass)
-  spd = DP.vel(spd, a, dt: tick)
-  pos = DP.pos(pos, spd, dt: tick)
+flag = false
+phase = :accelerate
 
-  if i % DP::HZ == 0
-    puts [i / DP::HZ,
-          format("%.2f m/s", spd),
-          format("%.2f m", pos),
-         ].join("\t")
+num_ticks.times { |i|
+  # TODO: make the resistance force negative
+  net_force = drive_force - ScalarForce.all_resistance(spd, nf_mag: weight)
+
+  acc = DrivingPhysics.acc(net_force, mass)
+  spd += acc * env.tick
+  pos += spd * env.tick
+
+  if phase == :accelerate and spd.magnitude > 100
+    flag = true
+    phase = :coast
+    drive_force = 0
+  end
+
+  if flag or (i % 1000 == 0)
+    puts format("%d  %.3f m/s/s  %.2f m/s  %.1f m",
+                i.to_f / env.hz, acc, spd, pos)
+    if flag
+      CLI.pause
+      flag = false
+    end
   end
 }
