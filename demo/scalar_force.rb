@@ -27,7 +27,7 @@ start = Timer.now
 
 num_ticks.times { |i|
   # TODO: make the resistance force negative
-  net_force = drive_force - ScalarForce.all_resistance(spd, nf_mag: weight)
+  net_force = drive_force + ScalarForce.all_resistance(spd, nf_mag: weight)
 
   acc = DrivingPhysics.acc(net_force, mass)
   spd += acc * env.tick

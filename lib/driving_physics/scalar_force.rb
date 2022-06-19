@@ -18,20 +18,23 @@ module DrivingPhysics
     # Note: here we only consider speed; we're in a 1D world for now
     #
 
+    # opposes the direction of speed
     def self.air_resistance(speed,
                             frontal_area: FRONTAL_AREA,
                             drag_cof: DRAG_COF,
                             air_density: AIR_DENSITY)
-      0.5 * frontal_area * drag_cof * air_density * speed ** 2
+      -1 * 0.5 * frontal_area * drag_cof * air_density * speed ** 2
     end
 
+    # opposes the direction of speed
     def self.rotational_resistance(speed, rot_cof: ROT_COF)
-      speed * rot_cof
+      -1 * speed * rot_cof
     end
 
+    # opposes the direction of speed
     # normal force is not always mass * G, e.g. aero downforce
     def self.rolling_resistance(normal_force, roll_cof: ROLL_COF)
-      normal_force * roll_cof
+      -1 * normal_force * roll_cof
     end
 
     #
