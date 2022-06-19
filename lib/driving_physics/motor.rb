@@ -77,7 +77,6 @@ module DrivingPhysics
 
       last_rpm, last_tq, torque = 99999, -1, nil
 
-      # ew; there must be a better way
       @rpms.each_with_index { |r, i|
         tq = @torques[i]
         if last_rpm <= rpm and rpm <= r
