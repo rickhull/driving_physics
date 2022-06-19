@@ -75,9 +75,7 @@ module DrivingPhysics
       raise(Stall, "RPM #{rpm}") if rpm < @rpms.first
       raise(OverRev, "RPM #{rpm}") if rpm > @rpms.last
 
-      last_rpm = 99999
-      last_tq = -1
-      torque = nil
+      last_rpm, last_tq, torque = 99999, -1, nil
 
       # ew; there must be a better way
       @rpms.each_with_index { |r, i|
@@ -87,8 +85,7 @@ module DrivingPhysics
           torque = last_tq + (tq - last_tq) * proportion
           break
         end
-        last_rpm = r
-        last_tq = tq
+        last_rpm, last_tq = r, tq
       }
       raise(SanityCheck, "RPM #{rpm}") if torque.nil?
 
