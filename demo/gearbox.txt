@@ -237,3 +237,4 @@ RPM 12387  Torque: 0.662 Nm (30 Nm) Friction: -29.338 Nm
 RPM 12422  Torque: 0.580 Nm (30 Nm) Friction: -29.420 Nm
 29863.2 rad  1300.9 rad/s  3.4 rad/s/s
 
+0.083 s (363178 ticks/s)
