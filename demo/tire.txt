@@ -206,4 +206,4 @@ Torque: 439.5 Nm (1255 N)  Loss: 12.1%
    Car: 4152.2 m  81.69 m/s  0.777 m/s^2  (182 mph)
 Torque: 435.2 Nm (1243 N)  Loss: 13.0%
 
-1.226 s (81580 ticks/s)
+1.209 s (82720 ticks/s)
