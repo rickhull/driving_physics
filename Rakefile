@@ -20,45 +20,66 @@ task default: :test
 # mruby
 #
 
-def write_mrblib(input_file, append: false)
-  dest_dir =  File.join(%w[mruby mrblib])
-  raise "#{dest_dir} is not accessible" unless File.directory? dest_dir
-  write_mode = append ? 'a' : 'w'
-  dest_file = File.open(File.join(dest_dir, 'driving_physics.rb'), write_mode)
+MRBLIB_DIR = File.join %w[mruby mrblib]
+MRBLIB_FILE = File.join(MRBLIB_DIR, 'driving_physics.rb')
+MRBLIB_MRB = File.join(MRBLIB_DIR, 'driving_physics.mrb')
+
+def write_mruby(input_file, output_file = MRBLIB_FILE, append: false)
+  file_obj = File.open(output_file, append ? 'a' : 'w')
   line_count = 0
 
   File.readlines(input_file).each { |line|
     next if line.match /\A *(?:require|autoload)/
-    dest_file.write(line)
+    file_obj.write(line)
     line_count += 1
   }
+  file_obj.close
   line_count
 end
 
-desc "Copy lib/**/*.rb to mruby/mrblib/*.rb"
-task :mrblib do
-  line_count = write_mrblib(File.join(%w[lib driving_physics.rb]))
+desc "Copy lib/**/*.rb to mruby/mrblib/driving_physics.rb"
+task mrblib: MRBLIB_FILE
+
+file MRBLIB_FILE do
+  line_count = write_mruby(File.join(%w[lib driving_physics.rb]), MRBLIB_FILE)
   %w[mruby environment imperial power
      disk tire motor gearbox powertrain car].each { |name|
-    file = File.join ['lib', 'driving_physics', [name, 'rb'].join('.')]
-    line_count += write_mrblib(file, append: true)
-    puts "wrote #{file} to mrblib"
+    file = File.join('lib', 'driving_physics', "#{name}.rb")
+    line_count += write_mruby(file, MRBLIB_FILE, append: true)
+    puts "wrote #{file} to #{MRBLIB_FILE}"
   }
-  puts "wrote #{line_count} lines to mrblib"
+  puts "wrote #{line_count} lines to #{MRBLIB_FILE}"
 end
 
 %w[disk tire motor gearbox powertrain car].each { |name|
-  task "demo_#{name}" do
-    lines = write_mrblib(File.join('demo', "#{name}.rb"), append: true)
-    puts "wrote #{lines} lines to mrblib"
+  demo_file = File.join('demo', 'mruby', "#{name}.rb")
+  demo_mrb = File.join('demo', 'mruby', "#{name}.mrb")
+
+  file demo_file do
+    write_mruby(File.join('demo', "#{name}.rb"), demo_file)
+  end
+
+  file demo_mrb => demo_file do
+    sh 'mrbc', demo_file
+  end
+
+  task "demo_#{name}" => [demo_file, MRBLIB_MRB] do
+    sh 'mruby', '-r', MRBLIB_MRB, demo_file
+  end
+
+  task "mrb_#{name}" => [demo_mrb, MRBLIB_MRB] do
+    sh 'mruby', '-r', MRBLIB_MRB, '-b', demo_mrb
   end
 }
 
-task :mrbc do
+task mrbc: MRBLIB_MRB
+
+file MRBLIB_MRB => MRBLIB_FILE do
   rb_file  = File.join(%w[mruby mrblib driving_physics.rb])
   mrb_file = File.join(%w[mruby mrblib driving_physics.mrb])
-  sh('mrbc', '-c', rb_file)
   sh('mrbc', rb_file)
+  puts format("%s: %d bytes (created %s)",
+              mrb_file, File.size(mrb_file), File.birthtime(mrb_file))
 end
 
 #

@@ -71,7 +71,411 @@ module DrivingPhysics
     alias_method(:theta, :accum)
   end
 end
-rce)
+module DrivingPhysics
+  module CLI
+    # returns user input as a string
+    def self.prompt(msg = '')
+      print msg + ' ' unless msg.empty?
+      print '> '
+      $stdin.gets.chomp
+    end
+
+    # press Enter to continue, ignore input, return elapsed time
+    def self.pause(msg = '')
+      t = Timer.now
+      puts msg unless msg.empty?
+      puts '     [ Press Enter ]'
+      $stdin.gets
+      Timer.since(t)
+    end
+  end
+
+  module Timer
+    def self.now
+      Time.now
+    end
+
+    def self.since(t)
+      self.now - t
+    end
+
+    def self.elapsed(&work)
+      t = self.now
+      return yield, self.since(t)
+    end
+
+    # HH:MM:SS.mmm
+    def self.display(seconds: 0, ms: 0)
+      ms += (seconds * 1000).round if seconds > 0
+      DrivingPhysics.elapsed_display(ms)
+    end
+
+    def self.summary(start, num_ticks, paused = 0)
+      elapsed = self.since(start) - paused
+      format("%.3f s (%d ticks/s)", elapsed, num_ticks.to_f / elapsed)
+    end
+  end
+end
+
+module DrivingPhysics
+  class Environment
+    attr_reader :hz, :tick
+    attr_accessor :g, :air_temp, :air_density, :petrol_density
+
+    def initialize
+      self.hz = HZ
+      @g = G
+      @air_temp = AIR_TEMP
+      @air_density = AIR_DENSITY
+      @petrol_density = PETROL_DENSITY
+    end
+
+    def hz=(int)
+      @hz = int
+      @tick = Rational(1) / @hz
+    end
+
+    def to_s
+      [format("Tick: %d Hz", @hz),
+       format("G: %.2f m/s^2", @g),
+       format("Air: %.1f C %.2f kg/m^3", @air_temp, @air_density),
+       format("Petrol: %.2f kg/L", @petrol_density),
+      ].join(" | ")
+    end
+  end
+end
+
+module DrivingPhysics
+  module Imperial
+    FEET_PER_METER = 3.28084
+    FEET_PER_MILE = 5280
+    MPH = (FEET_PER_METER / FEET_PER_MILE) * SECS_PER_HOUR
+    CI_PER_LITER = 61.024
+    GAL_PER_LITER = 0.264172
+    PS_PER_KW = 1.3596216173039
+
+    def self.feet(meters)
+      meters * FEET_PER_METER
+    end
+
+    def self.meters(feet)
+      feet / FEET_PER_METER
+    end
+
+    def self.miles(meters = nil, km: nil)
+      raise(ArgumentError, "argument missing") if meters.nil? and km.nil?
+      meters ||= km * 1000
+      meters * FEET_PER_METER / FEET_PER_MILE
+    end
+
+    def self.mph(mps = nil, kph: nil)
+      raise(ArgumentError, "argument missing") if mps.nil? and kph.nil?
+      mps ||= kph.to_f * 1000 / SECS_PER_HOUR
+      MPH * mps
+    end
+
+    def self.mps(mph)
+      mph / MPH
+    end
+
+    def self.kph(mph)
+      DP::kph(mps(mph))
+    end
+
+    # convert kilowatts to horsepower
+    def self.ps(kw)
+      kw * PS_PER_KW
+    end
+
+    def self.deg_c(deg_f)
+      (deg_f - 32).to_f * 5 / 9
+    end
+
+    def self.deg_f(deg_c)
+      deg_c.to_f * 9 / 5 + 32
+    end
+
+    def self.cubic_inches(liters)
+      liters * CI_PER_LITER
+    end
+
+    def self.liters(ci = nil, gallons: nil)
+      raise(ArgumentError, "argument missing") if ci.nil? and gallons.nil?
+      return ci / CI_PER_LITER if gallons.nil?
+      gallons.to_f / GAL_PER_LITER
+    end
+
+    def self.gallons(liters)
+      liters * GAL_PER_LITER
+    end
+  end
+end
+
+# Work is Force * Distance   (Torque * Theta)
+# W = F * s  (W = T * Th)
+# W = T * Theta
+
+# Power is Work / time
+# P = W / dt
+# P = T * Th / dt
+# P = T * Omega
+
+module DrivingPhysics
+  def self.work(force, displacement)
+    force * displacement
+  end
+
+  def self.power(force, speed)
+    force * speed
+  end
+end
+#require 'driving_physics/vector_force'
+
+module DrivingPhysics
+  # radius is always in meters
+  # force in N
+  # torque in Nm
+
+  # Rotational complements to acc/vel/pos
+  # alpha - angular acceleration (radians / s / s)
+  # omega - angular velocity (radians / s)
+  # theta - radians
+
+  # convert radians to revolutions; works for alpha/omega/theta
+  def self.revs(rads)
+    rads / (2 * Math::PI)
+  end
+
+  # convert revs to rads; works for alpha/omega/theta
+  def self.rads(revs)
+    revs * 2 * Math::PI
+  end
+
+  # convert rpm to omega (rads / s)
+  def self.omega(rpm)
+    self.rads(rpm / 60.0)
+  end
+
+  # convert omega to RPM (revs per minute)
+  def self.rpm(omega)
+    self.revs(omega) * 60
+  end
+
+  class Disk
+    DENSITY = 1.0 # kg / L
+
+    # torque = force * distance
+    def self.force(axle_torque, radius)
+      axle_torque / radius.to_f
+    end
+
+    # in m^3
+    def self.volume(radius, width)
+      Math::PI * radius ** 2 * width
+    end
+
+    # in L
+    def self.volume_l(radius, width)
+      volume(radius, width) * 1000
+    end
+
+    def self.density(mass, volume_l)
+      mass.to_f / volume_l
+    end
+
+    def self.mass(radius, width, density)
+      volume_l(radius, width) * density
+    end
+
+    # I = 1/2 (m)(r^2) for a disk
+    def self.rotational_inertia(radius, mass)
+      mass * radius**2 / 2.0
+    end
+    class << self
+      alias_method(:moment_of_inertia, :rotational_inertia)
+    end
+
+    # angular acceleration
+    def self.alpha(torque, inertia)
+      torque / inertia
+    end
+
+    # convert alpha/omega/theta to acc/vel/pos
+    def self.tangential(rotational, radius)
+      rotational * radius
+    end
+
+    # convert acc/vel/pos to alpha/omega/theta
+    def self.rotational(tangential, radius)
+      tangential.to_f / radius
+    end
+
+    # vectors only
+    def self.torque_vector(force, radius)
+      if !force.is_a?(Vector) or force.size != 2
+        raise(ArgumentError, "force must be a 2D vector")
+      end
+      if !radius.is_a?(Vector) or radius.size != 2
+        raise(ArgumentError, "radius must be a 2D vector")
+      end
+      force = Vector[force[0], force[1], 0]
+      radius = Vector[radius[0], radius[1], 0]
+      force.cross(radius)
+    end
+
+    # vectors only
+    def self.force_vector(torque, radius)
+      if !torque.is_a?(Vector) or torque.size != 3
+        raise(ArgumentError, "torque must be a 3D vector")
+      end
+      if !radius.is_a?(Vector) or radius.size != 2
+        raise(ArgumentError, "radius must be a 2D vector")
+      end
+      radius = Vector[radius[0], radius[1], 0]
+      radius.cross(torque) / radius.dot(radius)
+    end
+
+    attr_reader :env
+    attr_accessor :radius, :width, :density, :base_friction, :omega_friction
+
+    def initialize(env)
+      @env = env
+      @radius  = 0.35
+      @width   = 0.2
+      @density = DENSITY
+      @base_friction  = 5.0/100_000  # constant resistance to rotation
+      @omega_friction = 5.0/100_000  # scales with omega
+      yield self if block_given?
+    end
+
+    def to_s
+      [[format("%d mm x %d mm (RxW)", @radius * 1000, @width * 1000),
+        format("%.1f kg  %.2f kg/L", self.mass, @density),
+       ].join(" | "),
+      ].join("\n")
+    end
+
+    def normal_force
+      @normal_force ||= self.mass * @env.g
+      @normal_force
+    end
+
+    def alpha(torque, omega: 0, normal_force: nil)
+      (torque - self.rotating_friction(omega, normal_force: normal_force)) /
+        self.rotational_inertia
+    end
+
+    def implied_torque(alpha)
+      alpha * self.rotational_inertia
+    end
+
+    def mass
+      self.class.mass(@radius, @width, @density)
+    end
+
+    def mass=(val)
+      @density = self.class.density(val, self.volume_l)
+      @normal_force = nil # force update
+    end
+
+    # in m^3
+    def volume
+      self.class.volume(@radius, @width)
+    end
+
+    # in L
+    def volume_l
+      self.class.volume_l(@radius, @width)
+    end
+
+    def rotational_inertia
+      self.class.rotational_inertia(@radius, self.mass)
+    end
+    alias_method(:moment_of_inertia, :rotational_inertia)
+
+    def force(axle_torque)
+      self.class.force(axle_torque, @radius)
+    end
+
+    def tangential(rotational)
+      self.class.tangential(rotational, @radius)
+    end
+
+    # modeled as a tiny but increasing torque opposing omega
+    # also scales with normal force
+    # maybe not physically faithful but close enough
+    def rotating_friction(omega, normal_force: nil)
+      return omega if omega.zero?
+      normal_force = self.normal_force if normal_force.nil?
+      mag = omega.abs
+      sign = omega / mag
+      -1 * sign * normal_force * (@base_friction + mag * @omega_friction)
+    end
+  end
+end
+
+module DrivingPhysics
+
+  # a Tire is a Disk with lighter density and meaningful surface friction
+
+  class Tire < Disk
+    # Note, this is not the density of solid rubber.  This density
+    # yields a sensible mass for a wheel / tire combo at common radius
+    # and width, assuming a uniform density
+    # e.g. 25kg at 350mm R x 200mm W
+    #
+    DENSITY = 0.325  # kg / L
+
+    # * the traction force opposes the axle torque / drive force
+    #   thus, driving the car forward
+    # * if the drive force exceeds the traction force, slippage occurs
+    # * slippage reduces the available traction force further
+    # * if the drive force is not reduced, the slippage increases
+    #   until resistance forces equal the drive force
+    def self.traction(normal_force, cof)
+      normal_force * cof
+    end
+
+    attr_accessor :mu_s, :mu_k, :omega_friction, :base_friction, :roll_cof
+
+    def initialize(env)
+      @env = env
+      @radius = 0.3
+      @width  = 0.2
+      @density = DENSITY
+      @temp = @env.air_temp
+      @mu_s = 1.1 # static friction
+      @mu_k = 0.7 # kinetic friction
+      @base_friction = 5.0/10_000
+      @omega_friction = 5.0/100_000
+      @roll_cof = DrivingPhysics::ROLL_COF
+
+      yield self if block_given?
+    end
+
+    def to_s
+      [[format("%d mm x %d mm (RxW)", @radius * 1000, @width * 1000),
+        format("%.1f kg  %.1f C", self.mass, @temp),
+        format("cF: %.1f / %.1f", @mu_s, @mu_k),
+       ].join(" | "),
+      ].join("\n")
+    end
+
+    def wear!(amount)
+      @radius -= amount
+    end
+
+    def heat!(amount_deg_c)
+      @temp += amount_deg_c
+    end
+
+    def traction(nf, static: true)
+      self.class.traction(nf, static ? @mu_s : @mu_k)
+    end
+
+    # require a normal_force to be be passed in
+    def rotating_friction(omega, normal_force:)
+      super(omega, normal_force: normal_force)
     end
 
     # rolling loss in terms of axle torque
@@ -500,348 +904,6 @@ module DrivingPhysics
 
     def total_normal_force
       self.total_mass * env.g
-    end
-  end
-end
-module DrivingPhysics
-  module CLI
-    # returns user input as a string
-    def self.prompt(msg = '')
-      print msg + ' ' unless msg.empty?
-      print '> '
-      $stdin.gets.chomp
-    end
-
-    # press Enter to continue, ignore input, return elapsed time
-    def self.pause(msg = '')
-      t = Timer.now
-      puts msg unless msg.empty?
-      puts '     [ Press Enter ]'
-      $stdin.gets
-      Timer.since(t)
-    end
-  end
-
-  module Timer
-    def self.now
-      Time.now
-    end
-
-    def self.since(t)
-      self.now - t
-    end
-
-    def self.elapsed(&work)
-      t = self.now
-      return yield, self.since(t)
-    end
-
-    # HH:MM:SS.mmm
-    def self.display(seconds: 0, ms: 0)
-      ms += (seconds * 1000).round if seconds > 0
-      DrivingPhysics.elapsed_display(ms)
-    end
-
-    def self.summary(start, num_ticks, paused = 0)
-      elapsed = self.since(start) - paused
-      format("%.3f s (%d ticks/s)", elapsed, num_ticks.to_f / elapsed)
-    end
-  end
-end
-
-module DrivingPhysics
-  class Environment
-    attr_reader :hz, :tick
-    attr_accessor :g, :air_temp, :air_density, :petrol_density
-
-    def initialize
-      self.hz = HZ
-      @g = G
-      @air_temp = AIR_TEMP
-      @air_density = AIR_DENSITY
-      @petrol_density = PETROL_DENSITY
-    end
-
-    def hz=(int)
-      @hz = int
-      @tick = Rational(1) / @hz
-    end
-
-    def to_s
-      [format("Tick: %d Hz", @hz),
-       format("G: %.2f m/s^2", @g),
-       format("Air: %.1f C %.2f kg/m^3", @air_temp, @air_density),
-       format("Petrol: %.2f kg/L", @petrol_density),
-      ].join(" | ")
-    end
-  end
-end
-
-module DrivingPhysics
-  module Imperial
-    FEET_PER_METER = 3.28084
-    FEET_PER_MILE = 5280
-    MPH = (FEET_PER_METER / FEET_PER_MILE) * SECS_PER_HOUR
-    CI_PER_LITER = 61.024
-    GAL_PER_LITER = 0.264172
-    PS_PER_KW = 1.3596216173039
-
-    def self.feet(meters)
-      meters * FEET_PER_METER
-    end
-
-    def self.meters(feet)
-      feet / FEET_PER_METER
-    end
-
-    def self.miles(meters = nil, km: nil)
-      raise(ArgumentError, "argument missing") if meters.nil? and km.nil?
-      meters ||= km * 1000
-      meters * FEET_PER_METER / FEET_PER_MILE
-    end
-
-    def self.mph(mps = nil, kph: nil)
-      raise(ArgumentError, "argument missing") if mps.nil? and kph.nil?
-      mps ||= kph.to_f * 1000 / SECS_PER_HOUR
-      MPH * mps
-    end
-
-    def self.mps(mph)
-      mph / MPH
-    end
-
-    def self.kph(mph)
-      DP::kph(mps(mph))
-    end
-
-    # convert kilowatts to horsepower
-    def self.ps(kw)
-      kw * PS_PER_KW
-    end
-
-    def self.deg_c(deg_f)
-      (deg_f - 32).to_f * 5 / 9
-    end
-
-    def self.deg_f(deg_c)
-      deg_c.to_f * 9 / 5 + 32
-    end
-
-    def self.cubic_inches(liters)
-      liters * CI_PER_LITER
-    end
-
-    def self.liters(ci = nil, gallons: nil)
-      raise(ArgumentError, "argument missing") if ci.nil? and gallons.nil?
-      return ci / CI_PER_LITER if gallons.nil?
-      gallons.to_f / GAL_PER_LITER
-    end
-
-    def self.gallons(liters)
-      liters * GAL_PER_LITER
-    end
-  end
-end
-
-# Work is Force * Distance   (Torque * Theta)
-# W = F * s  (W = T * Th)
-# W = T * Theta
-
-# Power is Work / time
-# P = W / dt
-# P = T * Th / dt
-# P = T * Omega
-
-module DrivingPhysics
-  def self.work(force, displacement)
-    force * displacement
-  end
-
-  def self.power(force, speed)
-    force * speed
-  end
-end
-#require 'driving_physics/vector_force'
-
-module DrivingPhysics
-  # radius is always in meters
-  # force in N
-  # torque in Nm
-
-  # Rotational complements to acc/vel/pos
-  # alpha - angular acceleration (radians / s / s)
-  # omega - angular velocity (radians / s)
-  # theta - radians
-
-  # convert radians to revolutions; works for alpha/omega/theta
-  def self.revs(rads)
-    rads / (2 * Math::PI)
-  end
-
-  # convert revs to rads; works for alpha/omega/theta
-  def self.rads(revs)
-    revs * 2 * Math::PI
-  end
-
-  # convert rpm to omega (rads / s)
-  def self.omega(rpm)
-    self.rads(rpm / 60.0)
-  end
-
-  # convert omega to RPM (revs per minute)
-  def self.rpm(omega)
-    self.revs(omega) * 60
-  end
-
-  class Disk
-    DENSITY = 1.0 # kg / L
-
-    # torque = force * distance
-    def self.force(axle_torque, radius)
-      axle_torque / radius.to_f
-    end
-
-    # in m^3
-    def self.volume(radius, width)
-      Math::PI * radius ** 2 * width
-    end
-
-    # in L
-    def self.volume_l(radius, width)
-      volume(radius, width) * 1000
-    end
-
-    def self.density(mass, volume_l)
-      mass.to_f / volume_l
-    end
-
-    def self.mass(radius, width, density)
-      volume_l(radius, width) * density
-    end
-
-    # I = 1/2 (m)(r^2) for a disk
-    def self.rotational_inertia(radius, mass)
-      mass * radius**2 / 2.0
-    end
-    class << self
-      alias_method(:moment_of_inertia, :rotational_inertia)
-    end
-
-    # angular acceleration
-    def self.alpha(torque, inertia)
-      torque / inertia
-    end
-
-    # convert alpha/omega/theta to acc/vel/pos
-    def self.tangential(rotational, radius)
-      rotational * radius
-    end
-
-    # convert acc/vel/pos to alpha/omega/theta
-    def self.rotational(tangential, radius)
-      tangential.to_f / radius
-    end
-
-    # vectors only
-    def self.torque_vector(force, radius)
-      if !force.is_a?(Vector) or force.size != 2
-        raise(ArgumentError, "force must be a 2D vector")
-      end
-      if !radius.is_a?(Vector) or radius.size != 2
-        raise(ArgumentError, "radius must be a 2D vector")
-      end
-      force = Vector[force[0], force[1], 0]
-      radius = Vector[radius[0], radius[1], 0]
-      force.cross(radius)
-    end
-
-    # vectors only
-    def self.force_vector(torque, radius)
-      if !torque.is_a?(Vector) or torque.size != 3
-        raise(ArgumentError, "torque must be a 3D vector")
-      end
-      if !radius.is_a?(Vector) or radius.size != 2
-        raise(ArgumentError, "radius must be a 2D vector")
-      end
-      radius = Vector[radius[0], radius[1], 0]
-      radius.cross(torque) / radius.dot(radius)
-    end
-
-    attr_reader :env
-    attr_accessor :radius, :width, :density, :base_friction, :omega_friction
-
-    def initialize(env)
-      @env = env
-      @radius  = 0.35
-      @width   = 0.2
-      @density = DENSITY
-      @base_friction  = 5.0/100_000  # constant resistance to rotation
-      @omega_friction = 5.0/100_000  # scales with omega
-      yield self if block_given?
-    end
-
-    def to_s
-      [[format("%d mm x %d mm (RxW)", @radius * 1000, @width * 1000),
-        format("%.1f kg  %.2f kg/L", self.mass, @density),
-       ].join(" | "),
-      ].join("\n")
-    end
-
-    def normal_force
-      @normal_force ||= self.mass * @env.g
-      @normal_force
-    end
-
-    def alpha(torque, omega: 0, normal_force: nil)
-      (torque - self.rotating_friction(omega, normal_force: normal_force)) /
-        self.rotational_inertia
-    end
-
-    def implied_torque(alpha)
-      alpha * self.rotational_inertia
-    end
-
-    def mass
-      self.class.mass(@radius, @width, @density)
-    end
-
-    def mass=(val)
-      @density = self.class.density(val, self.volume_l)
-      @normal_force = nil # force update
-    end
-
-    # in m^3
-    def volume
-      self.class.volume(@radius, @width)
-    end
-
-    # in L
-    def volume_l
-      self.class.volume_l(@radius, @width)
-    end
-
-    def rotational_inertia
-      self.class.rotational_inertia(@radius, self.mass)
-    end
-    alias_method(:moment_of_inertia, :rotational_inertia)
-
-    def force(axle_torque)
-      self.class.force(axle_torque, @radius)
-    end
-
-    def tangential(rotational)
-      self.class.tangential(rotational, @radius)
-    end
-
-    # modeled as a tiny but increasing torque opposing omega
-    # also scales with normal force
-    # maybe not physically faithful but close enough
-    def rotating_friction(omega, normal_force: nil)
-      return omega if omega.zero?
-      normal_force = self.normal_force if normal_force.nil?
-      mag = omega.abs
-      sign = omega / mag
-      -1 * sign * normal_force * (@base_friction + mag * @omega_friction)
     end
   end
 end
