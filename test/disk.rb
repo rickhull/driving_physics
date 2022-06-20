@@ -50,6 +50,7 @@ describe D do
       inertia = D.rotational_inertia(0.35, 25.0)
       expect(D.alpha scalar_torque, inertia).must_be_within_epsilon 653.061
 
+      skip # Vector
       vector_torque = Vector[0, 0, 1000]
       vector_alpha = D.alpha vector_torque, inertia
       expect(vector_alpha).must_be_instance_of Vector
@@ -60,6 +61,7 @@ describe D do
 
   describe "Disk.torque_vector" do
     it "calculates a torque in the 3rd dimension given 2D force and radius" do
+      skip # Vector
       force = Vector[1000, 0]
       radius = Vector[0, 5]
       torque = D.torque_vector(force, radius)
@@ -71,6 +73,7 @@ describe D do
 
   describe "Disk.force_vector" do
     it "calculates a (3D) force given 3D torque and 2D radius" do
+      skip # Vector
       # let's invert the Disk.torque_vector case from above:
       torque = Vector[0, 0, 5000]
       radius = Vector[0, 5]
