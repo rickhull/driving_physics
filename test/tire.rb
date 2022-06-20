@@ -11,6 +11,7 @@ describe T do
       scalar_t = T.traction(scalar_nf, cof)
       expect(scalar_t).must_equal 10780.0
 
+      skip # Vector
       vector_nf = Vector[9800, 0]
       vector_t = T.traction(vector_nf, cof)
       expect(vector_t).must_equal Vector[10780.0, 0.0]
@@ -62,6 +63,7 @@ describe T do
       inertia = T.rotational_inertia(0.35, 25.0)
       expect(T.alpha scalar_torque, inertia).must_be_within_epsilon 653.061
 
+      skip # Vector
       vector_torque = Vector[0, 0, 1000]
       vector_alpha = T.alpha vector_torque, inertia
       expect(vector_alpha).must_be_instance_of Vector
@@ -72,6 +74,7 @@ describe T do
 
   describe "Tire.torque_vector" do
     it "calculates a torque in the 3rd dimension given 2D force and radius" do
+      skip # Vector
       force = Vector[1000, 0]
       radius = Vector[0, 5]
       torque = T.torque_vector(force, radius)
@@ -84,6 +87,7 @@ describe T do
   describe "Tire.force_vector" do
     it "calculates a (3D) force given 3D torque and 2D radius" do
       # let's invert the Tire.torque_vector case from above:
+      skip # Vector
       torque = Vector[0, 0, 5000]
       radius = Vector[0, 5]
       force = T.force_vector(torque, radius)
@@ -154,6 +158,7 @@ describe T do
       expect(@tire.traction scalar_nf).must_equal 10780.0
       expect(@tire.traction scalar_nf, static: false).must_equal 6860.0
 
+      skip # Vector
       vector_nf = Vector[9800, 0]
       expect(@tire.traction vector_nf).must_equal Vector[10780.0, 0.0]
       expect(@tire.traction vector_nf, static: false).
@@ -173,6 +178,7 @@ describe T do
       expect(kin_tq).must_be_within_epsilon 2401.0
 
       # not sure about how torque vectors work, but the "math" "works":
+      skip # Vector
       vector_nf = Vector[9800, 0]
       expect(@tire.tractable_torque(vector_nf)[0]).
         must_be_within_epsilon 3773.0
