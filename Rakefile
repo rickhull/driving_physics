@@ -16,26 +16,35 @@ end
 
 task default: :test
 
+desc "Copy lib/**/*.rb to mruby/mrblib/*.rb"
 task :mrblib do
-  # mruby/mrblib/*rb
+  # COPY:
   # lib/driving_physics/*.rb
   # lib/driving_physics.rb
-  dest_dir = 'mruby/mrblib'
+  #
+  # TO:
+  # mruby/mrblib/driving_physics.rb
+  #
+  # CONCATENATE:
+  # all files together
+  #
+  # REMOVE:
+  # all requires along the way
+  #
+  dest_dir =  File.join(%w[mruby mrblib])
   raise "#{dest_dir} is not accessible" unless File.directory? dest_dir
-
+  dest_file = File.open(File.join(dest_dir, 'driving_physics.rb'), 'w')
+  line_count = 0
   files = ['lib/driving_physics.rb'] + Dir['lib/driving_physics/*.rb']
-  outfiles = []
   files.each { |file|
-    lines = []
-    # line includes trailing newline
     File.readlines(file).each { |line|
-      lines << line unless line.match /\A *require/
+      next if line.match /\A *(?:require|autoload)/
+      dest_file.write(line)
+      line_count += 1
     }
-    outfile = File.join(dest_dir, File.basename(file))
-    File.open(outfile, 'w') { |f| f.write lines.join }
-    outfiles << outfile
+    puts "wrote #{file} to #{dest_file.path}"
   }
-  puts outfiles
+  puts "wrote #{line_count} lines to #{dest_file.path}"
 end
 
 #
