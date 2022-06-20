@@ -1,2 +1,4 @@
 pkg/
 .direnv/
+mruby/mruby/
+*.mrb

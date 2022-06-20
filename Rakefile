@@ -35,7 +35,14 @@ task :mrblib do
   raise "#{dest_dir} is not accessible" unless File.directory? dest_dir
   dest_file = File.open(File.join(dest_dir, 'driving_physics.rb'), 'w')
   line_count = 0
-  files = ['lib/driving_physics.rb'] + Dir['lib/driving_physics/*.rb']
+  # slurp all into one file without requires; order matters
+  files = [File.join(%w[lib driving_physics mruby.rb]),
+           File.join(%w[lib driving_physics.rb])] +
+           %w[environment imperial power
+              disk tire motor gearbox powertrain car].map { |name|
+    File.join ['lib', 'driving_physics', [name, 'rb'].join('.')]
+  }
+
   files.each { |file|
     File.readlines(file).each { |line|
       next if line.match /\A *(?:require|autoload)/
@@ -45,6 +52,17 @@ task :mrblib do
     puts "wrote #{file} to #{dest_file.path}"
   }
   puts "wrote #{line_count} lines to #{dest_file.path}"
+end
+
+task mrbc: :mrblib do
+  rb_file  = File.join(%w[mruby mrblib driving_physics.rb])
+  mrb_file = File.join(%w[mruby mrblib driving_physics.mrb])
+
+  sh('mrbc', rb_file) { |ok, res|
+    if !ok
+      p res
+    end
+  }
 end
 
 #
