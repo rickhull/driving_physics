@@ -26,14 +26,14 @@ module DrivingPhysics
 
     def initialize(env)
       @env = env
-      @radius = 350/1000r # m
-      @width  = 200/1000r # m
+      @radius = 0.3
+      @width  = 0.2
       @density = DENSITY
       @temp = @env.air_temp
-      @mu_s = 11/10r # static friction
-      @mu_k =  7/10r # kinetic friction
-      @base_friction = 5/10_000r
-      @omega_friction = 5/100_000r # scales with speed
+      @mu_s = 1.1 # static friction
+      @mu_k = 0.7 # kinetic friction
+      @base_friction = 5.0/10_000
+      @omega_friction = 5.0/100_000
       @roll_cof = DrivingPhysics::ROLL_COF
 
       yield self if block_given?

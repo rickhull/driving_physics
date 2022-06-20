@@ -1,5 +1,5 @@
 require 'driving_physics/environment'
-require 'driving_physics/vector_force'
+#require 'driving_physics/vector_force'
 
 module DrivingPhysics
   # radius is always in meters
@@ -110,11 +110,11 @@ module DrivingPhysics
 
     def initialize(env)
       @env = env
-      @radius  = 350/1000r # m
-      @width   = 200/1000r # m
+      @radius  = 0.35
+      @width   = 0.2
       @density = DENSITY
-      @base_friction  = 5/100_000r  # constant resistance to rotation
-      @omega_friction = 5/100_000r  # scales with omega
+      @base_friction  = 5.0/100_000  # constant resistance to rotation
+      @omega_friction = 5.0/100_000  # scales with omega
       yield self if block_given?
     end
 

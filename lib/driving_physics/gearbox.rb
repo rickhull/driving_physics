@@ -27,8 +27,8 @@ module DrivingPhysics
       # represent all rotating mass
       @spinner = Disk.new(env) { |m|
         m.radius = 0.15
-        m.base_friction = 5/1000r
-        m.omega_friction = 15/100_000r
+        m.base_friction = 5.0/1000
+        m.omega_friction = 15.0/100_000
         m.mass = 15
       }
       @fixed_mass = 30 # kg

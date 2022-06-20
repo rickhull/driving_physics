@@ -103,7 +103,7 @@ module DrivingPhysics
     end
 
     def corner_mass
-      Rational(self.total_mass) / @num_tires
+      self.total_mass / @num_tires
     end
 
     # per tire

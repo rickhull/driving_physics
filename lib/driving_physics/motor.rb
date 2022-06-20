@@ -25,8 +25,8 @@ module DrivingPhysics
       @spinner = Disk.new(@env) { |fly|
         fly.radius =  0.25 # m
         fly.mass   = 75    # kg
-        fly.base_friction  = 5/1000r
-        fly.omega_friction = 2/10_000r
+        fly.base_friction  = 5.0/1000
+        fly.omega_friction = 2.0/10_000
       }
       @starter_torque = 500  # Nm
       @idle_rpm       = 1000 # RPM
