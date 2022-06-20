@@ -16,53 +16,49 @@ end
 
 task default: :test
 
-desc "Copy lib/**/*.rb to mruby/mrblib/*.rb"
-task :mrblib do
-  # COPY:
-  # lib/driving_physics/*.rb
-  # lib/driving_physics.rb
-  #
-  # TO:
-  # mruby/mrblib/driving_physics.rb
-  #
-  # CONCATENATE:
-  # all files together
-  #
-  # REMOVE:
-  # all requires along the way
-  #
+#
+# mruby
+#
+
+def write_mrblib(input_file, append: false)
   dest_dir =  File.join(%w[mruby mrblib])
   raise "#{dest_dir} is not accessible" unless File.directory? dest_dir
-  dest_file = File.open(File.join(dest_dir, 'driving_physics.rb'), 'w')
+  write_mode = append ? 'a' : 'w'
+  dest_file = File.open(File.join(dest_dir, 'driving_physics.rb'), write_mode)
   line_count = 0
-  # slurp all into one file without requires; order matters
-  files = [File.join(%w[lib driving_physics mruby.rb]),
-           File.join(%w[lib driving_physics.rb])] +
-           %w[environment imperial power
-              disk tire motor gearbox powertrain car].map { |name|
-    File.join ['lib', 'driving_physics', [name, 'rb'].join('.')]
-  }
 
-  files.each { |file|
-    File.readlines(file).each { |line|
-      next if line.match /\A *(?:require|autoload)/
-      dest_file.write(line)
-      line_count += 1
-    }
-    puts "wrote #{file} to #{dest_file.path}"
+  File.readlines(input_file).each { |line|
+    next if line.match /\A *(?:require|autoload)/
+    dest_file.write(line)
+    line_count += 1
   }
-  puts "wrote #{line_count} lines to #{dest_file.path}"
+  line_count
 end
 
-task mrbc: :mrblib do
+desc "Copy lib/**/*.rb to mruby/mrblib/*.rb"
+task :mrblib do
+  line_count = write_mrblib(File.join(%w[lib driving_physics.rb]))
+  %w[mruby environment imperial power
+     disk tire motor gearbox powertrain car].each { |name|
+    file = File.join ['lib', 'driving_physics', [name, 'rb'].join('.')]
+    line_count += write_mrblib(file, append: true)
+    puts "wrote #{file} to mrblib"
+  }
+  puts "wrote #{line_count} lines to mrblib"
+end
+
+%w[disk tire motor gearbox powertrain car].each { |name|
+  task "demo_#{name}" do
+    lines = write_mrblib(File.join('demo', "#{name}.rb"), append: true)
+    puts "wrote #{lines} lines to mrblib"
+  end
+}
+
+task :mrbc do
   rb_file  = File.join(%w[mruby mrblib driving_physics.rb])
   mrb_file = File.join(%w[mruby mrblib driving_physics.mrb])
-
-  sh('mrbc', rb_file) { |ok, res|
-    if !ok
-      p res
-    end
-  }
+  sh('mrbc', '-c', rb_file)
+  sh('mrbc', rb_file)
 end
 
 #
