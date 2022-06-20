@@ -16,6 +16,28 @@ end
 
 task default: :test
 
+task :mrblib do
+  # mruby/mrblib/*rb
+  # lib/driving_physics/*.rb
+  # lib/driving_physics.rb
+  dest_dir = 'mruby/mrblib'
+  raise "#{dest_dir} is not accessible" unless File.directory? dest_dir
+
+  files = ['lib/driving_physics.rb'] + Dir['lib/driving_physics/*.rb']
+  outfiles = []
+  files.each { |file|
+    lines = []
+    # line includes trailing newline
+    File.readlines(file).each { |line|
+      lines << line unless line.match /\A *require/
+    }
+    outfile = File.join(dest_dir, File.basename(file))
+    File.open(outfile, 'w') { |f| f.write lines.join }
+    outfiles << outfile
+  }
+  puts outfiles
+end
+
 #
 # METRICS
 #
