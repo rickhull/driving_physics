@@ -10,8 +10,27 @@ using `Vector` class from `matrix.rb` in stdlib.
 
 This is very much a **Work In Progress**.  Implemented so far:
 
+### mruby Support
+
+This is big.  This library is primarily a Ruby library, intended for use with
+CRuby (MRI), JRuby, etc.  **mruby** is the redheaded stepchild, with severe
+implications for a codebase that wants to support both sides.  Supporting
+mruby here meant:
+
+1. Editing the codebase (minimally) to remove *mruby-deadends*.
+2. Creating `rake` tasks to process normal .rb files into *mruby-compatible*
+   .rb files
+3. Assembling all needed library .rb files into a master .rb file
+4. Compiling the library to bytecode
+5. Executing a toplevel/main script against the library
+6. Optionally executing toplevel/main bytecode against the library
+
+See the main Rakefile near the top for mruby stuff.
+
+### Library Features
+
 * Spinning: rotational inertia and friction / hysteresis
-* Tires: traction force via friction and the normal force
+* Tires: traction force via friction (static and kinetic) and the normal force
 * Vectors: 2D Vector forces and 3D Vector torques
 * Motor: torque curves, rotating mass with friction
 * Gearbox: gear ratios, final drive, rotating mass with friction
