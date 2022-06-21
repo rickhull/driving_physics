@@ -82,12 +82,11 @@ num_ticks.times { |i|
   omega += alpha * env.tick
   theta += omega * env.tick
 
+  # prevent silly oscillations due to ticks or tiny floating point errors
+  omega = 0 if omega < 0.0001
+
   net_torque = motor.implied_torque(alpha)
-
-  # prevent silly oscillations due to tiny floating point errors
-  omega = 0 if omega < 0.00001
   rpm = DrivingPhysics.rpm(omega)
-
   power = DrivingPhysics.power(net_torque, omega)
 
   if rpm > motor.idle_rpm and status == :ignition
@@ -130,7 +129,7 @@ num_ticks.times { |i|
                 torque,
                 power / 1000,
                 motor.spinner.rotating_friction(omega))
-    puts format("%d rad  %.1f rad/s  %.1f rad/s/s", theta, omega, alpha)
+    puts format("%.3f rad/s/s  %.2f rad/s  %.1f rad", alpha, omega, theta)
     puts
 
     paused += CLI.pause if flag
