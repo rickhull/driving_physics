@@ -38,13 +38,6 @@ def write_mruby(input_file, output_file = MRBLIB_FILE, append: false)
   line_count
 end
 
-file MRUBY_DEMO_DIR do
-  mkdir_p MRUBY_DEMO_DIR
-end
-
-desc "Copy lib/**/*.rb to mruby/mrblib/driving_physics.rb"
-task mrblib: MRBLIB_FILE
-
 file MRBLIB_FILE do
   line_count = write_mruby(File.join(%w[lib driving_physics.rb]), MRBLIB_FILE)
   %w[mruby environment imperial power
@@ -55,6 +48,24 @@ file MRBLIB_FILE do
   }
   puts "wrote #{line_count} lines to #{MRBLIB_FILE}"
 end
+
+file MRBLIB_MRB => MRBLIB_FILE do
+  rb_file  = File.join(%w[mruby mrblib driving_physics.rb])
+  mrb_file = File.join(%w[mruby mrblib driving_physics.mrb])
+  sh('mrbc', rb_file)
+  puts format("%s: %d bytes (created %s)",
+              mrb_file, File.size(mrb_file), File.birthtime(mrb_file))
+end
+
+file MRUBY_DEMO_DIR do
+  mkdir_p MRUBY_DEMO_DIR
+end
+
+desc "Map/Filter/Reduce lib/**/*.rb to mruby/mrblib/driving_physics.rb"
+task mrblib: MRBLIB_FILE
+
+desc "Compile mruby/mrblib/driving_physics.rb to .mrb bytecode"
+task mrbc: MRBLIB_MRB
 
 %w[disk tire motor gearbox powertrain car].each { |name|
   demo_file = File.join(MRUBY_DEMO_DIR, "#{name}.rb")
@@ -79,24 +90,13 @@ end
   end
 }
 
-task mrbc: MRBLIB_MRB
-
-file MRBLIB_MRB => MRBLIB_FILE do
-  rb_file  = File.join(%w[mruby mrblib driving_physics.rb])
-  mrb_file = File.join(%w[mruby mrblib driving_physics.mrb])
-  sh('mrbc', rb_file)
-  puts format("%s: %d bytes (created %s)",
-              mrb_file, File.size(mrb_file), File.birthtime(mrb_file))
-end
-
+desc "Remove generated .rb and .mrb files"
 task :clean do
   [MRBLIB_DIR, MRUBY_DEMO_DIR].each { |dir|
     Dir[File.join(dir, '*rb')].each { |file|
       rm file unless File.directory?(file)
     }
   }
-  raise("MRBLIB_FILE %s exists" % MRBLIB_FILE) if File.exist? MRBLIB_FILE
-  raise("MRBLIB_MRB %s exists" % MRBLIB_MRB) if File.exist? MRBLIB_MRB
 end
 
 
