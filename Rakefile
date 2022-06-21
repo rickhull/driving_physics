@@ -23,6 +23,7 @@ task default: :test
 MRBLIB_DIR = File.join %w[mruby mrblib]
 MRBLIB_FILE = File.join(MRBLIB_DIR, 'driving_physics.rb')
 MRBLIB_MRB = File.join(MRBLIB_DIR, 'driving_physics.mrb')
+MRUBY_DEMO_DIR = File.join %w[demo mruby]
 
 def write_mruby(input_file, output_file = MRBLIB_FILE, append: false)
   file_obj = File.open(output_file, append ? 'a' : 'w')
@@ -63,10 +64,12 @@ end
     sh 'mrbc', demo_file
   end
 
+  desc "run demo/#{name}.rb via mruby"
   task "demo_#{name}" => [demo_file, MRBLIB_MRB] do
     sh 'mruby', '-r', MRBLIB_MRB, demo_file
   end
 
+  desc "run demo/#{name}.rb via mruby bytecode"
   task "mrb_#{name}" => [demo_mrb, MRBLIB_MRB] do
     sh 'mruby', '-r', MRBLIB_MRB, '-b', demo_mrb
   end
@@ -81,6 +84,17 @@ file MRBLIB_MRB => MRBLIB_FILE do
   puts format("%s: %d bytes (created %s)",
               mrb_file, File.size(mrb_file), File.birthtime(mrb_file))
 end
+
+task :clean do
+  [MRBLIB_DIR, MRUBY_DEMO_DIR].each { |dir|
+    Dir[File.join(dir, '*rb')].each { |file|
+      rm file unless File.directory?(file)
+    }
+  }
+  raise("MRBLIB_FILE %s exists" % MRBLIB_FILE) if File.exist? MRBLIB_FILE
+  raise("MRBLIB_MRB %s exists" % MRBLIB_MRB) if File.exist? MRBLIB_MRB
+end
+
 
 #
 # METRICS
