@@ -440,7 +440,7 @@ module DrivingPhysics
 
     def initialize(env)
       @env = env
-      @radius = 0.3
+      @radius = 0.35
       @width  = 0.2
       @density = DENSITY
       @temp = @env.air_temp
