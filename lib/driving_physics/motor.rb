@@ -1,5 +1,11 @@
 require 'driving_physics/disk'
 
+# TODO: starter motor
+# Starter motor is power limited, not torque limited
+# Consider:
+# * 2.2 kW (3.75:1 gear reduction)
+# * 1.8 kW  (4.4:1 gear reduction)
+
 module DrivingPhysics
   class Motor
     class Stall < RuntimeError; end
