@@ -2,3 +2,4 @@ pkg/
 .direnv/
 mruby/mruby/
 *.mrb
+demo/mruby/
