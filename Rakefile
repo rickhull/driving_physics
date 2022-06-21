@@ -38,6 +38,10 @@ def write_mruby(input_file, output_file = MRBLIB_FILE, append: false)
   line_count
 end
 
+file MRUBY_DEMO_DIR do
+  mkdir_p MRUBY_DEMO_DIR
+end
+
 desc "Copy lib/**/*.rb to mruby/mrblib/driving_physics.rb"
 task mrblib: MRBLIB_FILE
 
@@ -53,10 +57,10 @@ file MRBLIB_FILE do
 end
 
 %w[disk tire motor gearbox powertrain car].each { |name|
-  demo_file = File.join('demo', 'mruby', "#{name}.rb")
-  demo_mrb = File.join('demo', 'mruby', "#{name}.mrb")
+  demo_file = File.join(MRUBY_DEMO_DIR, "#{name}.rb")
+  demo_mrb = File.join(MRUBY_DEMO_DIR, "#{name}.mrb")
 
-  file demo_file do
+  file demo_file => MRUBY_DEMO_DIR do
     write_mruby(File.join('demo', "#{name}.rb"), demo_file)
   end
 
