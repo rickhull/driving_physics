@@ -52,7 +52,7 @@ end
 file MRBLIB_MRB => MRBLIB_FILE do
   rb_file  = File.join(%w[mruby mrblib driving_physics.rb])
   mrb_file = File.join(%w[mruby mrblib driving_physics.mrb])
-  sh('mrbc', rb_file)
+  sh 'mrbc', rb_file
   puts format("%s: %d bytes (created %s)",
               mrb_file, File.size(mrb_file), File.birthtime(mrb_file))
 end
