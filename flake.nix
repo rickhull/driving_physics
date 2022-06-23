@@ -10,7 +10,7 @@
       devShell = pkgs.mkShell {
         nativeBuildInputs = [ pkgs.bashInteractive ];
         buildInputs = [
-	  pkgs.mruby
+          pkgs.mruby
           (pkgs.ruby.withPackages (p: with p; [
             rake
             minitest
