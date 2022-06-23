@@ -1,11 +1,5 @@
 require 'driving_physics/disk'
 
-# TODO: starter motor
-# Starter motor is power limited, not torque limited
-# Consider:
-# * 2.2 kW (3.75:1 gear reduction)
-# * 1.8 kW  (4.4:1 gear reduction)
-
 module DrivingPhysics
   class Motor
     class Stall < RuntimeError; end
@@ -103,3 +97,54 @@ module DrivingPhysics
     end
   end
 end
+
+
+# TODO: starter motor
+# Starter motor is power limited, not torque limited
+# Consider:
+# * 2.2 kW (3.75:1 gear reduction)
+# * 1.8 kW  (4.4:1 gear reduction)
+# On a workbench, a starter will draw 80 to 90 amps. However, during actual
+# start-up of an engine, a starter will draw 250 to 350 amps.
+# from https://www.motortrend.com/how-to/because-theres-more-to-a-starter-than-you-realize/
+
+# V - Potential, voltage
+# I - Current, amperage
+# R - Resistance, ohms
+# P - Power, wattage
+
+# Ohm's law: I = V / R (where R is held constant)
+# P = I * V
+# For resistors (where R is helod constant)
+#   = I^2 * R
+#   = V^2 / R
+
+
+# torque proportional to A
+# speed proportional to V
+
+
+# batteries are rated in terms of CCA - cold cranking amps
+
+# P = I * V
+# V = 12 (up to 14ish)
+# I = 300
+# P = 3600 or 3.6 kW
+
+
+# A starter rated at e.g. 2.2 kW will use more power on initial cranking
+# Sometimes up to 500 amperes are required, and some batteries will provide
+# over 600 cold cranking amps
+
+
+# Consider:
+
+# V = 12
+# R = resistance of battery, wiring, starter motor
+# L = inductance (approx 0)
+# I = current through motor
+# Vc = proportional to omega
+
+# rated power - Vc * I
+# input power - V * I
+# input power that is unable to be converted to output power is wasted as heat
