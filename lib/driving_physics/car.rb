@@ -86,8 +86,8 @@ module DrivingPhysics
       ].join("\n")
     end
 
-    def drive_force(rpm)
-      @tire.force(@powertrain.axle_torque(rpm))
+    def drive_force(rpm, axle_omega: nil)
+      @tire.force @powertrain.axle_torque(rpm, axle_omega: axle_omega)
     end
 
     def tire_speed(rpm)

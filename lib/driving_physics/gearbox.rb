@@ -13,16 +13,18 @@ module DrivingPhysics
   # Likewise, 1st gear is a _smaller_ gear ratio than 3rd
   class Gearbox
     class Disengaged < RuntimeError; end
+    class ClutchDisengage < Disengaged; end
 
     RATIOS = [1/5r, 2/5r, 5/9r, 5/7r, 1r, 5/4r]
     FINAL_DRIVE = 11/41r # 1/3.73
 
-    attr_accessor :gear, :ratios, :final_drive, :spinner, :fixed_mass
+    attr_accessor :gear, :clutch, :ratios, :final_drive, :spinner, :fixed_mass
 
     def initialize(env)
       @ratios = RATIOS
       @final_drive = FINAL_DRIVE
-      @gear = 0 # neutral
+      @gear = 0     # neutral
+      @clutch = 1.0 # fully engaged (clutch pedal out)
 
       # represent all rotating mass
       @spinner = Disk.new(env) { |m|
@@ -58,7 +60,8 @@ module DrivingPhysics
     end
 
     def to_s
-      [format("Ratios: %s", @ratios.inspect),
+      [format("Gear: %d  Clutch: %.1f%%", @gear, @clutch * 100),
+       format("Ratios: %s", @ratios.inspect),
        format(" Final: %s  Mass: %.1f kg  Rotating: %.1f kg",
               @final_drive.inspect, self.mass, @spinner.mass),
       ].join("\n")
@@ -71,15 +74,42 @@ module DrivingPhysics
     end
 
     def axle_torque(crank_torque)
-      crank_torque / self.ratio
+      crank_torque * @clutch / self.ratio
     end
 
-    def axle_omega(crank_rpm)
-      DrivingPhysics.omega(crank_rpm) * self.ratio
+    def output_torque(crank_torque, crank_rpm, axle_omega: nil)
+      axle_alpha = self.alpha(self.axle_torque(crank_torque),
+                              omega: self.axle_omega(crank_rpm,
+                                                     axle_omega: axle_omega))
+      self.implied_torque(axle_alpha)
     end
 
-    def crank_rpm(axle_omega)
-      DrivingPhysics.rpm(axle_omega) / self.ratio
+    # take into account the old axle_omega and @clutch
+    # warn on > 10% mismatch on omegas
+    def axle_omega(crank_rpm, axle_omega: nil)
+      new_axle_omega = DrivingPhysics.omega(crank_rpm) * self.ratio
+      if axle_omega.nil?
+        raise(ClutchDisengage, "cannot determine axle omega") if @clutch != 1.0
+        return new_axle_omega
+      end
+      diff = new_axle_omega - axle_omega
+      diff_pct = diff.to_f.abs / axle_omega
+
+      @clutch = diff_pct > 0.1 ? [1.0 - diff_pct, 0.3].max : 1.0
+
+      axle_omega + diff * @clutch
+    end
+
+    # take into account the old crank_rpm and @clutch
+    # warn on > 30% RPM mismatch
+    # crank will tolerate mismatch more than axle
+    def crank_rpm(axle_omega, crank_rpm: nil)
+      new_crank_rpm = DrivingPhysics.rpm(axle_omega) / self.ratio
+      if crank_rpm.nil?
+        raise(ClutchDisengage, "cannot determine crank rpm") if @clutch != 1.0
+        return new_crank_rpm
+      end
+      crank_rpm + (new_crank_rpm - crank_rpm) * @clutch
     end
 
     def match_rpms(old_rpm, new_rpm)
@@ -88,10 +118,12 @@ module DrivingPhysics
       if proportion.abs < 0.01
         [:ok, proportion]
       elsif proportion.abs < 0.1
+        @clutch = 0.9
         [:slip, proportion]
       elsif @gear == 1 and new_rpm < old_rpm and old_rpm <= 1500
         [:get_rolling, proportion]
       else
+        @clutch = 1.0 - proportion.abs
         [:mismatch, proportion]
       end
     end

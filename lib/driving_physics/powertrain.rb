@@ -29,22 +29,17 @@ module DrivingPhysics
       [t * o, t, o]
     end
 
-    def axle_torque(rpm)
-      crank_alpha = @motor.alpha(@motor.torque(rpm),
-                                 omega: DrivingPhysics.omega(rpm))
-      crank_torque = @motor.implied_torque(crank_alpha)
-
-      axle_alpha = @gearbox.alpha(@gearbox.axle_torque(crank_torque),
-                                  omega: @gearbox.axle_omega(rpm))
-      @gearbox.implied_torque(axle_alpha)
+    def axle_torque(rpm, axle_omega: nil)
+      @gearbox.output_torque(@motor.output_torque(rpm), rpm,
+                             axle_omega: axle_omega)
     end
 
-    def axle_omega(rpm)
-      @gearbox.axle_omega(rpm)
+    def axle_omega(rpm, axle_omega: nil)
+      @gearbox.axle_omega(rpm, axle_omega: axle_omega)
     end
 
-    def crank_rpm(axle_omega)
-      @gearbox.crank_rpm(axle_omega)
+    def crank_rpm(axle_omega, crank_rpm: nil)
+      @gearbox.crank_rpm(axle_omega, crank_rpm: crank_rpm)
     end
   end
 end

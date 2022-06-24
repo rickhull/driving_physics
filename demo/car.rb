@@ -37,8 +37,9 @@ start = Timer.now
 paused = 0.0
 num_ticks = duration * env.hz + 1
 
-clutch = :ok
+rev_match = :ok
 phase = :ignition
+gearbox.clutch = 0.0 # clutch in to fire up motor
 flag = false
 rpm = 0
 
@@ -72,6 +73,7 @@ num_ticks.times { |i|
     if rpm > motor.idle_rpm
       car.gear = 1
       car.throttle = 1.0
+      gearbox.clutch = 0.5
       phase = :running
 
       puts <<EOF
@@ -93,12 +95,13 @@ EOF
     rf = car.tire_rotational_force(tire_omega)
 
     # note, this fails if we're in neutral
-    force = car.drive_force(rpm) + ar + rr + rf
+    drive_force = car.drive_force(rpm, axle_omega: tire_omega)
+    net_force = drive_force + ar + rr + rf
 
-    ir = car.tire_inertial_force(force)
-    force += ir
+    ir = car.tire_inertial_force(net_force)
+    net_force += ir
 
-    acc = DrivingPhysics.acc(force, car.total_mass)
+    acc = DrivingPhysics.acc(net_force, car.total_mass)
     speed += acc * env.tick
     dist += speed * env.tick
 
@@ -110,7 +113,7 @@ EOF
     crank_omega += crank_alpha * env.tick
     crank_theta += crank_omega * env.tick
 
-    axle_torque = car.powertrain.axle_torque(rpm)
+    axle_torque = car.powertrain.axle_torque(rpm, axle_omega: tire_omega)
     crank_torque = car.powertrain.motor.torque(rpm)
 
     if flag or (i < 5000 and i % 100 == 0) or (i % 1000 == 0)
@@ -120,8 +123,9 @@ EOF
       puts format("   Car: %.1f m/s/s  %.2f m/s  %.3f m  (%.1f MPH)",
                   acc, speed, dist, Imperial.mph(speed))
       puts format(" Motor: %d RPM  %.1f Nm", rpm, crank_torque)
+      puts format("Gearbox: %s", gearbox)
       puts format("  Axle: %.1f Nm (%d N)  Net Force: %.1f N",
-                  axle_torque, car.drive_force(rpm), force)
+                  axle_torque, drive_force, net_force)
       puts        "Resist: " + format(%w[Air Roll Spin Inertial].map { |s|
                                         "#{s}: %.1f N"
                                       }.join('  '), ar, rr, rf, ir)
@@ -129,19 +133,28 @@ EOF
       flag = false
     end
 
-    # tire_omega determines new rpm
-    new_rpm = car.powertrain.crank_rpm(tire_omega)
-    new_clutch, proportion = car.powertrain.gearbox.match_rpms(rpm, new_rpm)
 
-    if new_clutch != clutch
+
+
+    #
+    # TODO: revamp with gearbox.clutch
+    #
+
+
+
+    # tire_omega determines new rpm
+    new_rpm = car.powertrain.crank_rpm(tire_omega, crank_rpm: rpm)
+    new_rev_match, proportion = car.powertrain.gearbox.match_rpms(rpm, new_rpm)
+
+    if new_rev_match != rev_match
       flag = true
-      puts format("Clutch: [%s] %d RPM is %.1f%% from %d RPM",
-                  new_clutch, new_rpm, proportion * 100, rpm)
-      clutch = new_clutch
+      puts format("Rev_Match: [%s] %d RPM is %.1f%% from %d RPM",
+                  new_rev_match, new_rpm, proportion * 100, rpm)
+      rev_match = new_rev_match
       paused += CLI.pause
     end
 
-    case new_clutch
+    case new_rev_match
     when :ok
       rpm = new_rpm
     when :mismatch
@@ -169,7 +182,7 @@ EOF
 
 
   elsif phase == :idling
-    # fake
+    # fake; exit
     rpm = motor.idle_rpm
     break
   end

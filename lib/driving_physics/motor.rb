@@ -70,6 +70,11 @@ module DrivingPhysics
       @spinner.implied_torque(alpha)
     end
 
+    def output_torque(rpm)
+      self.implied_torque(self.alpha(self.torque(rpm),
+                                     omega: DrivingPhysics.omega(rpm)))
+    end
+
     # interpolate based on torque curve points
     def torque(rpm)
       raise(Stall, "RPM #{rpm}") if rpm < @rpms.first

@@ -11,6 +11,8 @@ module DrivingPhysics
       @air_temp = AIR_TEMP
       @air_density = AIR_DENSITY
       @petrol_density = PETROL_DENSITY
+
+      yield self if block_given?
     end
 
     def hz=(int)
