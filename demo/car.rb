@@ -118,15 +118,15 @@ EOF
 
     if flag or (i < 5000 and i % 100 == 0) or (i % 1000 == 0)
       puts Timer.display(ms: i)
-      puts format("  Tire: %.1f r/s/s  %.2f r/s  %.3f r",
+      puts format("   Tire: %.3f r/s/s  %.2f r/s  %.1f r",
                   tire_alpha, tire_omega, tire_theta)
-      puts format("   Car: %.1f m/s/s  %.2f m/s  %.3f m  (%.1f MPH)",
+      puts format("    Car: %.3f m/s/s  %.2f m/s  %.1f m  (%.1f MPH)",
                   acc, speed, dist, Imperial.mph(speed))
-      puts format(" Motor: %d RPM  %.1f Nm", rpm, crank_torque)
-      puts format("Gearbox: %s", gearbox)
-      puts format("  Axle: %.1f Nm (%d N)  Net Force: %.1f N",
+      puts format("  Motor: %d RPM  %.1f Nm", rpm, crank_torque)
+      puts format("Gearbox: %s", gearbox.inputs)
+      puts format("   Axle: %.1f Nm (%d N)  Net Force: %.1f N",
                   axle_torque, drive_force, net_force)
-      puts        "Resist: " + format(%w[Air Roll Spin Inertial].map { |s|
+      puts        " Resist: " + format(%w[Air Roll Spin Inertial].map { |s|
                                         "#{s}: %.1f N"
                                       }.join('  '), ar, rr, rf, ir)
       puts

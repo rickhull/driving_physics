@@ -15,6 +15,7 @@ Torque:
 Mass: 200.0 kg  Fixed: 125 kg
 Rotating: 250 mm x 200 mm (RxW) | 75.0 kg  1.91 kg/L
 	[GEARBOX]
+Gear: 0  Clutch: 100.0%
 Ratios: [(1/5), (2/5), (5/9), (5/7), (1/1), (5/4)]
  Final: (11/41)  Mass: 45.0 kg  Rotating: 15.0 kg
      [ Press Enter ]

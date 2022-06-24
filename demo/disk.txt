@@ -539,4 +539,4 @@ Radians: 24449.7 r  0.00 r/s  0.000 r/s^2
 Radians: 24449.7 r  0.00 r/s  0.000 r/s^2
    Revs: 3891 revs  0 revs/s  0 rpm
 
-1.734 s (432606 ticks/s)
+1.022 s (734057 ticks/s)

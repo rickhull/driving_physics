@@ -17,6 +17,7 @@ Torque:
 Mass: 200.0 kg  Fixed: 125 kg
 Rotating: 250 mm x 200 mm (RxW) | 75.0 kg  1.91 kg/L
 	[GEARBOX]
+Gear: 0  Clutch: 100.0%
 Ratios: [(1/5), (2/5), (5/9), (5/7), (1/1), (5/4)]
  Final: (11/41)  Mass: 45.0 kg  Rotating: 15.0 kg
 Tires: 350 mm x 200 mm (RxW) | 25.0 kg  25.0 C | cF: 1.1 / 0.7
@@ -60,1134 +61,1435 @@ Corner mass: 298.8 kg | Normal force: 2927.9 N
 # RUNNING
 #
 
-Clutch: [get_rolling] 1 RPM is -99.9% from 1001 RPM
+Rev_Match: [get_rolling] 751 RPM is -25.0% from 1001 RPM
      [ Press Enter ]
 00:00:00.504
-  Tire: 5.9 r/s/s  0.01 r/s  0.000 r
-   Car: 2.1 m/s/s  0.00 m/s  0.000 m  (0.0 MPH)
- Motor: 1001 RPM  70.2 Nm
-  Axle: 950.9 Nm (2716 N)  Net Force: 2479.3 N
-Resist: Air: -0.0 N  Roll: -117.1 N  Spin: -16.7 N  Inertial: -103.8 N
+   Tire: 1.248 r/s/s  0.00 r/s  0.0 r
+    Car: 0.437 m/s/s  0.00 m/s  0.0 m  (0.0 MPH)
+  Motor: 1001 RPM  70.2 Nm
+Gearbox: Gear: 1  Clutch: 25.0%
+   Axle: 237.2 Nm (677 N)  Net Force: 522.0 N
+ Resist: Air: -0.0 N  Roll: -117.1 N  Spin: -16.7 N  Inertial: -21.9 N
 
 00:00:00.600
-  Tire: 5.9 r/s/s  0.58 r/s  0.029 r
-   Car: 2.1 m/s/s  0.20 m/s  0.010 m  (0.5 MPH)
- Motor: 1001 RPM  70.2 Nm
-  Axle: 950.9 Nm (2716 N)  Net Force: 2478.3 N
-Resist: Air: -0.0 N  Roll: -117.1 N  Spin: -17.7 N  Inertial: -103.8 N
+   Tire: 1.247 r/s/s  0.12 r/s  0.0 r
+    Car: 0.437 m/s/s  0.04 m/s  0.0 m  (0.1 MPH)
+  Motor: 1001 RPM  70.2 Nm
+Gearbox: Gear: 1  Clutch: 25.0%
+   Axle: 237.2 Nm (677 N)  Net Force: 521.8 N
+ Resist: Air: -0.0 N  Roll: -117.1 N  Spin: -16.9 N  Inertial: -21.8 N
 
 00:00:00.700
-  Tire: 5.9 r/s/s  1.17 r/s  0.117 r
-   Car: 2.1 m/s/s  0.41 m/s  0.041 m  (0.9 MPH)
- Motor: 1001 RPM  70.2 Nm
-  Axle: 950.9 Nm (2716 N)  Net Force: 2477.3 N
-Resist: Air: -0.1 N  Roll: -117.1 N  Spin: -18.7 N  Inertial: -103.7 N
+   Tire: 1.247 r/s/s  0.25 r/s  0.0 r
+    Car: 0.436 m/s/s  0.09 m/s  0.0 m  (0.2 MPH)
+  Motor: 1001 RPM  70.2 Nm
+Gearbox: Gear: 1  Clutch: 25.0%
+   Axle: 237.2 Nm (677 N)  Net Force: 521.5 N
+ Resist: Air: -0.0 N  Roll: -117.1 N  Spin: -17.1 N  Inertial: -21.8 N
 
 00:00:00.800
-  Tire: 5.9 r/s/s  1.77 r/s  0.264 r
-   Car: 2.1 m/s/s  0.62 m/s  0.092 m  (1.4 MPH)
- Motor: 1001 RPM  70.2 Nm
-  Axle: 950.9 Nm (2716 N)  Net Force: 2476.2 N
-Resist: Air: -0.3 N  Roll: -117.1 N  Spin: -19.7 N  Inertial: -103.7 N
+   Tire: 1.246 r/s/s  0.37 r/s  0.1 r
+    Car: 0.436 m/s/s  0.13 m/s  0.0 m  (0.3 MPH)
+  Motor: 1001 RPM  70.2 Nm
+Gearbox: Gear: 1  Clutch: 25.0%
+   Axle: 237.2 Nm (677 N)  Net Force: 521.3 N
+ Resist: Air: -0.0 N  Roll: -117.1 N  Spin: -17.4 N  Inertial: -21.8 N
 
 00:00:00.900
-  Tire: 5.9 r/s/s  2.36 r/s  0.471 r
-   Car: 2.1 m/s/s  0.83 m/s  0.165 m  (1.8 MPH)
- Motor: 1001 RPM  70.2 Nm
-  Axle: 950.9 Nm (2716 N)  Net Force: 2475.0 N
-Resist: Air: -0.5 N  Roll: -117.1 N  Spin: -20.7 N  Inertial: -103.6 N
+   Tire: 1.246 r/s/s  0.50 r/s  0.1 r
+    Car: 0.436 m/s/s  0.17 m/s  0.0 m  (0.4 MPH)
+  Motor: 1001 RPM  70.2 Nm
+Gearbox: Gear: 1  Clutch: 25.0%
+   Axle: 237.2 Nm (677 N)  Net Force: 521.1 N
+ Resist: Air: -0.0 N  Roll: -117.1 N  Spin: -17.6 N  Inertial: -21.8 N
 
 00:00:01.000
-  Tire: 5.9 r/s/s  2.95 r/s  0.736 r
-   Car: 2.1 m/s/s  1.03 m/s  0.258 m  (2.3 MPH)
- Motor: 1001 RPM  70.2 Nm
-  Axle: 950.9 Nm (2716 N)  Net Force: 2473.7 N
-Resist: Air: -0.9 N  Roll: -117.1 N  Spin: -21.7 N  Inertial: -103.6 N
+   Tire: 1.245 r/s/s  0.62 r/s  0.2 r
+    Car: 0.436 m/s/s  0.22 m/s  0.1 m  (0.5 MPH)
+  Motor: 1001 RPM  70.2 Nm
+Gearbox: Gear: 1  Clutch: 25.0%
+   Axle: 237.2 Nm (677 N)  Net Force: 520.9 N
+ Resist: Air: -0.0 N  Roll: -117.1 N  Spin: -17.8 N  Inertial: -21.8 N
 
 00:00:01.100
-  Tire: 5.9 r/s/s  3.54 r/s  1.061 r
-   Car: 2.1 m/s/s  1.24 m/s  0.371 m  (2.8 MPH)
- Motor: 1001 RPM  70.2 Nm
-  Axle: 950.9 Nm (2716 N)  Net Force: 2472.4 N
-Resist: Air: -1.2 N  Roll: -117.1 N  Spin: -22.6 N  Inertial: -103.5 N
+   Tire: 1.245 r/s/s  0.75 r/s  0.2 r
+    Car: 0.436 m/s/s  0.26 m/s  0.1 m  (0.6 MPH)
+  Motor: 1001 RPM  70.2 Nm
+Gearbox: Gear: 1  Clutch: 25.0%
+   Axle: 237.2 Nm (677 N)  Net Force: 520.7 N
+ Resist: Air: -0.1 N  Roll: -117.1 N  Spin: -18.0 N  Inertial: -21.8 N
 
 00:00:01.200
-  Tire: 5.9 r/s/s  4.13 r/s  1.445 r
-   Car: 2.1 m/s/s  1.45 m/s  0.506 m  (3.2 MPH)
- Motor: 1001 RPM  70.2 Nm
-  Axle: 950.9 Nm (2716 N)  Net Force: 2471.0 N
-Resist: Air: -1.7 N  Roll: -117.1 N  Spin: -23.6 N  Inertial: -103.4 N
+   Tire: 1.244 r/s/s  0.87 r/s  0.3 r
+    Car: 0.436 m/s/s  0.31 m/s  0.1 m  (0.7 MPH)
+  Motor: 1001 RPM  70.2 Nm
+Gearbox: Gear: 1  Clutch: 25.0%
+   Axle: 237.2 Nm (677 N)  Net Force: 520.4 N
+ Resist: Air: -0.1 N  Roll: -117.1 N  Spin: -18.2 N  Inertial: -21.8 N
 
 00:00:01.300
-  Tire: 5.9 r/s/s  4.72 r/s  1.888 r
-   Car: 2.1 m/s/s  1.65 m/s  0.661 m  (3.7 MPH)
- Motor: 1001 RPM  70.2 Nm
-  Axle: 950.9 Nm (2716 N)  Net Force: 2469.6 N
-Resist: Air: -2.2 N  Roll: -117.1 N  Spin: -24.6 N  Inertial: -103.4 N
-
-Clutch: [slip] 901 RPM is -10.0% from 1001 RPM
-     [ Press Enter ]
-00:00:01.359
-  Tire: 5.9 r/s/s  5.07 r/s  2.177 r
-   Car: 2.1 m/s/s  1.77 m/s  0.762 m  (4.0 MPH)
- Motor: 1001 RPM  70.2 Nm
-  Axle: 950.9 Nm (2716 N)  Net Force: 2468.7 N
-Resist: Air: -2.5 N  Roll: -117.1 N  Spin: -25.2 N  Inertial: -103.4 N
+   Tire: 1.244 r/s/s  1.00 r/s  0.4 r
+    Car: 0.435 m/s/s  0.35 m/s  0.1 m  (0.8 MPH)
+  Motor: 1001 RPM  70.2 Nm
+Gearbox: Gear: 1  Clutch: 25.0%
+   Axle: 237.2 Nm (677 N)  Net Force: 520.2 N
+ Resist: Air: -0.1 N  Roll: -117.1 N  Spin: -18.4 N  Inertial: -21.8 N
 
 00:00:01.400
-  Tire: 5.9 r/s/s  5.31 r/s  2.390 r
-   Car: 2.1 m/s/s  1.86 m/s  0.836 m  (4.2 MPH)
- Motor: 1001 RPM  70.2 Nm
-  Axle: 950.9 Nm (2716 N)  Net Force: 2468.1 N
-Resist: Air: -2.8 N  Roll: -117.1 N  Spin: -25.6 N  Inertial: -103.3 N
-
-Clutch: [ok] 991 RPM is -1.0% from 1001 RPM
-     [ Press Enter ]
-00:00:01.445
-  Tire: 5.8 r/s/s  5.58 r/s  2.635 r
-   Car: 2.0 m/s/s  1.95 m/s  0.922 m  (4.4 MPH)
- Motor: 991 RPM  68.8 Nm
-  Axle: 928.7 Nm (2653 N)  Net Force: 2406.5 N
-Resist: Air: -3.1 N  Roll: -117.1 N  Spin: -26.1 N  Inertial: -100.7 N
+   Tire: 1.243 r/s/s  1.12 r/s  0.5 r
+    Car: 0.435 m/s/s  0.39 m/s  0.2 m  (0.9 MPH)
+  Motor: 1001 RPM  70.2 Nm
+Gearbox: Gear: 1  Clutch: 25.0%
+   Axle: 237.2 Nm (677 N)  Net Force: 520.0 N
+ Resist: Air: -0.1 N  Roll: -117.1 N  Spin: -18.6 N  Inertial: -21.8 N
 
 00:00:01.500
-  Tire: 6.5 r/s/s  5.92 r/s  2.951 r
-   Car: 2.3 m/s/s  2.07 m/s  1.033 m  (4.6 MPH)
- Motor: 1051 RPM  76.2 Nm
-  Axle: 1049.0 Nm (2997 N)  Net Force: 2735.5 N
-Resist: Air: -3.4 N  Roll: -117.1 N  Spin: -26.6 N  Inertial: -114.5 N
+   Tire: 1.243 r/s/s  1.24 r/s  0.6 r
+    Car: 0.435 m/s/s  0.44 m/s  0.2 m  (1.0 MPH)
+  Motor: 1001 RPM  70.2 Nm
+Gearbox: Gear: 1  Clutch: 25.0%
+   Axle: 237.2 Nm (677 N)  Net Force: 519.8 N
+ Resist: Air: -0.2 N  Roll: -117.1 N  Spin: -18.8 N  Inertial: -21.8 N
 
 00:00:01.600
-  Tire: 8.2 r/s/s  6.65 r/s  3.578 r
-   Car: 2.9 m/s/s  2.33 m/s  1.252 m  (5.2 MPH)
- Motor: 1182 RPM  91.9 Nm
-  Axle: 1303.4 Nm (3723 N)  Net Force: 3431.0 N
-Resist: Air: -4.4 N  Roll: -117.1 N  Spin: -27.8 N  Inertial: -143.6 N
+   Tire: 1.242 r/s/s  1.37 r/s  0.8 r
+    Car: 0.435 m/s/s  0.48 m/s  0.3 m  (1.1 MPH)
+  Motor: 1001 RPM  70.2 Nm
+Gearbox: Gear: 1  Clutch: 25.0%
+   Axle: 237.2 Nm (677 N)  Net Force: 519.5 N
+ Resist: Air: -0.2 N  Roll: -117.1 N  Spin: -19.0 N  Inertial: -21.7 N
 
 00:00:01.700
-  Tire: 10.3 r/s/s  7.57 r/s  4.288 r
-   Car: 3.6 m/s/s  2.65 m/s  1.501 m  (5.9 MPH)
- Motor: 1345 RPM  111.5 Nm
-  Axle: 1622.4 Nm (4635 N)  Net Force: 4303.1 N
-Resist: Air: -5.6 N  Roll: -117.1 N  Spin: -29.4 N  Inertial: -180.1 N
+   Tire: 1.242 r/s/s  1.49 r/s  0.9 r
+    Car: 0.435 m/s/s  0.52 m/s  0.3 m  (1.2 MPH)
+  Motor: 1001 RPM  70.2 Nm
+Gearbox: Gear: 1  Clutch: 25.0%
+   Axle: 237.2 Nm (677 N)  Net Force: 519.3 N
+ Resist: Air: -0.2 N  Roll: -117.1 N  Spin: -19.2 N  Inertial: -21.7 N
 
 00:00:01.800
-  Tire: 13.0 r/s/s  8.73 r/s  5.102 r
-   Car: 4.6 m/s/s  3.06 m/s  1.786 m  (6.8 MPH)
- Motor: 1551 RPM  137.2 Nm
-  Axle: 2042.1 Nm (5834 N)  Net Force: 5450.4 N
-Resist: Air: -7.5 N  Roll: -117.1 N  Spin: -31.3 N  Inertial: -228.2 N
+   Tire: 1.241 r/s/s  1.62 r/s  1.1 r
+    Car: 0.434 m/s/s  0.57 m/s  0.4 m  (1.3 MPH)
+  Motor: 1001 RPM  70.2 Nm
+Gearbox: Gear: 1  Clutch: 25.0%
+   Axle: 237.2 Nm (677 N)  Net Force: 519.0 N
+ Resist: Air: -0.3 N  Roll: -117.1 N  Spin: -19.4 N  Inertial: -21.7 N
 
 00:00:01.900
-  Tire: 17.1 r/s/s  10.23 r/s  6.047 r
-   Car: 6.0 m/s/s  3.58 m/s  2.116 m  (8.0 MPH)
- Motor: 1817 RPM  174.4 Nm
-  Axle: 2659.4 Nm (7598 N)  Net Force: 7138.1 N
-Resist: Air: -10.3 N  Roll: -117.1 N  Spin: -33.8 N  Inertial: -298.8 N
+   Tire: 1.240 r/s/s  1.74 r/s  1.2 r
+    Car: 0.434 m/s/s  0.61 m/s  0.4 m  (1.4 MPH)
+  Motor: 1001 RPM  70.2 Nm
+Gearbox: Gear: 1  Clutch: 25.0%
+   Axle: 237.2 Nm (677 N)  Net Force: 518.8 N
+ Resist: Air: -0.3 N  Roll: -117.1 N  Spin: -19.6 N  Inertial: -21.7 N
 
 00:00:02.000
-  Tire: 21.5 r/s/s  12.17 r/s  7.164 r
-   Car: 7.5 m/s/s  4.26 m/s  2.507 m  (9.5 MPH)
- Motor: 2162 RPM  216.2 Nm
-  Axle: 3339.7 Nm (9541 N)  Net Force: 8996.5 N
-Resist: Air: -14.6 N  Roll: -117.1 N  Spin: -37.1 N  Inertial: -376.6 N
+   Tire: 1.240 r/s/s  1.87 r/s  1.4 r
+    Car: 0.434 m/s/s  0.65 m/s  0.5 m  (1.5 MPH)
+  Motor: 1001 RPM  70.2 Nm
+Gearbox: Gear: 1  Clutch: 25.0%
+   Axle: 237.1 Nm (677 N)  Net Force: 518.6 N
+ Resist: Air: -0.3 N  Roll: -117.1 N  Spin: -19.8 N  Inertial: -21.7 N
 
 00:00:02.100
-  Tire: 25.5 r/s/s  14.53 r/s  8.497 r
-   Car: 8.9 m/s/s  5.09 m/s  2.974 m  (11.4 MPH)
- Motor: 2581 RPM  255.7 Nm
-  Axle: 3955.1 Nm (11300 N)  Net Force: 10674.4 N
-Resist: Air: -20.8 N  Roll: -117.1 N  Spin: -41.0 N  Inertial: -446.9 N
+   Tire: 1.239 r/s/s  1.99 r/s  1.6 r
+    Car: 0.434 m/s/s  0.70 m/s  0.6 m  (1.6 MPH)
+  Motor: 1001 RPM  70.2 Nm
+Gearbox: Gear: 1  Clutch: 25.0%
+   Axle: 237.1 Nm (677 N)  Net Force: 518.3 N
+ Resist: Air: -0.4 N  Roll: -117.1 N  Spin: -20.1 N  Inertial: -21.7 N
 
 00:00:02.200
-  Tire: 28.7 r/s/s  17.24 r/s  10.084 r
-   Car: 10.0 m/s/s  6.03 m/s  3.529 m  (13.5 MPH)
- Motor: 3062 RPM  289.4 Nm
-  Axle: 4445.2 Nm (12700 N)  Net Force: 12006.0 N
-Resist: Air: -29.3 N  Roll: -117.1 N  Spin: -45.5 N  Inertial: -502.6 N
+   Tire: 1.239 r/s/s  2.11 r/s  1.8 r
+    Car: 0.433 m/s/s  0.74 m/s  0.6 m  (1.7 MPH)
+  Motor: 1001 RPM  70.2 Nm
+Gearbox: Gear: 1  Clutch: 25.0%
+   Axle: 237.1 Nm (677 N)  Net Force: 518.0 N
+ Resist: Air: -0.4 N  Roll: -117.1 N  Spin: -20.3 N  Inertial: -21.7 N
 
 00:00:02.300
-  Tire: 31.5 r/s/s  20.28 r/s  11.959 r
-   Car: 11.0 m/s/s  7.10 m/s  4.186 m  (15.9 MPH)
- Motor: 3603 RPM  320.7 Nm
-  Axle: 4873.0 Nm (13922 N)  Net Force: 13163.7 N
-Resist: Air: -40.5 N  Roll: -117.1 N  Spin: -50.6 N  Inertial: -551.1 N
+   Tire: 1.238 r/s/s  2.24 r/s  2.0 r
+    Car: 0.433 m/s/s  0.78 m/s  0.7 m  (1.8 MPH)
+  Motor: 1001 RPM  70.2 Nm
+Gearbox: Gear: 1  Clutch: 25.0%
+   Axle: 237.1 Nm (677 N)  Net Force: 517.8 N
+ Resist: Air: -0.5 N  Roll: -117.1 N  Spin: -20.5 N  Inertial: -21.7 N
 
 00:00:02.400
-  Tire: 30.8 r/s/s  23.39 r/s  14.145 r
-   Car: 10.8 m/s/s  8.19 m/s  4.951 m  (18.3 MPH)
- Motor: 4157 RPM  324.4 Nm
-  Axle: 4782.8 Nm (13665 N)  Net Force: 12898.3 N
-Resist: Air: -53.9 N  Roll: -117.1 N  Spin: -55.8 N  Inertial: -540.0 N
+   Tire: 1.237 r/s/s  2.36 r/s  2.2 r
+    Car: 0.433 m/s/s  0.83 m/s  0.8 m  (1.8 MPH)
+  Motor: 1001 RPM  70.2 Nm
+Gearbox: Gear: 1  Clutch: 25.0%
+   Axle: 237.1 Nm (677 N)  Net Force: 517.5 N
+ Resist: Air: -0.5 N  Roll: -117.1 N  Spin: -20.7 N  Inertial: -21.7 N
 
 00:00:02.500
-  Tire: 30.2 r/s/s  26.45 r/s  16.639 r
-   Car: 10.6 m/s/s  9.26 m/s  5.824 m  (20.7 MPH)
- Motor: 4701 RPM  328.0 Nm
-  Axle: 4694.4 Nm (13412 N)  Net Force: 12636.5 N
-Resist: Air: -68.9 N  Roll: -117.1 N  Spin: -60.9 N  Inertial: -529.0 N
+   Tire: 1.237 r/s/s  2.48 r/s  2.5 r
+    Car: 0.433 m/s/s  0.87 m/s  0.9 m  (1.9 MPH)
+  Motor: 1001 RPM  70.2 Nm
+Gearbox: Gear: 1  Clutch: 25.0%
+   Axle: 237.1 Nm (677 N)  Net Force: 517.3 N
+ Resist: Air: -0.6 N  Roll: -117.1 N  Spin: -20.9 N  Inertial: -21.7 N
 
 00:00:02.600
-  Tire: 29.1 r/s/s  29.43 r/s  19.435 r
-   Car: 10.2 m/s/s  10.30 m/s  6.802 m  (23.0 MPH)
- Motor: 5231 RPM  327.7 Nm
-  Axle: 4536.1 Nm (12960 N)  Net Force: 12182.0 N
-Resist: Air: -85.4 N  Roll: -117.1 N  Spin: -65.9 N  Inertial: -510.0 N
+   Tire: 1.236 r/s/s  2.61 r/s  2.7 r
+    Car: 0.433 m/s/s  0.91 m/s  1.0 m  (2.0 MPH)
+  Motor: 1001 RPM  70.2 Nm
+Gearbox: Gear: 1  Clutch: 25.0%
+   Axle: 237.1 Nm (677 N)  Net Force: 517.0 N
+ Resist: Air: -0.7 N  Roll: -117.1 N  Spin: -21.1 N  Inertial: -21.6 N
 
 00:00:02.700
-  Tire: 27.5 r/s/s  32.26 r/s  22.522 r
-   Car: 9.6 m/s/s  11.29 m/s  7.883 m  (25.3 MPH)
- Motor: 5735 RPM  322.6 Nm
-  Axle: 4297.6 Nm (12278 N)  Net Force: 11506.7 N
-Resist: Air: -102.6 N  Roll: -117.1 N  Spin: -70.7 N  Inertial: -481.7 N
+   Tire: 1.235 r/s/s  2.73 r/s  3.0 r
+    Car: 0.432 m/s/s  0.96 m/s  1.1 m  (2.1 MPH)
+  Motor: 1001 RPM  70.2 Nm
+Gearbox: Gear: 1  Clutch: 25.0%
+   Axle: 237.1 Nm (677 N)  Net Force: 516.7 N
+ Resist: Air: -0.7 N  Roll: -117.1 N  Spin: -21.3 N  Inertial: -21.6 N
 
 00:00:02.800
-  Tire: 24.7 r/s/s  34.90 r/s  25.883 r
-   Car: 8.7 m/s/s  12.21 m/s  9.059 m  (27.3 MPH)
- Motor: 6206 RPM  307.6 Nm
-  Axle: 3882.1 Nm (11091 N)  Net Force: 10346.3 N
-Resist: Air: -120.1 N  Roll: -117.1 N  Spin: -75.1 N  Inertial: -433.1 N
+   Tire: 1.235 r/s/s  2.86 r/s  3.3 r
+    Car: 0.432 m/s/s  1.00 m/s  1.2 m  (2.2 MPH)
+  Motor: 1001 RPM  70.2 Nm
+Gearbox: Gear: 1  Clutch: 25.0%
+   Axle: 237.1 Nm (677 N)  Net Force: 516.5 N
+ Resist: Air: -0.8 N  Roll: -117.1 N  Spin: -21.5 N  Inertial: -21.6 N
+
+00:00:02.900
+   Tire: 1.234 r/s/s  2.98 r/s  3.6 r
+    Car: 0.432 m/s/s  1.04 m/s  1.3 m  (2.3 MPH)
+  Motor: 1001 RPM  70.2 Nm
+Gearbox: Gear: 1  Clutch: 25.0%
+   Axle: 237.1 Nm (677 N)  Net Force: 516.2 N
+ Resist: Air: -0.9 N  Roll: -117.1 N  Spin: -21.7 N  Inertial: -21.6 N
+
+00:00:03.000
+   Tire: 1.233 r/s/s  3.10 r/s  3.9 r
+    Car: 0.432 m/s/s  1.09 m/s  1.4 m  (2.4 MPH)
+  Motor: 1001 RPM  70.2 Nm
+Gearbox: Gear: 1  Clutch: 25.0%
+   Axle: 237.1 Nm (677 N)  Net Force: 515.9 N
+ Resist: Air: -0.9 N  Roll: -117.1 N  Spin: -21.9 N  Inertial: -21.6 N
+
+00:00:03.100
+   Tire: 1.263 r/s/s  3.23 r/s  4.2 r
+    Car: 0.442 m/s/s  1.13 m/s  1.5 m  (2.5 MPH)
+  Motor: 1001 RPM  70.2 Nm
+Gearbox: Gear: 1  Clutch: 25.6%
+   Axle: 241.7 Nm (690 N)  Net Force: 528.3 N
+ Resist: Air: -1.0 N  Roll: -117.1 N  Spin: -22.1 N  Inertial: -22.1 N
+
+00:00:03.200
+   Tire: 1.744 r/s/s  3.38 r/s  4.5 r
+    Car: 0.610 m/s/s  1.18 m/s  1.6 m  (2.6 MPH)
+  Motor: 1001 RPM  70.2 Nm
+Gearbox: Gear: 1  Clutch: 33.3%
+   Axle: 315.2 Nm (900 N)  Net Force: 729.4 N
+ Resist: Air: -1.1 N  Roll: -117.1 N  Spin: -22.4 N  Inertial: -30.5 N
+
+00:00:03.300
+   Tire: 2.333 r/s/s  3.58 r/s  4.9 r
+    Car: 0.816 m/s/s  1.25 m/s  1.7 m  (2.8 MPH)
+  Motor: 1001 RPM  70.2 Nm
+Gearbox: Gear: 1  Clutch: 42.8%
+   Axle: 405.1 Nm (1157 N)  Net Force: 975.6 N
+ Resist: Air: -1.3 N  Roll: -117.1 N  Spin: -22.7 N  Inertial: -40.8 N
+
+00:00:03.400
+   Tire: 3.011 r/s/s  3.85 r/s  5.2 r
+    Car: 1.054 m/s/s  1.35 m/s  1.8 m  (3.0 MPH)
+  Motor: 1001 RPM  70.2 Nm
+Gearbox: Gear: 1  Clutch: 53.7%
+   Axle: 508.9 Nm (1454 N)  Net Force: 1259.6 N
+ Resist: Air: -1.5 N  Roll: -117.1 N  Spin: -23.2 N  Inertial: -52.7 N
+
+00:00:03.500
+   Tire: 3.747 r/s/s  4.18 r/s  5.7 r
+    Car: 1.311 m/s/s  1.46 m/s  2.0 m  (3.3 MPH)
+  Motor: 1001 RPM  70.2 Nm
+Gearbox: Gear: 1  Clutch: 65.5%
+   Axle: 621.4 Nm (1775 N)  Net Force: 1567.2 N
+ Resist: Air: -1.7 N  Roll: -117.1 N  Spin: -23.7 N  Inertial: -65.6 N
+
+00:00:03.600
+   Tire: 4.498 r/s/s  4.60 r/s  6.1 r
+    Car: 1.574 m/s/s  1.61 m/s  2.1 m  (3.6 MPH)
+  Motor: 1001 RPM  70.2 Nm
+Gearbox: Gear: 1  Clutch: 77.6%
+   Axle: 736.3 Nm (2103 N)  Net Force: 1881.4 N
+ Resist: Air: -2.1 N  Roll: -117.1 N  Spin: -24.4 N  Inertial: -78.8 N
+
+Rev_Match: [slip] 901 RPM is -9.9% from 1001 RPM
+     [ Press Enter ]
+00:00:03.682
+   Tire: 5.279 r/s/s  4.99 r/s  6.5 r
+    Car: 1.848 m/s/s  1.75 m/s  2.3 m  (3.9 MPH)
+  Motor: 1001 RPM  70.2 Nm
+Gearbox: Gear: 1  Clutch: 87.2%
+   Axle: 828.3 Nm (2444 N)  Net Force: 2207.9 N
+ Resist: Air: -2.5 N  Roll: -117.1 N  Spin: -25.1 N  Inertial: -92.4 N
+
+00:00:03.700
+   Tire: 5.278 r/s/s  5.08 r/s  6.6 r
+    Car: 1.847 m/s/s  1.78 m/s  2.3 m  (4.0 MPH)
+  Motor: 1001 RPM  70.2 Nm
+Gearbox: Gear: 1  Clutch: 89.3%
+   Axle: 848.4 Nm (2444 N)  Net Force: 2207.7 N
+ Resist: Air: -2.5 N  Roll: -117.1 N  Spin: -25.2 N  Inertial: -92.4 N
+
+Rev_Match: [ok] 991 RPM is -1.0% from 1001 RPM
+     [ Press Enter ]
+00:00:03.793
+   Tire: 5.750 r/s/s  5.58 r/s  7.1 r
+    Car: 2.012 m/s/s  1.95 m/s  2.5 m  (4.4 MPH)
+  Motor: 991 RPM  68.8 Nm
+Gearbox: Gear: 1  Clutch: 100.0%
+   Axle: 928.2 Nm (2651 N)  Net Force: 2405.0 N
+ Resist: Air: -3.1 N  Roll: -117.1 N  Spin: -26.1 N  Inertial: -100.7 N
+
+00:00:03.800
+   Tire: 5.860 r/s/s  5.62 r/s  7.1 r
+    Car: 2.051 m/s/s  1.97 m/s  2.5 m  (4.4 MPH)
+  Motor: 998 RPM  69.8 Nm
+Gearbox: Gear: 1  Clutch: 100.0%
+   Axle: 945.0 Nm (2699 N)  Net Force: 2450.9 N
+ Resist: Air: -3.1 N  Roll: -117.1 N  Spin: -26.1 N  Inertial: -102.6 N
+
+00:00:03.900
+   Tire: 7.354 r/s/s  6.28 r/s  7.7 r
+    Car: 2.574 m/s/s  2.20 m/s  2.7 m  (4.9 MPH)
+  Motor: 1115 RPM  83.9 Nm
+Gearbox: Gear: 1  Clutch: 100.0%
+   Axle: 1173.5 Nm (3352 N)  Net Force: 3075.9 N
+ Resist: Air: -3.9 N  Roll: -117.1 N  Spin: -27.2 N  Inertial: -128.8 N
+
+00:00:04.000
+   Tire: 9.223 r/s/s  7.10 r/s  8.4 r
+    Car: 3.228 m/s/s  2.49 m/s  2.9 m  (5.6 MPH)
+  Motor: 1262 RPM  101.5 Nm
+Gearbox: Gear: 1  Clutch: 100.0%
+   Axle: 1459.5 Nm (4170 N)  Net Force: 3857.9 N
+ Resist: Air: -5.0 N  Roll: -117.1 N  Spin: -28.6 N  Inertial: -161.5 N
+
+00:00:04.100
+   Tire: 11.568 r/s/s  8.14 r/s  9.1 r
+    Car: 4.049 m/s/s  2.85 m/s  3.2 m  (6.4 MPH)
+  Motor: 1446 RPM  123.6 Nm
+Gearbox: Gear: 1  Clutch: 100.0%
+   Axle: 1818.2 Nm (5194 N)  Net Force: 4838.4 N
+ Resist: Air: -6.5 N  Roll: -117.1 N  Spin: -30.3 N  Inertial: -202.6 N
+
+00:00:04.200
+   Tire: 14.984 r/s/s  9.45 r/s  10.0 r
+    Car: 5.244 m/s/s  3.31 m/s  3.5 m  (7.4 MPH)
+  Motor: 1679 RPM  155.2 Nm
+Gearbox: Gear: 1  Clutch: 100.0%
+   Axle: 2340.9 Nm (6688 N)  Net Force: 6267.4 N
+ Resist: Air: -8.8 N  Roll: -117.1 N  Spin: -32.5 N  Inertial: -262.4 N
+
+00:00:04.300
+   Tire: 19.623 r/s/s  11.18 r/s  11.0 r
+    Car: 6.868 m/s/s  3.91 m/s  3.9 m  (8.8 MPH)
+  Motor: 1985 RPM  198.0 Nm
+Gearbox: Gear: 1  Clutch: 100.0%
+   Axle: 3050.7 Nm (8716 N)  Net Force: 8207.8 N
+ Resist: Air: -12.3 N  Roll: -117.1 N  Spin: -35.4 N  Inertial: -343.6 N
+
+00:00:04.400
+   Tire: 23.644 r/s/s  13.34 r/s  12.3 r
+    Car: 8.276 m/s/s  4.67 m/s  4.3 m  (10.4 MPH)
+  Motor: 2369 RPM  237.0 Nm
+Gearbox: Gear: 1  Clutch: 100.0%
+   Axle: 3667.1 Nm (10477 N)  Net Force: 9889.7 N
+ Resist: Air: -17.5 N  Roll: -117.1 N  Spin: -39.0 N  Inertial: -414.0 N
+
+00:00:04.500
+   Tire: 27.122 r/s/s  15.89 r/s  13.7 r
+    Car: 9.493 m/s/s  5.56 m/s  4.8 m  (12.4 MPH)
+  Motor: 2823 RPM  272.7 Nm
+Gearbox: Gear: 1  Clutch: 100.0%
+   Axle: 4201.6 Nm (12004 N)  Net Force: 11344.5 N
+ Resist: Air: -24.9 N  Roll: -117.1 N  Spin: -43.3 N  Inertial: -474.9 N
+
+00:00:04.600
+   Tire: 30.504 r/s/s  18.77 r/s  15.5 r
+    Car: 10.676 m/s/s  6.57 m/s  5.4 m  (14.7 MPH)
+  Motor: 3335 RPM  308.5 Nm
+Gearbox: Gear: 1  Clutch: 100.0%
+   Axle: 4722.5 Nm (13492 N)  Net Force: 12758.8 N
+ Resist: Air: -34.7 N  Roll: -117.1 N  Spin: -48.1 N  Inertial: -534.1 N
+
+00:00:04.700
+   Tire: 31.142 r/s/s  21.90 r/s  17.5 r
+    Car: 10.900 m/s/s  7.67 m/s  6.1 m  (17.1 MPH)
+  Motor: 3891 RPM  322.6 Nm
+Gearbox: Gear: 1  Clutch: 100.0%
+   Axle: 4826.1 Nm (13788 N)  Net Force: 13025.9 N
+ Resist: Air: -47.2 N  Roll: -117.1 N  Spin: -53.3 N  Inertial: -545.3 N
+
+00:00:04.800
+   Tire: 30.512 r/s/s  24.98 r/s  19.8 r
+    Car: 10.679 m/s/s  8.74 m/s  6.9 m  (19.6 MPH)
+  Motor: 4440 RPM  326.3 Nm
+Gearbox: Gear: 1  Clutch: 100.0%
+   Axle: 4736.8 Nm (13533 N)  Net Force: 12762.3 N
+ Resist: Air: -61.5 N  Roll: -117.1 N  Spin: -58.5 N  Inertial: -534.3 N
+
+00:00:04.900
+   Tire: 29.891 r/s/s  28.00 r/s  22.5 r
+    Car: 10.462 m/s/s  9.80 m/s  7.9 m  (21.9 MPH)
+  Motor: 4978 RPM  329.9 Nm
+Gearbox: Gear: 1  Clutch: 100.0%
+   Axle: 4649.3 Nm (13283 N)  Net Force: 12502.4 N
+ Resist: Air: -77.3 N  Roll: -117.1 N  Spin: -63.5 N  Inertial: -523.4 N
+
+00:00:05.000
+   Tire: 28.278 r/s/s  30.91 r/s  25.4 r
+    Car: 9.897 m/s/s  10.82 m/s  8.9 m  (24.2 MPH)
+  Motor: 5496 RPM  325.0 Nm
+Gearbox: Gear: 1  Clutch: 100.0%
+   Axle: 4410.9 Nm (12602 N)  Net Force: 11827.7 N
+ Resist: Air: -94.2 N  Roll: -117.1 N  Spin: -68.4 N  Inertial: -495.2 N
 
 Gear Change: 2
      [ Press Enter ]
-00:00:02.846
-  Tire: 11.1 r/s/s  35.98 r/s  27.514 r
-   Car: 3.9 m/s/s  12.59 m/s  9.630 m  (28.2 MPH)
- Motor: 6401 RPM  295.9 Nm
-  Axle: 1802.4 Nm (5149 N)  Net Force: 4633.9 N
-Resist: Air: -127.8 N  Roll: -117.1 N  Spin: -76.9 N  Inertial: -194.0 N
+00:00:05.194
+   Tire: 11.087 r/s/s  35.98 r/s  31.9 r
+    Car: 3.880 m/s/s  12.59 m/s  11.2 m  (28.2 MPH)
+  Motor: 6400 RPM  296.0 Nm
+Gearbox: Gear: 2  Clutch: 25.0%
+   Axle: 449.6 Nm (5153 N)  Net Force: 4637.4 N
+ Resist: Air: -127.8 N  Roll: -117.1 N  Spin: -76.9 N  Inertial: -194.1 N
 
-Clutch: [mismatch] 3201 RPM is -50.0% from 6401 RPM
+Rev_Match: [mismatch] 5600 RPM is -12.5% from 6400 RPM
      [ Press Enter ]
 #
 # LURCH!
 #
 
-00:00:02.847
-  Tire: 14.3 r/s/s  36.00 r/s  27.550 r
-   Car: 5.0 m/s/s  12.60 m/s  9.643 m  (28.2 MPH)
- Motor: 3201 RPM  299.1 Nm
-  Axle: 2292.3 Nm (6549 N)  Net Force: 5977.2 N
-Resist: Air: -127.9 N  Roll: -117.1 N  Spin: -76.9 N  Inertial: -250.2 N
+00:00:05.195
+   Tire: 11.765 r/s/s  35.99 r/s  32.0 r
+    Car: 4.118 m/s/s  12.60 m/s  11.2 m  (28.2 MPH)
+  Motor: 5600 RPM  324.0 Nm
+Gearbox: Gear: 2  Clutch: 25.1%
+   Axle: 544.7 Nm (5448 N)  Net Force: 4921.0 N
+ Resist: Air: -127.8 N  Roll: -117.1 N  Spin: -76.9 N  Inertial: -206.0 N
 
-Clutch: [ok] 3203 RPM is 0.0% from 3201 RPM
+#
+# LURCH!
+#
+
+00:00:05.196
+   Tire: 12.847 r/s/s  36.00 r/s  32.0 r
+    Car: 4.496 m/s/s  12.60 m/s  11.2 m  (28.2 MPH)
+  Motor: 4998 RPM  330.0 Nm
+Gearbox: Gear: 2  Clutch: 44.0%
+   Axle: 1018.5 Nm (5920 N)  Net Force: 5373.4 N
+ Resist: Air: -127.9 N  Roll: -117.1 N  Spin: -76.9 N  Inertial: -225.0 N
+
+#
+# LURCH!
+#
+
+00:00:05.197
+   Tire: 12.434 r/s/s  36.01 r/s  32.0 r
+    Car: 4.352 m/s/s  12.61 m/s  11.2 m  (28.2 MPH)
+  Motor: 4209 RPM  324.7 Nm
+Gearbox: Gear: 2  Clutch: 68.6%
+   Axle: 1636.2 Nm (5740 N)  Net Force: 5200.6 N
+ Resist: Air: -128.0 N  Roll: -117.1 N  Spin: -77.0 N  Inertial: -217.7 N
+
+#
+# LURCH!
+#
+
+00:00:05.198
+   Tire: 12.648 r/s/s  36.03 r/s  32.1 r
+    Car: 4.427 m/s/s  12.61 m/s  11.2 m  (28.2 MPH)
+  Motor: 3519 RPM  320.1 Nm
+Gearbox: Gear: 2  Clutch: 100.0%
+   Axle: 2442.3 Nm (5833 N)  Net Force: 5290.2 N
+ Resist: Air: -128.1 N  Roll: -117.1 N  Spin: -77.0 N  Inertial: -221.5 N
+
+Rev_Match: [slip] 3205 RPM is -8.9% from 3519 RPM
      [ Press Enter ]
-00:00:02.848
-  Tire: 14.3 r/s/s  36.01 r/s  27.586 r
-   Car: 5.0 m/s/s  12.60 m/s  9.655 m  (28.2 MPH)
- Motor: 3203 RPM  299.2 Nm
-  Axle: 2292.9 Nm (6551 N)  Net Force: 5978.8 N
-Resist: Air: -128.0 N  Roll: -117.1 N  Spin: -77.0 N  Inertial: -250.3 N
+00:00:05.199
+   Tire: 13.671 r/s/s  36.04 r/s  32.1 r
+    Car: 4.785 m/s/s  12.61 m/s  11.2 m  (28.2 MPH)
+  Motor: 3519 RPM  320.1 Nm
+Gearbox: Gear: 2  Clutch: 100.0%
+   Axle: 2442.3 Nm (6279 N)  Net Force: 5718.1 N
+ Resist: Air: -128.2 N  Roll: -117.1 N  Spin: -77.0 N  Inertial: -239.4 N
 
-00:00:02.900
-  Tire: 14.5 r/s/s  36.76 r/s  29.479 r
-   Car: 5.1 m/s/s  12.87 m/s  10.318 m  (28.8 MPH)
- Motor: 3269 RPM  303.9 Nm
-  Axle: 2326.8 Nm (6647 N)  Net Force: 6065.4 N
-Resist: Air: -133.4 N  Roll: -117.1 N  Spin: -78.2 N  Inertial: -253.9 N
+Rev_Match: [ok] 3484 RPM is -1.0% from 3519 RPM
+     [ Press Enter ]
+00:00:05.429
+   Tire: 15.168 r/s/s  39.18 r/s  40.8 r
+    Car: 5.309 m/s/s  13.71 m/s  14.3 m  (30.7 MPH)
+  Motor: 3484 RPM  318.9 Nm
+Gearbox: Gear: 2  Clutch: 100.0%
+   Axle: 2436.2 Nm (6960 N)  Net Force: 6344.2 N
+ Resist: Air: -151.5 N  Roll: -117.1 N  Spin: -82.3 N  Inertial: -265.6 N
 
-00:00:03.000
-  Tire: 14.9 r/s/s  38.23 r/s  33.229 r
-   Car: 5.2 m/s/s  13.38 m/s  11.630 m  (29.9 MPH)
- Motor: 3400 RPM  313.0 Nm
-  Axle: 2393.3 Nm (6838 N)  Net Force: 6235.0 N
-Resist: Air: -144.2 N  Roll: -117.1 N  Spin: -80.7 N  Inertial: -261.0 N
+00:00:06.000
+   Tire: 14.620 r/s/s  47.70 r/s  65.6 r
+    Car: 5.117 m/s/s  16.70 m/s  23.0 m  (37.3 MPH)
+  Motor: 4243 RPM  325.0 Nm
+Gearbox: Gear: 2  Clutch: 100.0%
+   Axle: 2383.3 Nm (6809 N)  Net Force: 6115.2 N
+ Resist: Air: -224.6 N  Roll: -117.1 N  Spin: -96.5 N  Inertial: -256.0 N
 
-00:00:03.100
-  Tire: 15.2 r/s/s  39.74 r/s  37.128 r
-   Car: 5.3 m/s/s  13.91 m/s  12.995 m  (31.1 MPH)
- Motor: 3534 RPM  320.2 Nm
-  Axle: 2441.1 Nm (6974 N)  Net Force: 6352.4 N
-Resist: Air: -155.9 N  Roll: -117.1 N  Spin: -83.2 N  Inertial: -265.9 N
-
-00:00:03.200
-  Tire: 15.1 r/s/s  41.25 r/s  41.178 r
-   Car: 5.3 m/s/s  14.44 m/s  14.412 m  (32.3 MPH)
- Motor: 3669 RPM  321.1 Nm
-  Axle: 2430.1 Nm (6943 N)  Net Force: 6308.2 N
-Resist: Air: -168.0 N  Roll: -117.1 N  Spin: -85.7 N  Inertial: -264.1 N
-
-00:00:03.300
-  Tire: 15.0 r/s/s  42.76 r/s  45.380 r
-   Car: 5.2 m/s/s  14.96 m/s  15.883 m  (33.5 MPH)
- Motor: 3803 RPM  322.0 Nm
-  Axle: 2419.2 Nm (6911 N)  Net Force: 6263.9 N
-Resist: Air: -180.4 N  Roll: -117.1 N  Spin: -88.2 N  Inertial: -262.2 N
-
-00:00:03.400
-  Tire: 14.9 r/s/s  44.25 r/s  49.731 r
-   Car: 5.2 m/s/s  15.49 m/s  17.406 m  (34.6 MPH)
- Motor: 3936 RPM  322.9 Nm
-  Axle: 2408.4 Nm (6881 N)  Net Force: 6219.5 N
-Resist: Air: -193.2 N  Roll: -117.1 N  Spin: -90.7 N  Inertial: -260.4 N
-
-00:00:03.500
-  Tire: 14.8 r/s/s  45.73 r/s  54.231 r
-   Car: 5.2 m/s/s  16.01 m/s  18.981 m  (35.8 MPH)
- Motor: 4067 RPM  323.8 Nm
-  Axle: 2397.6 Nm (6850 N)  Net Force: 6175.0 N
-Resist: Air: -206.4 N  Roll: -117.1 N  Spin: -93.2 N  Inertial: -258.5 N
-
-00:00:03.600
-  Tire: 14.7 r/s/s  47.20 r/s  58.878 r
-   Car: 5.1 m/s/s  16.52 m/s  20.607 m  (37.0 MPH)
- Motor: 4198 RPM  324.7 Nm
-  Axle: 2386.9 Nm (6819 N)  Net Force: 6130.4 N
-Resist: Air: -219.9 N  Roll: -117.1 N  Spin: -95.7 N  Inertial: -256.6 N
-
-00:00:03.700
-  Tire: 14.5 r/s/s  48.66 r/s  63.672 r
-   Car: 5.1 m/s/s  17.03 m/s  22.285 m  (38.1 MPH)
- Motor: 4328 RPM  325.5 Nm
-  Axle: 2376.3 Nm (6789 N)  Net Force: 6085.8 N
-Resist: Air: -233.7 N  Roll: -117.1 N  Spin: -98.1 N  Inertial: -254.8 N
-
-00:00:03.800
-  Tire: 14.4 r/s/s  50.11 r/s  68.611 r
-   Car: 5.1 m/s/s  17.54 m/s  24.014 m  (39.2 MPH)
- Motor: 4457 RPM  326.4 Nm
-  Axle: 2365.8 Nm (6759 N)  Net Force: 6041.0 N
-Resist: Air: -247.9 N  Roll: -117.1 N  Spin: -100.5 N  Inertial: -252.9 N
-
-00:00:03.900
-  Tire: 14.3 r/s/s  51.55 r/s  73.695 r
-   Car: 5.0 m/s/s  18.04 m/s  25.793 m  (40.4 MPH)
- Motor: 4585 RPM  327.2 Nm
-  Axle: 2355.4 Nm (6729 N)  Net Force: 5996.2 N
-Resist: Air: -262.3 N  Roll: -117.1 N  Spin: -103.0 N  Inertial: -251.0 N
-
-00:00:04.000
-  Tire: 14.2 r/s/s  52.98 r/s  78.922 r
-   Car: 5.0 m/s/s  18.54 m/s  27.623 m  (41.5 MPH)
- Motor: 4712 RPM  328.1 Nm
-  Axle: 2345.0 Nm (6699 N)  Net Force: 5951.3 N
-Resist: Air: -277.1 N  Roll: -117.1 N  Spin: -105.3 N  Inertial: -249.1 N
-
-00:00:04.100
-  Tire: 14.1 r/s/s  54.40 r/s  84.292 r
-   Car: 4.9 m/s/s  19.04 m/s  29.502 m  (42.6 MPH)
- Motor: 4838 RPM  328.9 Nm
-  Axle: 2334.7 Nm (6670 N)  Net Force: 5906.4 N
-Resist: Air: -292.1 N  Roll: -117.1 N  Spin: -107.7 N  Inertial: -247.3 N
-
-00:00:04.200
-  Tire: 14.0 r/s/s  55.80 r/s  89.803 r
-   Car: 4.9 m/s/s  19.53 m/s  31.431 m  (43.7 MPH)
- Motor: 4964 RPM  329.8 Nm
-  Axle: 2324.5 Nm (6641 N)  Net Force: 5861.5 N
-Resist: Air: -307.4 N  Roll: -117.1 N  Spin: -110.1 N  Inertial: -245.4 N
-
-00:00:04.300
-  Tire: 13.8 r/s/s  57.19 r/s  95.453 r
-   Car: 4.8 m/s/s  20.02 m/s  33.409 m  (44.8 MPH)
- Motor: 5088 RPM  329.1 Nm
-  Axle: 2300.7 Nm (6573 N)  Net Force: 5779.1 N
-Resist: Air: -322.9 N  Roll: -117.1 N  Spin: -112.4 N  Inertial: -241.9 N
-
-00:00:04.400
-  Tire: 13.6 r/s/s  58.56 r/s  101.242 r
-   Car: 4.8 m/s/s  20.50 m/s  35.435 m  (45.9 MPH)
- Motor: 5210 RPM  327.9 Nm
-  Axle: 2271.8 Nm (6490 N)  Net Force: 5682.6 N
-Resist: Air: -338.6 N  Roll: -117.1 N  Spin: -114.7 N  Inertial: -237.9 N
-
-00:00:04.500
-  Tire: 13.4 r/s/s  59.91 r/s  107.167 r
-   Car: 4.7 m/s/s  20.97 m/s  37.508 m  (46.9 MPH)
- Motor: 5329 RPM  326.7 Nm
-  Axle: 2243.4 Nm (6409 N)  Net Force: 5587.5 N
-Resist: Air: -354.4 N  Roll: -117.1 N  Spin: -116.9 N  Inertial: -233.9 N
-
-00:00:04.600
-  Tire: 13.1 r/s/s  61.24 r/s  113.225 r
-   Car: 4.6 m/s/s  21.43 m/s  39.629 m  (47.9 MPH)
- Motor: 5447 RPM  325.5 Nm
-  Axle: 2215.5 Nm (6330 N)  Net Force: 5493.5 N
-Resist: Air: -370.2 N  Roll: -117.1 N  Spin: -119.2 N  Inertial: -230.0 N
-
-00:00:04.700
-  Tire: 12.9 r/s/s  62.54 r/s  119.415 r
-   Car: 4.5 m/s/s  21.89 m/s  41.795 m  (49.0 MPH)
- Motor: 5563 RPM  324.4 Nm
-  Axle: 2188.1 Nm (6251 N)  Net Force: 5400.9 N
-Resist: Air: -386.1 N  Roll: -117.1 N  Spin: -121.3 N  Inertial: -226.1 N
-
-00:00:04.800
-  Tire: 12.7 r/s/s  63.82 r/s  125.734 r
-   Car: 4.4 m/s/s  22.34 m/s  44.007 m  (50.0 MPH)
- Motor: 5677 RPM  323.2 Nm
-  Axle: 2161.1 Nm (6174 N)  Net Force: 5309.5 N
-Resist: Air: -402.1 N  Roll: -117.1 N  Spin: -123.5 N  Inertial: -222.3 N
-
-00:00:04.900
-  Tire: 12.5 r/s/s  65.08 r/s  132.179 r
-   Car: 4.4 m/s/s  22.78 m/s  46.263 m  (51.0 MPH)
- Motor: 5789 RPM  322.1 Nm
-  Axle: 2134.5 Nm (6098 N)  Net Force: 5219.3 N
-Resist: Air: -418.1 N  Roll: -117.1 N  Spin: -125.6 N  Inertial: -218.5 N
-
-00:00:05.000
-  Tire: 12.3 r/s/s  66.31 r/s  138.750 r
-   Car: 4.3 m/s/s  23.21 m/s  48.562 m  (51.9 MPH)
- Motor: 5899 RPM  321.0 Nm
-  Axle: 2108.5 Nm (6024 N)  Net Force: 5130.4 N
-Resist: Air: -434.2 N  Roll: -117.1 N  Spin: -127.7 N  Inertial: -214.8 N
+00:00:07.000
+   Tire: 13.058 r/s/s  61.68 r/s  120.4 r
+    Car: 4.570 m/s/s  21.59 m/s  42.1 m  (48.3 MPH)
+  Motor: 5487 RPM  325.1 Nm
+Gearbox: Gear: 2  Clutch: 100.0%
+   Axle: 2206.1 Nm (6303 N)  Net Force: 5461.8 N
+ Resist: Air: -375.6 N  Roll: -117.1 N  Spin: -119.9 N  Inertial: -228.7 N
 
 Gear Change: 3
      [ Press Enter ]
-00:00:05.500
-  Tire: 6.7 r/s/s  71.93 r/s  173.365 r
-   Car: 2.4 m/s/s  25.18 m/s  60.678 m  (56.3 MPH)
- Motor: 6400 RPM  296.0 Nm
-  Axle: 1297.2 Nm (3706 N)  Net Force: 2822.9 N
-Resist: Air: -511.0 N  Roll: -117.1 N  Spin: -137.1 N  Inertial: -118.2 N
+00:00:07.866
+   Tire: 6.750 r/s/s  71.94 r/s  178.5 r
+    Car: 2.363 m/s/s  25.18 m/s  62.5 m  (56.3 MPH)
+  Motor: 6400 RPM  296.0 Nm
+Gearbox: Gear: 3  Clutch: 61.1%
+   Axle: 791.8 Nm (3706 N)  Net Force: 2823.4 N
+ Resist: Air: -511.0 N  Roll: -117.1 N  Spin: -137.1 N  Inertial: -118.2 N
 
-Clutch: [mismatch] 4608 RPM is -28.0% from 6400 RPM
+Rev_Match: [mismatch] 5305 RPM is -17.1% from 6400 RPM
      [ Press Enter ]
 #
 # LURCH!
 #
 
-00:00:05.501
-  Tire: 9.3 r/s/s  71.94 r/s  173.437 r
-   Car: 3.3 m/s/s  25.18 m/s  60.703 m  (56.3 MPH)
- Motor: 4608 RPM  327.4 Nm
-  Axle: 1693.5 Nm (4838 N)  Net Force: 3909.8 N
-Resist: Air: -511.1 N  Roll: -117.1 N  Spin: -137.1 N  Inertial: -163.7 N
+00:00:07.867
+   Tire: 7.036 r/s/s  71.94 r/s  178.5 r
+    Car: 2.463 m/s/s  25.18 m/s  62.5 m  (56.3 MPH)
+  Motor: 5305 RPM  326.9 Nm
+Gearbox: Gear: 3  Clutch: 84.9%
+   Axle: 1373.4 Nm (3831 N)  Net Force: 2943.1 N
+ Resist: Air: -511.1 N  Roll: -117.1 N  Spin: -137.1 N  Inertial: -123.2 N
 
-Clutch: [ok] 4609 RPM is 0.0% from 4608 RPM
+#
+# LURCH!
+#
+
+00:00:07.868
+   Tire: 8.072 r/s/s  71.95 r/s  178.6 r
+    Car: 2.825 m/s/s  25.18 m/s  62.5 m  (56.3 MPH)
+  Motor: 4714 RPM  328.1 Nm
+Gearbox: Gear: 3  Clutch: 100.0%
+   Axle: 1687.3 Nm (4283 N)  Net Force: 3376.4 N
+ Resist: Air: -511.2 N  Roll: -117.1 N  Spin: -137.1 N  Inertial: -141.4 N
+
+Rev_Match: [slip] 4609 RPM is -2.2% from 4714 RPM
      [ Press Enter ]
-00:00:05.502
-  Tire: 9.3 r/s/s  71.95 r/s  173.508 r
-   Car: 3.3 m/s/s  25.18 m/s  60.728 m  (56.3 MPH)
- Motor: 4609 RPM  327.4 Nm
-  Axle: 1693.5 Nm (4838 N)  Net Force: 3909.5 N
-Resist: Air: -511.2 N  Roll: -117.1 N  Spin: -137.1 N  Inertial: -163.7 N
+00:00:07.869
+   Tire: 8.198 r/s/s  71.96 r/s  178.7 r
+    Car: 2.869 m/s/s  25.19 m/s  62.5 m  (56.3 MPH)
+  Motor: 4714 RPM  328.1 Nm
+Gearbox: Gear: 3  Clutch: 100.0%
+   Axle: 1687.3 Nm (4338 N)  Net Force: 3429.1 N
+ Resist: Air: -511.3 N  Roll: -117.1 N  Spin: -137.1 N  Inertial: -143.6 N
 
-00:00:06.000
-  Tire: 9.1 r/s/s  76.54 r/s  210.491 r
-   Car: 3.2 m/s/s  26.79 m/s  73.672 m  (59.9 MPH)
- Motor: 4902 RPM  329.4 Nm
-  Axle: 1676.2 Nm (4789 N)  Net Force: 3790.2 N
-Resist: Air: -578.4 N  Roll: -117.1 N  Spin: -144.8 N  Inertial: -158.7 N
-
-00:00:07.000
-  Tire: 8.2 r/s/s  85.17 r/s  291.428 r
-   Car: 2.9 m/s/s  29.81 m/s  102.000 m  (66.7 MPH)
- Motor: 5456 RPM  325.4 Nm
-  Axle: 1592.6 Nm (4550 N)  Net Force: 3414.7 N
-Resist: Air: -716.3 N  Roll: -117.1 N  Spin: -159.2 N  Inertial: -143.0 N
+Rev_Match: [ok] 4667 RPM is -1.0% from 4714 RPM
+     [ Press Enter ]
+00:00:07.979
+   Tire: 9.291 r/s/s  72.86 r/s  186.7 r
+    Car: 3.252 m/s/s  25.50 m/s  65.3 m  (57.0 MPH)
+  Motor: 4667 RPM  327.8 Nm
+Gearbox: Gear: 3  Clutch: 100.0%
+   Axle: 1690.1 Nm (4828 N)  Net Force: 3886.2 N
+ Resist: Air: -524.2 N  Roll: -117.1 N  Spin: -138.6 N  Inertial: -162.7 N
 
 00:00:08.000
-  Tire: 7.3 r/s/s  92.88 r/s  380.534 r
-   Car: 2.5 m/s/s  32.51 m/s  133.187 m  (72.7 MPH)
- Motor: 5950 RPM  320.5 Nm
-  Axle: 1508.3 Nm (4309 N)  Net Force: 3040.9 N
-Resist: Air: -851.9 N  Roll: -117.1 N  Spin: -172.1 N  Inertial: -127.3 N
+   Tire: 9.279 r/s/s  73.05 r/s  188.2 r
+    Car: 3.248 m/s/s  25.57 m/s  65.9 m  (57.2 MPH)
+  Motor: 4679 RPM  327.9 Nm
+Gearbox: Gear: 3  Clutch: 100.0%
+   Axle: 1689.4 Nm (4826 N)  Net Force: 3881.2 N
+ Resist: Air: -527.0 N  Roll: -117.1 N  Spin: -138.9 N  Inertial: -162.5 N
 
 00:00:09.000
-  Tire: 5.7 r/s/s  99.38 r/s  476.805 r
-   Car: 2.0 m/s/s  34.78 m/s  166.882 m  (77.8 MPH)
- Motor: 6366 RPM  298.0 Nm
-  Axle: 1314.3 Nm (3755 N)  Net Force: 2380.1 N
-Resist: Air: -975.3 N  Roll: -117.1 N  Spin: -183.0 N  Inertial: -99.6 N
+   Tire: 8.523 r/s/s  82.01 r/s  265.8 r
+    Car: 2.983 m/s/s  28.70 m/s  93.0 m  (64.2 MPH)
+  Motor: 5253 RPM  327.5 Nm
+Gearbox: Gear: 3  Clutch: 100.0%
+   Axle: 1627.3 Nm (4649 N)  Net Force: 3565.0 N
+ Resist: Air: -664.0 N  Roll: -117.1 N  Spin: -153.9 N  Inertial: -149.2 N
+
+00:00:10.000
+   Tire: 7.600 r/s/s  90.06 r/s  351.9 r
+    Car: 2.660 m/s/s  31.52 m/s  123.2 m  (70.5 MPH)
+  Motor: 5769 RPM  322.3 Nm
+Gearbox: Gear: 3  Clutch: 100.0%
+   Axle: 1539.1 Nm (4397 N)  Net Force: 3179.0 N
+ Resist: Air: -800.9 N  Roll: -117.1 N  Spin: -167.4 N  Inertial: -133.1 N
+
+00:00:11.000
+   Tire: 6.283 r/s/s  97.11 r/s  445.6 r
+    Car: 2.199 m/s/s  33.99 m/s  156.0 m  (76.0 MPH)
+  Motor: 6220 RPM  306.7 Nm
+Gearbox: Gear: 3  Clutch: 100.0%
+   Axle: 1388.0 Nm (3965 N)  Net Force: 2628.1 N
+ Resist: Air: -931.2 N  Roll: -117.1 N  Spin: -179.2 N  Inertial: -110.0 N
 
 Gear Change: 4
      [ Press Enter ]
-00:00:09.094
-  Tire: 3.7 r/s/s  99.90 r/s  486.172 r
-   Car: 1.3 m/s/s  34.97 m/s  170.160 m  (78.2 MPH)
- Motor: 6400 RPM  296.0 Nm
-  Axle: 1007.6 Nm (2878 N)  Net Force: 1528.3 N
-Resist: Air: -985.7 N  Roll: -117.1 N  Spin: -183.9 N  Inertial: -64.0 N
+00:00:11.473
+   Tire: 3.656 r/s/s  99.90 r/s  492.2 r
+    Car: 1.280 m/s/s  34.96 m/s  172.3 m  (78.2 MPH)
+  Motor: 6400 RPM  296.0 Nm
+Gearbox: Gear: 4  Clutch: 71.4%
+   Axle: 719.0 Nm (2879 N)  Net Force: 1529.2 N
+ Resist: Air: -985.6 N  Roll: -117.1 N  Spin: -183.9 N  Inertial: -64.0 N
 
-Clutch: [mismatch] 4978 RPM is -22.2% from 6400 RPM
+Rev_Match: [mismatch] 5384 RPM is -15.9% from 6400 RPM
      [ Press Enter ]
 #
 # LURCH!
 #
 
-00:00:09.095
-  Tire: 5.6 r/s/s  99.91 r/s  486.272 r
-   Car: 1.9 m/s/s  34.97 m/s  170.195 m  (78.2 MPH)
- Motor: 4978 RPM  329.9 Nm
-  Axle: 1299.2 Nm (3712 N)  Net Force: 2327.9 N
-Resist: Air: -985.7 N  Roll: -117.1 N  Spin: -183.9 N  Inertial: -97.5 N
+00:00:11.474
+   Tire: 3.923 r/s/s  99.90 r/s  492.3 r
+    Car: 1.373 m/s/s  34.97 m/s  172.3 m  (78.2 MPH)
+  Motor: 5384 RPM  326.2 Nm
+Gearbox: Gear: 4  Clutch: 100.0%
+   Axle: 1247.2 Nm (2996 N)  Net Force: 1641.0 N
+ Resist: Air: -985.7 N  Roll: -117.1 N  Spin: -183.9 N  Inertial: -68.7 N
 
-Clutch: [ok] 4978 RPM is 0.0% from 4978 RPM
+Rev_Match: [slip] 4978 RPM is -7.5% from 5384 RPM
      [ Press Enter ]
-00:00:09.096
-  Tire: 5.6 r/s/s  99.91 r/s  486.372 r
-   Car: 1.9 m/s/s  34.97 m/s  170.230 m  (78.2 MPH)
- Motor: 4978 RPM  329.9 Nm
-  Axle: 1299.2 Nm (3712 N)  Net Force: 2327.8 N
-Resist: Air: -985.9 N  Roll: -117.1 N  Spin: -183.9 N  Inertial: -97.4 N
-
-00:00:10.000
-  Tire: 5.1 r/s/s  104.75 r/s  578.913 r
-   Car: 1.8 m/s/s  36.66 m/s  202.619 m  (82.0 MPH)
- Motor: 5219 RPM  327.8 Nm
-  Axle: 1269.1 Nm (3625 N)  Net Force: 2143.5 N
-Resist: Air: -1083.6 N  Roll: -117.1 N  Spin: -192.0 N  Inertial: -89.7 N
-
-00:00:11.000
-  Tire: 4.7 r/s/s  109.64 r/s  686.147 r
-   Car: 1.6 m/s/s  38.37 m/s  240.151 m  (85.8 MPH)
- Motor: 5462 RPM  325.4 Nm
-  Axle: 1236.7 Nm (3533 N)  Net Force: 1947.5 N
-Resist: Air: -1187.1 N  Roll: -117.1 N  Spin: -200.2 N  Inertial: -81.5 N
+00:00:11.475
+   Tire: 4.404 r/s/s  99.91 r/s  492.4 r
+    Car: 1.542 m/s/s  34.97 m/s  172.3 m  (78.2 MPH)
+  Motor: 5384 RPM  326.2 Nm
+Gearbox: Gear: 4  Clutch: 100.0%
+   Axle: 1247.2 Nm (3206 N)  Net Force: 1842.2 N
+ Resist: Air: -985.7 N  Roll: -117.1 N  Spin: -183.9 N  Inertial: -77.1 N
 
 00:00:12.000
-  Tire: 4.2 r/s/s  114.07 r/s  798.040 r
-   Car: 1.5 m/s/s  39.93 m/s  279.314 m  (89.3 MPH)
- Motor: 5684 RPM  323.2 Nm
-  Axle: 1207.3 Nm (3449 N)  Net Force: 1765.7 N
-Resist: Air: -1285.1 N  Roll: -117.1 N  Spin: -207.6 N  Inertial: -73.9 N
+   Tire: 4.291 r/s/s  102.19 r/s  545.5 r
+    Car: 1.502 m/s/s  35.77 m/s  190.9 m  (80.0 MPH)
+  Motor: 5384 RPM  326.2 Nm
+Gearbox: Gear: 4  Clutch: 100.0%
+   Axle: 1247.2 Nm (3206 N)  Net Force: 1794.8 N
+ Resist: Air: -1031.3 N  Roll: -117.1 N  Spin: -187.7 N  Inertial: -75.1 N
 
 00:00:13.000
-  Tire: 3.8 r/s/s  118.09 r/s  914.156 r
-   Car: 1.3 m/s/s  41.33 m/s  319.955 m  (92.5 MPH)
- Motor: 5884 RPM  321.2 Nm
-  Axle: 1180.7 Nm (3373 N)  Net Force: 1597.8 N
-Resist: Air: -1377.2 N  Roll: -117.1 N  Spin: -214.3 N  Inertial: -66.9 N
+   Tire: 4.077 r/s/s  106.37 r/s  649.8 r
+    Car: 1.427 m/s/s  37.23 m/s  227.4 m  (83.3 MPH)
+  Motor: 5384 RPM  326.2 Nm
+Gearbox: Gear: 4  Clutch: 100.0%
+   Axle: 1247.2 Nm (3206 N)  Net Force: 1705.4 N
+ Resist: Air: -1117.5 N  Roll: -117.1 N  Spin: -194.7 N  Inertial: -71.4 N
+
+Rev_Match: [ok] 5330 RPM is -1.0% from 5384 RPM
+     [ Press Enter ]
+00:00:13.149
+   Tire: 4.912 r/s/s  106.98 r/s  665.7 r
+    Car: 1.719 m/s/s  37.44 m/s  233.0 m  (83.8 MPH)
+  Motor: 5330 RPM  326.7 Nm
+Gearbox: Gear: 4  Clutch: 100.0%
+   Axle: 1254.3 Nm (3583 N)  Net Force: 2054.6 N
+ Resist: Air: -1130.2 N  Roll: -117.1 N  Spin: -195.7 N  Inertial: -86.0 N
 
 00:00:14.000
-  Tire: 3.3 r/s/s  121.70 r/s  1034.093 r
-   Car: 1.2 m/s/s  42.60 m/s  361.932 m  (95.3 MPH)
- Motor: 6064 RPM  316.1 Nm
-  Axle: 1140.0 Nm (3257 N)  Net Force: 1398.3 N
-Resist: Air: -1462.8 N  Roll: -117.1 N  Spin: -220.3 N  Inertial: -58.5 N
+   Tire: 4.524 r/s/s  110.99 r/s  758.4 r
+    Car: 1.583 m/s/s  38.85 m/s  265.4 m  (86.9 MPH)
+  Motor: 5530 RPM  324.7 Nm
+Gearbox: Gear: 4  Clutch: 100.0%
+   Axle: 1227.7 Nm (3507 N)  Net Force: 1892.3 N
+ Resist: Air: -1216.6 N  Roll: -117.1 N  Spin: -202.4 N  Inertial: -79.2 N
 
 00:00:15.000
-  Tire: 2.8 r/s/s  124.75 r/s  1157.368 r
-   Car: 1.0 m/s/s  43.66 m/s  405.079 m  (97.7 MPH)
- Motor: 6216 RPM  307.0 Nm
-  Axle: 1080.2 Nm (3086 N)  Net Force: 1158.2 N
-Resist: Air: -1537.0 N  Roll: -117.1 N  Spin: -225.4 N  Inertial: -48.5 N
+   Tire: 4.099 r/s/s  115.30 r/s  871.6 r
+    Car: 1.435 m/s/s  40.36 m/s  305.1 m  (90.3 MPH)
+  Motor: 5745 RPM  322.5 Nm
+Gearbox: Gear: 4  Clutch: 100.0%
+   Axle: 1199.2 Nm (3426 N)  Net Force: 1714.7 N
+ Resist: Air: -1312.9 N  Roll: -117.1 N  Spin: -209.6 N  Inertial: -71.8 N
 
 00:00:16.000
-  Tire: 2.3 r/s/s  127.27 r/s  1283.419 r
-   Car: 0.8 m/s/s  44.55 m/s  449.197 m  (99.6 MPH)
- Motor: 6341 RPM  299.5 Nm
-  Axle: 1030.7 Nm (2944 N)  Net Force: 958.1 N
-Resist: Air: -1599.8 N  Roll: -117.1 N  Spin: -229.7 N  Inertial: -40.1 N
+   Tire: 3.708 r/s/s  119.20 r/s  988.9 r
+    Car: 1.298 m/s/s  41.72 m/s  346.1 m  (93.3 MPH)
+  Motor: 5939 RPM  320.6 Nm
+Gearbox: Gear: 4  Clutch: 100.0%
+   Axle: 1173.3 Nm (3352 N)  Net Force: 1550.8 N
+ Resist: Air: -1403.3 N  Roll: -117.1 N  Spin: -216.2 N  Inertial: -64.9 N
+
+00:00:17.000
+   Tire: 3.162 r/s/s  122.66 r/s  1109.9 r
+    Car: 1.107 m/s/s  42.93 m/s  388.5 m  (96.0 MPH)
+  Motor: 6112 RPM  313.3 Nm
+Gearbox: Gear: 4  Clutch: 100.0%
+   Axle: 1121.1 Nm (3203 N)  Net Force: 1322.8 N
+ Resist: Air: -1486.0 N  Roll: -117.1 N  Spin: -222.0 N  Inertial: -55.4 N
+
+00:00:18.000
+   Tire: 2.618 r/s/s  125.55 r/s  1234.0 r
+    Car: 0.916 m/s/s  43.94 m/s  431.9 m  (98.3 MPH)
+  Motor: 6255 RPM  304.7 Nm
+Gearbox: Gear: 4  Clutch: 100.0%
+   Axle: 1064.5 Nm (3041 N)  Net Force: 1095.2 N
+ Resist: Air: -1556.6 N  Roll: -117.1 N  Spin: -226.8 N  Inertial: -45.8 N
+
+00:00:19.000
+   Tire: 2.165 r/s/s  127.93 r/s  1360.8 r
+    Car: 0.758 m/s/s  44.78 m/s  476.3 m  (100.2 MPH)
+  Motor: 6374 RPM  297.5 Nm
+Gearbox: Gear: 4  Clutch: 100.0%
+   Axle: 1017.7 Nm (2907 N)  Net Force: 905.7 N
+ Resist: Air: -1616.3 N  Roll: -117.1 N  Spin: -230.8 N  Inertial: -37.9 N
 
 Gear Change: 5
      [ Press Enter ]
-00:00:16.537
-  Tire: 0.2 r/s/s  128.44 r/s  1352.084 r
-   Car: 0.1 m/s/s  44.95 m/s  473.229 m  (100.6 MPH)
- Motor: 6400 RPM  296.0 Nm
-  Axle: 717.6 Nm (2050 N)  Net Force: 69.5 N
-Resist: Air: -1629.3 N  Roll: -117.1 N  Spin: -231.6 N  Inertial: -2.9 N
+00:00:19.241
+   Tire: 0.169 r/s/s  128.44 r/s  1391.7 r
+    Car: 0.059 m/s/s  44.95 m/s  487.1 m  (100.6 MPH)
+  Motor: 6400 RPM  296.0 Nm
+Gearbox: Gear: 5  Clutch: 60.0%
+   Axle: 429.2 Nm (2051 N)  Net Force: 70.8 N
+ Resist: Air: -1629.3 N  Roll: -117.1 N  Spin: -231.6 N  Inertial: -3.0 N
 
-Clutch: [mismatch] 4571 RPM is -28.6% from 6400 RPM
+Rev_Match: [mismatch] 5302 RPM is -17.1% from 6400 RPM
      [ Press Enter ]
 #
 # LURCH!
 #
 
-00:00:16.538
-  Tire: 1.6 r/s/s  128.44 r/s  1352.212 r
-   Car: 0.6 m/s/s  44.95 m/s  473.274 m  (100.6 MPH)
- Motor: 4571 RPM  327.1 Nm
-  Axle: 939.8 Nm (2685 N)  Net Force: 678.7 N
-Resist: Air: -1629.3 N  Roll: -117.1 N  Spin: -231.6 N  Inertial: -28.4 N
+00:00:19.242
+   Tire: 0.328 r/s/s  128.44 r/s  1391.8 r
+    Car: 0.115 m/s/s  44.95 m/s  487.1 m  (100.6 MPH)
+  Motor: 5302 RPM  327.0 Nm
+Gearbox: Gear: 5  Clutch: 84.0%
+   Axle: 752.7 Nm (2121 N)  Net Force: 137.4 N
+ Resist: Air: -1629.3 N  Roll: -117.1 N  Spin: -231.6 N  Inertial: -5.8 N
 
-Clutch: [ok] 4571 RPM is 0.0% from 4571 RPM
+#
+# LURCH!
+#
+
+00:00:19.243
+   Tire: 0.883 r/s/s  128.44 r/s  1392.0 r
+    Car: 0.309 m/s/s  44.95 m/s  487.2 m  (100.6 MPH)
+  Motor: 4688 RPM  327.9 Nm
+Gearbox: Gear: 5  Clutch: 100.0%
+   Axle: 935.9 Nm (2363 N)  Net Force: 369.5 N
+ Resist: Air: -1629.3 N  Roll: -117.1 N  Spin: -231.6 N  Inertial: -15.5 N
+
+Rev_Match: [slip] 4571 RPM is -2.5% from 4688 RPM
      [ Press Enter ]
-00:00:16.539
-  Tire: 1.6 r/s/s  128.44 r/s  1352.341 r
-   Car: 0.6 m/s/s  44.95 m/s  473.319 m  (100.6 MPH)
- Motor: 4571 RPM  327.1 Nm
-  Axle: 939.8 Nm (2685 N)  Net Force: 678.6 N
-Resist: Air: -1629.3 N  Roll: -117.1 N  Spin: -231.6 N  Inertial: -28.4 N
-
-00:00:17.000
-  Tire: 1.6 r/s/s  129.18 r/s  1411.723 r
-   Car: 0.5 m/s/s  45.21 m/s  494.103 m  (101.1 MPH)
- Motor: 4597 RPM  327.3 Nm
-  Axle: 938.9 Nm (2682 N)  Net Force: 657.1 N
-Resist: Air: -1648.1 N  Roll: -117.1 N  Spin: -232.9 N  Inertial: -27.5 N
-
-00:00:18.000
-  Tire: 1.5 r/s/s  130.69 r/s  1541.670 r
-   Car: 0.5 m/s/s  45.74 m/s  539.584 m  (102.3 MPH)
- Motor: 4651 RPM  327.7 Nm
-  Axle: 937.1 Nm (2677 N)  Net Force: 612.4 N
-Resist: Air: -1687.0 N  Roll: -117.1 N  Spin: -235.4 N  Inertial: -25.6 N
-
-00:00:19.000
-  Tire: 1.4 r/s/s  132.11 r/s  1673.080 r
-   Car: 0.5 m/s/s  46.24 m/s  585.578 m  (103.4 MPH)
- Motor: 4702 RPM  328.0 Nm
-  Axle: 935.5 Nm (2672 N)  Net Force: 570.3 N
-Resist: Air: -1723.7 N  Roll: -117.1 N  Spin: -237.8 N  Inertial: -23.9 N
+00:00:19.244
+   Tire: 0.981 r/s/s  128.44 r/s  1392.1 r
+    Car: 0.343 m/s/s  44.95 m/s  487.2 m  (100.6 MPH)
+  Motor: 4688 RPM  327.9 Nm
+Gearbox: Gear: 5  Clutch: 100.0%
+   Axle: 935.9 Nm (2405 N)  Net Force: 410.4 N
+ Resist: Air: -1629.3 N  Roll: -117.1 N  Spin: -231.6 N  Inertial: -17.2 N
 
 00:00:20.000
-  Tire: 1.3 r/s/s  133.42 r/s  1805.855 r
-   Car: 0.4 m/s/s  46.70 m/s  632.049 m  (104.5 MPH)
- Motor: 4748 RPM  328.3 Nm
-  Axle: 933.9 Nm (2668 N)  Net Force: 530.8 N
-Resist: Air: -1758.2 N  Roll: -117.1 N  Spin: -240.0 N  Inertial: -22.2 N
+   Tire: 0.936 r/s/s  129.16 r/s  1489.5 r
+    Car: 0.328 m/s/s  45.21 m/s  521.3 m  (101.1 MPH)
+  Motor: 4688 RPM  327.9 Nm
+Gearbox: Gear: 5  Clutch: 100.0%
+   Axle: 935.9 Nm (2405 N)  Net Force: 391.5 N
+ Resist: Air: -1647.7 N  Roll: -117.1 N  Spin: -232.8 N  Inertial: -16.4 N
 
 00:00:21.000
-  Tire: 1.2 r/s/s  134.65 r/s  1939.899 r
-   Car: 0.4 m/s/s  47.13 m/s  678.965 m  (105.4 MPH)
- Motor: 4792 RPM  328.6 Nm
-  Axle: 932.5 Nm (2664 N)  Net Force: 493.8 N
-Resist: Air: -1790.6 N  Roll: -117.1 N  Spin: -242.0 N  Inertial: -20.7 N
+   Tire: 0.879 r/s/s  130.07 r/s  1619.1 r
+    Car: 0.308 m/s/s  45.53 m/s  566.7 m  (101.8 MPH)
+  Motor: 4688 RPM  327.9 Nm
+Gearbox: Gear: 5  Clutch: 100.0%
+   Axle: 935.9 Nm (2405 N)  Net Force: 367.8 N
+ Resist: Air: -1671.0 N  Roll: -117.1 N  Spin: -234.4 N  Inertial: -15.4 N
+
+Rev_Match: [ok] 4641 RPM is -1.0% from 4688 RPM
+     [ Press Enter ]
+00:00:21.389
+   Tire: 1.484 r/s/s  130.41 r/s  1669.8 r
+    Car: 0.519 m/s/s  45.64 m/s  584.4 m  (102.1 MPH)
+  Motor: 4641 RPM  327.6 Nm
+Gearbox: Gear: 5  Clutch: 100.0%
+   Axle: 937.5 Nm (2678 N)  Net Force: 620.8 N
+ Resist: Air: -1679.7 N  Roll: -117.1 N  Spin: -234.9 N  Inertial: -26.0 N
 
 00:00:22.000
-  Tire: 1.1 r/s/s  135.79 r/s  2075.124 r
-   Car: 0.4 m/s/s  47.53 m/s  726.293 m  (106.3 MPH)
- Motor: 4832 RPM  328.9 Nm
-  Axle: 931.1 Nm (2660 N)  Net Force: 459.1 N
-Resist: Air: -1821.0 N  Roll: -117.1 N  Spin: -243.9 N  Inertial: -19.2 N
+   Tire: 1.421 r/s/s  131.30 r/s  1749.7 r
+    Car: 0.497 m/s/s  45.95 m/s  612.4 m  (102.8 MPH)
+  Motor: 4673 RPM  327.8 Nm
+Gearbox: Gear: 5  Clutch: 100.0%
+   Axle: 936.4 Nm (2675 N)  Net Force: 594.5 N
+ Resist: Air: -1702.6 N  Roll: -117.1 N  Spin: -236.4 N  Inertial: -24.9 N
 
 00:00:23.000
-  Tire: 1.0 r/s/s  136.85 r/s  2211.447 r
-   Car: 0.4 m/s/s  47.90 m/s  774.006 m  (107.1 MPH)
- Motor: 4870 RPM  329.1 Nm
-  Axle: 929.9 Nm (2656 N)  Net Force: 426.6 N
-Resist: Air: -1849.5 N  Roll: -117.1 N  Spin: -245.7 N  Inertial: -17.9 N
+   Tire: 1.323 r/s/s  132.67 r/s  1881.7 r
+    Car: 0.463 m/s/s  46.43 m/s  658.6 m  (103.9 MPH)
+  Motor: 4722 RPM  328.1 Nm
+Gearbox: Gear: 5  Clutch: 100.0%
+   Axle: 934.8 Nm (2670 N)  Net Force: 553.5 N
+ Resist: Air: -1738.4 N  Roll: -117.1 N  Spin: -238.7 N  Inertial: -23.2 N
 
 00:00:24.000
-  Tire: 0.9 r/s/s  137.83 r/s  2348.790 r
-   Car: 0.3 m/s/s  48.24 m/s  822.076 m  (107.9 MPH)
- Motor: 4905 RPM  329.4 Nm
-  Axle: 928.7 Nm (2653 N)  Net Force: 396.2 N
-Resist: Air: -1876.2 N  Roll: -117.1 N  Spin: -247.3 N  Inertial: -16.6 N
+   Tire: 1.231 r/s/s  133.95 r/s  2015.0 r
+    Car: 0.431 m/s/s  46.88 m/s  705.3 m  (104.9 MPH)
+  Motor: 4767 RPM  328.4 Nm
+Gearbox: Gear: 5  Clutch: 100.0%
+   Axle: 933.3 Nm (2666 N)  Net Force: 515.1 N
+ Resist: Air: -1772.0 N  Roll: -117.1 N  Spin: -240.8 N  Inertial: -21.6 N
 
 00:00:25.000
-  Tire: 0.9 r/s/s  138.74 r/s  2487.081 r
-   Car: 0.3 m/s/s  48.56 m/s  870.478 m  (108.6 MPH)
- Motor: 4938 RPM  329.6 Nm
-  Axle: 927.6 Nm (2650 N)  Net Force: 367.9 N
-Resist: Air: -1901.1 N  Roll: -117.1 N  Spin: -248.9 N  Inertial: -15.4 N
+   Tire: 1.145 r/s/s  135.13 r/s  2149.6 r
+    Car: 0.401 m/s/s  47.30 m/s  752.3 m  (105.8 MPH)
+  Motor: 4809 RPM  328.7 Nm
+Gearbox: Gear: 5  Clutch: 100.0%
+   Axle: 931.9 Nm (2662 N)  Net Force: 479.0 N
+ Resist: Air: -1803.6 N  Roll: -117.1 N  Spin: -242.8 N  Inertial: -20.1 N
 
 00:00:26.000
-  Tire: 0.8 r/s/s  139.59 r/s  2626.251 r
-   Car: 0.3 m/s/s  48.86 m/s  919.188 m  (109.3 MPH)
- Motor: 4968 RPM  329.8 Nm
-  Axle: 926.6 Nm (2647 N)  Net Force: 341.4 N
-Resist: Air: -1924.4 N  Roll: -117.1 N  Spin: -250.3 N  Inertial: -14.3 N
+   Tire: 1.064 r/s/s  136.24 r/s  2285.3 r
+    Car: 0.373 m/s/s  47.68 m/s  799.8 m  (106.7 MPH)
+  Motor: 4849 RPM  329.0 Nm
+Gearbox: Gear: 5  Clutch: 100.0%
+   Axle: 930.6 Nm (2658 N)  Net Force: 445.2 N
+ Resist: Air: -1833.2 N  Roll: -117.1 N  Spin: -244.7 N  Inertial: -18.6 N
 
 00:00:27.000
-  Tire: 0.8 r/s/s  140.38 r/s  2766.239 r
-   Car: 0.3 m/s/s  49.13 m/s  968.184 m  (109.9 MPH)
- Motor: 4996 RPM  330.0 Nm
-  Axle: 925.7 Nm (2644 N)  Net Force: 316.7 N
-Resist: Air: -1946.2 N  Roll: -117.1 N  Spin: -251.6 N  Inertial: -13.3 N
+   Tire: 0.989 r/s/s  137.26 r/s  2422.0 r
+    Car: 0.346 m/s/s  48.04 m/s  847.7 m  (107.5 MPH)
+  Motor: 4885 RPM  329.2 Nm
+Gearbox: Gear: 5  Clutch: 100.0%
+   Axle: 929.4 Nm (2655 N)  Net Force: 413.7 N
+ Resist: Air: -1860.9 N  Roll: -117.1 N  Spin: -246.4 N  Inertial: -17.3 N
 
 00:00:28.000
-  Tire: 0.7 r/s/s  141.10 r/s  2906.982 r
-   Car: 0.2 m/s/s  49.39 m/s  1017.444 m  (110.5 MPH)
- Motor: 5022 RPM  329.8 Nm
-  Axle: 923.5 Nm (2638 N)  Net Force: 290.1 N
-Resist: Air: -1966.3 N  Roll: -117.1 N  Spin: -252.8 N  Inertial: -12.1 N
+   Tire: 0.918 r/s/s  138.22 r/s  2559.8 r
+    Car: 0.321 m/s/s  48.38 m/s  895.9 m  (108.2 MPH)
+  Motor: 4919 RPM  329.5 Nm
+Gearbox: Gear: 5  Clutch: 100.0%
+   Axle: 928.3 Nm (2652 N)  Net Force: 384.2 N
+ Resist: Air: -1886.8 N  Roll: -117.1 N  Spin: -248.0 N  Inertial: -16.1 N
 
 00:00:29.000
-  Tire: 0.6 r/s/s  141.76 r/s  3048.420 r
-   Car: 0.2 m/s/s  49.62 m/s  1066.947 m  (111.0 MPH)
- Motor: 5045 RPM  329.5 Nm
-  Axle: 921.2 Nm (2632 N)  Net Force: 265.1 N
-Resist: Air: -1984.9 N  Roll: -117.1 N  Spin: -253.9 N  Inertial: -11.1 N
+   Tire: 0.853 r/s/s  139.10 r/s  2698.4 r
+    Car: 0.298 m/s/s  48.69 m/s  944.5 m  (108.9 MPH)
+  Motor: 4951 RPM  329.7 Nm
+Gearbox: Gear: 5  Clutch: 100.0%
+   Axle: 927.2 Nm (2649 N)  Net Force: 356.6 N
+ Resist: Air: -1911.1 N  Roll: -117.1 N  Spin: -249.5 N  Inertial: -14.9 N
 
 00:00:30.000
-  Tire: 0.6 r/s/s  142.37 r/s  3190.492 r
-   Car: 0.2 m/s/s  49.83 m/s  1116.672 m  (111.5 MPH)
- Motor: 5067 RPM  329.3 Nm
-  Axle: 919.2 Nm (2626 N)  Net Force: 242.1 N
-Resist: Air: -2001.9 N  Roll: -117.1 N  Spin: -254.9 N  Inertial: -10.1 N
+   Tire: 0.791 r/s/s  139.92 r/s  2837.9 r
+    Car: 0.277 m/s/s  48.97 m/s  993.3 m  (109.6 MPH)
+  Motor: 4980 RPM  329.9 Nm
+Gearbox: Gear: 5  Clutch: 100.0%
+   Axle: 926.2 Nm (2646 N)  Net Force: 330.9 N
+ Resist: Air: -1933.7 N  Roll: -117.1 N  Spin: -250.8 N  Inertial: -13.9 N
 
 00:00:31.000
-  Tire: 0.5 r/s/s  142.92 r/s  3333.143 r
-   Car: 0.2 m/s/s  50.02 m/s  1166.600 m  (111.9 MPH)
- Motor: 5087 RPM  329.1 Nm
-  Axle: 917.3 Nm (2620 N)  Net Force: 221.1 N
-Resist: Air: -2017.5 N  Roll: -117.1 N  Spin: -255.9 N  Inertial: -9.3 N
+   Tire: 0.731 r/s/s  140.69 r/s  2978.3 r
+    Car: 0.256 m/s/s  49.24 m/s  1042.4 m  (110.1 MPH)
+  Motor: 5007 RPM  329.9 Nm
+Gearbox: Gear: 5  Clutch: 100.0%
+   Axle: 924.9 Nm (2642 N)  Net Force: 305.7 N
+ Resist: Air: -1954.8 N  Roll: -117.1 N  Spin: -252.1 N  Inertial: -12.8 N
 
 00:00:32.000
-  Tire: 0.5 r/s/s  143.43 r/s  3476.323 r
-   Car: 0.2 m/s/s  50.20 m/s  1216.713 m  (112.3 MPH)
- Motor: 5105 RPM  328.9 Nm
-  Axle: 915.6 Nm (2615 N)  Net Force: 201.9 N
-Resist: Air: -2031.8 N  Roll: -117.1 N  Spin: -256.7 N  Inertial: -8.5 N
+   Tire: 0.668 r/s/s  141.39 r/s  3119.3 r
+    Car: 0.234 m/s/s  49.48 m/s  1091.8 m  (110.7 MPH)
+  Motor: 5032 RPM  329.7 Nm
+Gearbox: Gear: 5  Clutch: 100.0%
+   Axle: 922.5 Nm (2635 N)  Net Force: 279.4 N
+ Resist: Air: -1974.3 N  Roll: -117.1 N  Spin: -253.3 N  Inertial: -11.7 N
 
 00:00:33.000
-  Tire: 0.4 r/s/s  143.89 r/s  3619.985 r
-   Car: 0.2 m/s/s  50.36 m/s  1266.995 m  (112.7 MPH)
- Motor: 5121 RPM  328.8 Nm
-  Axle: 914.0 Nm (2611 N)  Net Force: 184.3 N
-Resist: Air: -2044.9 N  Roll: -117.1 N  Spin: -257.5 N  Inertial: -7.7 N
+   Tire: 0.610 r/s/s  142.02 r/s  3261.0 r
+    Car: 0.214 m/s/s  49.71 m/s  1141.4 m  (111.2 MPH)
+  Motor: 5055 RPM  329.4 Nm
+Gearbox: Gear: 5  Clutch: 100.0%
+   Axle: 920.3 Nm (2629 N)  Net Force: 255.2 N
+ Resist: Air: -1992.2 N  Roll: -117.1 N  Spin: -254.3 N  Inertial: -10.7 N
 
 00:00:34.000
-  Tire: 0.4 r/s/s  144.31 r/s  3764.089 r
-   Car: 0.1 m/s/s  50.51 m/s  1317.431 m  (113.0 MPH)
- Motor: 5136 RPM  328.6 Nm
-  Axle: 912.6 Nm (2607 N)  Net Force: 168.2 N
-Resist: Air: -2056.8 N  Roll: -117.1 N  Spin: -258.2 N  Inertial: -7.0 N
+   Tire: 0.557 r/s/s  142.61 r/s  3403.3 r
+    Car: 0.195 m/s/s  49.91 m/s  1191.2 m  (111.7 MPH)
+  Motor: 5075 RPM  329.2 Nm
+Gearbox: Gear: 5  Clutch: 100.0%
+   Axle: 918.4 Nm (2623 N)  Net Force: 233.1 N
+ Resist: Air: -2008.6 N  Roll: -117.1 N  Spin: -255.3 N  Inertial: -9.8 N
 
 00:00:35.000
-  Tire: 0.4 r/s/s  144.70 r/s  3908.596 r
-   Car: 0.1 m/s/s  50.64 m/s  1368.008 m  (113.3 MPH)
- Motor: 5150 RPM  328.5 Nm
-  Axle: 911.3 Nm (2603 N)  Net Force: 153.5 N
-Resist: Air: -2067.8 N  Roll: -117.1 N  Spin: -258.8 N  Inertial: -6.4 N
+   Tire: 0.509 r/s/s  143.14 r/s  3546.2 r
+    Car: 0.178 m/s/s  50.10 m/s  1241.2 m  (112.1 MPH)
+  Motor: 5094 RPM  329.1 Nm
+Gearbox: Gear: 5  Clutch: 100.0%
+   Axle: 916.6 Nm (2618 N)  Net Force: 212.9 N
+ Resist: Air: -2023.6 N  Roll: -117.1 N  Spin: -256.2 N  Inertial: -8.9 N
 
 00:00:36.000
-  Tire: 0.3 r/s/s  145.05 r/s  4053.469 r
-   Car: 0.1 m/s/s  50.77 m/s  1418.714 m  (113.6 MPH)
- Motor: 5162 RPM  328.4 Nm
-  Axle: 910.1 Nm (2600 N)  Net Force: 140.0 N
-Resist: Air: -2077.9 N  Roll: -117.1 N  Spin: -259.4 N  Inertial: -5.9 N
+   Tire: 0.465 r/s/s  143.63 r/s  3689.6 r
+    Car: 0.163 m/s/s  50.27 m/s  1291.4 m  (112.4 MPH)
+  Motor: 5112 RPM  328.9 Nm
+Gearbox: Gear: 5  Clutch: 100.0%
+   Axle: 914.9 Nm (2614 N)  Net Force: 194.4 N
+ Resist: Air: -2037.4 N  Roll: -117.1 N  Spin: -257.0 N  Inertial: -8.1 N
 
 00:00:37.000
-  Tire: 0.3 r/s/s  145.37 r/s  4198.678 r
-   Car: 0.1 m/s/s  50.88 m/s  1469.537 m  (113.8 MPH)
- Motor: 5173 RPM  328.3 Nm
-  Axle: 909.0 Nm (2597 N)  Net Force: 127.7 N
-Resist: Air: -2087.0 N  Roll: -117.1 N  Spin: -259.9 N  Inertial: -5.3 N
+   Tire: 0.424 r/s/s  144.07 r/s  3833.4 r
+    Car: 0.148 m/s/s  50.42 m/s  1341.7 m  (112.8 MPH)
+  Motor: 5127 RPM  328.7 Nm
+Gearbox: Gear: 5  Clutch: 100.0%
+   Axle: 913.4 Nm (2609 N)  Net Force: 177.4 N
+ Resist: Air: -2050.0 N  Roll: -117.1 N  Spin: -257.8 N  Inertial: -7.4 N
 
 00:00:38.000
-  Tire: 0.3 r/s/s  145.66 r/s  4344.192 r
-   Car: 0.1 m/s/s  50.98 m/s  1520.467 m  (114.0 MPH)
- Motor: 5184 RPM  328.2 Nm
-  Axle: 908.0 Nm (2594 N)  Net Force: 116.5 N
-Resist: Air: -2095.4 N  Roll: -117.1 N  Spin: -260.4 N  Inertial: -4.9 N
+   Tire: 0.387 r/s/s  144.48 r/s  3977.7 r
+    Car: 0.135 m/s/s  50.57 m/s  1392.2 m  (113.1 MPH)
+  Motor: 5142 RPM  328.6 Nm
+Gearbox: Gear: 5  Clutch: 100.0%
+   Axle: 912.0 Nm (2605 N)  Net Force: 161.9 N
+ Resist: Air: -2061.6 N  Roll: -117.1 N  Spin: -258.5 N  Inertial: -6.8 N
 
 00:00:39.000
-  Tire: 0.3 r/s/s  145.92 r/s  4489.984 r
-   Car: 0.1 m/s/s  51.07 m/s  1571.495 m  (114.2 MPH)
- Motor: 5193 RPM  328.1 Nm
-  Axle: 907.1 Nm (2591 N)  Net Force: 106.3 N
-Resist: Air: -2103.1 N  Roll: -117.1 N  Spin: -260.9 N  Inertial: -4.4 N
+   Tire: 0.353 r/s/s  144.85 r/s  4122.4 r
+    Car: 0.124 m/s/s  50.70 m/s  1442.8 m  (113.4 MPH)
+  Motor: 5155 RPM  328.4 Nm
+Gearbox: Gear: 5  Clutch: 100.0%
+   Axle: 910.8 Nm (2602 N)  Net Force: 147.7 N
+ Resist: Air: -2072.1 N  Roll: -117.1 N  Spin: -259.1 N  Inertial: -6.2 N
 
 00:00:40.000
-  Tire: 0.2 r/s/s  146.17 r/s  4636.031 r
-   Car: 0.1 m/s/s  51.16 m/s  1622.611 m  (114.4 MPH)
- Motor: 5202 RPM  328.0 Nm
-  Axle: 906.3 Nm (2589 N)  Net Force: 96.9 N
-Resist: Air: -2110.1 N  Roll: -117.1 N  Spin: -261.3 N  Inertial: -4.1 N
+   Tire: 0.322 r/s/s  145.18 r/s  4267.4 r
+    Car: 0.113 m/s/s  50.81 m/s  1493.6 m  (113.7 MPH)
+  Motor: 5167 RPM  328.3 Nm
+Gearbox: Gear: 5  Clutch: 100.0%
+   Axle: 909.6 Nm (2598 N)  Net Force: 134.8 N
+ Resist: Air: -2081.8 N  Roll: -117.1 N  Spin: -259.6 N  Inertial: -5.6 N
 
 00:00:41.000
-  Tire: 0.2 r/s/s  146.39 r/s  4782.310 r
-   Car: 0.1 m/s/s  51.24 m/s  1673.809 m  (114.6 MPH)
- Motor: 5210 RPM  327.9 Nm
-  Axle: 905.5 Nm (2587 N)  Net Force: 88.3 N
-Resist: Air: -2116.5 N  Roll: -117.1 N  Spin: -261.6 N  Inertial: -3.7 N
+   Tire: 0.294 r/s/s  145.49 r/s  4412.7 r
+    Car: 0.103 m/s/s  50.92 m/s  1544.5 m  (113.9 MPH)
+  Motor: 5178 RPM  328.2 Nm
+Gearbox: Gear: 5  Clutch: 100.0%
+   Axle: 908.6 Nm (2595 N)  Net Force: 122.9 N
+ Resist: Air: -2090.6 N  Roll: -117.1 N  Spin: -260.1 N  Inertial: -5.1 N
 
 00:00:42.000
-  Tire: 0.2 r/s/s  146.59 r/s  4928.800 r
-   Car: 0.1 m/s/s  51.31 m/s  1725.080 m  (114.8 MPH)
- Motor: 5217 RPM  327.8 Nm
-  Axle: 904.9 Nm (2585 N)  Net Force: 80.5 N
-Resist: Air: -2122.3 N  Roll: -117.1 N  Spin: -262.0 N  Inertial: -3.4 N
+   Tire: 0.268 r/s/s  145.77 r/s  4558.4 r
+    Car: 0.094 m/s/s  51.02 m/s  1595.4 m  (114.1 MPH)
+  Motor: 5188 RPM  328.1 Nm
+Gearbox: Gear: 5  Clutch: 100.0%
+   Axle: 907.6 Nm (2593 N)  Net Force: 112.1 N
+ Resist: Air: -2098.7 N  Roll: -117.1 N  Spin: -260.6 N  Inertial: -4.7 N
 
 00:00:43.000
-  Tire: 0.2 r/s/s  146.77 r/s  5075.483 r
-   Car: 0.1 m/s/s  51.37 m/s  1776.419 m  (114.9 MPH)
- Motor: 5224 RPM  327.8 Nm
-  Axle: 904.2 Nm (2583 N)  Net Force: 73.4 N
-Resist: Air: -2127.6 N  Roll: -117.1 N  Spin: -262.3 N  Inertial: -3.1 N
+   Tire: 0.244 r/s/s  146.03 r/s  4704.3 r
+    Car: 0.086 m/s/s  51.11 m/s  1646.5 m  (114.3 MPH)
+  Motor: 5197 RPM  328.0 Nm
+Gearbox: Gear: 5  Clutch: 100.0%
+   Axle: 906.8 Nm (2590 N)  Net Force: 102.2 N
+ Resist: Air: -2106.1 N  Roll: -117.1 N  Spin: -261.0 N  Inertial: -4.3 N
 
 00:00:44.000
-  Tire: 0.2 r/s/s  146.94 r/s  5222.341 r
-   Car: 0.1 m/s/s  51.43 m/s  1827.819 m  (115.0 MPH)
- Motor: 5230 RPM  327.7 Nm
-  Axle: 903.7 Nm (2581 N)  Net Force: 66.9 N
-Resist: Air: -2132.5 N  Roll: -117.1 N  Spin: -262.6 N  Inertial: -2.8 N
+   Tire: 0.223 r/s/s  146.26 r/s  4850.4 r
+    Car: 0.078 m/s/s  51.19 m/s  1697.6 m  (114.5 MPH)
+  Motor: 5205 RPM  327.9 Nm
+Gearbox: Gear: 5  Clutch: 100.0%
+   Axle: 906.0 Nm (2588 N)  Net Force: 93.2 N
+ Resist: Air: -2112.8 N  Roll: -117.1 N  Spin: -261.4 N  Inertial: -3.9 N
 
 00:00:45.000
-  Tire: 0.1 r/s/s  147.09 r/s  5369.360 r
-   Car: 0.1 m/s/s  51.48 m/s  1879.276 m  (115.2 MPH)
- Motor: 5235 RPM  327.6 Nm
-  Axle: 903.2 Nm (2580 N)  Net Force: 61.0 N
-Resist: Air: -2136.9 N  Roll: -117.1 N  Spin: -262.8 N  Inertial: -2.6 N
+   Tire: 0.203 r/s/s  146.47 r/s  4996.8 r
+    Car: 0.071 m/s/s  51.27 m/s  1748.9 m  (114.7 MPH)
+  Motor: 5213 RPM  327.9 Nm
+Gearbox: Gear: 5  Clutch: 100.0%
+   Axle: 905.3 Nm (2586 N)  Net Force: 85.0 N
+ Resist: Air: -2119.0 N  Roll: -117.1 N  Spin: -261.8 N  Inertial: -3.6 N
 
 00:00:46.000
-  Tire: 0.1 r/s/s  147.23 r/s  5516.524 r
-   Car: 0.0 m/s/s  51.53 m/s  1930.783 m  (115.3 MPH)
- Motor: 5240 RPM  327.6 Nm
-  Axle: 902.7 Nm (2579 N)  Net Force: 55.6 N
-Resist: Air: -2141.0 N  Roll: -117.1 N  Spin: -263.1 N  Inertial: -2.3 N
+   Tire: 0.185 r/s/s  146.67 r/s  5143.4 r
+    Car: 0.065 m/s/s  51.33 m/s  1800.2 m  (114.8 MPH)
+  Motor: 5220 RPM  327.8 Nm
+Gearbox: Gear: 5  Clutch: 100.0%
+   Axle: 904.6 Nm (2584 N)  Net Force: 77.5 N
+ Resist: Air: -2124.6 N  Roll: -117.1 N  Spin: -262.1 N  Inertial: -3.2 N
 
 00:00:47.000
-  Tire: 0.1 r/s/s  147.36 r/s  5663.822 r
-   Car: 0.0 m/s/s  51.58 m/s  1982.338 m  (115.4 MPH)
- Motor: 5244 RPM  327.6 Nm
-  Axle: 902.2 Nm (2577 N)  Net Force: 50.7 N
-Resist: Air: -2144.7 N  Roll: -117.1 N  Spin: -263.3 N  Inertial: -2.1 N
+   Tire: 0.169 r/s/s  146.85 r/s  5290.1 r
+    Car: 0.059 m/s/s  51.40 m/s  1851.5 m  (115.0 MPH)
+  Motor: 5226 RPM  327.7 Nm
+Gearbox: Gear: 5  Clutch: 100.0%
+   Axle: 904.0 Nm (2582 N)  Net Force: 70.6 N
+ Resist: Air: -2129.7 N  Roll: -117.1 N  Spin: -262.4 N  Inertial: -3.0 N
 
 00:00:48.000
-  Tire: 0.1 r/s/s  147.48 r/s  5811.240 r
-   Car: 0.0 m/s/s  51.62 m/s  2033.934 m  (115.5 MPH)
- Motor: 5249 RPM  327.5 Nm
-  Axle: 901.9 Nm (2576 N)  Net Force: 46.2 N
-Resist: Air: -2148.1 N  Roll: -117.1 N  Spin: -263.5 N  Inertial: -1.9 N
+   Tire: 0.154 r/s/s  147.01 r/s  5437.1 r
+    Car: 0.054 m/s/s  51.45 m/s  1903.0 m  (115.1 MPH)
+  Motor: 5232 RPM  327.7 Nm
+Gearbox: Gear: 5  Clutch: 100.0%
+   Axle: 903.4 Nm (2581 N)  Net Force: 64.4 N
+ Resist: Air: -2134.4 N  Roll: -117.1 N  Spin: -262.7 N  Inertial: -2.7 N
 
 00:00:49.000
-  Tire: 0.1 r/s/s  147.58 r/s  5958.769 r
-   Car: 0.0 m/s/s  51.65 m/s  2085.569 m  (115.5 MPH)
- Motor: 5252 RPM  327.5 Nm
-  Axle: 901.5 Nm (2575 N)  Net Force: 42.1 N
-Resist: Air: -2151.1 N  Roll: -117.1 N  Spin: -263.6 N  Inertial: -1.8 N
+   Tire: 0.140 r/s/s  147.15 r/s  5584.1 r
+    Car: 0.049 m/s/s  51.50 m/s  1954.4 m  (115.2 MPH)
+  Motor: 5237 RPM  327.6 Nm
+Gearbox: Gear: 5  Clutch: 100.0%
+   Axle: 902.9 Nm (2579 N)  Net Force: 58.7 N
+ Resist: Air: -2138.7 N  Roll: -117.1 N  Spin: -262.9 N  Inertial: -2.5 N
 
 00:00:50.000
-  Tire: 0.1 r/s/s  147.68 r/s  6106.399 r
-   Car: 0.0 m/s/s  51.69 m/s  2137.240 m  (115.6 MPH)
- Motor: 5256 RPM  327.4 Nm
-  Axle: 901.2 Nm (2574 N)  Net Force: 38.3 N
-Resist: Air: -2153.9 N  Roll: -117.1 N  Spin: -263.8 N  Inertial: -1.6 N
+   Tire: 0.128 r/s/s  147.29 r/s  5731.4 r
+    Car: 0.045 m/s/s  51.55 m/s  2006.0 m  (115.3 MPH)
+  Motor: 5242 RPM  327.6 Nm
+Gearbox: Gear: 5  Clutch: 100.0%
+   Axle: 902.5 Nm (2578 N)  Net Force: 53.5 N
+ Resist: Air: -2142.6 N  Roll: -117.1 N  Spin: -263.2 N  Inertial: -2.2 N
 
 00:00:51.000
-  Tire: 0.1 r/s/s  147.76 r/s  6254.120 r
-   Car: 0.0 m/s/s  51.72 m/s  2188.942 m  (115.7 MPH)
- Motor: 5259 RPM  327.4 Nm
-  Axle: 900.9 Nm (2573 N)  Net Force: 34.9 N
-Resist: Air: -2156.5 N  Roll: -117.1 N  Spin: -264.0 N  Inertial: -1.5 N
+   Tire: 0.117 r/s/s  147.41 r/s  5878.7 r
+    Car: 0.041 m/s/s  51.59 m/s  2057.5 m  (115.4 MPH)
+  Motor: 5246 RPM  327.5 Nm
+Gearbox: Gear: 5  Clutch: 100.0%
+   Axle: 902.1 Nm (2577 N)  Net Force: 48.7 N
+ Resist: Air: -2146.1 N  Roll: -117.1 N  Spin: -263.4 N  Inertial: -2.0 N
 
 00:00:52.000
-  Tire: 0.1 r/s/s  147.84 r/s  6401.925 r
-   Car: 0.0 m/s/s  51.75 m/s  2240.674 m  (115.8 MPH)
- Motor: 5262 RPM  327.4 Nm
-  Axle: 900.6 Nm (2573 N)  Net Force: 31.8 N
-Resist: Air: -2158.8 N  Roll: -117.1 N  Spin: -264.1 N  Inertial: -1.3 N
+   Tire: 0.106 r/s/s  147.52 r/s  6026.2 r
+    Car: 0.037 m/s/s  51.63 m/s  2109.2 m  (115.5 MPH)
+  Motor: 5250 RPM  327.5 Nm
+Gearbox: Gear: 5  Clutch: 100.0%
+   Axle: 901.7 Nm (2576 N)  Net Force: 44.4 N
+ Resist: Air: -2149.4 N  Roll: -117.1 N  Spin: -263.5 N  Inertial: -1.9 N
 
 00:00:53.000
-  Tire: 0.1 r/s/s  147.92 r/s  6549.806 r
-   Car: 0.0 m/s/s  51.77 m/s  2292.432 m  (115.8 MPH)
- Motor: 5264 RPM  327.4 Nm
-  Axle: 900.4 Nm (2572 N)  Net Force: 29.0 N
-Resist: Air: -2160.9 N  Roll: -117.1 N  Spin: -264.2 N  Inertial: -1.2 N
+   Tire: 0.097 r/s/s  147.62 r/s  6173.7 r
+    Car: 0.034 m/s/s  51.67 m/s  2160.8 m  (115.6 MPH)
+  Motor: 5254 RPM  327.5 Nm
+Gearbox: Gear: 5  Clutch: 100.0%
+   Axle: 901.4 Nm (2575 N)  Net Force: 40.5 N
+ Resist: Air: -2152.3 N  Roll: -117.1 N  Spin: -263.7 N  Inertial: -1.7 N
 
 00:00:54.000
-  Tire: 0.1 r/s/s  147.98 r/s  6697.756 r
-   Car: 0.0 m/s/s  51.79 m/s  2344.215 m  (115.9 MPH)
- Motor: 5267 RPM  327.3 Nm
-  Axle: 900.1 Nm (2571 N)  Net Force: 26.4 N
-Resist: Air: -2162.9 N  Roll: -117.1 N  Spin: -264.3 N  Inertial: -1.1 N
+   Tire: 0.088 r/s/s  147.71 r/s  6321.4 r
+    Car: 0.031 m/s/s  51.70 m/s  2212.5 m  (115.6 MPH)
+  Motor: 5257 RPM  327.4 Nm
+Gearbox: Gear: 5  Clutch: 100.0%
+   Axle: 901.0 Nm (2574 N)  Net Force: 36.9 N
+ Resist: Air: -2155.0 N  Roll: -117.1 N  Spin: -263.9 N  Inertial: -1.5 N
 
 00:00:55.000
-  Tire: 0.1 r/s/s  148.04 r/s  6845.770 r
-   Car: 0.0 m/s/s  51.82 m/s  2396.019 m  (115.9 MPH)
- Motor: 5269 RPM  327.3 Nm
-  Axle: 899.9 Nm (2571 N)  Net Force: 24.1 N
-Resist: Air: -2164.6 N  Roll: -117.1 N  Spin: -264.4 N  Inertial: -1.0 N
+   Tire: 0.080 r/s/s  147.80 r/s  6469.2 r
+    Car: 0.028 m/s/s  51.73 m/s  2264.2 m  (115.7 MPH)
+  Motor: 5260 RPM  327.4 Nm
+Gearbox: Gear: 5  Clutch: 100.0%
+   Axle: 900.8 Nm (2573 N)  Net Force: 33.6 N
+ Resist: Air: -2157.5 N  Roll: -117.1 N  Spin: -264.0 N  Inertial: -1.4 N
 
 00:00:56.000
-  Tire: 0.1 r/s/s  148.10 r/s  6993.841 r
-   Car: 0.0 m/s/s  51.83 m/s  2447.844 m  (116.0 MPH)
- Motor: 5271 RPM  327.3 Nm
-  Axle: 899.7 Nm (2570 N)  Net Force: 21.9 N
-Resist: Air: -2166.2 N  Roll: -117.1 N  Spin: -264.5 N  Inertial: -0.9 N
+   Tire: 0.073 r/s/s  147.88 r/s  6617.0 r
+    Car: 0.026 m/s/s  51.76 m/s  2316.0 m  (115.8 MPH)
+  Motor: 5263 RPM  327.4 Nm
+Gearbox: Gear: 5  Clutch: 100.0%
+   Axle: 900.5 Nm (2572 N)  Net Force: 30.6 N
+ Resist: Air: -2159.7 N  Roll: -117.1 N  Spin: -264.1 N  Inertial: -1.3 N
 
 00:00:57.000
-  Tire: 0.0 r/s/s  148.15 r/s  7141.965 r
-   Car: 0.0 m/s/s  51.85 m/s  2499.688 m  (116.0 MPH)
- Motor: 5273 RPM  327.3 Nm
-  Axle: 899.6 Nm (2570 N)  Net Force: 20.0 N
-Resist: Air: -2167.7 N  Roll: -117.1 N  Spin: -264.6 N  Inertial: -0.8 N
+   Tire: 0.067 r/s/s  147.95 r/s  6764.9 r
+    Car: 0.023 m/s/s  51.78 m/s  2367.7 m  (115.8 MPH)
+  Motor: 5265 RPM  327.3 Nm
+Gearbox: Gear: 5  Clutch: 100.0%
+   Axle: 900.3 Nm (2572 N)  Net Force: 27.9 N
+ Resist: Air: -2161.8 N  Roll: -117.1 N  Spin: -264.3 N  Inertial: -1.2 N
 
 00:00:58.000
-  Tire: 0.0 r/s/s  148.19 r/s  7290.136 r
-   Car: 0.0 m/s/s  51.87 m/s  2551.548 m  (116.0 MPH)
- Motor: 5274 RPM  327.3 Nm
-  Axle: 899.4 Nm (2569 N)  Net Force: 18.2 N
-Resist: Air: -2169.0 N  Roll: -117.1 N  Spin: -264.7 N  Inertial: -0.8 N
+   Tire: 0.061 r/s/s  148.01 r/s  6912.9 r
+    Car: 0.021 m/s/s  51.80 m/s  2419.5 m  (115.9 MPH)
+  Motor: 5268 RPM  327.3 Nm
+Gearbox: Gear: 5  Clutch: 100.0%
+   Axle: 900.0 Nm (2571 N)  Net Force: 25.4 N
+ Resist: Air: -2163.6 N  Roll: -117.1 N  Spin: -264.4 N  Inertial: -1.1 N
 
 00:00:59.000
-  Tire: 0.0 r/s/s  148.24 r/s  7438.351 r
-   Car: 0.0 m/s/s  51.88 m/s  2603.423 m  (116.1 MPH)
- Motor: 5276 RPM  327.2 Nm
-  Axle: 899.3 Nm (2569 N)  Net Force: 16.6 N
-Resist: Air: -2170.2 N  Roll: -117.1 N  Spin: -264.7 N  Inertial: -0.7 N
+   Tire: 0.055 r/s/s  148.07 r/s  7060.9 r
+    Car: 0.019 m/s/s  51.82 m/s  2471.3 m  (115.9 MPH)
+  Motor: 5270 RPM  327.3 Nm
+Gearbox: Gear: 5  Clutch: 100.0%
+   Axle: 899.9 Nm (2571 N)  Net Force: 23.1 N
+ Resist: Air: -2165.3 N  Roll: -117.1 N  Spin: -264.5 N  Inertial: -1.0 N
 
 00:01:00.000
-  Tire: 0.0 r/s/s  148.27 r/s  7586.606 r
-   Car: 0.0 m/s/s  51.90 m/s  2655.312 m  (116.1 MPH)
- Motor: 5277 RPM  327.2 Nm
-  Axle: 899.2 Nm (2569 N)  Net Force: 15.1 N
-Resist: Air: -2171.4 N  Roll: -117.1 N  Spin: -264.8 N  Inertial: -0.6 N
+   Tire: 0.050 r/s/s  148.12 r/s  7209.0 r
+    Car: 0.018 m/s/s  51.84 m/s  2523.2 m  (116.0 MPH)
+  Motor: 5271 RPM  327.3 Nm
+Gearbox: Gear: 5  Clutch: 100.0%
+   Axle: 899.7 Nm (2570 N)  Net Force: 21.1 N
+ Resist: Air: -2166.9 N  Roll: -117.1 N  Spin: -264.5 N  Inertial: -0.9 N
 
 00:01:01.000
-  Tire: -8.8 r/s/s  139.09 r/s  7730.222 r
-   Car: -3.1 m/s/s  48.68 m/s  2705.578 m  (108.9 MPH)
- Motor: 4951 RPM  -65.9 Nm
-  Axle: -547.3 Nm (-1563 N)  Net Force: -3687.0 N
-Resist: Air: -1911.0 N  Roll: -117.1 N  Spin: -249.5 N  Inertial: 154.4 N
+   Tire: -8.803 r/s/s  138.95 r/s  7352.5 r
+    Car: -3.081 m/s/s  48.63 m/s  2573.4 m  (108.8 MPH)
+  Motor: 4945 RPM  -65.9 Nm
+Gearbox: Gear: 5  Clutch: 100.0%
+   Axle: -547.0 Nm (-1562 N)  Net Force: -3682.2 N
+ Resist: Air: -1907.1 N  Roll: -117.1 N  Spin: -249.2 N  Inertial: 154.2 N
 
 00:01:02.000
-  Tire: -8.1 r/s/s  130.62 r/s  7865.019 r
-   Car: -2.8 m/s/s  45.72 m/s  2752.756 m  (102.3 MPH)
- Motor: 4649 RPM  -65.5 Nm
-  Axle: -528.3 Nm (-1509 N)  Net Force: -3404.8 N
-Resist: Air: -1685.4 N  Roll: -117.1 N  Spin: -235.3 N  Inertial: 142.5 N
+   Tire: -8.130 r/s/s  130.49 r/s  7487.2 r
+    Car: -2.845 m/s/s  45.67 m/s  2620.5 m  (102.2 MPH)
+  Motor: 4644 RPM  -65.5 Nm
+Gearbox: Gear: 5  Clutch: 100.0%
+   Axle: -528.1 Nm (-1508 N)  Net Force: -3400.5 N
+ Resist: Air: -1682.0 N  Roll: -117.1 N  Spin: -235.1 N  Inertial: 142.4 N
 
 00:01:03.000
-  Tire: -7.5 r/s/s  122.79 r/s  7991.669 r
-   Car: -2.6 m/s/s  42.98 m/s  2797.084 m  (96.1 MPH)
- Motor: 4370 RPM  -65.2 Nm
-  Axle: -510.8 Nm (-1459 N)  Net Force: -3155.8 N
-Resist: Air: -1489.2 N  Roll: -117.1 N  Spin: -222.2 N  Inertial: 132.1 N
+   Tire: -7.536 r/s/s  122.66 r/s  7613.7 r
+    Car: -2.638 m/s/s  42.93 m/s  2664.8 m  (96.0 MPH)
+  Motor: 4366 RPM  -65.2 Nm
+Gearbox: Gear: 5  Clutch: 100.0%
+   Axle: -510.5 Nm (-1458 N)  Net Force: -3152.0 N
+ Resist: Air: -1486.3 N  Roll: -117.1 N  Spin: -222.0 N  Inertial: 132.0 N
 
 00:01:04.000
-  Tire: -7.0 r/s/s  115.51 r/s  8110.770 r
-   Car: -2.5 m/s/s  40.43 m/s  2838.770 m  (90.4 MPH)
- Motor: 4111 RPM  -64.8 Nm
-  Axle: -494.5 Nm (-1412 N)  Net Force: -2935.0 N
-Resist: Air: -1318.0 N  Roll: -117.1 N  Spin: -210.0 N  Inertial: 122.9 N
+   Tire: -7.009 r/s/s  115.40 r/s  7732.7 r
+    Car: -2.453 m/s/s  40.39 m/s  2706.4 m  (90.3 MPH)
+  Motor: 4107 RPM  -64.8 Nm
+Gearbox: Gear: 5  Clutch: 100.0%
+   Axle: -494.2 Nm (-1412 N)  Net Force: -2931.7 N
+ Resist: Air: -1315.4 N  Roll: -117.1 N  Spin: -209.8 N  Inertial: 122.7 N
 
 00:01:05.000
-  Tire: -6.5 r/s/s  108.73 r/s  8222.850 r
-   Car: -2.3 m/s/s  38.06 m/s  2877.997 m  (85.1 MPH)
- Motor: 3870 RPM  -64.5 Nm
-  Axle: -479.3 Nm (-1369 N)  Net Force: -2738.4 N
-Resist: Air: -1167.8 N  Roll: -117.1 N  Spin: -198.7 N  Inertial: 114.6 N
+   Tire: -6.540 r/s/s  108.63 r/s  7844.6 r
+    Car: -2.289 m/s/s  38.02 m/s  2745.6 m  (85.0 MPH)
+  Motor: 3866 RPM  -64.5 Nm
+Gearbox: Gear: 5  Clutch: 100.0%
+   Axle: -479.1 Nm (-1368 N)  Net Force: -2735.4 N
+ Resist: Air: -1165.6 N  Roll: -117.1 N  Spin: -198.5 N  Inertial: 114.5 N
 
 00:01:06.000
-  Tire: -6.1 r/s/s  102.40 r/s  8328.379 r
-   Car: -2.1 m/s/s  35.84 m/s  2914.932 m  (80.2 MPH)
- Motor: 3644 RPM  -64.2 Nm
-  Axle: -465.1 Nm (-1328 N)  Net Force: -2562.5 N
-Resist: Air: -1035.8 N  Roll: -117.1 N  Spin: -188.1 N  Inertial: 107.3 N
+   Tire: -6.120 r/s/s  102.30 r/s  7950.1 r
+    Car: -2.142 m/s/s  35.81 m/s  2782.5 m  (80.1 MPH)
+  Motor: 3641 RPM  -64.2 Nm
+Gearbox: Gear: 5  Clutch: 100.0%
+   Axle: -464.9 Nm (-1328 N)  Net Force: -2559.8 N
+ Resist: Air: -1033.8 N  Roll: -117.1 N  Spin: -187.9 N  Inertial: 107.2 N
 
 00:01:07.000
-  Tire: -5.7 r/s/s  96.47 r/s  8427.778 r
-   Car: -2.0 m/s/s  33.76 m/s  2949.722 m  (75.5 MPH)
- Motor: 3433 RPM  -63.1 Nm
-  Axle: -448.7 Nm (-1281 N)  Net Force: -2396.1 N
-Resist: Air: -919.3 N  Roll: -117.1 N  Spin: -178.1 N  Inertial: 100.3 N
+   Tire: -5.722 r/s/s  96.38 r/s  8049.4 r
+    Car: -2.003 m/s/s  33.73 m/s  2817.3 m  (75.5 MPH)
+  Motor: 3430 RPM  -63.0 Nm
+Gearbox: Gear: 5  Clutch: 100.0%
+   Axle: -448.3 Nm (-1280 N)  Net Force: -2393.3 N
+ Resist: Air: -917.5 N  Roll: -117.1 N  Spin: -178.0 N  Inertial: 100.2 N
 
 00:01:08.000
-  Tire: -5.3 r/s/s  90.94 r/s  8521.449 r
-   Car: -1.9 m/s/s  31.83 m/s  2982.507 m  (71.2 MPH)
- Motor: 3237 RPM  -60.3 Nm
-  Axle: -427.0 Nm (-1220 N)  Net Force: -2229.7 N
-Resist: Air: -817.0 N  Roll: -117.1 N  Spin: -168.9 N  Inertial: 93.3 N
+   Tire: -5.325 r/s/s  90.86 r/s  8143.0 r
+    Car: -1.864 m/s/s  31.80 m/s  2850.0 m  (71.1 MPH)
+  Motor: 3234 RPM  -60.3 Nm
+Gearbox: Gear: 5  Clutch: 100.0%
+   Axle: -426.7 Nm (-1219 N)  Net Force: -2227.1 N
+ Resist: Air: -815.4 N  Roll: -117.1 N  Spin: -168.8 N  Inertial: 93.2 N
 
 00:01:09.000
-  Tire: -5.0 r/s/s  85.80 r/s  8609.787 r
-   Car: -1.7 m/s/s  30.03 m/s  3013.425 m  (67.2 MPH)
- Motor: 3053 RPM  -57.8 Nm
-  Axle: -406.8 Nm (-1162 N)  Net Force: -2079.7 N
-Resist: Air: -727.1 N  Roll: -117.1 N  Spin: -160.3 N  Inertial: 87.1 N
+   Tire: -4.967 r/s/s  85.72 r/s  8231.2 r
+    Car: -1.738 m/s/s  30.00 m/s  2880.9 m  (67.1 MPH)
+  Motor: 3051 RPM  -57.7 Nm
+Gearbox: Gear: 5  Clutch: 100.0%
+   Axle: -406.5 Nm (-1161 N)  Net Force: -2077.5 N
+ Resist: Air: -725.7 N  Roll: -117.1 N  Spin: -160.1 N  Inertial: 87.0 N
 
 00:01:10.000
-  Tire: -4.6 r/s/s  80.99 r/s  8693.150 r
-   Car: -1.6 m/s/s  28.35 m/s  3042.602 m  (63.4 MPH)
- Motor: 2882 RPM  -55.4 Nm
-  Axle: -388.0 Nm (-1108 N)  Net Force: -1944.3 N
-Resist: Air: -647.9 N  Roll: -117.1 N  Spin: -152.2 N  Inertial: 81.4 N
+   Tire: -4.643 r/s/s  80.91 r/s  8314.5 r
+    Car: -1.625 m/s/s  28.32 m/s  2910.1 m  (63.3 MPH)
+  Motor: 2880 RPM  -55.3 Nm
+Gearbox: Gear: 5  Clutch: 100.0%
+   Axle: -387.7 Nm (-1107 N)  Net Force: -1942.2 N
+ Resist: Air: -646.7 N  Roll: -117.1 N  Spin: -152.1 N  Inertial: 81.3 N
 
 00:01:11.000
-  Tire: -4.4 r/s/s  76.49 r/s  8771.862 r
-   Car: -1.5 m/s/s  26.77 m/s  3070.152 m  (59.9 MPH)
- Motor: 2722 RPM  -53.1 Nm
-  Axle: -370.3 Nm (-1058 N)  Net Force: -1821.5 N
-Resist: Air: -577.9 N  Roll: -117.1 N  Spin: -144.7 N  Inertial: 76.3 N
+   Tire: -4.350 r/s/s  76.42 r/s  8393.1 r
+    Car: -1.523 m/s/s  26.75 m/s  2937.6 m  (59.8 MPH)
+  Motor: 2720 RPM  -53.1 Nm
+Gearbox: Gear: 5  Clutch: 100.0%
+   Axle: -370.0 Nm (-1057 N)  Net Force: -1819.6 N
+ Resist: Air: -576.8 N  Roll: -117.1 N  Spin: -144.6 N  Inertial: 76.2 N
 
 00:01:12.000
-  Tire: -4.1 r/s/s  72.27 r/s  8846.217 r
-   Car: -1.4 m/s/s  25.29 m/s  3096.176 m  (56.6 MPH)
- Motor: 2572 RPM  -51.0 Nm
-  Axle: -353.8 Nm (-1010 N)  Net Force: -1709.9 N
-Resist: Air: -515.9 N  Roll: -117.1 N  Spin: -137.7 N  Inertial: 71.6 N
+   Tire: -4.084 r/s/s  72.20 r/s  8467.4 r
+    Car: -1.429 m/s/s  25.27 m/s  2963.6 m  (56.5 MPH)
+  Motor: 2570 RPM  -51.0 Nm
+Gearbox: Gear: 5  Clutch: 100.0%
+   Axle: -353.5 Nm (-1010 N)  Net Force: -1708.1 N
+ Resist: Air: -515.0 N  Roll: -117.1 N  Spin: -137.5 N  Inertial: 71.5 N
 
 Gear Change: 4
      [ Press Enter ]
-00:01:12.506
-  Tire: -4.9 r/s/s  70.23 r/s  8882.267 r
-   Car: -1.7 m/s/s  24.58 m/s  3108.793 m  (55.0 MPH)
- Motor: 2499 RPM  -50.0 Nm
-  Axle: -482.7 Nm (-1379 N)  Net Force: -2032.8 N
-Resist: Air: -487.2 N  Roll: -117.1 N  Spin: -134.2 N  Inertial: 85.1 N
+00:01:12.490
+   Tire: -4.861 r/s/s  70.23 r/s  8502.3 r
+    Car: -1.701 m/s/s  24.58 m/s  2975.8 m  (55.0 MPH)
+  Motor: 2499 RPM  -50.0 Nm
+Gearbox: Gear: 4  Clutch: 71.4%
+   Axle: -345.5 Nm (-1379 N)  Net Force: -2033.1 N
+ Resist: Air: -487.2 N  Roll: -117.1 N  Spin: -134.2 N  Inertial: 85.1 N
 
-Clutch: [mismatch] 3499 RPM is 40.0% from 2499 RPM
+Rev_Match: [mismatch] 3214 RPM is 28.6% from 2499 RPM
      [ Press Enter ]
 #
 # LURCH!
 #
 
-00:01:12.507
-  Tire: -5.9 r/s/s  70.23 r/s  8882.337 r
-   Car: -2.1 m/s/s  24.58 m/s  3108.818 m  (55.0 MPH)
- Motor: 3499 RPM  -64.0 Nm
-  Axle: -636.5 Nm (-1818 N)  Net Force: -2454.4 N
-Resist: Air: -487.2 N  Roll: -117.1 N  Spin: -134.2 N  Inertial: 102.8 N
+00:01:12.491
+   Tire: -4.474 r/s/s  70.23 r/s  8502.4 r
+    Car: -1.566 m/s/s  24.58 m/s  2975.8 m  (55.0 MPH)
+  Motor: 3214 RPM  -60.0 Nm
+Gearbox: Gear: 4  Clutch: 100.0%
+   Axle: -592.6 Nm (-1211 N)  Net Force: -1871.4 N
+ Resist: Air: -487.2 N  Roll: -117.1 N  Spin: -134.2 N  Inertial: 78.3 N
 
-Clutch: [ok] 3499 RPM is -0.0% from 3499 RPM
+Rev_Match: [slip] 3499 RPM is 8.9% from 3214 RPM
      [ Press Enter ]
-00:01:12.508
-  Tire: -5.9 r/s/s  70.22 r/s  8882.407 r
-   Car: -2.1 m/s/s  24.58 m/s  3108.842 m  (55.0 MPH)
- Motor: 3499 RPM  -64.0 Nm
-  Axle: -636.5 Nm (-1818 N)  Net Force: -2454.2 N
-Resist: Air: -487.1 N  Roll: -117.1 N  Spin: -134.2 N  Inertial: 102.7 N
+00:01:12.492
+   Tire: -5.193 r/s/s  70.22 r/s  8502.5 r
+    Car: -1.817 m/s/s  24.58 m/s  2975.9 m  (55.0 MPH)
+  Motor: 3214 RPM  -60.0 Nm
+Gearbox: Gear: 4  Clutch: 100.0%
+   Axle: -592.6 Nm (-1524 N)  Net Force: -2172.0 N
+ Resist: Air: -487.1 N  Roll: -117.1 N  Spin: -134.2 N  Inertial: 90.9 N
 
 00:01:13.000
-  Tire: -5.6 r/s/s  67.39 r/s  8916.254 r
-   Car: -2.0 m/s/s  23.59 m/s  3120.689 m  (52.8 MPH)
- Motor: 3358 RPM  -62.0 Nm
-  Axle: -614.8 Nm (-1756 N)  Net Force: -2353.4 N
-Resist: Air: -448.7 N  Roll: -117.1 N  Spin: -129.5 N  Inertial: 98.5 N
+   Tire: -5.101 r/s/s  67.61 r/s  8537.5 r
+    Car: -1.785 m/s/s  23.66 m/s  2988.1 m  (52.9 MPH)
+  Motor: 3214 RPM  -60.0 Nm
+Gearbox: Gear: 4  Clutch: 100.0%
+   Axle: -592.6 Nm (-1524 N)  Net Force: -2133.6 N
+ Resist: Air: -451.5 N  Roll: -117.1 N  Spin: -129.9 N  Inertial: 89.3 N
+
+Rev_Match: [ok] 3246 RPM is 1.0% from 3214 RPM
+     [ Press Enter ]
+00:01:13.488
+   Tire: -5.437 r/s/s  65.14 r/s  8569.8 r
+    Car: -1.903 m/s/s  22.80 m/s  2999.4 m  (51.0 MPH)
+  Motor: 3246 RPM  -60.4 Nm
+Gearbox: Gear: 4  Clutch: 100.0%
+   Axle: -597.5 Nm (-1707 N)  Net Force: -2274.0 N
+ Resist: Air: -419.1 N  Roll: -117.1 N  Spin: -125.7 N  Inertial: 95.2 N
 
 00:01:14.000
-  Tire: -5.2 r/s/s  62.00 r/s  8980.910 r
-   Car: -1.8 m/s/s  21.70 m/s  3143.318 m  (48.5 MPH)
- Motor: 3089 RPM  -58.3 Nm
-  Axle: -573.4 Nm (-1638 N)  Net Force: -2165.0 N
-Resist: Air: -379.7 N  Roll: -117.1 N  Spin: -120.5 N  Inertial: 90.6 N
+   Tire: -5.210 r/s/s  62.41 r/s  8602.5 r
+    Car: -1.824 m/s/s  21.85 m/s  3010.9 m  (48.9 MPH)
+  Motor: 3110 RPM  -58.5 Nm
+Gearbox: Gear: 4  Clutch: 100.0%
+   Axle: -576.6 Nm (-1647 N)  Net Force: -2179.4 N
+ Resist: Air: -384.8 N  Roll: -117.1 N  Spin: -121.2 N  Inertial: 91.2 N
 
 00:01:15.000
-  Tire: -4.8 r/s/s  57.03 r/s  9040.386 r
-   Car: -1.7 m/s/s  19.96 m/s  3164.135 m  (44.6 MPH)
- Motor: 2841 RPM  -54.8 Nm
-  Axle: -535.3 Nm (-1529 N)  Net Force: -1996.5 N
-Resist: Air: -321.2 N  Roll: -117.1 N  Spin: -112.1 N  Inertial: 83.6 N
+   Tire: -4.804 r/s/s  57.41 r/s  8662.4 r
+    Car: -1.681 m/s/s  20.09 m/s  3031.8 m  (44.9 MPH)
+  Motor: 2861 RPM  -55.1 Nm
+Gearbox: Gear: 4  Clutch: 100.0%
+   Axle: -538.3 Nm (-1537 N)  Net Force: -2009.3 N
+ Resist: Air: -325.6 N  Roll: -117.1 N  Spin: -112.8 N  Inertial: 84.1 N
 
 00:01:16.000
-  Tire: -4.4 r/s/s  52.44 r/s  9095.085 r
-   Car: -1.5 m/s/s  18.35 m/s  3183.280 m  (41.1 MPH)
- Motor: 2613 RPM  -51.6 Nm
-  Axle: -500.2 Nm (-1429 N)  Net Force: -1845.0 N
-Resist: Air: -271.6 N  Roll: -117.1 N  Spin: -104.5 N  Inertial: 77.2 N
+   Tire: -4.439 r/s/s  52.79 r/s  8717.4 r
+    Car: -1.554 m/s/s  18.48 m/s  3051.1 m  (41.3 MPH)
+  Motor: 2630 RPM  -51.8 Nm
+Gearbox: Gear: 4  Clutch: 100.0%
+   Axle: -502.9 Nm (-1436 N)  Net Force: -1856.6 N
+ Resist: Air: -275.3 N  Roll: -117.1 N  Spin: -105.1 N  Inertial: 77.7 N
 
 Gear Change: 3
      [ Press Enter ]
-00:01:16.526
-  Tire: -5.1 r/s/s  50.16 r/s  9122.065 r
-   Car: -1.8 m/s/s  17.56 m/s  3192.723 m  (39.3 MPH)
- Motor: 2499 RPM  -50.0 Nm
-  Axle: -619.9 Nm (-1771 N)  Net Force: -2147.5 N
-Resist: Air: -248.6 N  Roll: -117.1 N  Spin: -100.7 N  Inertial: 89.9 N
+00:01:16.606
+   Tire: -5.135 r/s/s  50.16 r/s  8748.6 r
+    Car: -1.797 m/s/s  17.56 m/s  3062.0 m  (39.3 MPH)
+  Motor: 2499 RPM  -50.0 Nm
+Gearbox: Gear: 3  Clutch: 77.8%
+   Axle: -482.5 Nm (-1771 N)  Net Force: -2147.8 N
+ Resist: Air: -248.6 N  Roll: -117.1 N  Spin: -100.7 N  Inertial: 89.9 N
 
-Clutch: [mismatch] 3213 RPM is 28.6% from 2499 RPM
+Rev_Match: [mismatch] 3055 RPM is 22.2% from 2499 RPM
      [ Press Enter ]
 #
 # LURCH!
 #
 
-00:01:16.527
-  Tire: -6.1 r/s/s  50.16 r/s  9122.115 r
-   Car: -2.1 m/s/s  17.56 m/s  3192.740 m  (39.3 MPH)
- Motor: 3213 RPM  -60.0 Nm
-  Axle: -760.9 Nm (-2174 N)  Net Force: -2534.3 N
-Resist: Air: -248.5 N  Roll: -117.1 N  Spin: -100.7 N  Inertial: 106.1 N
+00:01:16.607
+   Tire: -4.794 r/s/s  50.16 r/s  8748.7 r
+    Car: -1.678 m/s/s  17.56 m/s  3062.0 m  (39.3 MPH)
+  Motor: 3055 RPM  -57.8 Nm
+Gearbox: Gear: 3  Clutch: 100.0%
+   Axle: -729.6 Nm (-1622 N)  Net Force: -2005.0 N
+ Resist: Air: -248.5 N  Roll: -117.1 N  Spin: -100.7 N  Inertial: 83.9 N
 
-Clutch: [ok] 3213 RPM is -0.0% from 3213 RPM
+Rev_Match: [slip] 3213 RPM is 5.2% from 3055 RPM
      [ Press Enter ]
-00:01:16.528
-  Tire: -6.1 r/s/s  50.15 r/s  9122.165 r
-   Car: -2.1 m/s/s  17.55 m/s  3192.758 m  (39.3 MPH)
- Motor: 3213 RPM  -60.0 Nm
-  Axle: -760.8 Nm (-2173 N)  Net Force: -2534.0 N
-Resist: Air: -248.5 N  Roll: -117.1 N  Spin: -100.6 N  Inertial: 106.1 N
+00:01:16.608
+   Tire: -5.376 r/s/s  50.15 r/s  8748.7 r
+    Car: -1.882 m/s/s  17.55 m/s  3062.1 m  (39.3 MPH)
+  Motor: 3055 RPM  -57.8 Nm
+Gearbox: Gear: 3  Clutch: 100.0%
+   Axle: -729.6 Nm (-1876 N)  Net Force: -2248.8 N
+ Resist: Air: -248.5 N  Roll: -117.1 N  Spin: -100.7 N  Inertial: 94.1 N
+
+Rev_Match: [ok] 3085 RPM is 1.0% from 3055 RPM
+     [ Press Enter ]
+00:01:16.981
+   Tire: -5.841 r/s/s  48.16 r/s  8767.1 r
+    Car: -2.044 m/s/s  16.86 m/s  3068.5 m  (37.7 MPH)
+  Motor: 3085 RPM  -58.2 Nm
+Gearbox: Gear: 3  Clutch: 100.0%
+   Axle: -735.6 Nm (-2101 N)  Net Force: -2443.0 N
+ Resist: Air: -229.1 N  Roll: -117.1 N  Spin: -97.3 N  Inertial: 102.3 N
 
 00:01:17.000
-  Tire: -5.8 r/s/s  47.36 r/s  9145.172 r
-   Car: -2.0 m/s/s  16.58 m/s  3200.810 m  (37.1 MPH)
- Motor: 3034 RPM  -57.5 Nm
-  Axle: -725.6 Nm (-2073 N)  Net Force: -2407.0 N
-Resist: Air: -221.6 N  Roll: -117.1 N  Spin: -96.0 N  Inertial: 100.8 N
+   Tire: -5.829 r/s/s  48.05 r/s  8768.0 r
+    Car: -2.040 m/s/s  16.82 m/s  3068.8 m  (37.6 MPH)
+  Motor: 3078 RPM  -58.1 Nm
+Gearbox: Gear: 3  Clutch: 100.0%
+   Axle: -734.2 Nm (-2097 N)  Net Force: -2438.0 N
+ Resist: Air: -228.1 N  Roll: -117.1 N  Spin: -97.1 N  Inertial: 102.1 N
 
 00:01:18.000
-  Tire: -5.2 r/s/s  41.91 r/s  9189.757 r
-   Car: -1.8 m/s/s  14.67 m/s  3216.415 m  (32.8 MPH)
- Motor: 2685 RPM  -52.6 Nm
-  Axle: -656.5 Nm (-1875 N)  Net Force: -2162.7 N
-Resist: Air: -173.5 N  Roll: -117.1 N  Spin: -86.9 N  Inertial: 90.5 N
+   Tire: -5.236 r/s/s  42.52 r/s  8813.2 r
+    Car: -1.832 m/s/s  14.88 m/s  3084.6 m  (33.3 MPH)
+  Motor: 2724 RPM  -53.1 Nm
+Gearbox: Gear: 3  Clutch: 100.0%
+   Axle: -664.3 Nm (-1897 N)  Net Force: -2189.9 N
+ Resist: Air: -178.6 N  Roll: -117.1 N  Spin: -87.9 N  Inertial: 91.7 N
 
 Gear Change: 2
      [ Press Enter ]
-00:01:18.577
-  Tire: -6.4 r/s/s  39.01 r/s  9213.093 r
-   Car: -2.3 m/s/s  13.65 m/s  3224.583 m  (30.5 MPH)
- Motor: 2499 RPM  -50.0 Nm
-  Axle: -860.1 Nm (-2457 N)  Net Force: -2694.0 N
-Resist: Air: -150.4 N  Roll: -117.1 N  Spin: -82.0 N  Inertial: 112.8 N
+00:01:18.695
+   Tire: -6.441 r/s/s  39.01 r/s  8841.5 r
+    Car: -2.254 m/s/s  13.65 m/s  3094.5 m  (30.5 MPH)
+  Motor: 2499 RPM  -50.0 Nm
+Gearbox: Gear: 2  Clutch: 72.0%
+   Axle: -619.7 Nm (-2457 N)  Net Force: -2694.2 N
+ Resist: Air: -150.4 N  Roll: -117.1 N  Spin: -82.0 N  Inertial: 112.8 N
 
-Clutch: [mismatch] 3471 RPM is 38.9% from 2499 RPM
+Rev_Match: [mismatch] 3199 RPM is 28.0% from 2499 RPM
      [ Press Enter ]
 #
 # LURCH!
 #
 
-00:01:18.578
-  Tire: -8.2 r/s/s  39.00 r/s  9213.132 r
-   Car: -2.9 m/s/s  13.65 m/s  3224.596 m  (30.5 MPH)
- Motor: 3471 RPM  -63.6 Nm
-  Axle: -1126.4 Nm (-3218 N)  Net Force: -3424.4 N
-Resist: Air: -150.3 N  Roll: -117.1 N  Spin: -82.0 N  Inertial: 143.4 N
+00:01:18.696
+   Tire: -5.771 r/s/s  39.01 r/s  8841.6 r
+    Car: -2.020 m/s/s  13.65 m/s  3094.5 m  (30.5 MPH)
+  Motor: 3199 RPM  -59.8 Nm
+Gearbox: Gear: 2  Clutch: 100.0%
+   Axle: -1051.9 Nm (-2165 N)  Net Force: -2413.8 N
+ Resist: Air: -150.3 N  Roll: -117.1 N  Spin: -82.0 N  Inertial: 101.1 N
 
-Clutch: [ok] 3470 RPM is -0.0% from 3471 RPM
+Rev_Match: [slip] 3470 RPM is 8.5% from 3199 RPM
      [ Press Enter ]
-00:01:18.579
-  Tire: -8.2 r/s/s  39.00 r/s  9213.171 r
-   Car: -2.9 m/s/s  13.65 m/s  3224.610 m  (30.5 MPH)
- Motor: 3470 RPM  -63.6 Nm
-  Axle: -1126.2 Nm (-3217 N)  Net Force: -3423.8 N
-Resist: Air: -150.3 N  Roll: -117.1 N  Spin: -82.0 N  Inertial: 143.3 N
+00:01:18.697
+   Tire: -7.010 r/s/s  39.00 r/s  8841.6 r
+    Car: -2.453 m/s/s  13.65 m/s  3094.6 m  (30.5 MPH)
+  Motor: 3199 RPM  -59.8 Nm
+Gearbox: Gear: 2  Clutch: 100.0%
+   Axle: -1051.9 Nm (-2705 N)  Net Force: -2931.9 N
+ Resist: Air: -150.3 N  Roll: -117.1 N  Spin: -82.0 N  Inertial: 122.7 N
 
 00:01:19.000
-  Tire: -7.6 r/s/s  35.68 r/s  9228.880 r
-   Car: -2.7 m/s/s  12.49 m/s  3230.108 m  (27.9 MPH)
- Motor: 3175 RPM  -59.5 Nm
-  Axle: -1045.3 Nm (-2986 N)  Net Force: -3173.0 N
-Resist: Air: -125.8 N  Roll: -117.1 N  Spin: -76.4 N  Inertial: 132.8 N
+   Tire: -6.965 r/s/s  36.88 r/s  8853.1 r
+    Car: -2.438 m/s/s  12.91 m/s  3098.6 m  (28.9 MPH)
+  Motor: 3199 RPM  -59.8 Nm
+Gearbox: Gear: 2  Clutch: 100.0%
+   Axle: -1051.9 Nm (-2705 N)  Net Force: -2913.3 N
+ Resist: Air: -134.4 N  Roll: -117.1 N  Spin: -78.5 N  Inertial: 122.0 N
+
+Rev_Match: [ok] 3231 RPM is 1.0% from 3199 RPM
+     [ Press Enter ]
+00:01:19.083
+   Tire: -7.699 r/s/s  36.30 r/s  8856.1 r
+    Car: -2.695 m/s/s  12.71 m/s  3099.6 m  (28.4 MPH)
+  Motor: 3231 RPM  -60.2 Nm
+Gearbox: Gear: 2  Clutch: 100.0%
+   Axle: -1060.5 Nm (-3030 N)  Net Force: -3220.2 N
+ Resist: Air: -130.2 N  Roll: -117.1 N  Spin: -77.5 N  Inertial: 134.8 N
 
 00:01:20.000
-  Tire: -6.3 r/s/s  28.73 r/s  9260.979 r
-   Car: -2.2 m/s/s  10.06 m/s  3241.343 m  (22.5 MPH)
- Motor: 2557 RPM  -50.8 Nm
-  Axle: -875.8 Nm (-2502 N)  Net Force: -2654.7 N
-Resist: Air: -81.6 N  Roll: -117.1 N  Spin: -64.8 N  Inertial: 111.1 N
+   Tire: -6.535 r/s/s  29.79 r/s  8886.4 r
+    Car: -2.287 m/s/s  10.43 m/s  3110.2 m  (23.3 MPH)
+  Motor: 2651 RPM  -52.1 Nm
+Gearbox: Gear: 2  Clutch: 100.0%
+   Axle: -901.7 Nm (-2576 N)  Net Force: -2733.4 N
+ Resist: Air: -87.7 N  Roll: -117.1 N  Spin: -66.6 N  Inertial: 114.4 N
 
 Gear Change: 1
      [ Press Enter ]
-00:01:20.103
-  Tire: -11.9 r/s/s  28.08 r/s  9263.905 r
-   Car: -4.2 m/s/s  9.83 m/s  3242.367 m  (22.0 MPH)
- Motor: 2499 RPM  -50.0 Nm
-  Axle: -1718.3 Nm (-4909 N)  Net Force: -4960.6 N
-Resist: Air: -77.9 N  Roll: -117.1 N  Spin: -63.7 N  Inertial: 207.7 N
+00:01:20.268
+   Tire: -11.861 r/s/s  28.08 r/s  8894.1 r
+    Car: -4.151 m/s/s  9.83 m/s  3112.9 m  (22.0 MPH)
+  Motor: 2499 RPM  -50.0 Nm
+Gearbox: Gear: 1  Clutch: 50.0%
+   Axle: -859.8 Nm (-4909 N)  Net Force: -4960.9 N
+ Resist: Air: -77.9 N  Roll: -117.1 N  Spin: -63.7 N  Inertial: 207.7 N
 
-Clutch: [mismatch] 4997 RPM is 99.9% from 2499 RPM
+Rev_Match: [mismatch] 3748 RPM is 50.0% from 2499 RPM
      [ Press Enter ]
 #
 # LURCH!
 #
 
-00:01:20.104
-  Tire: -18.5 r/s/s  28.06 r/s  9263.933 r
-   Car: -6.5 m/s/s  9.82 m/s  3242.376 m  (22.0 MPH)
- Motor: 4997 RPM  -66.0 Nm
-  Axle: -2733.4 Nm (-7809 N)  Net Force: -7744.1 N
-Resist: Air: -77.9 N  Roll: -117.1 N  Spin: -63.7 N  Inertial: 324.2 N
+00:01:20.269
+   Tire: -8.285 r/s/s  28.07 r/s  8894.1 r
+    Car: -2.900 m/s/s  9.82 m/s  3112.9 m  (22.0 MPH)
+  Motor: 3748 RPM  -64.3 Nm
+Gearbox: Gear: 1  Clutch: 75.0%
+   Axle: -1758.9 Nm (-3351 N)  Net Force: -3465.5 N
+ Resist: Air: -77.9 N  Roll: -117.1 N  Spin: -63.7 N  Inertial: 145.1 N
 
-Clutch: [ok] 4993 RPM is -0.1% from 4997 RPM
+#
+# LURCH!
+#
+
+00:01:20.270
+   Tire: -13.564 r/s/s  28.06 r/s  8894.2 r
+    Car: -4.748 m/s/s  9.82 m/s  3113.0 m  (22.0 MPH)
+  Motor: 4684 RPM  -65.6 Nm
+Gearbox: Gear: 1  Clutch: 100.0%
+   Axle: -2635.9 Nm (-5652 N)  Net Force: -5673.6 N
+ Resist: Air: -77.8 N  Roll: -117.1 N  Spin: -63.7 N  Inertial: 237.5 N
+
+Rev_Match: [slip] 4993 RPM is 6.6% from 4684 RPM
      [ Press Enter ]
-00:01:20.105
-  Tire: -18.5 r/s/s  28.04 r/s  9263.961 r
-   Car: -6.5 m/s/s  9.81 m/s  3242.386 m  (22.0 MPH)
- Motor: 4993 RPM  -66.0 Nm
-  Axle: -2732.3 Nm (-7806 N)  Net Force: -7741.2 N
-Resist: Air: -77.8 N  Roll: -117.1 N  Spin: -63.7 N  Inertial: 324.1 N
+00:01:20.271
+   Tire: -16.148 r/s/s  28.04 r/s  8894.2 r
+    Car: -5.652 m/s/s  9.81 m/s  3113.0 m  (22.0 MPH)
+  Motor: 4684 RPM  -65.6 Nm
+Gearbox: Gear: 1  Clutch: 100.0%
+   Axle: -2635.9 Nm (-6778 N)  Net Force: -6754.1 N
+ Resist: Air: -77.7 N  Roll: -117.1 N  Spin: -63.7 N  Inertial: 282.8 N
+
+Rev_Match: [ok] 4728 RPM is 1.0% from 4684 RPM
+     [ Press Enter ]
+00:01:20.363
+   Tire: -17.942 r/s/s  26.55 r/s  8896.7 r
+    Car: -6.280 m/s/s  9.29 m/s  3113.8 m  (20.8 MPH)
+  Motor: 4728 RPM  -65.6 Nm
+Gearbox: Gear: 1  Clutch: 100.0%
+   Axle: -2649.7 Nm (-7570 N)  Net Force: -7504.6 N
+ Resist: Air: -69.7 N  Roll: -117.1 N  Spin: -61.2 N  Inertial: 314.2 N
 
 00:01:21.000
-  Tire: -11.8 r/s/s  14.29 r/s  9282.452 r
-   Car: -4.1 m/s/s  5.00 m/s  3248.858 m  (11.2 MPH)
- Motor: 2544 RPM  -50.6 Nm
-  Axle: -1742.9 Nm (-4979 N)  Net Force: -4950.5 N
-Resist: Air: -20.2 N  Roll: -117.1 N  Spin: -40.7 N  Inertial: 207.2 N
+   Tire: -13.274 r/s/s  16.50 r/s  8910.3 r
+    Car: -4.646 m/s/s  5.77 m/s  3118.6 m  (12.9 MPH)
+  Motor: 2938 RPM  -56.1 Nm
+Gearbox: Gear: 1  Clutch: 100.0%
+   Axle: -1958.6 Nm (-5596 N)  Net Force: -5552.0 N
+ Resist: Air: -26.9 N  Roll: -117.1 N  Spin: -44.4 N  Inertial: 232.4 N
 
 00:01:22.000
-  Tire: -3.2 r/s/s  7.18 r/s  9292.332 r
-   Car: -1.1 m/s/s  2.51 m/s  3252.316 m  (5.6 MPH)
- Motor: 1278 RPM  0.0 Nm
-  Axle: -436.1 Nm (-1246 N)  Net Force: -1340.8 N
-Resist: Air: -5.1 N  Roll: -117.1 N  Spin: -28.7 N  Inertial: 56.1 N
+   Tire: -3.405 r/s/s  7.76 r/s  8921.5 r
+    Car: -1.192 m/s/s  2.72 m/s  3122.5 m  (6.1 MPH)
+  Motor: 1382 RPM  0.0 Nm
+Gearbox: Gear: 1  Clutch: 100.0%
+   Axle: -465.9 Nm (-1331 N)  Net Force: -1424.4 N
+ Resist: Air: -6.0 N  Roll: -117.1 N  Spin: -29.7 N  Inertial: 59.6 N
 
      [ Press Enter ]
-4.69 s (25577 ticks / s)
+3.249 s (36932 ticks/s)

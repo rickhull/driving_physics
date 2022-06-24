@@ -17,6 +17,7 @@ module DrivingPhysics
 
     RATIOS = [1/5r, 2/5r, 5/9r, 5/7r, 1r, 5/4r]
     FINAL_DRIVE = 11/41r # 1/3.73
+    CLUTCH_MIN = 0.25
 
     attr_accessor :gear, :clutch, :ratios, :final_drive, :spinner, :fixed_mass
 
@@ -60,11 +61,15 @@ module DrivingPhysics
     end
 
     def to_s
-      [format("Gear: %d  Clutch: %.1f%%", @gear, @clutch * 100),
+      [self.inputs,
        format("Ratios: %s", @ratios.inspect),
        format(" Final: %s  Mass: %.1f kg  Rotating: %.1f kg",
               @final_drive.inspect, self.mass, @spinner.mass),
       ].join("\n")
+    end
+
+    def inputs
+      format("Gear: %d  Clutch: %.1f%%", @gear, @clutch * 100)
     end
 
     def ratio(gear = nil)
@@ -95,7 +100,7 @@ module DrivingPhysics
       diff = new_axle_omega - axle_omega
       diff_pct = diff.to_f.abs / axle_omega
 
-      @clutch = diff_pct > 0.1 ? [1.0 - diff_pct, 0.3].max : 1.0
+      @clutch = diff_pct > 0.1 ? [1.0 - diff_pct, CLUTCH_MIN].max : 1.0
 
       axle_omega + diff * @clutch
     end

@@ -1,4 +1,5 @@
 Tick: 1000 Hz | G: 9.80 m/s^2 | Air: 25.0 C 1.29 kg/m^3 | Petrol: 0.71 kg/L
+Gear: 0  Clutch: 100.0%
 Ratios: [(1/5), (2/5), (5/9), (5/7), (1/1), (5/4)]
  Final: (11/41)  Mass: 45.0 kg  Rotating: 15.0 kg
 
@@ -237,4 +238,4 @@ RPM 12387  Torque: 0.662 Nm (30 Nm) Friction: -29.338 Nm
 RPM 12422  Torque: 0.580 Nm (30 Nm) Friction: -29.420 Nm
 29863.2 rad  1300.9 rad/s  3.4 rad/s/s
 
-0.083 s (363178 ticks/s)
+0.058 s (515079 ticks/s)
