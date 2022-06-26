@@ -90,7 +90,6 @@ module DrivingPhysics
     end
 
     # take into account the old axle_omega and @clutch
-    # warn on > 10% mismatch on omegas
     def axle_omega(crank_rpm, axle_omega: nil)
       new_axle_omega = DrivingPhysics.omega(crank_rpm) * self.ratio
       if axle_omega.nil?
@@ -98,15 +97,10 @@ module DrivingPhysics
         return new_axle_omega
       end
       diff = new_axle_omega - axle_omega
-      diff_pct = diff.to_f.abs / axle_omega
-
-      @clutch = diff_pct > 0.1 ? [1.0 - diff_pct, CLUTCH_MIN].max : 1.0
-
       axle_omega + diff * @clutch
     end
 
     # take into account the old crank_rpm and @clutch
-    # warn on > 30% RPM mismatch
     # crank will tolerate mismatch more than axle
     def crank_rpm(axle_omega, crank_rpm: nil)
       new_crank_rpm = DrivingPhysics.rpm(axle_omega) / self.ratio
@@ -115,32 +109,6 @@ module DrivingPhysics
         return new_crank_rpm
       end
       crank_rpm + (new_crank_rpm - crank_rpm) * @clutch
-    end
-
-    def match_rpms(old_rpm, new_rpm)
-      diff = new_rpm - old_rpm
-      proportion = diff.to_f / old_rpm
-      if proportion.abs < 0.01
-        [:ok, proportion]
-      elsif proportion.abs < 0.1
-        @clutch = 0.9
-        [:slip, proportion]
-      elsif @gear == 1 and new_rpm < old_rpm and old_rpm <= 1500
-        [:get_rolling, proportion]
-      else
-        @clutch = 1.0 - proportion.abs
-        [:mismatch, proportion]
-      end
-    end
-
-    def next_gear(rpm, floor: 2500, ceiling: 6400)
-      if rpm < floor and @gear > 1
-        @gear - 1
-      elsif rpm > ceiling and @gear < self.top_gear
-        @gear + 1
-      else
-        @gear
-      end
     end
   end
 end
