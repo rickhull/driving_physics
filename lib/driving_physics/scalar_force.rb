@@ -23,7 +23,8 @@ module DrivingPhysics
                             frontal_area: FRONTAL_AREA,
                             drag_cof: DRAG_COF,
                             air_density: AIR_DENSITY)
-      -1 * 0.5 * frontal_area * drag_cof * air_density * speed ** 2
+      (speed ** 2) * (speed > 0 ? -1 : 1) *
+        0.5 * frontal_area * drag_cof * air_density
     end
 
     # opposes the direction of speed

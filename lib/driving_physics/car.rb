@@ -38,9 +38,9 @@ module DrivingPhysics
       @powertrain.gearbox.top_gear
     end
 
-    # force opposing speed
+    # force opposing speed; depends on speed**2 but use speed and speed.abs
     def air_force(speed)
-      -0.5 * @frontal_area * @cd * @env.air_density * speed ** 2
+      -0.5 * @frontal_area * @cd * @env.air_density * speed * speed.abs
     end
 
     # force of opposite sign to omega
@@ -60,6 +60,7 @@ module DrivingPhysics
     # force of opposite sign to force
     def tire_inertial_force(force)
       mag = force.abs
+      return 0.0 if mag < 0.001
       sign = force / mag
       force_loss = 0
       5.times {
