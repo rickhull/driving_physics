@@ -1,4 +1,5 @@
 require 'driving_physics/car'
+require 'driving_physics/driver'
 require 'driving_physics/imperial'
 require 'driving_physics/cli'
 
@@ -17,6 +18,9 @@ car = Car.new(tire: tire, powertrain: powertrain) { |c|
   c.cd = 0.5
 }
 puts car
+
+driver = Driver.new
+puts driver
 CLI.pause
 
 duration = 120
@@ -31,7 +35,6 @@ tire_theta = 0.0
 
 crank_alpha = 0.0
 crank_omega = 0.0
-crank_theta = 0.0
 
 start = Timer.now
 paused = 0.0
@@ -41,9 +44,10 @@ rev_match = :ok
 phase = :ignition
 gearbox.clutch = 0.0 # clutch in to fire up motor
 flag = false
-rpm = 0
 
-
+rpm, crank_torque = 0, 0
+axle_torque, drive_force, net_force = 0, 0, 0
+ar, rr, rf, ir = 0, 0, 0, 0
 
 puts <<EOF
 
@@ -55,25 +59,17 @@ EOF
 
 num_ticks.times { |i|
   if phase == :ignition
-    # ignition phase
     crank_alpha = motor.alpha(motor.starter_torque, omega: crank_omega)
     crank_omega += crank_alpha * env.tick
-    crank_theta += crank_omega * env.tick
 
     rpm = DrivingPhysics.rpm(crank_omega)
 
-    if i % 100 == 0 or rpm > motor.idle_rpm
-      puts Timer.display(ms: i)
-      puts format("%d rad  %d rad/s  %d rad/s/s",
-                  crank_theta, crank_omega, crank_alpha)
-      puts format("%d RPM  %d Nm starter torque", rpm, motor.starter_torque)
-      puts
-    end
-
     if rpm > motor.idle_rpm
-      car.gear = 1
+      flag = true
+      driver.gear = 1
+      gearbox.gear = 1
+      driver.throttle_pedal = 1.0
       car.throttle = 1.0
-      gearbox.clutch = 0.5
       phase = :running
 
       puts <<EOF
@@ -84,12 +80,7 @@ num_ticks.times { |i|
 
 EOF
     end
-  elsif phase == :running
-    # track crank_alpha/omega/theta
-
-    # cut throttle after 60 s
-    car.throttle = 0 if i > 60 * env.hz and car.throttle == 1.0
-
+  elsif phase == :running or phase == :off_throttle
     ar = car.air_force(speed)
     rr = car.tire_rolling_force(tire_omega)
     rf = car.tire_rotational_force(tire_omega)
@@ -111,80 +102,79 @@ EOF
 
     crank_alpha = tire_alpha / car.powertrain.gearbox.ratio
     crank_omega += crank_alpha * env.tick
-    crank_theta += crank_omega * env.tick
 
     axle_torque = car.powertrain.axle_torque(rpm, axle_omega: tire_omega)
     crank_torque = car.powertrain.motor.torque(rpm)
 
-    if flag or (i < 5000 and i % 100 == 0) or (i % 1000 == 0)
-      puts Timer.display(ms: i)
-      puts format("   Tire: %.3f r/s/s  %.2f r/s  %.1f r",
-                  tire_alpha, tire_omega, tire_theta)
-      puts format("    Car: %.3f m/s/s  %.2f m/s  %.1f m  (%.1f MPH)",
-                  acc, speed, dist, Imperial.mph(speed))
-      puts format("  Motor: %d RPM  %.1f Nm", rpm, crank_torque)
-      puts format("Gearbox: %s", gearbox.inputs)
-      puts format("   Axle: %.1f Nm (%d N)  Net Force: %.1f N",
-                  axle_torque, drive_force, net_force)
-      puts        " Resist: " + format(%w[Air Roll Spin Inertial].map { |s|
-                                        "#{s}: %.1f N"
-                                      }.join('  '), ar, rr, rf, ir)
-      puts
-      flag = false
-    end
-
-
-
-
-    #
-    # TODO: revamp with gearbox.clutch
-    #
-
-
-
     # tire_omega determines new rpm
-    new_rpm = car.powertrain.crank_rpm(tire_omega, crank_rpm: rpm)
-    new_rev_match, proportion = car.powertrain.gearbox.match_rpms(rpm, new_rpm)
+    new_rpm = gearbox.crank_rpm(tire_omega, crank_rpm: rpm)
+    new_rev_match, clutch, proportion = Driver.rev_match(rpm, new_rpm)
 
     if new_rev_match != rev_match
       flag = true
-      puts format("Rev_Match: [%s] %d RPM is %.1f%% from %d RPM",
+      puts format("Rev Match: [%s] %d RPM is %.1f%% from %d RPM",
                   new_rev_match, new_rpm, proportion * 100, rpm)
+      # puts format("Recommend clutch to %.1f%%", clutch * 100)
       rev_match = new_rev_match
-      paused += CLI.pause
     end
 
-    case new_rev_match
-    when :ok
-      rpm = new_rpm
-    when :mismatch
+    clutch_diff = clutch - gearbox.clutch
+    if clutch_diff.abs > 0.1
       flag = true
-      puts '#'
-      puts '# LURCH!'
-      puts '#'
-      puts
-      rpm = new_rpm
+      puts format("Clutch: %.1f%%  Recommended Clutch: %.1f%%",
+                  gearbox.clutch * 100, clutch * 100)
     end
-    next_gear = car.powertrain.gearbox.next_gear(rpm)
-    if next_gear != gearbox.gear
+    gearbox.clutch += clutch_diff * 0.5
+
+    # update the motor RPM based on new clutch
+    new_rpm = gearbox.crank_rpm(tire_omega, crank_rpm: rpm)
+    rpm = new_rpm if new_rpm > motor.idle_rpm
+
+    driver.choose_gear!(rpm)
+    if driver.gear != gearbox.gear
       flag = true
-      puts "Gear Change: #{next_gear}"
-      car.gear = next_gear
-      paused += CLI.pause
+      puts "Gear Change: #{driver.gear}"
+      gearbox.gear = driver.gear
+    end
+
+    # cut throttle after 60 s
+    if i > 60 * env.hz and car.throttle == 1.0
+      flag = true
+      phase = :off_throttle
+      car.throttle = 0
     end
 
     # maintain idle when revs drop
     if car.throttle == 0 and rpm < motor.idle_rpm
       phase = :idling
       car.gear = 0
-      paused += CLI.pause
     end
 
+    print "===\n\n" if flag
 
   elsif phase == :idling
     # fake; exit
     rpm = motor.idle_rpm
     break
+  end
+
+  if flag or (i < 5000 and i % 100 == 0) or (i % 1000 == 0)
+    puts Timer.display(ms: i)
+    puts format("  Phase: %s", phase)
+    puts format("   Tire: %.3f r/s/s  %.2f r/s  %.1f r",
+                tire_alpha, tire_omega, tire_theta)
+    puts format("    Car: %.3f m/s/s  %.2f m/s  %.1f m  (%.1f MPH)",
+                acc, speed, dist, Imperial.mph(speed))
+    puts format("  Motor: %d RPM  %.1f Nm", rpm, crank_torque)
+    puts format("Gearbox: %s", gearbox.inputs)
+    puts format("   Axle: %.1f Nm (%d N)  Net Force: %.1f N",
+                axle_torque, drive_force, net_force)
+    puts        " Resist: " + format(%w[Air Roll Spin Inertial].map { |s|
+                                       "#{s}: %.1f N"
+                                     }.join('  '), ar, rr, rf, ir)
+    puts
+    paused += CLI.pause if flag
+    flag = false
   end
 }
 
