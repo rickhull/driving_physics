@@ -11,7 +11,7 @@ puts env
 tire = Tire.new(env)
 motor = Motor.new(env)
 gearbox = Gearbox.new(env)
-powertrain = Powertrain.new(motor, gearbox)
+powertrain = Powertrain.new(motor: motor, gearbox: gearbox)
 car = Car.new(tire: tire, powertrain: powertrain) { |c|
   c.body_mass = 850.0
   c.frontal_area = 2.5

@@ -10,7 +10,7 @@ module DrivingPhysics
   class Powertrain
     attr_reader :motor, :gearbox
 
-    def initialize(motor, gearbox)
+    def initialize(motor:, gearbox:)
       @motor = motor
       @gearbox = gearbox
     end

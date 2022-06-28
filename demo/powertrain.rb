@@ -8,7 +8,7 @@ include DrivingPhysics
 env = Environment.new
 motor = Motor.new(env)
 gearbox = Gearbox.new(env)
-powertrain = Powertrain.new(motor, gearbox)
+powertrain = Powertrain.new(motor: motor, gearbox: gearbox)
 motor.throttle = 1.0
 puts env
 puts powertrain
