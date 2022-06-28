@@ -70,4 +70,11 @@ module DrivingPhysics
     alias_method(:omega, :accum)
     alias_method(:theta, :accum)
   end
+
+  def self.unit_interval!(val)
+    if val < 0.0 or val > 1.0
+      raise(ArgumentError, "val #{val.inspect} should be between 0 and 1")
+    end
+    val
+  end
 end
