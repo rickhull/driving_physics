@@ -30,13 +30,6 @@ module DrivingPhysics
       end
     end
 
-    def self.unit_interval!(val)
-      if val < 0.0 or val > 1.0
-        raise(ArgumentError, "val #{val.inspect} should be between 0 and 1")
-      end
-      val
-    end
-
     def self.generate
       e = Environment.new
       t = Tire.new(e)
@@ -73,7 +66,7 @@ module DrivingPhysics
     # clutch pedal has inverse relationship with the clutch itself
     # clutch pedal DISENGAGES the clutch; pedal at 0.0 means clutch at 1.0
     def clutch_pedal=(val)
-      @car.clutch = 1.0 - self.class.unit_interval!(val)
+      @car.clutch = 1.0 - DrivingPhysics.unit_interval!(val)
     end
 
     def brake_pct
@@ -82,7 +75,7 @@ module DrivingPhysics
 
     # TODO: implement @car.brake or something
     def brake_pedal=(val)
-      @brake_pedal = self.class.unit_interval!(val)
+      @brake_pedal = DrivingPhysics.unit_interval!(val)
     end
 
     def throttle_pedal
@@ -94,7 +87,7 @@ module DrivingPhysics
     end
 
     def throttle_pedal=(val)
-      @car.throttle = self.class.unit_interval!(val)
+      @car.throttle = DrivingPhysics.unit_interval!(val)
     end
 
     def steering_pct
@@ -103,7 +96,7 @@ module DrivingPhysics
 
     # TODO: implement @car.steering_wheel
     def steering_wheel=(val)
-      self.class.unit_interval!(val.abs)
+      DrivingPhysics.unit_interval!(val.abs)
       @steering_wheel = val
     end
 

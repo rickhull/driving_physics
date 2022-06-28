@@ -59,10 +59,7 @@ module DrivingPhysics
     end
 
     def throttle=(val)
-      if val < 0.0 or val > 1.0
-        raise(ArgumentError, "val #{val.inspect} should be between 0 and 1")
-      end
-      @throttle = val
+      @throttle = DrivingPhysics.unit_interval! val
     end
 
     # given torque, determine crank alpha after inertia and friction
