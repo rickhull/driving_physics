@@ -33,6 +33,10 @@ module DrivingPhysics
       @throttle       = 0.0  # 0.0 - 1.0 (0% - 100%)
     end
 
+    def redline
+      @rpms[-2]
+    end
+
     def to_s
       ary = [format("Throttle: %.1f%%", @throttle * 100)]
       ary << "Torque:"
