@@ -26,6 +26,14 @@ module DrivingPhysics
       @powertrain.motor.throttle = val
     end
 
+    def clutch
+      @powertrain.gearbox.clutch
+    end
+
+    def clutch=(val)
+      @powertrain.gearbox.clutch = val
+    end
+
     def gear
       @powertrain.gearbox.gear
     end
