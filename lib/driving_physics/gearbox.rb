@@ -17,9 +17,20 @@ module DrivingPhysics
 
     RATIOS = [1/5r, 2/5r, 5/9r, 5/7r, 1r, 5/4r]
     FINAL_DRIVE = 11/41r # 1/3.73
-    CLUTCH_MIN = 0.25
+    REVERSE = -1
+    REVERSE_RATIO = -1/10r
 
-    attr_accessor :gear, :clutch, :ratios, :final_drive, :spinner, :fixed_mass
+    attr_accessor :ratios, :final_drive, :spinner, :fixed_mass
+    attr_reader :gear, :clutch
+
+    def self.gear_interval!(gear, min: REVERSE, max:)
+      if gear < min or gear > max
+        raise(ArgumentError, format("gear %s should be between %d and %d",
+                                    gear.inspect, min, max))
+      end
+      raise(ArgumentError, "gear should be an integer") if !gear.is_a? Integer
+      gear
+    end
 
     def initialize(env)
       @ratios = RATIOS
@@ -39,6 +50,10 @@ module DrivingPhysics
       yield self if block_given?
     end
 
+    def clutch=(val)
+      @clutch = DrivingPhysics.unit_interval! val
+    end
+
     # given torque, apply friction, determine alpha
     def alpha(torque, omega: 0)
       @spinner.alpha(torque + @spinner.rotating_friction(omega))
@@ -54,6 +69,10 @@ module DrivingPhysics
 
     def mass
       @fixed_mass + @spinner.mass
+    end
+
+    def gear=(val)
+      @gear = self.class.gear_interval!(val)
     end
 
     def top_gear
@@ -74,8 +93,14 @@ module DrivingPhysics
 
     def ratio(gear = nil)
       gear ||= @gear
-      raise(Disengaged, "Cannot determine gear ratio") if @gear == 0
-      @ratios.fetch(gear - 1) * @final_drive
+      case gear
+      when REVERSE
+        REVERSE_RATIO * @final_drive
+      when 0
+        raise(Disengaged, "Cannot determine gear ratio")
+      else
+        @ratios.fetch(gear - 1) * @final_drive
+      end
     end
 
     def axle_torque(crank_torque)
