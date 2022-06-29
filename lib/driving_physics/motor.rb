@@ -1,57 +1,104 @@
 require 'driving_physics/disk'
 
 module DrivingPhysics
-  class Motor
-    class Stall < RuntimeError; end
-    class OverRev < RuntimeError; end
-    class SanityCheck < RuntimeError; end
-
+  class TorqueCurve
     TORQUES = [  0,   70,  130,  200,  250,  320,  330,  320,  260,    0]
     RPMS    = [500, 1000, 1500, 2000, 2500, 3500, 5000, 6000, 7000, 7100]
-    ENGINE_BRAKING = 0.2 # 20% of the torque at a given RPM
+    RPM_IDX = {
+      min: 0,
+      idle: 1,
+      redline: -2,
+      max: -1,
+    }
 
-    attr_reader :env, :throttle
-    attr_accessor :torques, :rpms, :fixed_mass,
-                  :spinner, :starter_torque, :idle_rpm
-
-    def initialize(env)
-      @env = env
-
-      @torques = TORQUES
-      @rpms = RPMS
-      @fixed_mass = 125
-
-      # represent all rotating mass as one big flywheel
-      @spinner = Disk.new(@env) { |fly|
-        fly.radius =  0.25 # m
-        fly.mass   = 75    # kg
-        fly.base_friction  = 5.0/1000
-        fly.omega_friction = 2.0/10_000
-      }
-      @starter_torque = 500  # Nm
-      @idle_rpm       = 1000 # RPM
-      @throttle       = 0.0  # 0.0 - 1.0 (0% - 100%)
-    end
-
-    def redline
-      @rpms[-2]
+    def initialize(rpms: RPMS, torques: TORQUES)
+      @rpms = rpms
+      @torques = torques
     end
 
     def to_s
-      ary = [format("Throttle: %.1f%%", @throttle * 100)]
-      ary << "Torque:"
+      @rpms.map.with_index { |r, i|
+        format("%s RPM %s Nm",
+               r.to_s.rjust(5, ' '),
+               @torques[i].round(1).to_s.rjust(4, ' '))
+      }.join("\n")
+    end
+
+    RPM_IDX.each { |name, idx| define_method(name) do @rpms[idx] end }
+
+    # interpolate based on torque curve points
+    def torque(rpm)
+      raise("RPM #{rpm} too low") if rpm < @rpms.first
+      raise("RPM #{rpm} too high") if rpm > @rpms.last
+
+      last_rpm, last_tq, torque = 99999, -1, nil
+
       @rpms.each_with_index { |r, i|
-        ary << format("%s Nm %s RPM",
-                      @torques[i].round(1).to_s.rjust(4, ' '),
-                      r.to_s.rjust(5, ' '))
+        tq = @torques[i]
+        if last_rpm <= rpm and rpm <= r
+          proportion = Rational(rpm - last_rpm) / (r - last_rpm)
+          torque = last_tq + (tq - last_tq) * proportion
+          break
+        end
+        last_rpm, last_tq = r, tq
       }
+      raise("Sanity check: no torque for RPM #{rpm}") if torque.nil?
+      torque
+    end
+  end
+
+  # represent all rotating mass as one big flywheel
+  class Motor
+    class Stall < RuntimeError; end
+    class OverRev < RuntimeError; end
+
+    ENGINE_BRAKING = 0.2 # 20% of the torque at a given RPM
+
+    attr_reader :env, :torque_curve, :throttle
+    attr_accessor :fixed_mass, :spinner, :starter_torque
+
+    def initialize(env, torque_curve: nil)
+      @env          = env
+      @torque_curve = torque_curve.nil? ? TorqueCurve.new : torque_curve
+      @throttle     = 0.0  # 0.0 - 1.0 (0% - 100%)
+
+      @fixed_mass = 125
+      @spinner = Disk.new(@env) { |fly|
+        fly.radius =  0.25 # m
+        fly.mass   = 75    # kg
+        fly.base_friction  = 1.0 /   1_000
+        fly.omega_friction = 5.0 / 100_000
+      }
+      @starter_torque = 500  # Nm
+
+      yield self if block_given?
+    end
+
+    def redline
+      @torque_curve.redline
+    end
+
+    def idle
+      @torque_curve.idle
+    end
+
+    def to_s
+      ary = [format("Throttle: %s", self.throttle_pct)]
       ary << format("Mass: %.1f kg  Fixed: %d kg", self.mass, @fixed_mass)
       ary << format("Rotating: %s", @spinner)
       ary.join("\n")
     end
 
-    def rotational_inertia
+    def inertia
       @spinner.rotational_inertia
+    end
+
+    def energy(omega)
+      @spinner.energy(omega)
+    end
+
+    def friction(omega, normal_force: nil)
+      @spinner.rotating_friction(omega, normal_force: normal_force)
     end
 
     def mass
@@ -60,6 +107,10 @@ module DrivingPhysics
 
     def throttle=(val)
       @throttle = DrivingPhysics.unit_interval! val
+    end
+
+    def throttle_pct
+      format("%.1f%%", @throttle * 100)
     end
 
     # given torque, determine crank alpha after inertia and friction
@@ -78,23 +129,12 @@ module DrivingPhysics
 
     # interpolate based on torque curve points
     def torque(rpm)
-      raise(Stall, "RPM #{rpm}") if rpm < @rpms.first
-      raise(OverRev, "RPM #{rpm}") if rpm > @rpms.last
+      raise(Stall, "RPM #{rpm}") if rpm < @torque_curve.min
+      raise(OverRev, "RPM #{rpm}") if rpm > @torque_curve.max
 
-      last_rpm, last_tq, torque = 99999, -1, nil
+      torque = @torque_curve.torque(rpm)
 
-      @rpms.each_with_index { |r, i|
-        tq = @torques[i]
-        if last_rpm <= rpm and rpm <= r
-          proportion = Rational(rpm - last_rpm) / (r - last_rpm)
-          torque = last_tq + (tq - last_tq) * proportion
-          break
-        end
-        last_rpm, last_tq = r, tq
-      }
-      raise(SanityCheck, "RPM #{rpm}") if torque.nil?
-
-      if (@throttle <= 0.05) and (rpm > @idle_rpm * 1.5)
+      if (@throttle <= 0.05) and (rpm > @torque_curve.idle * 1.5)
         # engine braking: 20% of torque
         -1 * torque * ENGINE_BRAKING
       else

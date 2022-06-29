@@ -48,7 +48,7 @@ motor.throttle = 1.0
 puts
 puts "Now, the simulation begins..."
 puts "---"
-puts "* Spin the motor up to #{motor.idle_rpm} RPM with the starter motor."
+puts "* Spin the motor up to #{motor.idle} RPM with the starter motor."
 puts "* Rev it up with the throttle."
 puts "* Let it die."
 CLI.pause
@@ -89,7 +89,7 @@ num_ticks.times { |i|
   rpm = DrivingPhysics.rpm(omega)
   power = DrivingPhysics.power(net_torque, omega)
 
-  if rpm > motor.idle_rpm and status == :ignition
+  if rpm > motor.idle and status == :ignition
     status = :running
     flag = true
   end
