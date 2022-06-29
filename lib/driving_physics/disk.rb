@@ -130,6 +130,11 @@ module DrivingPhysics
       @normal_force
     end
 
+    # E = (1/2) (I) (omega^2)
+    def energy(omega)
+      0.5 * self.rotational_inertia * omega ** 2
+    end
+
     def alpha(torque, omega: 0, normal_force: nil)
       (torque - self.rotating_friction(omega, normal_force: normal_force)) /
         self.rotational_inertia
