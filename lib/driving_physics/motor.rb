@@ -48,6 +48,19 @@ module DrivingPhysics
       end
       @rpms = self.class.validate_rpms! rpms
       @torques = self.class.validate_torques! torques
+      peak_torque = 0
+      idx = 0
+      @torques.each.with_index { |t, i|
+        if t > peak_torque
+          peak_torque = t
+          idx = i
+        end
+      }
+      @peak = idx
+    end
+
+    def peak
+      [@rpms[@peak], @torques[@peak]]
     end
 
     def to_s
@@ -102,10 +115,13 @@ module DrivingPhysics
     end
 
     def to_s
-      ary = [format("Throttle: %s", self.throttle_pct)]
-      ary << format("Mass: %.1f kg  Fixed: %d kg", self.mass, @fixed_mass)
-      ary << format("Rotating: %s", @spinner)
-      ary.join("\n")
+      peak_rpm, peak_tq = *@torque_curve.peak
+      [format("Peak Torque: %d Nm @ %d RPM  Redline: %d",
+              peak_tq, peak_rpm, @torque_curve.redline),
+       format("   Throttle: %s  Mass: %.1f kg  (%d kg fixed)",
+              self.throttle_pct, self.mass, @fixed_mass),
+       format("   Rotating: %s", @spinner),
+      ].join("\n")
     end
 
     def inertia
