@@ -10,23 +10,6 @@ using `Vector` class from `matrix.rb` in stdlib.
 
 This is very much a **Work In Progress**.  Implemented so far:
 
-### mruby Support
-
-This is big.  This library is primarily a Ruby library, intended for use with
-CRuby (MRI), JRuby, etc.  **mruby** is the redheaded stepchild, with severe
-implications for a codebase that wants to support both sides.  Supporting
-mruby here meant:
-
-1. Editing the codebase (minimally) to remove *mruby-deadends*.
-2. Creating `rake` tasks to process normal .rb files into *mruby-compatible*
-   .rb files
-3. Assembling all needed library .rb files into a master .rb file
-4. Compiling the library to bytecode
-5. Executing a toplevel/main script against the library
-6. Optionally executing toplevel/main bytecode against the library
-
-See the main Rakefile near the top for mruby stuff.
-
 ### Library Features
 
 * Spinning: rotational inertia and friction / hysteresis
@@ -37,6 +20,26 @@ See the main Rakefile near the top for mruby stuff.
 * Powertrain: combines motor and gearbox
 * Car: 4 tires, powertrain, extra mass presents a load to the powertrain
 * Acceleration: via drive traction from "first principles"
+* Variable clutch and throttle
+* Engine braking
+* Power and Energy
+
+### mruby Support
+
+This library is primarily a Ruby library, intended for use with CRuby (MRI),
+JRuby, etc.  **mruby** is the redheaded stepchild, with significant
+implications for a codebase that wants to support both sides.  Supporting
+mruby here meant:
+
+1. Editing the codebase (minimally) to avoid and remove *mruby-deadends*.
+2. Creating `rake` tasks to process normal .rb files into *mruby-compatible*
+   .rb files
+3. Assembling all needed library .rb files into a master .rb file
+4. Compiling the library to bytecode
+5. Executing a toplevel/main script against the library
+6. Optionally executing toplevel/main bytecode against the library
+
+See the main Rakefile near the top for mruby stuff.
 
 ## Rationale
 
