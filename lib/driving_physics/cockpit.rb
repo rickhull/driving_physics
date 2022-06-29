@@ -50,7 +50,7 @@ module DrivingPhysics
       @min_rpm = @car.powertrain.motor.idle_rpm + 1000
       @max_rpm = @car.powertrain.motor.redline
 
-      @mode = 0             # normal
+      self.mode = 0             # normal
 
       yield self if block_given?
     end
@@ -114,11 +114,10 @@ module DrivingPhysics
     end
 
     def to_s
-      [
-        format("Clutch: %d%%  Brake: %d%%  Throttle: %d%%",
-               self.clutch_pct, self.brake_pct, self.throttle_pct),
-        format("Wheel: %d%%  Gear: %d  Mode: %s",
-               self.steering_pct, self.gear, self.mode_label)
+      [format("Clutch: %d%%  Brake: %d%%  Throttle: %d%%",
+              self.clutch_pct, self.brake_pct, self.throttle_pct),
+       format("Wheel: %d%%  Gear: %d  Mode: [%d] %s",
+              self.steering_pct, self.gear, self.mode, self.mode_label)
       ].join("\n")
     end
 
