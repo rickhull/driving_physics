@@ -1,6 +1,22 @@
 require 'driving_physics/disk'
 
 module DrivingPhysics
+  def self.interpolate(x, xs:, ys:)
+    raise("Xs size #{xs.size}; Ys size #{ys.size}") unless xs.size == ys.size
+    raise("#{x} out of range") if x < xs.first or x > xs.last
+    xs.each.with_index { |xi, i|
+      if i > 0
+        last_x, last_y = xs[i-1], ys[i-1]
+        raise("xs out of order (#{xi} <= #{last_x})") unless xi > last_x
+        if x <= xi
+          proportion = Rational(x - last_x) / (xi - last_x)
+          return last_y + (ys[i] - last_y) * proportion
+        end
+      end
+    }
+    raise("couldn't find #{x} in #{xs.inspect}") # sanity check
+  end
+
   class TorqueCurve
     TORQUES = [  0,   70,  130,  200,  250,  320,  330,  320,  260,    0]
     RPMS    = [500, 1000, 1500, 2000, 2500, 3500, 5000, 6000, 7000, 7100]
@@ -11,9 +27,27 @@ module DrivingPhysics
       max: -1,
     }
 
+    def self.validate_rpms!(rpms)
+      raise("rpms should be positive") if rpms.any? { |r| r < 0 }
+      rpms.each.with_index { |r, i|
+        raise("rpms #{rpms.inspect} should increase") if i > 0 and r < r[i-1]
+      }
+      rpms
+    end
+
+    def self.validate_torques!(torques)
+      raise("first torque should be zero") unless torques.first == 0
+      raise("last torque should be zero") unless torques.last == 0
+      raise("torques should be positive") if torques.any? { |t| t < 0 }
+      torques
+    end
+
     def initialize(rpms: RPMS, torques: TORQUES)
-      @rpms = rpms
-      @torques = torques
+      if rpms.size != torques.size
+        raise("RPMs size #{rpms.size}; Torques size #{torques.size}")
+      end
+      @rpms = self.class.validate_rpms! rpms
+      @torques = self.class.validate_torques! torques
     end
 
     def to_s
@@ -28,22 +62,7 @@ module DrivingPhysics
 
     # interpolate based on torque curve points
     def torque(rpm)
-      raise("RPM #{rpm} too low") if rpm < @rpms.first
-      raise("RPM #{rpm} too high") if rpm > @rpms.last
-
-      last_rpm, last_tq, torque = 99999, -1, nil
-
-      @rpms.each_with_index { |r, i|
-        tq = @torques[i]
-        if last_rpm <= rpm and rpm <= r
-          proportion = Rational(rpm - last_rpm) / (r - last_rpm)
-          torque = last_tq + (tq - last_tq) * proportion
-          break
-        end
-        last_rpm, last_tq = r, tq
-      }
-      raise("Sanity check: no torque for RPM #{rpm}") if torque.nil?
-      torque
+      DrivingPhysics.interpolate(rpm, xs: @rpms, ys: @torques)
     end
   end
 
