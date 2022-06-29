@@ -65,14 +65,11 @@ describe Disk do
     end
 
     it "initializes" do
-      skip
-      expect(@disk).must_be_instance_of D
+      expect(@disk).must_be_instance_of Disk
       expect(@disk.density).must_equal Disk::DENSITY # sanity check
-      expect(@disk.mass).must_be_within_epsilon 25.01
+      expect(@disk.mass).must_be_within_epsilon 76.969
 
-      with_mass = Disk.new(@env) { |w|
-        w.mass = 99.01
-      }
+      with_mass = Disk.new(@env) { |w| w.mass = 99.01 }
       expect(with_mass.mass).must_equal 99.01
       expect(with_mass.density).wont_equal Disk::DENSITY
     end
@@ -89,8 +86,7 @@ describe Disk do
     end
 
     it "has inertia" do
-      skip
-      expect(@disk.rotational_inertia).must_be_within_epsilon 1.5321
+      expect(@disk.rotational_inertia).must_be_within_epsilon 4.714
     end
   end
 end
