@@ -64,7 +64,7 @@ num_ticks.times { |i|
 
     rpm = DrivingPhysics.rpm(crank_omega)
 
-    if rpm > motor.idle_rpm
+    if rpm > motor.idle
       flag = true
       cockpit.gear = 1
       cockpit.throttle_pedal = 1.0
@@ -124,7 +124,7 @@ EOF
 
     # update the motor RPM based on new clutch
     new_rpm = gearbox.crank_rpm(tire_omega, crank_rpm: rpm)
-    rpm = new_rpm if new_rpm > motor.idle_rpm
+    rpm = new_rpm if new_rpm > motor.idle
 
     new_gear = cockpit.choose_gear(rpm)
     if new_gear != cockpit.gear
@@ -141,7 +141,7 @@ EOF
     end
 
     # maintain idle when revs drop
-    if cockpit.throttle_pedal == 0 and rpm < motor.idle_rpm
+    if cockpit.throttle_pedal == 0 and rpm < motor.idle
       phase = :idling
       car.gear = 0
     end
@@ -150,7 +150,7 @@ EOF
 
   elsif phase == :idling
     # fake; exit
-    rpm = motor.idle_rpm
+    rpm = motor.idle
     break
   end
 

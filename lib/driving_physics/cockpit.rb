@@ -47,7 +47,7 @@ module DrivingPhysics
       @car = car
       @brake_pedal = 0.0    # to 1.0
       @steering_wheel = 0.0 # -1.0 to +1.0
-      @min_rpm = @car.powertrain.motor.idle_rpm + 1000
+      @min_rpm = @car.powertrain.motor.idle + 1000
       @max_rpm = @car.powertrain.motor.redline
 
       self.mode = 0             # normal
