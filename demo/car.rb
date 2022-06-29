@@ -162,10 +162,12 @@ EOF
     puts format("    Car: %.3f m/s/s  %.2f m/s  %.1f m  (%.1f MPH)",
                 acc, speed, dist, Imperial.mph(speed))
     if phase == :ignition
-      puts format("  Motor: %d RPM  Starter: %d Nm", rpm, motor.starter_torque)
+      puts format("  Motor: %d RPM  Starter: %d Nm  Friction: %.1f Nm",
+                  rpm, motor.starter_torque, motor.friction(crank_omega))
     else
       crank_torque = car.powertrain.motor.torque(rpm)
-      puts format("  Motor: %d RPM  %.1f Nm", rpm, crank_torque)
+      puts format("  Motor: %d RPM  %.1f Nm  Friction: %.1f Nm",
+                  rpm, crank_torque, motor.friction(crank_omega))
     end
     puts format("Gearbox: %s", gearbox.inputs)
     if phase != :ignition
@@ -176,7 +178,7 @@ EOF
     puts        " Resist: " + format(%w[Air Roll Spin Inertial].map { |s|
                                        "#{s}: %.1f N"
                                      }.join('  '), ar, rr, rf, ir)
-    puts        "Cockpit: #{cockpit}"
+    puts        cockpit
     puts
     paused += CLI.pause if flag
     flag = false
