@@ -72,7 +72,7 @@ module DrivingPhysics
     end
 
     def gear=(val)
-      @gear = self.class.gear_interval!(val)
+      @gear = self.class.gear_interval!(val, max: self.top_gear)
     end
 
     def top_gear
