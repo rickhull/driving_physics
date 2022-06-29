@@ -36,6 +36,13 @@ module DrivingPhysics
   MINS_PER_HOUR = 60
   SECS_PER_HOUR = SECS_PER_MIN * MINS_PER_HOUR
 
+  # runtime check; this returns false by default
+  # Vector is not currently/easily available in mruby
+  # driving_physics/vector_force requires Vector via 'matrix'
+  def self.has_vector?
+    Vector rescue false
+  end
+
   # HH::MM::SS.mmm
   def self.elapsed_display(elapsed_ms)
     elapsed_s, ms = elapsed_ms.divmod 1000
