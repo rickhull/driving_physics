@@ -64,6 +64,29 @@ module DrivingPhysics
     dir
   end
 
+  def self.torque_vector(force, radius)
+    if !force.is_a?(Vector) or force.size != 2
+      raise(ArgumentError, "force must be a 2D vector")
+    end
+    if !radius.is_a?(Vector) or radius.size != 2
+      raise(ArgumentError, "radius must be a 2D vector")
+    end
+    force = Vector[force[0], force[1], 0]
+    radius = Vector[radius[0], radius[1], 0]
+    force.cross(radius)
+  end
+
+  def self.force_vector(torque, radius)
+    if !torque.is_a?(Vector) or torque.size != 3
+      raise(ArgumentError, "torque must be a 3D vector")
+    end
+    if !radius.is_a?(Vector) or radius.size != 2
+      raise(ArgumentError, "radius must be a 2D vector")
+    end
+    radius = Vector[radius[0], radius[1], 0]
+    radius.cross(torque) / radius.dot(radius)
+  end
+
   module VectorForce
     #
     # Resistance Forces
