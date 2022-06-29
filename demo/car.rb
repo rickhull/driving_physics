@@ -1,5 +1,5 @@
 require 'driving_physics/car'
-require 'driving_physics/driver'
+require 'driving_physics/cockpit'
 require 'driving_physics/imperial'
 require 'driving_physics/cli'
 
@@ -19,8 +19,8 @@ car = Car.new(tire: tire, powertrain: powertrain) { |c|
 }
 puts car
 
-driver = Driver.new
-puts driver
+cockpit = Cockpit.new(car)
+puts cockpit
 CLI.pause
 
 duration = 120
@@ -66,10 +66,8 @@ num_ticks.times { |i|
 
     if rpm > motor.idle_rpm
       flag = true
-      driver.gear = 1
-      gearbox.gear = 1
-      driver.throttle_pedal = 1.0
-      car.throttle = 1.0
+      cockpit.gear = 1
+      cockpit.throttle_pedal = 1.0
       phase = :running
 
       puts <<EOF
@@ -103,12 +101,9 @@ EOF
     crank_alpha = tire_alpha / car.powertrain.gearbox.ratio
     crank_omega += crank_alpha * env.tick
 
-    axle_torque = car.powertrain.axle_torque(rpm, axle_omega: tire_omega)
-    crank_torque = car.powertrain.motor.torque(rpm)
-
     # tire_omega determines new rpm
     new_rpm = gearbox.crank_rpm(tire_omega, crank_rpm: rpm)
-    new_rev_match, clutch, proportion = Driver.rev_match(rpm, new_rpm)
+    new_rev_match, clutch, proportion = Cockpit.rev_match(rpm, new_rpm)
 
     if new_rev_match != rev_match
       flag = true
@@ -124,28 +119,29 @@ EOF
       puts format("Clutch: %.1f%%  Recommended Clutch: %.1f%%",
                   gearbox.clutch * 100, clutch * 100)
     end
+    # the clutch pedal will reflect this change
     gearbox.clutch += clutch_diff * 0.5
 
     # update the motor RPM based on new clutch
     new_rpm = gearbox.crank_rpm(tire_omega, crank_rpm: rpm)
     rpm = new_rpm if new_rpm > motor.idle_rpm
 
-    driver.choose_gear!(rpm)
-    if driver.gear != gearbox.gear
+    new_gear = cockpit.choose_gear(rpm)
+    if new_gear != cockpit.gear
       flag = true
-      puts "Gear Change: #{driver.gear}"
-      gearbox.gear = driver.gear
+      puts "Gear Change: #{new_gear}"
+      cockpit.gear = new_gear
     end
 
     # cut throttle after 60 s
     if i > 60 * env.hz and car.throttle == 1.0
       flag = true
       phase = :off_throttle
-      car.throttle = 0
+      cockpit.throttle_pedal = 0
     end
 
     # maintain idle when revs drop
-    if car.throttle == 0 and rpm < motor.idle_rpm
+    if cockpit.throttle_pedal == 0 and rpm < motor.idle_rpm
       phase = :idling
       car.gear = 0
     end
@@ -165,13 +161,22 @@ EOF
                 tire_alpha, tire_omega, tire_theta)
     puts format("    Car: %.3f m/s/s  %.2f m/s  %.1f m  (%.1f MPH)",
                 acc, speed, dist, Imperial.mph(speed))
-    puts format("  Motor: %d RPM  %.1f Nm", rpm, crank_torque)
+    if phase == :ignition
+      puts format("  Motor: %d RPM  Starter: %d Nm", rpm, motor.starter_torque)
+    else
+      crank_torque = car.powertrain.motor.torque(rpm)
+      puts format("  Motor: %d RPM  %.1f Nm", rpm, crank_torque)
+    end
     puts format("Gearbox: %s", gearbox.inputs)
-    puts format("   Axle: %.1f Nm (%d N)  Net Force: %.1f N",
-                axle_torque, drive_force, net_force)
+    if phase != :ignition
+      axle_torque = car.powertrain.axle_torque(rpm, axle_omega: tire_omega)
+      puts format("   Axle: %.1f Nm (%d N)  Net Force: %.1f N",
+                  axle_torque, drive_force, net_force)
+    end
     puts        " Resist: " + format(%w[Air Roll Spin Inertial].map { |s|
                                        "#{s}: %.1f N"
                                      }.join('  '), ar, rr, rf, ir)
+    puts        "Cockpit: #{cockpit}"
     puts
     paused += CLI.pause if flag
     flag = false
