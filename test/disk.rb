@@ -1,5 +1,6 @@
 require 'minitest/autorun'
 require 'driving_physics/disk'
+require 'matrix'
 
 include DrivingPhysics
 
@@ -49,7 +50,7 @@ describe Disk do
       inertia = Disk.rotational_inertia(0.35, 25.0)
       expect(Disk.alpha scalar_torque, inertia).must_be_within_epsilon 653.061
 
-      skip # Vector
+      skip unless DrivingPhysics.has_vector?
       vector_torque = Vector[0, 0, 1000]
       vector_alpha = Disk.alpha vector_torque, inertia
       expect(vector_alpha).must_be_instance_of Vector
