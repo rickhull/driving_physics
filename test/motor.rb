@@ -5,15 +5,53 @@ include DrivingPhysics
 
 describe "interpolate" do
   it "validates xs and ys match in size" do
+    xs = [0, 5, 10, 15, 20]
+    ys = [10, 10, 10, 10, 5]
+    expect(DrivingPhysics.interpolate(1, xs: xs, ys: ys)).must_equal 10
+    expect { DrivingPhysics.interpolate(1, xs: xs + [10], ys: ys) }.must_raise
+    expect { DrivingPhysics.interpolate(1, xs: xs, ys: ys + [10]) }.must_raise
   end
 
   it "validates x is within the range of xs" do
+    xs = [0, 5, 10, 15, 20]
+    ys = [10, 10, 10, 10, 5]
+    expect(DrivingPhysics.interpolate(1, xs: xs, ys: ys)).must_equal 10
+    expect { DrivingPhysics.interpolate(-1, xs: xs, ys: ys) }.must_raise
+    expect { DrivingPhysics.interpolate(25, xs: xs, ys: ys) }.must_raise
   end
 
   it "validates the xs are in ascending order" do
+    xs = [0, 5, 10, 15, 20]
+    ys = [10, 10, 10, 10, 5]
+    expect(DrivingPhysics.interpolate(1, xs: xs, ys: ys)).must_equal 10
+    xs[1] = 15
+    expect {
+      DrivingPhysics.interpolate(16, xs: xs, ys: ys)
+    }.must_raise
   end
 
   it "performs linear interpolation to yield a y value for a valid x" do
+    xs = [0, 5, 10, 15, 20]
+    ys = [5, 5, 10, 10, 15]
+
+    expect(DrivingPhysics.interpolate(0, xs: xs, ys: ys)).must_equal 5
+    expect(DrivingPhysics.interpolate(1, xs: xs, ys: ys)).must_equal 5
+    expect(DrivingPhysics.interpolate(4, xs: xs, ys: ys)).must_equal 5
+    expect(DrivingPhysics.interpolate(5, xs: xs, ys: ys)).must_equal 5
+    expect(DrivingPhysics.interpolate(6, xs: xs, ys: ys)).must_equal 6
+    expect(DrivingPhysics.interpolate(7, xs: xs, ys: ys)).must_equal 7
+    expect(DrivingPhysics.interpolate(8, xs: xs, ys: ys)).must_equal 8
+    expect(DrivingPhysics.interpolate(9, xs: xs, ys: ys)).must_equal 9
+    expect(DrivingPhysics.interpolate(10, xs: xs, ys: ys)).must_equal 10
+    expect(DrivingPhysics.interpolate(11, xs: xs, ys: ys)).must_equal 10
+    expect(DrivingPhysics.interpolate(12, xs: xs, ys: ys)).must_equal 10
+    expect(DrivingPhysics.interpolate(14, xs: xs, ys: ys)).must_equal 10
+    expect(DrivingPhysics.interpolate(15, xs: xs, ys: ys)).must_equal 10
+    expect(DrivingPhysics.interpolate(16, xs: xs, ys: ys)).must_equal 11
+    expect(DrivingPhysics.interpolate(17, xs: xs, ys: ys)).must_equal 12
+    expect(DrivingPhysics.interpolate(18, xs: xs, ys: ys)).must_equal 13
+    expect(DrivingPhysics.interpolate(19, xs: xs, ys: ys)).must_equal 14
+    expect(DrivingPhysics.interpolate(20, xs: xs, ys: ys)).must_equal 15
   end
 end
 
