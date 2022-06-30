@@ -84,7 +84,8 @@ module DrivingPhysics
     class Stall < RuntimeError; end
     class OverRev < RuntimeError; end
 
-    ENGINE_BRAKING = 0.2 # 20% of the torque at a given RPM
+    CLOSED_THROTTLE = 0.05 # threshold for engine braking
+    ENGINE_BRAKING = 0.2   # 20% of the torque at a given RPM
 
     attr_reader :env, :torque_curve, :throttle
     attr_accessor :fixed_mass, :spinner, :starter_torque
@@ -148,7 +149,7 @@ module DrivingPhysics
       format("%.1f%%", @throttle * 100)
     end
 
-    # given torque, determine crank alpha after inertia and friction
+    # given torque, determine crank alpha considering inertia and friction
     def alpha(torque, omega: 0)
       @spinner.alpha(torque + @spinner.rotating_friction(omega))
     end
@@ -162,14 +163,16 @@ module DrivingPhysics
                                      omega: DrivingPhysics.omega(rpm)))
     end
 
-    # interpolate based on torque curve points
+    # this is our "input torque" and it depends on @throttle
+    # here is where engine braking is implemented
     def torque(rpm)
       raise(Stall, "RPM #{rpm}") if rpm < @torque_curve.min
       raise(OverRev, "RPM #{rpm}") if rpm > @torque_curve.max
 
+      # interpolate based on torque curve points
       torque = @torque_curve.torque(rpm)
 
-      if (@throttle <= 0.05) and (rpm > @torque_curve.idle * 1.5)
+      if (@throttle <= CLOSED_THROTTLE) and (rpm > @torque_curve.idle * 1.5)
         # engine braking: 20% of torque
         -1 * torque * ENGINE_BRAKING
       else
