@@ -31,7 +31,9 @@ module DrivingPhysics
     def self.validate_rpms!(rpms)
       raise("rpms should be positive") if rpms.any? { |r| r < 0 }
       rpms.each.with_index { |r, i|
-        raise("rpms #{rpms.inspect} should increase") if i > 0 and r < r[i-1]
+        if i > 0 and r <= rpms[i-1]
+          raise("rpms #{rpms.inspect} should increase")
+        end
       }
       rpms
     end
