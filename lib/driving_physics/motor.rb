@@ -5,6 +5,7 @@ module DrivingPhysics
     raise("Xs size #{xs.size}; Ys size #{ys.size}") unless xs.size == ys.size
     raise("#{x} out of range") if x < xs.first or x > xs.last
     xs.each.with_index { |xi, i|
+      return ys[i] if x == xi
       if i > 0
         last_x, last_y = xs[i-1], ys[i-1]
         raise("xs out of order (#{xi} <= #{last_x})") unless xi > last_x
