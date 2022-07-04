@@ -36,6 +36,13 @@ module DrivingPhysics
   MINS_PER_HOUR = 60
   SECS_PER_HOUR = SECS_PER_MIN * MINS_PER_HOUR
 
+  # runtime check; this returns false by default
+  # Vector is not currently/easily available in mruby
+  # driving_physics/vector_force requires Vector via 'matrix'
+  def self.has_vector?
+    Vector rescue false
+  end
+
   # HH::MM::SS.mmm
   def self.elapsed_display(elapsed_ms)
     elapsed_s, ms = elapsed_ms.divmod 1000
@@ -70,7 +77,17 @@ module DrivingPhysics
     alias_method(:omega, :accum)
     alias_method(:theta, :accum)
   end
+
+  def self.unit_interval!(val)
+    if val < 0.0 or val > 1.0
+      raise(ArgumentError, "val #{val.inspect} should be between 0 and 1")
+    end
+    val
+  end
 end
+# This is only intended for use on mruby
+# It is a workaround for Timer's use of Process in cli.rb
+#
 module DrivingPhysics
   module CLI
     # returns user input as a string
@@ -128,6 +145,8 @@ module DrivingPhysics
       @air_temp = AIR_TEMP
       @air_density = AIR_DENSITY
       @petrol_density = PETROL_DENSITY
+
+      yield self if block_given?
     end
 
     def hz=(int)
@@ -310,31 +329,6 @@ module DrivingPhysics
       tangential.to_f / radius
     end
 
-    # vectors only
-    def self.torque_vector(force, radius)
-      if !force.is_a?(Vector) or force.size != 2
-        raise(ArgumentError, "force must be a 2D vector")
-      end
-      if !radius.is_a?(Vector) or radius.size != 2
-        raise(ArgumentError, "radius must be a 2D vector")
-      end
-      force = Vector[force[0], force[1], 0]
-      radius = Vector[radius[0], radius[1], 0]
-      force.cross(radius)
-    end
-
-    # vectors only
-    def self.force_vector(torque, radius)
-      if !torque.is_a?(Vector) or torque.size != 3
-        raise(ArgumentError, "torque must be a 3D vector")
-      end
-      if !radius.is_a?(Vector) or radius.size != 2
-        raise(ArgumentError, "radius must be a 2D vector")
-      end
-      radius = Vector[radius[0], radius[1], 0]
-      radius.cross(torque) / radius.dot(radius)
-    end
-
     attr_reader :env
     attr_accessor :radius, :width, :density, :base_friction, :omega_friction
 
@@ -358,6 +352,11 @@ module DrivingPhysics
     def normal_force
       @normal_force ||= self.mass * @env.g
       @normal_force
+    end
+
+    # E = (1/2) (I) (omega^2)
+    def energy(omega)
+      0.5 * self.rotational_inertia * omega ** 2
     end
 
     def alpha(torque, omega: 0, normal_force: nil)
@@ -534,53 +533,143 @@ module DrivingPhysics
 end
 
 module DrivingPhysics
-  class Motor
-    class Stall < RuntimeError; end
-    class OverRev < RuntimeError; end
-    class SanityCheck < RuntimeError; end
+  def self.interpolate(x, xs:, ys:)
+    raise("Xs size #{xs.size}; Ys size #{ys.size}") unless xs.size == ys.size
+    raise("#{x} out of range") if x < xs.first or x > xs.last
+    xs.each.with_index { |xi, i|
+      return ys[i] if x == xi
+      if i > 0
+        last_x, last_y = xs[i-1], ys[i-1]
+        raise("xs out of order (#{xi} <= #{last_x})") unless xi > last_x
+        if x <= xi
+          proportion = Rational(x - last_x) / (xi - last_x)
+          return last_y + (ys[i] - last_y) * proportion
+        end
+      end
+    }
+    raise("couldn't find #{x} in #{xs.inspect}") # sanity check
+  end
 
-    TORQUES = [  0,   70,  130,  200,  250,  320,  330,  320,  260,    0]
+  class TorqueCurve
     RPMS    = [500, 1000, 1500, 2000, 2500, 3500, 5000, 6000, 7000, 7100]
-    ENGINE_BRAKING = 0.2 # 20% of the torque at a given RPM
+    TORQUES = [  0,   70,  130,  200,  250,  320,  330,  320,  260,    0]
+    RPM_IDX = {
+      min: 0,
+      idle: 1,
+      redline: -2,
+      max: -1,
+    }
 
-    attr_reader :env, :throttle
-    attr_accessor :torques, :rpms, :fixed_mass,
-                  :spinner, :starter_torque, :idle_rpm
-
-    def initialize(env)
-      @env = env
-
-      @torques = TORQUES
-      @rpms = RPMS
-      @fixed_mass = 125
-
-      # represent all rotating mass as one big flywheel
-      @spinner = Disk.new(@env) { |fly|
-        fly.radius =  0.25 # m
-        fly.mass   = 75    # kg
-        fly.base_friction  = 5.0/1000
-        fly.omega_friction = 2.0/10_000
+    def self.validate_rpms!(rpms)
+      raise("rpms should be positive") if rpms.any? { |r| r < 0 }
+      rpms.each.with_index { |r, i|
+        if i > 0 and r <= rpms[i-1]
+          raise("rpms #{rpms.inspect} should increase")
+        end
       }
-      @starter_torque = 500  # Nm
-      @idle_rpm       = 1000 # RPM
-      @throttle       = 0.0  # 0.0 - 1.0 (0% - 100%)
+      rpms
+    end
+
+    def self.validate_torques!(torques)
+      raise("first torque should be zero") unless torques.first == 0
+      raise("last torque should be zero") unless torques.last == 0
+      raise("torques should be positive") if torques.any? { |t| t < 0 }
+      torques
+    end
+
+    def initialize(rpms: RPMS, torques: TORQUES)
+      if rpms.size != torques.size
+        raise("RPMs size #{rpms.size}; Torques size #{torques.size}")
+      end
+      @rpms = self.class.validate_rpms! rpms
+      @torques = self.class.validate_torques! torques
+      peak_torque = 0
+      idx = 0
+      @torques.each.with_index { |t, i|
+        if t > peak_torque
+          peak_torque = t
+          idx = i
+        end
+      }
+      @peak = idx
+    end
+
+    def peak
+      [@rpms[@peak], @torques[@peak]]
     end
 
     def to_s
-      ary = [format("Throttle: %.1f%%", @throttle * 100)]
-      ary << "Torque:"
-      @rpms.each_with_index { |r, i|
-        ary << format("%s Nm %s RPM",
-                      @torques[i].round(1).to_s.rjust(4, ' '),
-                      r.to_s.rjust(5, ' '))
-      }
-      ary << format("Mass: %.1f kg  Fixed: %d kg", self.mass, @fixed_mass)
-      ary << format("Rotating: %s", @spinner)
-      ary.join("\n")
+      @rpms.map.with_index { |r, i|
+        format("%s RPM %s Nm",
+               r.to_s.rjust(5, ' '),
+               @torques[i].round(1).to_s.rjust(4, ' '))
+      }.join("\n")
     end
 
-    def rotational_inertia
+    RPM_IDX.each { |name, idx| define_method(name) do @rpms[idx] end }
+
+    # interpolate based on torque curve points
+    def torque(rpm)
+      DrivingPhysics.interpolate(rpm, xs: @rpms, ys: @torques)
+    end
+  end
+
+  # represent all rotating mass as one big flywheel
+  class Motor
+    class Stall < RuntimeError; end
+    class OverRev < RuntimeError; end
+
+    CLOSED_THROTTLE = 0.05 # threshold for engine braking
+    ENGINE_BRAKING = 0.2   # 20% of the torque at a given RPM
+
+    attr_reader :env, :torque_curve, :throttle
+    attr_accessor :fixed_mass, :spinner, :starter_torque
+
+    def initialize(env, torque_curve: nil)
+      @env          = env
+      @torque_curve = torque_curve.nil? ? TorqueCurve.new : torque_curve
+      @throttle     = 0.0  # 0.0 - 1.0 (0% - 100%)
+
+      @fixed_mass = 125
+      @spinner = Disk.new(@env) { |fly|
+        fly.radius =  0.25 # m
+        fly.mass   = 75    # kg
+        fly.base_friction  = 1.0 /   1_000
+        fly.omega_friction = 5.0 / 100_000
+      }
+      @starter_torque = 500  # Nm
+
+      yield self if block_given?
+    end
+
+    def redline
+      @torque_curve.redline
+    end
+
+    def idle
+      @torque_curve.idle
+    end
+
+    def to_s
+      peak_rpm, peak_tq = *@torque_curve.peak
+      [format("Peak Torque: %d Nm @ %d RPM  Redline: %d",
+              peak_tq, peak_rpm, @torque_curve.redline),
+       format("   Throttle: %s  Mass: %.1f kg  (%d kg fixed)",
+              self.throttle_pct, self.mass, @fixed_mass),
+       format("   Rotating: %s", @spinner),
+      ].join("\n")
+    end
+
+    def inertia
       @spinner.rotational_inertia
+    end
+
+    def energy(omega)
+      @spinner.energy(omega)
+    end
+
+    def friction(omega, normal_force: nil)
+      @spinner.rotating_friction(omega, normal_force: normal_force)
     end
 
     def mass
@@ -588,13 +677,14 @@ module DrivingPhysics
     end
 
     def throttle=(val)
-      if val < 0.0 or val > 1.0
-        raise(ArgumentError, "val #{val.inspect} should be between 0 and 1")
-      end
-      @throttle = val
+      @throttle = DrivingPhysics.unit_interval! val
     end
 
-    # given torque, determine crank alpha after inertia and friction
+    def throttle_pct
+      format("%.1f%%", @throttle * 100)
+    end
+
+    # given torque, determine crank alpha considering inertia and friction
     def alpha(torque, omega: 0)
       @spinner.alpha(torque + @spinner.rotating_friction(omega))
     end
@@ -603,25 +693,21 @@ module DrivingPhysics
       @spinner.implied_torque(alpha)
     end
 
-    # interpolate based on torque curve points
+    def output_torque(rpm)
+      self.implied_torque(self.alpha(self.torque(rpm),
+                                     omega: DrivingPhysics.omega(rpm)))
+    end
+
+    # this is our "input torque" and it depends on @throttle
+    # here is where engine braking is implemented
     def torque(rpm)
-      raise(Stall, "RPM #{rpm}") if rpm < @rpms.first
-      raise(OverRev, "RPM #{rpm}") if rpm > @rpms.last
+      raise(Stall, "RPM #{rpm}") if rpm < @torque_curve.min
+      raise(OverRev, "RPM #{rpm}") if rpm > @torque_curve.max
 
-      last_rpm, last_tq, torque = 99999, -1, nil
+      # interpolate based on torque curve points
+      torque = @torque_curve.torque(rpm)
 
-      @rpms.each_with_index { |r, i|
-        tq = @torques[i]
-        if last_rpm <= rpm and rpm <= r
-          proportion = Rational(rpm - last_rpm) / (r - last_rpm)
-          torque = last_tq + (tq - last_tq) * proportion
-          break
-        end
-        last_rpm, last_tq = r, tq
-      }
-      raise(SanityCheck, "RPM #{rpm}") if torque.nil?
-
-      if (@throttle <= 0.05) and (rpm > @idle_rpm * 1.5)
+      if (@throttle <= CLOSED_THROTTLE) and (rpm > @torque_curve.idle * 1.5)
         # engine braking: 20% of torque
         -1 * torque * ENGINE_BRAKING
       else
@@ -630,6 +716,57 @@ module DrivingPhysics
     end
   end
 end
+
+
+# TODO: starter motor
+# Starter motor is power limited, not torque limited
+# Consider:
+# * 2.2 kW (3.75:1 gear reduction)
+# * 1.8 kW  (4.4:1 gear reduction)
+# On a workbench, a starter will draw 80 to 90 amps. However, during actual
+# start-up of an engine, a starter will draw 250 to 350 amps.
+# from https://www.motortrend.com/how-to/because-theres-more-to-a-starter-than-you-realize/
+
+# V - Potential, voltage
+# I - Current, amperage
+# R - Resistance, ohms
+# P - Power, wattage
+
+# Ohm's law: I = V / R (where R is held constant)
+# P = I * V
+# For resistors (where R is helod constant)
+#   = I^2 * R
+#   = V^2 / R
+
+
+# torque proportional to A
+# speed proportional to V
+
+
+# batteries are rated in terms of CCA - cold cranking amps
+
+# P = I * V
+# V = 12 (up to 14ish)
+# I = 300
+# P = 3600 or 3.6 kW
+
+
+# A starter rated at e.g. 2.2 kW will use more power on initial cranking
+# Sometimes up to 500 amperes are required, and some batteries will provide
+# over 600 cold cranking amps
+
+
+# Consider:
+
+# V = 12
+# R = resistance of battery, wiring, starter motor
+# L = inductance (approx 0)
+# I = current through motor
+# Vc = proportional to omega
+
+# rated power - Vc * I
+# input power - V * I
+# input power that is unable to be converted to output power is wasted as heat
 
 module DrivingPhysics
   # Technically speaking, the gear ratio goes up with speed and down with
@@ -644,16 +781,30 @@ module DrivingPhysics
   # Likewise, 1st gear is a _smaller_ gear ratio than 3rd
   class Gearbox
     class Disengaged < RuntimeError; end
+    class ClutchDisengage < Disengaged; end
 
     RATIOS = [1/5r, 2/5r, 5/9r, 5/7r, 1r, 5/4r]
     FINAL_DRIVE = 11/41r # 1/3.73
+    REVERSE = -1
+    REVERSE_RATIO = -1/10r
 
-    attr_accessor :gear, :ratios, :final_drive, :spinner, :fixed_mass
+    attr_accessor :ratios, :final_drive, :spinner, :fixed_mass
+    attr_reader :gear, :clutch
+
+    def self.gear_interval!(gear, min: REVERSE, max:)
+      if gear < min or gear > max
+        raise(ArgumentError, format("gear %s should be between %d and %d",
+                                    gear.inspect, min, max))
+      end
+      raise(ArgumentError, "gear should be an integer") if !gear.is_a? Integer
+      gear
+    end
 
     def initialize(env)
       @ratios = RATIOS
       @final_drive = FINAL_DRIVE
-      @gear = 0 # neutral
+      @gear = 0     # neutral
+      @clutch = 1.0 # fully engaged (clutch pedal out)
 
       # represent all rotating mass
       @spinner = Disk.new(env) { |m|
@@ -665,6 +816,10 @@ module DrivingPhysics
       @fixed_mass = 30 # kg
 
       yield self if block_given?
+    end
+
+    def clutch=(val)
+      @clutch = DrivingPhysics.unit_interval! val
     end
 
     # given torque, apply friction, determine alpha
@@ -684,57 +839,69 @@ module DrivingPhysics
       @fixed_mass + @spinner.mass
     end
 
+    def gear=(val)
+      @gear = self.class.gear_interval!(val, max: self.top_gear)
+    end
+
     def top_gear
       @ratios.length
     end
 
     def to_s
-      [format("Ratios: %s", @ratios.inspect),
+      [self.inputs,
+       format("Ratios: %s", @ratios.inspect),
        format(" Final: %s  Mass: %.1f kg  Rotating: %.1f kg",
               @final_drive.inspect, self.mass, @spinner.mass),
       ].join("\n")
     end
 
+    def inputs
+      format("Gear: %d  Clutch: %.1f%%", @gear, @clutch * 100)
+    end
+
     def ratio(gear = nil)
       gear ||= @gear
-      raise(Disengaged, "Cannot determine gear ratio") if @gear == 0
-      @ratios.fetch(gear - 1) * @final_drive
+      case gear
+      when REVERSE
+        REVERSE_RATIO * @final_drive
+      when 0
+        raise(Disengaged, "Cannot determine gear ratio")
+      else
+        @ratios.fetch(gear - 1) * @final_drive
+      end
     end
 
     def axle_torque(crank_torque)
-      crank_torque / self.ratio
+      crank_torque * @clutch / self.ratio
     end
 
-    def axle_omega(crank_rpm)
-      DrivingPhysics.omega(crank_rpm) * self.ratio
+    def output_torque(crank_torque, crank_rpm, axle_omega: nil)
+      axle_alpha = self.alpha(self.axle_torque(crank_torque),
+                              omega: self.axle_omega(crank_rpm,
+                                                     axle_omega: axle_omega))
+      self.implied_torque(axle_alpha)
     end
 
-    def crank_rpm(axle_omega)
-      DrivingPhysics.rpm(axle_omega) / self.ratio
-    end
-
-    def match_rpms(old_rpm, new_rpm)
-      diff = new_rpm - old_rpm
-      proportion = diff.to_f / old_rpm
-      if proportion.abs < 0.01
-        [:ok, proportion]
-      elsif proportion.abs < 0.1
-        [:slip, proportion]
-      elsif @gear == 1 and new_rpm < old_rpm and old_rpm <= 1500
-        [:get_rolling, proportion]
-      else
-        [:mismatch, proportion]
+    # take into account the old axle_omega and @clutch
+    def axle_omega(crank_rpm, axle_omega: nil)
+      new_axle_omega = DrivingPhysics.omega(crank_rpm) * self.ratio
+      if axle_omega.nil?
+        raise(ClutchDisengage, "cannot determine axle omega") if @clutch != 1.0
+        return new_axle_omega
       end
+      diff = new_axle_omega - axle_omega
+      axle_omega + diff * @clutch
     end
 
-    def next_gear(rpm, floor: 2500, ceiling: 6400)
-      if rpm < floor and @gear > 1
-        @gear - 1
-      elsif rpm > ceiling and @gear < self.top_gear
-        @gear + 1
-      else
-        @gear
+    # take into account the old crank_rpm and @clutch
+    # crank will tolerate mismatch more than axle
+    def crank_rpm(axle_omega, crank_rpm: nil)
+      new_crank_rpm = DrivingPhysics.rpm(axle_omega) / self.ratio
+      if crank_rpm.nil?
+        raise(ClutchDisengage, "cannot determine crank rpm") if @clutch != 1.0
+        return new_crank_rpm
       end
+      crank_rpm + (new_crank_rpm - crank_rpm) * @clutch
     end
   end
 end
@@ -748,7 +915,7 @@ module DrivingPhysics
   class Powertrain
     attr_reader :motor, :gearbox
 
-    def initialize(motor, gearbox)
+    def initialize(motor:, gearbox:)
       @motor = motor
       @gearbox = gearbox
     end
@@ -767,22 +934,17 @@ module DrivingPhysics
       [t * o, t, o]
     end
 
-    def axle_torque(rpm)
-      crank_alpha = @motor.alpha(@motor.torque(rpm),
-                                 omega: DrivingPhysics.omega(rpm))
-      crank_torque = @motor.implied_torque(crank_alpha)
-
-      axle_alpha = @gearbox.alpha(@gearbox.axle_torque(crank_torque),
-                                  omega: @gearbox.axle_omega(rpm))
-      @gearbox.implied_torque(axle_alpha)
+    def axle_torque(rpm, axle_omega: nil)
+      @gearbox.output_torque(@motor.output_torque(rpm), rpm,
+                             axle_omega: axle_omega)
     end
 
-    def axle_omega(rpm)
-      @gearbox.axle_omega(rpm)
+    def axle_omega(rpm, axle_omega: nil)
+      @gearbox.axle_omega(rpm, axle_omega: axle_omega)
     end
 
-    def crank_rpm(axle_omega)
-      @gearbox.crank_rpm(axle_omega)
+    def crank_rpm(axle_omega, crank_rpm: nil)
+      @gearbox.crank_rpm(axle_omega, crank_rpm: crank_rpm)
     end
   end
 end
@@ -812,6 +974,14 @@ module DrivingPhysics
       @powertrain.motor.throttle = val
     end
 
+    def clutch
+      @powertrain.gearbox.clutch
+    end
+
+    def clutch=(val)
+      @powertrain.gearbox.clutch = val
+    end
+
     def gear
       @powertrain.gearbox.gear
     end
@@ -824,9 +994,9 @@ module DrivingPhysics
       @powertrain.gearbox.top_gear
     end
 
-    # force opposing speed
+    # force opposing speed; depends on speed**2 but use speed and speed.abs
     def air_force(speed)
-      -0.5 * @frontal_area * @cd * @env.air_density * speed ** 2
+      -0.5 * @frontal_area * @cd * @env.air_density * speed * speed.abs
     end
 
     # force of opposite sign to omega
@@ -846,6 +1016,7 @@ module DrivingPhysics
     # force of opposite sign to force
     def tire_inertial_force(force)
       mag = force.abs
+      return 0.0 if mag < 0.001
       sign = force / mag
       force_loss = 0
       5.times {
@@ -872,8 +1043,8 @@ module DrivingPhysics
       ].join("\n")
     end
 
-    def drive_force(rpm)
-      @tire.force(@powertrain.axle_torque(rpm))
+    def drive_force(rpm, axle_omega: nil)
+      @tire.force @powertrain.axle_torque(rpm, axle_omega: axle_omega)
     end
 
     def tire_speed(rpm)
