@@ -1,3 +1,6 @@
+# This is only intended for use on mruby
+# It is a workaround for Timer's use of Process in cli.rb
+#
 module DrivingPhysics
   module CLI
     # returns user input as a string
