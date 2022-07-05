@@ -18,7 +18,8 @@ module DrivingPhysics
   end
 
   module Timer
-    if defined? Process::CLOCK_MONOTONIC
+    # don't use `defined?` with mruby
+    if (Process::CLOCK_MONOTONIC rescue false)
       def self.now
         Process.clock_gettime Process::CLOCK_MONOTONIC
       end
