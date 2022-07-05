@@ -93,7 +93,12 @@ module DrivingPhysics
     attr_reader :env, :torque_curve, :throttle
     attr_accessor :fixed_mass, :spinner, :starter_torque
 
-    def initialize(env, torque_curve: nil)
+    # Originally, torque_curve was a kwarg; but mruby currently has a bug
+    # where block_given? returns true in the presence of an unset default
+    # kwarg, or something like that.
+    # https://github.com/mruby/mruby/issues/5741
+    #
+    def initialize(env, torque_curve = nil)
       @env          = env
       @torque_curve = torque_curve.nil? ? TorqueCurve.new : torque_curve
       @throttle     = 0.0  # 0.0 - 1.0 (0% - 100%)
