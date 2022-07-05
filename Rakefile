@@ -40,7 +40,7 @@ end
 
 file MRBLIB_FILE do
   line_count = write_mruby(File.join(%w[lib driving_physics.rb]), MRBLIB_FILE)
-  %w[mruby environment imperial power
+  %w[cli environment imperial power
      disk tire motor gearbox powertrain car].each { |name|
     file = File.join('lib', 'driving_physics', "#{name}.rb")
     line_count += write_mruby(file, MRBLIB_FILE, append: true)

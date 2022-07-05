@@ -85,9 +85,6 @@ module DrivingPhysics
     val
   end
 end
-# This is only intended for use on mruby
-# It is a workaround for Timer's use of Process in cli.rb
-#
 module DrivingPhysics
   module CLI
     # returns user input as a string
@@ -108,8 +105,15 @@ module DrivingPhysics
   end
 
   module Timer
-    def self.now
-      Time.now
+    # don't use `defined?` with mruby
+    if (Process::CLOCK_MONOTONIC rescue false)
+      def self.now
+        Process.clock_gettime Process::CLOCK_MONOTONIC
+      end
+    else
+      def self.now
+        Time.now
+      end
     end
 
     def self.since(t)
