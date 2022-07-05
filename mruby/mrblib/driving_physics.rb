@@ -1,47 +1,39 @@
+#
+# Units: metric
+#
+# distance: meter
+# velocity: meter / sec
+# acceleration: meter / sec^2
+# volume: Liter
+# temperature: Celsius
+#
 module DrivingPhysics
-  #
-  # Units: metric
-  #
-  # distance: meter
-  # velocity: meter / sec
-  # acceleration: meter / sec^2
-  # volume: Liter
-  # temperature: Celsius
-  #
+  # runtime check; this returns false by default
+  # Vector is not currently/easily available in mruby
+  def self.has_vector?
+    Vector rescue false
+  end
 
-  #
   # environmental defaults
-  #
   HZ = 1000
   TICK = Rational(1) / HZ
   G = 9.8               # m/s^2
   AIR_TEMP = 25         # deg c
   AIR_DENSITY = 1.29    # kg / m^3
-  PETROL_DENSITY = 0.71 # kg / L   TODO: move to car.rb
+  PETROL_DENSITY = 0.71 # kg / L
 
-  #
   # defaults for resistance forces
-  #
-  FRONTAL_AREA = 2.2  # m^2, based roughly on 2000s-era Chevrolet Corvette
-  DRAG_COF = 0.3      # based roughly on 2000s-era Chevrolet Corvette
-  DRAG = 0.4257       # air_resistance at 1 m/s given above numbers
-  ROT_COF = 12.771    # if rotating resistance matches air resistance at 30 m/s
-  ROT_CONST = 0.05    # N opposing drive force / torque
-  ROLL_COF = 0.01     # roughly: street tires on concrete
+  FRONTAL_AREA =  2.2    # m^2, based roughly on 2000s-era Chevrolet Corvette
+  DRAG_COF     =  0.3    # based roughly on 2000s-era Chevrolet Corvette
+  DRAG         =  0.4257 # air_resistance at 1 m/s given above numbers
+  ROT_COF      = 12.771  # if rot matches air at 30 m/s
+  ROT_CONST    =  0.05   # N opposing drive force / torque
+  ROLL_COF     =  0.01   # roughly: street tires on concrete
 
-  #
   # constants
-  #
   SECS_PER_MIN = 60
   MINS_PER_HOUR = 60
   SECS_PER_HOUR = SECS_PER_MIN * MINS_PER_HOUR
-
-  # runtime check; this returns false by default
-  # Vector is not currently/easily available in mruby
-  # driving_physics/vector_force requires Vector via 'matrix'
-  def self.has_vector?
-    Vector rescue false
-  end
 
   # HH::MM::SS.mmm
   def self.elapsed_display(elapsed_ms)
@@ -629,7 +621,12 @@ module DrivingPhysics
     attr_reader :env, :torque_curve, :throttle
     attr_accessor :fixed_mass, :spinner, :starter_torque
 
-    def initialize(env, torque_curve: nil)
+    # Originally, torque_curve was a kwarg; but mruby currently has a bug
+    # where block_given? returns true in the presence of an unset default
+    # kwarg, or something like that.
+    # https://github.com/mruby/mruby/issues/5741
+    #
+    def initialize(env, torque_curve = nil)
       @env          = env
       @torque_curve = torque_curve.nil? ? TorqueCurve.new : torque_curve
       @throttle     = 0.0  # 0.0 - 1.0 (0% - 100%)
