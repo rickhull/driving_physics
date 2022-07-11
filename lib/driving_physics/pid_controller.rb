@@ -23,7 +23,7 @@ module DrivingPhysics
       @setpoint, @dt = setpoint, dt
 
       # gain / multipliers for PID; tunables
-      @kp, @ki, @kd = 0.9, 0.05, 0.05
+      @kp, @ki, @kd = 0.5, 0.35, 0.15
 
       # tracking error over time for integral and derivative
       @error, @sum_error = 0.0, 0.0
@@ -77,7 +77,7 @@ module DrivingPhysics
 
     def derivative
       return 0 if @last_error.nil?
-      @kd * (@error - @last_error) / @dt
+      @kd * (@error - @last_error) * @dt
     end
 
     def output
