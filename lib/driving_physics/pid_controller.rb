@@ -39,16 +39,15 @@ module DrivingPhysics
     end
 
     def to_s
-      ary = [format("Setpoint: #{@setpoint.abs < 0.1 ? '%.3f' : '%.1f'}  ",
-                    @setpoint) +
-             format("Error: %.1f  Last: %.1f  Sum: %.1f",
-                    @error, @last_error, @sum_error),
-             format("Gain: %.1f  %.1f  %.2f", @kp, @ki, @kd),
-             format(" PID: %.2f  %.2f  %.2f",
-                    self.proportion, self.integral, self.derivative),
-            ]
-      ary[0] << '  ' + format("Measure: %.3f", @measure) if @measure
-      ary.join("\n")
+      [format("Setpoint: #{@setpoint.abs < 0.1 ? '%.3f' : '%.1f'}  ",
+              @setpoint) +
+       (@measure ? format("Measure: %.3f", @measure) : ''),
+       format("Error: %.1f  Last: %.1f  Sum: %.1f",
+              @error, @last_error || 0, @sum_error),
+       format("Gain: %.2f  %.2f  %.2f", @kp, @ki, @kd),
+       format(" PID: %.2f  %.2f  %.2f",
+              self.proportion, self.integral, self.derivative),
+      ].join("\n")
     end
 
     def measure=(val)
