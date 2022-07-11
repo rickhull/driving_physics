@@ -368,578 +368,578 @@ Throttle: 6.0%
 
      [ Press Enter ]
 00:00:48.600
-Throttle: 6.0%
-999 RPM  -0.4 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
--0.164 rad/s/s  104.71 rad/s  13109.6 rad
+Throttle: 6.2%
+999 RPM  -0.3 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
+-0.118 rad/s/s  104.71 rad/s  13109.6 rad
 
 00:00:48.700
-Throttle: 6.0%
-999 RPM  -0.4 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
--0.164 rad/s/s  104.69 rad/s  13120.0 rad
+Throttle: 6.3%
+999 RPM  -0.2 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
+-0.081 rad/s/s  104.70 rad/s  13120.0 rad
 
 00:00:48.800
-Throttle: 6.0%
-999 RPM  -0.4 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
--0.164 rad/s/s  104.67 rad/s  13130.5 rad
+Throttle: 6.3%
+999 RPM  -0.2 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
+-0.075 rad/s/s  104.69 rad/s  13130.5 rad
 
 00:00:48.900
-Throttle: 6.0%
-999 RPM  -0.4 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
--0.165 rad/s/s  104.66 rad/s  13141.0 rad
+Throttle: 6.3%
+999 RPM  -0.1 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
+-0.063 rad/s/s  104.68 rad/s  13141.0 rad
 
 00:00:49.000
-Throttle: 6.0%
-999 RPM  -0.4 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
--0.165 rad/s/s  104.64 rad/s  13151.4 rad
+Throttle: 6.4%
+999 RPM  -0.1 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
+-0.047 rad/s/s  104.68 rad/s  13151.4 rad
 
 00:00:49.100
-Throttle: 6.0%
-999 RPM  -0.4 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
--0.165 rad/s/s  104.63 rad/s  13161.9 rad
+Throttle: 6.5%
+999 RPM  -0.0 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
+-0.002 rad/s/s  104.68 rad/s  13161.9 rad
 
 00:00:49.200
-Throttle: 6.9%
-999 RPM  0.3 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.114 rad/s/s  104.62 rad/s  13172.4 rad
+Throttle: 6.5%
+999 RPM  -0.1 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
+-0.022 rad/s/s  104.68 rad/s  13172.4 rad
 
 00:00:49.300
-Throttle: 6.9%
-999 RPM  0.3 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.114 rad/s/s  104.63 rad/s  13182.8 rad
+Throttle: 6.4%
+999 RPM  -0.1 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
+-0.050 rad/s/s  104.67 rad/s  13182.8 rad
 
 00:00:49.400
-Throttle: 6.9%
-999 RPM  0.3 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.115 rad/s/s  104.64 rad/s  13193.3 rad
+Throttle: 6.4%
+999 RPM  -0.1 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
+-0.052 rad/s/s  104.67 rad/s  13193.3 rad
 
 00:00:49.500
 Throttle: 6.9%
-999 RPM  0.3 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.115 rad/s/s  104.65 rad/s  13203.8 rad
+999 RPM  0.2 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
+0.105 rad/s/s  104.68 rad/s  13203.8 rad
 
 00:00:49.600
-Throttle: 6.9%
-999 RPM  0.3 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.115 rad/s/s  104.66 rad/s  13214.2 rad
+Throttle: 6.8%
+999 RPM  0.2 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
+0.085 rad/s/s  104.69 rad/s  13214.3 rad
 
 00:00:49.700
-Throttle: 6.9%
-999 RPM  0.3 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.115 rad/s/s  104.68 rad/s  13224.7 rad
+Throttle: 7.1%
+999 RPM  0.4 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
+0.167 rad/s/s  104.70 rad/s  13224.7 rad
 
 00:00:49.800
-Throttle: 6.9%
-999 RPM  0.3 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.116 rad/s/s  104.69 rad/s  13235.2 rad
+Throttle: 7.2%
+1000 RPM  0.5 Nm (5 Nm)  0.0 kW   Friction: -4.6 Nm
+0.197 rad/s/s  104.72 rad/s  13235.2 rad
 
 00:00:49.900
-Throttle: 6.9%
-999 RPM  0.3 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.116 rad/s/s  104.70 rad/s  13245.6 rad
+Throttle: 7.4%
+1000 RPM  0.6 Nm (5 Nm)  0.1 kW   Friction: -4.6 Nm
+0.251 rad/s/s  104.75 rad/s  13245.7 rad
 
 00:00:50.000
-Throttle: 6.9%
-999 RPM  0.3 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.116 rad/s/s  104.71 rad/s  13256.1 rad
+Throttle: 7.4%
+1000 RPM  0.6 Nm (5 Nm)  0.1 kW   Friction: -4.6 Nm
+0.258 rad/s/s  104.77 rad/s  13256.1 rad
 
 00:00:50.100
-Throttle: 6.9%
-1000 RPM  0.3 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.116 rad/s/s  104.72 rad/s  13266.6 rad
+Throttle: 5.9%
+1000 RPM  -0.5 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
+-0.195 rad/s/s  104.76 rad/s  13266.6 rad
 
 00:00:50.200
-Throttle: 6.9%
-1000 RPM  0.3 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.117 rad/s/s  104.73 rad/s  13277.0 rad
+Throttle: 5.9%
+1000 RPM  -0.5 Nm (4 Nm)  -0.1 kW   Friction: -4.6 Nm
+-0.212 rad/s/s  104.74 rad/s  13277.1 rad
 
 00:00:50.300
-Throttle: 6.9%
-1000 RPM  0.3 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.117 rad/s/s  104.75 rad/s  13287.5 rad
+Throttle: 5.8%
+1000 RPM  -0.5 Nm (4 Nm)  -0.1 kW   Friction: -4.6 Nm
+-0.212 rad/s/s  104.72 rad/s  13287.6 rad
 
 00:00:50.400
-Throttle: 6.9%
-1000 RPM  0.3 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.117 rad/s/s  104.76 rad/s  13298.0 rad
+Throttle: 5.7%
+999 RPM  -0.6 Nm (4 Nm)  -0.1 kW   Friction: -4.6 Nm
+-0.246 rad/s/s  104.70 rad/s  13298.0 rad
 
 00:00:50.500
-Throttle: 6.9%
-1000 RPM  0.3 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.117 rad/s/s  104.77 rad/s  13308.5 rad
+Throttle: 5.7%
+999 RPM  -0.6 Nm (3 Nm)  -0.1 kW   Friction: -4.6 Nm
+-0.249 rad/s/s  104.67 rad/s  13308.5 rad
 
 00:00:50.600
-Throttle: 6.9%
-1000 RPM  0.3 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.118 rad/s/s  104.78 rad/s  13318.9 rad
+Throttle: 7.4%
+999 RPM  0.6 Nm (5 Nm)  0.1 kW   Friction: -4.6 Nm
+0.268 rad/s/s  104.69 rad/s  13319.0 rad
 
 00:00:50.700
-Throttle: 6.9%
-1000 RPM  0.3 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.118 rad/s/s  104.79 rad/s  13329.4 rad
+Throttle: 7.5%
+999 RPM  0.7 Nm (5 Nm)  0.1 kW   Friction: -4.6 Nm
+0.289 rad/s/s  104.72 rad/s  13329.4 rad
 
 00:00:50.800
-Throttle: 6.9%
-1000 RPM  0.3 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.118 rad/s/s  104.80 rad/s  13339.9 rad
+Throttle: 7.4%
+1000 RPM  0.6 Nm (5 Nm)  0.1 kW   Friction: -4.6 Nm
+0.239 rad/s/s  104.74 rad/s  13339.9 rad
 
 00:00:50.900
-Throttle: 6.9%
-1000 RPM  0.3 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.118 rad/s/s  104.82 rad/s  13350.4 rad
+Throttle: 7.4%
+1000 RPM  0.6 Nm (5 Nm)  0.1 kW   Friction: -4.6 Nm
+0.266 rad/s/s  104.77 rad/s  13350.4 rad
 
 00:00:51.000
-Throttle: 6.2%
-1000 RPM  -0.3 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
--0.117 rad/s/s  104.82 rad/s  13360.9 rad
+Throttle: 5.7%
+1000 RPM  -0.6 Nm (3 Nm)  -0.1 kW   Friction: -4.6 Nm
+-0.254 rad/s/s  104.76 rad/s  13360.9 rad
 
 00:00:51.100
-Throttle: 6.2%
-1000 RPM  -0.3 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
--0.117 rad/s/s  104.81 rad/s  13371.3 rad
+Throttle: 5.5%
+1000 RPM  -0.7 Nm (3 Nm)  -0.1 kW   Friction: -4.6 Nm
+-0.291 rad/s/s  104.74 rad/s  13371.3 rad
 
 00:00:51.200
-Throttle: 6.2%
-1000 RPM  -0.3 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
--0.117 rad/s/s  104.80 rad/s  13381.8 rad
+Throttle: 5.6%
+999 RPM  -0.6 Nm (3 Nm)  -0.1 kW   Friction: -4.6 Nm
+-0.277 rad/s/s  104.71 rad/s  13381.8 rad
 
 00:00:51.300
-Throttle: 6.2%
-1000 RPM  -0.3 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
--0.117 rad/s/s  104.79 rad/s  13392.3 rad
+Throttle: 5.7%
+999 RPM  -0.6 Nm (4 Nm)  -0.1 kW   Friction: -4.6 Nm
+-0.238 rad/s/s  104.69 rad/s  13392.3 rad
 
 00:00:51.400
-Throttle: 6.2%
-1000 RPM  -0.3 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
--0.118 rad/s/s  104.78 rad/s  13402.8 rad
+Throttle: 6.3%
+999 RPM  -0.5 Nm (4 Nm)  -0.1 kW   Friction: -4.6 Nm
+-0.205 rad/s/s  104.67 rad/s  13402.8 rad
 
 00:00:51.500
-Throttle: 6.2%
-1000 RPM  -0.3 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
--0.118 rad/s/s  104.76 rad/s  13413.3 rad
+Throttle: 7.3%
+999 RPM  0.5 Nm (5 Nm)  0.1 kW   Friction: -4.6 Nm
+0.218 rad/s/s  104.69 rad/s  13413.2 rad
 
 00:00:51.600
-Throttle: 6.2%
-1000 RPM  -0.3 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
--0.118 rad/s/s  104.75 rad/s  13423.7 rad
+Throttle: 7.2%
+999 RPM  0.4 Nm (5 Nm)  0.0 kW   Friction: -4.6 Nm
+0.192 rad/s/s  104.71 rad/s  13423.7 rad
 
 00:00:51.700
-Throttle: 6.2%
-1000 RPM  -0.3 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
--0.118 rad/s/s  104.74 rad/s  13434.2 rad
+Throttle: 7.2%
+1000 RPM  0.5 Nm (5 Nm)  0.0 kW   Friction: -4.6 Nm
+0.198 rad/s/s  104.73 rad/s  13434.2 rad
 
 00:00:51.800
-Throttle: 6.2%
-1000 RPM  -0.3 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
--0.118 rad/s/s  104.73 rad/s  13444.7 rad
+Throttle: 7.2%
+1000 RPM  0.5 Nm (5 Nm)  0.1 kW   Friction: -4.6 Nm
+0.204 rad/s/s  104.75 rad/s  13444.6 rad
 
 00:00:51.900
-Throttle: 6.2%
-999 RPM  -0.3 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
--0.118 rad/s/s  104.72 rad/s  13455.2 rad
+Throttle: 7.3%
+1000 RPM  0.5 Nm (5 Nm)  0.1 kW   Friction: -4.6 Nm
+0.224 rad/s/s  104.77 rad/s  13455.1 rad
 
 00:00:52.000
-Throttle: 6.2%
-999 RPM  -0.3 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
--0.119 rad/s/s  104.71 rad/s  13465.6 rad
+Throttle: 5.8%
+1000 RPM  -0.5 Nm (4 Nm)  -0.1 kW   Friction: -4.6 Nm
+-0.215 rad/s/s  104.76 rad/s  13465.6 rad
 
 00:00:52.100
 Throttle: 6.2%
-999 RPM  -0.3 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
--0.119 rad/s/s  104.69 rad/s  13476.1 rad
+1000 RPM  -0.3 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
+-0.112 rad/s/s  104.75 rad/s  13476.1 rad
 
 00:00:52.200
-Throttle: 6.2%
-999 RPM  -0.3 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
--0.119 rad/s/s  104.68 rad/s  13486.6 rad
+Throttle: 6.1%
+1000 RPM  -0.3 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
+-0.117 rad/s/s  104.73 rad/s  13486.5 rad
 
 00:00:52.300
-Throttle: 6.2%
-999 RPM  -0.3 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
--0.119 rad/s/s  104.67 rad/s  13497.0 rad
+Throttle: 6.4%
+1000 RPM  -0.1 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
+-0.024 rad/s/s  104.73 rad/s  13497.0 rad
 
 00:00:52.400
-Throttle: 6.2%
-999 RPM  -0.3 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
--0.120 rad/s/s  104.66 rad/s  13507.5 rad
+Throttle: 6.3%
+1000 RPM  -0.2 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
+-0.084 rad/s/s  104.72 rad/s  13507.5 rad
 
 00:00:52.500
 Throttle: 6.2%
-999 RPM  -0.3 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
--0.120 rad/s/s  104.65 rad/s  13518.0 rad
+999 RPM  -0.2 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
+-0.103 rad/s/s  104.71 rad/s  13518.0 rad
 
 00:00:52.600
-Throttle: 6.2%
-999 RPM  -0.3 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
--0.120 rad/s/s  104.63 rad/s  13528.4 rad
+Throttle: 6.4%
+999 RPM  -0.1 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
+-0.037 rad/s/s  104.71 rad/s  13528.4 rad
 
 00:00:52.700
-Throttle: 6.2%
-999 RPM  -0.3 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
--0.120 rad/s/s  104.62 rad/s  13538.9 rad
+Throttle: 6.5%
+999 RPM  -0.1 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
+-0.022 rad/s/s  104.70 rad/s  13538.9 rad
 
 00:00:52.800
-Throttle: 7.1%
-999 RPM  0.4 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.159 rad/s/s  104.62 rad/s  13549.4 rad
+Throttle: 6.4%
+999 RPM  -0.1 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
+-0.054 rad/s/s  104.70 rad/s  13549.4 rad
 
 00:00:52.900
-Throttle: 7.1%
-999 RPM  0.4 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.159 rad/s/s  104.64 rad/s  13559.8 rad
+Throttle: 6.2%
+999 RPM  -0.2 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
+-0.097 rad/s/s  104.69 rad/s  13559.8 rad
 
 00:00:53.000
-Throttle: 7.1%
-999 RPM  0.4 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.160 rad/s/s  104.65 rad/s  13570.3 rad
+Throttle: 6.0%
+999 RPM  -0.4 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
+-0.166 rad/s/s  104.68 rad/s  13570.3 rad
 
 00:00:53.100
-Throttle: 7.1%
-999 RPM  0.4 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.160 rad/s/s  104.67 rad/s  13580.8 rad
+Throttle: 6.9%
+999 RPM  0.3 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
+0.110 rad/s/s  104.67 rad/s  13580.8 rad
 
 00:00:53.200
-Throttle: 7.1%
-999 RPM  0.4 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.160 rad/s/s  104.69 rad/s  13591.2 rad
+Throttle: 7.0%
+999 RPM  0.3 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
+0.114 rad/s/s  104.68 rad/s  13591.2 rad
 
 00:00:53.300
-Throttle: 7.1%
-999 RPM  0.4 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.161 rad/s/s  104.70 rad/s  13601.7 rad
+Throttle: 7.0%
+999 RPM  0.3 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
+0.143 rad/s/s  104.69 rad/s  13601.7 rad
 
 00:00:53.400
 Throttle: 7.1%
-999 RPM  0.4 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.161 rad/s/s  104.72 rad/s  13612.2 rad
+999 RPM  0.3 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
+0.148 rad/s/s  104.71 rad/s  13612.2 rad
 
 00:00:53.500
-Throttle: 7.1%
-1000 RPM  0.4 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.161 rad/s/s  104.73 rad/s  13622.6 rad
+Throttle: 7.2%
+1000 RPM  0.4 Nm (5 Nm)  0.0 kW   Friction: -4.6 Nm
+0.181 rad/s/s  104.72 rad/s  13622.7 rad
 
 00:00:53.600
-Throttle: 7.1%
-1000 RPM  0.4 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.162 rad/s/s  104.75 rad/s  13633.1 rad
+Throttle: 6.8%
+1000 RPM  0.2 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
+0.093 rad/s/s  104.74 rad/s  13633.1 rad
 
 00:00:53.700
-Throttle: 7.1%
-1000 RPM  0.4 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.162 rad/s/s  104.77 rad/s  13643.6 rad
+Throttle: 6.8%
+1000 RPM  0.2 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
+0.082 rad/s/s  104.74 rad/s  13643.6 rad
 
 00:00:53.800
-Throttle: 7.1%
-1000 RPM  0.4 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.162 rad/s/s  104.78 rad/s  13654.1 rad
+Throttle: 6.7%
+1000 RPM  0.1 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
+0.042 rad/s/s  104.75 rad/s  13654.1 rad
 
 00:00:53.900
-Throttle: 7.1%
-1000 RPM  0.4 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.163 rad/s/s  104.80 rad/s  13664.5 rad
+Throttle: 6.7%
+1000 RPM  0.1 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
+0.041 rad/s/s  104.75 rad/s  13664.5 rad
 
 00:00:54.000
-Throttle: 7.1%
-1000 RPM  0.4 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.163 rad/s/s  104.81 rad/s  13675.0 rad
+Throttle: 6.8%
+1000 RPM  0.2 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
+0.069 rad/s/s  104.76 rad/s  13675.0 rad
 
 00:00:54.100
-Throttle: 6.0%
-1000 RPM  -0.4 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
--0.160 rad/s/s  104.82 rad/s  13685.5 rad
+Throttle: 6.9%
+1000 RPM  0.3 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
+0.109 rad/s/s  104.77 rad/s  13685.5 rad
 
 00:00:54.200
-Throttle: 6.0%
-1000 RPM  -0.4 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
--0.160 rad/s/s  104.81 rad/s  13696.0 rad
+Throttle: 6.3%
+1000 RPM  -0.2 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
+-0.076 rad/s/s  104.77 rad/s  13696.0 rad
 
 00:00:54.300
-Throttle: 6.0%
-1000 RPM  -0.4 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
--0.161 rad/s/s  104.79 rad/s  13706.5 rad
+Throttle: 6.6%
+1000 RPM  0.0 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
+0.009 rad/s/s  104.77 rad/s  13706.5 rad
 
 00:00:54.400
-Throttle: 6.0%
-1000 RPM  -0.4 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
--0.161 rad/s/s  104.78 rad/s  13716.9 rad
+Throttle: 6.5%
+1000 RPM  -0.1 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
+-0.034 rad/s/s  104.76 rad/s  13716.9 rad
 
 00:00:54.500
-Throttle: 6.0%
-1000 RPM  -0.4 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
--0.161 rad/s/s  104.76 rad/s  13727.4 rad
+Throttle: 6.2%
+1000 RPM  -0.2 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
+-0.102 rad/s/s  104.76 rad/s  13727.4 rad
 
 00:00:54.600
-Throttle: 6.0%
-1000 RPM  -0.4 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
--0.161 rad/s/s  104.74 rad/s  13737.9 rad
+Throttle: 6.3%
+1000 RPM  -0.1 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
+-0.059 rad/s/s  104.75 rad/s  13737.9 rad
 
 00:00:54.700
-Throttle: 6.0%
-1000 RPM  -0.4 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
--0.161 rad/s/s  104.73 rad/s  13748.4 rad
+Throttle: 6.2%
+1000 RPM  -0.2 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
+-0.089 rad/s/s  104.74 rad/s  13748.4 rad
 
 00:00:54.800
 Throttle: 6.0%
-999 RPM  -0.4 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
--0.162 rad/s/s  104.71 rad/s  13758.8 rad
+1000 RPM  -0.4 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
+-0.155 rad/s/s  104.73 rad/s  13758.8 rad
 
 00:00:54.900
-Throttle: 6.0%
-999 RPM  -0.4 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
--0.162 rad/s/s  104.69 rad/s  13769.3 rad
+Throttle: 6.4%
+1000 RPM  -0.1 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
+-0.064 rad/s/s  104.72 rad/s  13769.3 rad
 
 00:00:55.000
-Throttle: 6.0%
-999 RPM  -0.4 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
--0.162 rad/s/s  104.68 rad/s  13779.8 rad
+Throttle: 6.3%
+999 RPM  -0.1 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
+-0.062 rad/s/s  104.72 rad/s  13779.8 rad
 
 00:00:55.100
-Throttle: 6.0%
-999 RPM  -0.4 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
--0.163 rad/s/s  104.66 rad/s  13790.2 rad
+Throttle: 6.2%
+999 RPM  -0.2 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
+-0.093 rad/s/s  104.71 rad/s  13790.2 rad
 
 00:00:55.200
-Throttle: 6.0%
-999 RPM  -0.4 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
--0.163 rad/s/s  104.65 rad/s  13800.7 rad
+Throttle: 6.4%
+999 RPM  -0.1 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
+-0.031 rad/s/s  104.70 rad/s  13800.7 rad
 
 00:00:55.300
-Throttle: 6.0%
-999 RPM  -0.4 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
--0.163 rad/s/s  104.63 rad/s  13811.2 rad
+Throttle: 6.5%
+999 RPM  -0.1 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
+-0.028 rad/s/s  104.70 rad/s  13811.2 rad
 
 00:00:55.400
-Throttle: 6.9%
-999 RPM  0.3 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.116 rad/s/s  104.62 rad/s  13821.6 rad
+Throttle: 6.5%
+999 RPM  -0.0 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
+-0.011 rad/s/s  104.70 rad/s  13821.7 rad
 
 00:00:55.500
-Throttle: 6.9%
-999 RPM  0.3 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.116 rad/s/s  104.63 rad/s  13832.1 rad
+Throttle: 6.5%
+999 RPM  -0.1 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
+-0.022 rad/s/s  104.69 rad/s  13832.1 rad
 
 00:00:55.600
-Throttle: 6.9%
-999 RPM  0.3 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.117 rad/s/s  104.64 rad/s  13842.6 rad
+Throttle: 6.4%
+999 RPM  -0.1 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
+-0.028 rad/s/s  104.69 rad/s  13842.6 rad
 
 00:00:55.700
-Throttle: 6.9%
-999 RPM  0.3 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.117 rad/s/s  104.65 rad/s  13853.0 rad
+Throttle: 6.5%
+999 RPM  -0.1 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
+-0.025 rad/s/s  104.69 rad/s  13853.1 rad
 
 00:00:55.800
-Throttle: 6.9%
-999 RPM  0.3 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.117 rad/s/s  104.66 rad/s  13863.5 rad
+Throttle: 6.6%
+999 RPM  0.0 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
+0.013 rad/s/s  104.69 rad/s  13863.5 rad
 
 00:00:55.900
-Throttle: 6.9%
-999 RPM  0.3 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.117 rad/s/s  104.67 rad/s  13874.0 rad
+Throttle: 6.3%
+999 RPM  -0.2 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
+-0.077 rad/s/s  104.69 rad/s  13874.0 rad
 
 00:00:56.000
-Throttle: 6.9%
-999 RPM  0.3 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.118 rad/s/s  104.69 rad/s  13884.4 rad
+Throttle: 6.4%
+999 RPM  -0.1 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
+-0.041 rad/s/s  104.68 rad/s  13884.5 rad
 
 00:00:56.100
-Throttle: 6.9%
-999 RPM  0.3 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.118 rad/s/s  104.70 rad/s  13894.9 rad
+Throttle: 6.2%
+999 RPM  -0.2 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
+-0.105 rad/s/s  104.68 rad/s  13894.9 rad
 
 00:00:56.200
-Throttle: 6.9%
-999 RPM  0.3 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.118 rad/s/s  104.71 rad/s  13905.4 rad
+Throttle: 7.2%
+999 RPM  0.4 Nm (5 Nm)  0.0 kW   Friction: -4.6 Nm
+0.191 rad/s/s  104.67 rad/s  13905.4 rad
 
 00:00:56.300
-Throttle: 6.9%
-1000 RPM  0.3 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.119 rad/s/s  104.72 rad/s  13915.8 rad
+Throttle: 7.3%
+999 RPM  0.5 Nm (5 Nm)  0.1 kW   Friction: -4.6 Nm
+0.219 rad/s/s  104.69 rad/s  13915.9 rad
 
 00:00:56.400
-Throttle: 6.9%
-1000 RPM  0.3 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.119 rad/s/s  104.73 rad/s  13926.3 rad
+Throttle: 7.3%
+999 RPM  0.5 Nm (5 Nm)  0.1 kW   Friction: -4.6 Nm
+0.221 rad/s/s  104.72 rad/s  13926.3 rad
 
 00:00:56.500
-Throttle: 6.9%
-1000 RPM  0.3 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.119 rad/s/s  104.75 rad/s  13936.8 rad
+Throttle: 7.2%
+1000 RPM  0.5 Nm (5 Nm)  0.0 kW   Friction: -4.6 Nm
+0.199 rad/s/s  104.74 rad/s  13936.8 rad
 
 00:00:56.600
-Throttle: 6.9%
-1000 RPM  0.3 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.119 rad/s/s  104.76 rad/s  13947.3 rad
+Throttle: 6.8%
+1000 RPM  0.2 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
+0.071 rad/s/s  104.75 rad/s  13947.3 rad
 
 00:00:56.700
-Throttle: 6.9%
-1000 RPM  0.3 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.119 rad/s/s  104.77 rad/s  13957.7 rad
+Throttle: 6.7%
+1000 RPM  0.1 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
+0.037 rad/s/s  104.75 rad/s  13957.8 rad
 
 00:00:56.800
-Throttle: 6.9%
-1000 RPM  0.3 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.120 rad/s/s  104.78 rad/s  13968.2 rad
+Throttle: 6.8%
+1000 RPM  0.2 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
+0.082 rad/s/s  104.76 rad/s  13968.2 rad
 
 00:00:56.900
-Throttle: 6.9%
-1000 RPM  0.3 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.120 rad/s/s  104.79 rad/s  13978.7 rad
+Throttle: 6.7%
+1000 RPM  0.1 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
+0.036 rad/s/s  104.77 rad/s  13978.7 rad
 
 00:00:57.000
-Throttle: 6.9%
-1000 RPM  0.3 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.120 rad/s/s  104.81 rad/s  13989.2 rad
+Throttle: 6.5%
+1000 RPM  -0.0 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
+-0.004 rad/s/s  104.77 rad/s  13989.2 rad
 
 00:00:57.100
-Throttle: 6.9%
-1000 RPM  0.3 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.120 rad/s/s  104.82 rad/s  13999.7 rad
+Throttle: 6.5%
+1000 RPM  -0.0 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
+-0.004 rad/s/s  104.77 rad/s  13999.7 rad
 
 00:00:57.200
-Throttle: 6.2%
-1000 RPM  -0.3 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
--0.115 rad/s/s  104.82 rad/s  14010.1 rad
+Throttle: 6.6%
+1000 RPM  0.0 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
+0.013 rad/s/s  104.77 rad/s  14010.1 rad
 
 00:00:57.300
-Throttle: 6.2%
-1000 RPM  -0.3 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
--0.115 rad/s/s  104.81 rad/s  14020.6 rad
+Throttle: 6.6%
+1000 RPM  0.1 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
+0.027 rad/s/s  104.77 rad/s  14020.6 rad
 
 00:00:57.400
-Throttle: 6.2%
+Throttle: 6.1%
 1000 RPM  -0.3 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
--0.115 rad/s/s  104.80 rad/s  14031.1 rad
+-0.136 rad/s/s  104.77 rad/s  14031.1 rad
 
 00:00:57.500
 Throttle: 6.2%
 1000 RPM  -0.3 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
--0.116 rad/s/s  104.79 rad/s  14041.6 rad
+-0.111 rad/s/s  104.76 rad/s  14041.6 rad
 
 00:00:57.600
-Throttle: 6.2%
-1000 RPM  -0.3 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
--0.116 rad/s/s  104.78 rad/s  14052.1 rad
+Throttle: 5.8%
+1000 RPM  -0.5 Nm (4 Nm)  -0.1 kW   Friction: -4.6 Nm
+-0.227 rad/s/s  104.74 rad/s  14052.1 rad
 
 00:00:57.700
-Throttle: 6.2%
-1000 RPM  -0.3 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
--0.116 rad/s/s  104.76 rad/s  14062.5 rad
+Throttle: 5.7%
+999 RPM  -0.6 Nm (3 Nm)  -0.1 kW   Friction: -4.6 Nm
+-0.250 rad/s/s  104.72 rad/s  14062.5 rad
 
 00:00:57.800
-Throttle: 6.2%
-1000 RPM  -0.3 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
--0.116 rad/s/s  104.75 rad/s  14073.0 rad
+Throttle: 6.0%
+999 RPM  -0.4 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
+-0.166 rad/s/s  104.70 rad/s  14073.0 rad
 
 00:00:57.900
-Throttle: 6.2%
-1000 RPM  -0.3 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
--0.116 rad/s/s  104.74 rad/s  14083.5 rad
+Throttle: 5.9%
+999 RPM  -0.5 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
+-0.196 rad/s/s  104.68 rad/s  14083.5 rad
 
 00:00:58.000
-Throttle: 6.2%
-1000 RPM  -0.3 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
--0.116 rad/s/s  104.73 rad/s  14094.0 rad
+Throttle: 7.2%
+999 RPM  0.4 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
+0.173 rad/s/s  104.68 rad/s  14093.9 rad
 
 00:00:58.100
-Throttle: 6.2%
-999 RPM  -0.3 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
--0.117 rad/s/s  104.72 rad/s  14104.4 rad
+Throttle: 7.0%
+999 RPM  0.3 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
+0.134 rad/s/s  104.69 rad/s  14104.4 rad
 
 00:00:58.200
-Throttle: 6.2%
-999 RPM  -0.3 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
--0.117 rad/s/s  104.71 rad/s  14114.9 rad
+Throttle: 7.1%
+999 RPM  0.4 Nm (5 Nm)  0.0 kW   Friction: -4.6 Nm
+0.180 rad/s/s  104.71 rad/s  14114.9 rad
 
 00:00:58.300
-Throttle: 6.2%
-999 RPM  -0.3 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
--0.117 rad/s/s  104.70 rad/s  14125.4 rad
+Throttle: 7.1%
+1000 RPM  0.4 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
+0.175 rad/s/s  104.73 rad/s  14125.3 rad
 
 00:00:58.400
-Throttle: 6.2%
-999 RPM  -0.3 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
--0.117 rad/s/s  104.68 rad/s  14135.8 rad
+Throttle: 7.1%
+1000 RPM  0.4 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
+0.172 rad/s/s  104.74 rad/s  14135.8 rad
 
 00:00:58.500
-Throttle: 6.2%
-999 RPM  -0.3 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
--0.118 rad/s/s  104.67 rad/s  14146.3 rad
+Throttle: 7.1%
+1000 RPM  0.4 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
+0.163 rad/s/s  104.76 rad/s  14146.3 rad
 
 00:00:58.600
-Throttle: 6.2%
-999 RPM  -0.3 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
--0.118 rad/s/s  104.66 rad/s  14156.8 rad
+Throttle: 6.0%
+1000 RPM  -0.4 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
+-0.151 rad/s/s  104.77 rad/s  14156.8 rad
 
 00:00:58.700
 Throttle: 6.2%
-999 RPM  -0.3 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
--0.118 rad/s/s  104.65 rad/s  14167.2 rad
+1000 RPM  -0.2 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
+-0.103 rad/s/s  104.76 rad/s  14167.2 rad
 
 00:00:58.800
-Throttle: 6.2%
-999 RPM  -0.3 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
--0.118 rad/s/s  104.64 rad/s  14177.7 rad
+Throttle: 6.0%
+1000 RPM  -0.4 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
+-0.153 rad/s/s  104.74 rad/s  14177.7 rad
 
 00:00:58.900
-Throttle: 6.2%
-999 RPM  -0.3 Nm (4 Nm)  -0.0 kW   Friction: -4.6 Nm
--0.118 rad/s/s  104.62 rad/s  14188.2 rad
+Throttle: 5.8%
+1000 RPM  -0.5 Nm (4 Nm)  -0.1 kW   Friction: -4.6 Nm
+-0.224 rad/s/s  104.72 rad/s  14188.2 rad
 
 00:00:59.000
-Throttle: 7.1%
-999 RPM  0.4 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.160 rad/s/s  104.62 rad/s  14198.6 rad
+Throttle: 5.7%
+999 RPM  -0.6 Nm (3 Nm)  -0.1 kW   Friction: -4.6 Nm
+-0.256 rad/s/s  104.70 rad/s  14198.7 rad
 
 00:00:59.100
-Throttle: 7.1%
-999 RPM  0.4 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.161 rad/s/s  104.63 rad/s  14209.1 rad
+Throttle: 5.5%
+999 RPM  -0.7 Nm (3 Nm)  -0.1 kW   Friction: -4.6 Nm
+-0.314 rad/s/s  104.67 rad/s  14209.1 rad
 
 00:00:59.200
-Throttle: 7.1%
-999 RPM  0.4 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.161 rad/s/s  104.65 rad/s  14219.6 rad
+Throttle: 7.9%
+999 RPM  0.9 Nm (5 Nm)  0.1 kW   Friction: -4.6 Nm
+0.390 rad/s/s  104.70 rad/s  14219.6 rad
 
 00:00:59.300
-Throttle: 7.1%
-999 RPM  0.4 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.162 rad/s/s  104.67 rad/s  14230.0 rad
+Throttle: 7.9%
+1000 RPM  1.0 Nm (5 Nm)  0.1 kW   Friction: -4.6 Nm
+0.412 rad/s/s  104.74 rad/s  14230.1 rad
 
 00:00:59.400
-Throttle: 7.1%
-999 RPM  0.4 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.162 rad/s/s  104.68 rad/s  14240.5 rad
+Throttle: 7.5%
+1000 RPM  0.7 Nm (5 Nm)  0.1 kW   Friction: -4.6 Nm
+0.296 rad/s/s  104.77 rad/s  14240.5 rad
 
 00:00:59.500
-Throttle: 7.1%
-999 RPM  0.4 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.162 rad/s/s  104.70 rad/s  14251.0 rad
+Throttle: 5.4%
+1000 RPM  -0.8 Nm (3 Nm)  -0.1 kW   Friction: -4.6 Nm
+-0.322 rad/s/s  104.76 rad/s  14251.0 rad
 
 00:00:59.600
-Throttle: 7.1%
-999 RPM  0.4 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.163 rad/s/s  104.72 rad/s  14261.4 rad
+Throttle: 5.4%
+1000 RPM  -0.8 Nm (3 Nm)  -0.1 kW   Friction: -4.6 Nm
+-0.329 rad/s/s  104.73 rad/s  14261.5 rad
 
 00:00:59.700
-Throttle: 7.1%
-1000 RPM  0.4 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.163 rad/s/s  104.73 rad/s  14271.9 rad
+Throttle: 5.4%
+999 RPM  -0.8 Nm (3 Nm)  -0.1 kW   Friction: -4.6 Nm
+-0.346 rad/s/s  104.70 rad/s  14272.0 rad
 
 00:00:59.800
-Throttle: 7.1%
-1000 RPM  0.4 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.163 rad/s/s  104.75 rad/s  14282.4 rad
+Throttle: 7.9%
+999 RPM  0.9 Nm (5 Nm)  0.1 kW   Friction: -4.6 Nm
+0.392 rad/s/s  104.67 rad/s  14282.4 rad
 
 00:00:59.900
-Throttle: 7.1%
-1000 RPM  0.4 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.164 rad/s/s  104.76 rad/s  14292.8 rad
+Throttle: 7.8%
+999 RPM  0.9 Nm (5 Nm)  0.1 kW   Friction: -4.6 Nm
+0.365 rad/s/s  104.71 rad/s  14292.9 rad
 
 00:01:00.000
-Throttle: 7.1%
-1000 RPM  0.4 Nm (4 Nm)  0.0 kW   Friction: -4.6 Nm
-0.164 rad/s/s  104.78 rad/s  14303.3 rad
+Throttle: 7.9%
+1000 RPM  0.9 Nm (5 Nm)  0.1 kW   Friction: -4.6 Nm
+0.396 rad/s/s  104.75 rad/s  14303.4 rad
 
-0.413 s (145120 ticks/s)
+0.428 s (140193 ticks/s)

@@ -106,10 +106,13 @@ num_ticks.times { |i|
     flag = true
   end
 
+  # we don't need no PID control
   if status == :idling
-    if rpm < 999
+    if rpm.round <= 999
       motor.throttle += (1.0 - motor.throttle) * 0.005
-    elsif rpm > 1001
+    elsif rpm.round == 1000
+      motor.throttle += (rand - 0.5) * 0.0005
+    else
       motor.throttle -= motor.throttle * 0.005
     end
   end
