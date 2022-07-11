@@ -149,6 +149,10 @@ module DrivingPhysics
       @spinner.mass + @fixed_mass
     end
 
+    def rotating_mass
+      @spinner.mass
+    end
+
     def throttle=(val)
       @throttle = DrivingPhysics.unit_interval! val
     end

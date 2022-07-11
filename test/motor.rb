@@ -171,39 +171,66 @@ describe TorqueCurve do
 end
 
 describe Motor do
+  before do
+    @default = Motor.new(Environment.new)
+  end
+
   it "has a throttle with state" do
+    expect(@default.throttle).must_equal 0.0
+    @default.throttle = 0.5
+    expect(@default.throttle).must_equal 0.5
+    expect(@default.throttle_pct).must_equal "50.0%"
+
+    expect { @default.throttle = 1.5 }.must_raise
   end
 
   it "has mass" do
-  end
-
-  it "has rotating mass" do
+    expect(@default.mass).must_be :>, 0
+    expect(@default.fixed_mass).must_be :>, 0
+    expect(@default.rotating_mass).must_be :>, 0
   end
 
   it "has a torque curve" do
+    expect(@default.torque_curve).must_be_kind_of TorqueCurve
   end
 
   it "has idle RPM and redline RPM" do
+    expect(@default.idle).must_be :>, 500
+    expect(@default.idle).must_be :<, 1500
+
+    expect(@default.redline).must_be :>, @default.idle
+    expect(@default.redline).must_be :<, 10_000
   end
 
   it "has inertia and energy" do
+    expect(@default.inertia).must_be :>, 0
+    expect(@default.energy(99)).must_be :>, 0
   end
 
   it "determines crank alpha from torque" do
+    expect(@default.alpha(50)).must_be :>, 0
   end
 
   it "determines torque from crank alpha" do
+    a = @default.alpha(50, omega: 20)
+    t = @default.implied_torque(a)
+    # frictional losses
+    expect(t).must_be :>, 40
+    expect(t).must_be :<, 50
   end
 
-  it "has inertial and friction losses in its output torque" do
-  end
-
-  it "determines input torque based on torque curve and throttle" do
+  it "determines torque based on torque curve, RPM and throttle" do
+    @default.throttle = 1.0
+    expect(@default.torque(1000)).must_be :>, 0
+    expect(@default.torque(3500)).must_be :>, @default.torque(1000)
   end
 
   it "has an engine braking effect when the throttle is closed" do
+    @default.throttle = 0
+    expect(@default.torque(3500)).must_be :<, 0
   end
 
   it "has a starter motor to get running" do
+    expect(@default.starter_torque).must_be :>, 0
   end
 end
