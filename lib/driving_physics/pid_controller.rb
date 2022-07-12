@@ -21,6 +21,7 @@ module DrivingPhysics
 
     def initialize(setpoint, dt: TICK)
       @setpoint, @dt = setpoint, dt
+      @sp_fmt = @setpoint.abs < 0.1 ? '%.3f' : '%.1f'
 
       # gain / multipliers for PID; tunables
       @kp, @ki, @kd = 1.0, 1.0, 1.0
@@ -29,7 +30,7 @@ module DrivingPhysics
       @error, @sum_error = 0.0, 0.0
 
       # these require an initial measurement
-      @measure, @last_error, @error_sign = nil, nil, nil
+      @measure, @last_error = 0.0, 0.0
 
       # optional clamps for integral term and output
       @integral_range = (-Float::INFINITY..Float::INFINITY)
@@ -39,13 +40,11 @@ module DrivingPhysics
     end
 
     def to_s
-      [format("Setpoint: #{@setpoint.abs < 0.1 ? '%.3f' : '%.1f'}  ",
-              @setpoint) +
-       (@measure ? format("Measure: %.3f", @measure) : ''),
-       format("Error: %.1f  Last: %.1f  Sum: %.1f",
-              @error, @last_error || 0, @sum_error),
-       format("Gain: %.2f  %.2f  %.2f", @kp, @ki, @kd),
-       format(" PID: %.2f  %.2f  %.2f",
+      [format("Setpoint: #{@sp_fmt}  Measure: %.3f", @setpoint, @measure),
+       format("Error: %.3f  Last: %.3f  Sum: %.3f",
+              @error, @last_error, @sum_error),
+       format(" Gain: %.3f  %.3f  %.3f", @kp, @ki, @kd),
+       format("  PID: %.3f  %.3f  %.3f",
               self.proportion, self.integral, self.derivative),
       ].join("\n")
     end
