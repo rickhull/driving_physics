@@ -19,11 +19,11 @@ module DrivingPhysics
     attr_accessor :kp, :ki, :kd, :dt, :setpoint, :integral_range, :output_range
     attr_reader :measure, :error, :last_error, :sum_error
 
-    def initialize(setpoint, dt = TICK)
+    def initialize(setpoint, dt: TICK)
       @setpoint, @dt = setpoint, dt
 
       # gain / multipliers for PID; tunables
-      @kp, @ki, @kd = 0.5, 0.35, 0.15
+      @kp, @ki, @kd = 1.0, 1.0, 1.0
 
       # tracking error over time for integral and derivative
       @error, @sum_error = 0.0, 0.0
@@ -53,7 +53,7 @@ module DrivingPhysics
     def measure=(val)
       @measure = val
       @last_error = @error
-      @error = (@setpoint - @measure) / @setpoint.to_f
+      @error = @setpoint - @measure
       if @error * @last_error > 0
         @sum_error += @error
       else
