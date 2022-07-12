@@ -87,7 +87,7 @@ module DrivingPhysics
     class Stall < RuntimeError; end
     class OverRev < RuntimeError; end
 
-    CLOSED_THROTTLE = 0.05 # threshold for engine braking
+    CLOSED_THROTTLE = 0.01 # threshold for engine braking
     ENGINE_BRAKING = 0.2   # 20% of the torque at a given RPM
 
     attr_reader :env, :torque_curve, :throttle
