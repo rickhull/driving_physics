@@ -1,5 +1,3 @@
-require 'driving_physics/cli'
-
 module DrivingPhysics
   # we will have a control loop
   # SP    - setpoint, this is the desired position
@@ -12,25 +10,21 @@ module DrivingPhysics
   # PV - current RPM
   # CV - throttle position
 
-  class PIDC
-    HZ = 30
+  class PIDController
+    HZ = 1000
     TICK = Rational(1) / HZ
 
     attr_accessor :kp, :ki, :kd, :dt, :setpoint, :integral_range, :output_range
     attr_reader :measure, :error, :last_error, :sum_error
 
     def initialize(setpoint, dt: TICK)
-      @setpoint, @dt = setpoint, dt
-      @sp_fmt = @setpoint.abs < 0.1 ? '%.3f' : '%.1f'
+      @setpoint, @dt, @measure = setpoint, dt, 0.0
+
+      # track error over time for integral and derivative
+      @error, @last_error, @sum_error = 0.0, 0.0, 0.0
 
       # gain / multipliers for PID; tunables
       @kp, @ki, @kd = 1.0, 1.0, 1.0
-
-      # tracking error over time for integral and derivative
-      @error, @sum_error = 0.0, 0.0
-
-      # these require an initial measurement
-      @measure, @last_error = 0.0, 0.0
 
       # optional clamps for integral term and output
       @integral_range = (-Float::INFINITY..Float::INFINITY)
@@ -39,31 +33,20 @@ module DrivingPhysics
       yield self if block_given?
     end
 
-    def to_s
-      [format("Setpoint: #{@sp_fmt}  Measure: %.3f", @setpoint, @measure),
-       format("Error: %.3f  Last: %.3f  Sum: %.3f",
-              @error, @last_error, @sum_error),
-       format(" Gain: %.3f  %.3f  %.3f", @kp, @ki, @kd),
-       format("  PID: %.3f  %.3f  %.3f",
-              self.proportion, self.integral, self.derivative),
-      ].join("\n")
+    def update(measure)
+      self.measure = measure
+      self.output
     end
 
     def measure=(val)
       @measure = val
       @last_error = @error
       @error = @setpoint - @measure
-      if @error * @last_error > 0
-        @sum_error += @error
-      else
-        # sign change!
-        @sum_error = @error
-      end
+      @sum_error = (@error * @last_error > 0) ? (@sum_error + @error) : @error
     end
 
-    def update(measure)
-      self.measure = measure
-      self.output
+    def output
+      (self.proportion + self.integral + self.derivative).clamp(@output_range)
     end
 
     def proportion
@@ -75,12 +58,19 @@ module DrivingPhysics
     end
 
     def derivative
-      return 0 if @last_error.nil?
       @kd * (@error - @last_error) * @dt
     end
 
-    def output
-      (self.proportion + self.integral + self.derivative).clamp(@output_range)
+    def to_s
+      [format("Setpoint: %.3f  Measure: %.3f",
+              @setpoint, @measure),
+       format("Error: %.3f  Last: %.3f  Sum: %.3f",
+              @error, @last_error, @sum_error),
+       format(" Gain: %.3f  %.3f  %.3f",
+              @kp, @ki, @kd),
+       format("  PID: %.3f  %.3f  %.3f",
+              self.proportion, self.integral, self.derivative),
+      ].join("\n")
     end
   end
 end
