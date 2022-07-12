@@ -16,8 +16,8 @@ module DrivingPhysics
 
     # Ziegler-Nichols method for tuning PID gain knobs
     ZN = {
-      :type =>  [:kp, :ti, :td, :ki, :kd],
-      :var  =>  [:ku, :tu, :tu, :ku_over_tu, :ku_tu],
+      #            Kp     Ti     Td     Ki     Kd
+      #     Var:   Ku     Tu     Tu    Ku/Tu  Ku*Tu
       'P'  =>   [0.500],
       'PI' =>   [0.450, 0.800,   nil, 0.540],
       'PD' =>   [0.800,   nil, 0.125,   nil, 0.100],
@@ -84,7 +84,7 @@ module DrivingPhysics
     end
 
     def derivative
-      @kd * (@error - @last_error) * @dt
+      @kd * (@error - @last_error) / @dt
     end
 
     def to_s
