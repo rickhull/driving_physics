@@ -4,10 +4,24 @@ require 'driving_physics/cli'
 
 include DrivingPhysics
 
-env = Environment.new { |e| e.hz = 100 }
+env = Environment.new { |e|
+  e.hz = CLI.prompt("What frequency?", default: 100).to_i
+}
 motor = Motor.new(env)
 puts env
 puts motor
+puts
+
+# maintain arbitrary RPM
+pidc = PIDController.new(motor.idle, dt: env.tick) { |p|
+  p.output_range = (0.0..1.0) # throttle
+  p.kp = 0.75
+  p.ki = 0.05
+  p.kd = 0.0075
+}
+pidc_error = 0.0
+
+puts pidc
 puts
 
 CLI.pause
@@ -17,28 +31,19 @@ omega = 0.0
 theta = 0.0
 
 duration = 3600
-
-status = :ignition
 rpm = 0
+status = :ignition
 
-paused = 0.0
-num_ticks = duration * env.hz + 1
-start = Timer.now
-
-# maintain 1000 RPM
-pidc = PIDController.new(motor.idle, dt: env.tick)
-pidc.output_range = (0.0..1.0)
-pidc_error = 0.0
-
-num_ticks.times { |i|
-  torque = case status
-           when :ignition
-             motor.starter_torque
-           when :running
-             motor.torque(rpm)
-           else
-             0
-           end
+(duration * env.hz + 1).times { |i|
+  case status
+  when :ignition
+    status = :running if rpm > motor.idle
+    torque = motor.starter_torque
+  when :running
+    motor.throttle = pidc.update(rpm)
+    pidc_error += pidc.error.abs
+    torque = motor.torque(rpm)
+  end
 
   alpha = motor.alpha(torque, omega: omega)
   omega += alpha * env.tick
@@ -46,17 +51,6 @@ num_ticks.times { |i|
 
   net_torque = motor.implied_torque(alpha)
   rpm = DrivingPhysics.rpm(omega)
-
-  if status == :ignition
-    if rpm > motor.idle
-      status = :running
-    end
-  end
-
-  if status == :running
-    motor.throttle = pidc.update(rpm)
-    pidc_error += pidc.error.abs
-  end
 
   puts Timer.display(seconds: i.to_f / env.hz)
   puts format("Throttle: %.1f%%", motor.throttle * 100)
@@ -71,27 +65,23 @@ num_ticks.times { |i|
 
   error_pct = pidc.error.abs / pidc.setpoint.to_f
 
+  # prompt every so often
   if error_pct < 0.02 or i % 10 == 0
     next if status == :ignition and i % 10 != 0
     loop {
-      puts "Enter > setpoint kp ki kd  " +
-           "Current: #{pidc.setpoint} #{pidc.kp} #{pidc.ki} #{pidc.kd}"
-      print "> "
-      str = $stdin.gets.chomp
+      puts
+      str = CLI.prompt("Enter key and value, e.g. > setpoint 3500\n")
       break if str.empty?
       parts = str.split(' ')
-      next unless parts.size == 4
+      next unless parts.size == 2
       begin
-        setpoint, kp, ki, kd = *parts.map { |s| s.strip.to_f }
+        key, val = *parts.map { |s| s.strip.to_f }
       rescue e
         puts e
         next
       end
-      p [setpoint, kp, ki, kd]
-      pidc.setpoint = setpoint
-      pidc.kp = kp
-      pidc.ki = ki
-      pidc.kd = kd
+      p [key, val]
+      pidc.send("#{key}=", val)
       pidc_error = 0.0
       break
     }
