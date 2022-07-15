@@ -40,7 +40,8 @@ module DrivingPhysics
       { kp: kp, ti: ti, td: td, ki: ki, kd: kd }
     end
 
-    attr_accessor :kp, :ki, :kd, :dt, :setpoint, :integral_range, :output_range
+    attr_accessor :kp, :ki, :kd, :dt, :setpoint,
+                  :pmin, :pmax, :imin, :imax, :dmin, :dmax, :omin, :omax
     attr_reader :measure, :error, :last_error, :sum_error
 
     def initialize(setpoint, dt: TICK)
@@ -52,9 +53,11 @@ module DrivingPhysics
       # gain / multipliers for PID; tunables
       @kp, @ki, @kd = 1.0, 1.0, 1.0
 
-      # optional clamps for integral term and output
-      @integral_range = (-Float::INFINITY..Float::INFINITY)
-      @output_range = (-Float::INFINITY..Float::INFINITY)
+      # optional clamps for integral, derivative and output
+      @pmin, @pmax = -Float::INFINITY, Float::INFINITY
+      @imin, @imax = -Float::INFINITY, Float::INFINITY
+      @dmin, @dmax = -Float::INFINITY, Float::INFINITY
+      @omin, @omax = -Float::INFINITY, Float::INFINITY
 
       yield self if block_given?
     end
@@ -68,23 +71,28 @@ module DrivingPhysics
       @measure = val
       @last_error = @error
       @error = @setpoint - @measure
-      @sum_error = (@error * @last_error > 0) ? (@sum_error + @error) : @error
+      dt_error = error * dt
+      if @error * @last_error > 0
+        @sum_error += dt_error
+      else # zero crossing; reset the accumulated error
+        @sum_error = dt_error
+      end
     end
 
     def output
-      (self.proportion + self.integral + self.derivative).clamp(@output_range)
+      (self.proportion + self.integral + self.derivative).clamp(@omin, @omax)
     end
 
     def proportion
-      @kp * @error
+      (@kp * @error).clamp(@pmin, @pmax)
     end
 
     def integral
-      (@ki * @sum_error).clamp(@integral_range)
+      (@ki * @sum_error).clamp(@imin, @imax)
     end
 
     def derivative
-      @kd * (@error - @last_error) / @dt
+      (@kd * (@error - @last_error) / @dt).clamp(@dmin, @dmax)
     end
 
     def to_s
