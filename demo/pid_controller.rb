@@ -54,7 +54,7 @@ status = :ignition
   when :running
     torque = motor.torque(rpm)
     puts format("RUNNING: %.1f Nm @ %d RPM  Throttle: %s",
-                torque, rpm, motor.throttle_pct(3))
+                torque, rpm.round, motor.throttle_pct(3))
     puts pidc
     puts "Absolute error %.3f" % pidc_error
   end
@@ -64,7 +64,7 @@ status = :ignition
   omega += alpha * env.tick
   rpm = DrivingPhysics.rpm(omega)
 
-  puts format("Net Torque: %.4f Nm   Friction: %.4f Nm",
+  puts format("Net Torque: %+.4f Nm   Friction: %+.4f Nm",
               motor.implied_torque(alpha),
               motor.friction(omega))
 
