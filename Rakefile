@@ -40,8 +40,8 @@ end
 
 file MRBLIB_FILE do
   line_count = write_mruby(File.join(%w[lib driving_physics.rb]), MRBLIB_FILE)
-  %w[cli environment imperial power
-     disk tire motor gearbox powertrain car].each { |name|
+  %w[cli environment imperial power timer
+     disk tire motor gearbox powertrain car pid_controller].each { |name|
     file = File.join('lib', 'driving_physics', "#{name}.rb")
     line_count += write_mruby(file, MRBLIB_FILE, append: true)
     puts "wrote #{file} to #{MRBLIB_FILE}"
@@ -67,7 +67,7 @@ task mrblib: MRBLIB_FILE
 desc "Compile mruby/mrblib/driving_physics.rb to .mrb bytecode"
 task mrbc: MRBLIB_MRB
 
-%w[disk tire motor gearbox powertrain car].each { |name|
+%w[disk tire motor gearbox powertrain car pid_controller].each { |name|
   demo_file = File.join(MRUBY_DEMO_DIR, "#{name}.rb")
   demo_mrb = File.join(MRUBY_DEMO_DIR, "#{name}.mrb")
 
