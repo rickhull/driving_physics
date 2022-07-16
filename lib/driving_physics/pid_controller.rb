@@ -100,11 +100,11 @@ module DrivingPhysics
     def to_s
       [format("Setpoint: %.3f  Measure: %.3f",
               @setpoint, @measure),
-       format("Error: %.3f  Last: %.3f  Sum: %.3f",
+       format("Error: %+.3f\tLast: %+.3f\tSum: %+.3f",
               @error, @last_error, @sum_error),
-       format(" Gain: %.3f  %.3f  %.3f",
+       format(" Gain:\t%.3f\t%.3f\t%.3f",
               @kp, @ki, @kd),
-       format("  PID: %.3f  %.3f  %.3f",
+       format("  PID:\t%+.3f\t%+.3f\t%+.3f",
               self.proportion, self.integral, self.derivative),
       ].join("\n")
     end
