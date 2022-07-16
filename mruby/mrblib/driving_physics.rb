@@ -77,13 +77,16 @@ module DrivingPhysics
     val
   end
 end
+
 module DrivingPhysics
   module CLI
     # returns user input as a string
-    def self.prompt(msg = '')
-      print msg + ' ' unless msg.empty?
+    def self.prompt(msg = '', default: nil)
+      print "#{msg} " unless msg.empty?
+      print "(#{default}) " unless default.nil?
       print '> '
-      $stdin.gets.chomp
+      input = $stdin.gets.chomp
+      input.empty? ? default.to_s : input
     end
 
     # press Enter to continue, ignore input, return elapsed time
@@ -93,39 +96,6 @@ module DrivingPhysics
       puts '     [ Press Enter ]'
       $stdin.gets
       Timer.since(t)
-    end
-  end
-
-  module Timer
-    # don't use `defined?` with mruby
-    if (Process::CLOCK_MONOTONIC rescue false)
-      def self.now
-        Process.clock_gettime Process::CLOCK_MONOTONIC
-      end
-    else
-      def self.now
-        Time.now
-      end
-    end
-
-    def self.since(t)
-      self.now - t
-    end
-
-    def self.elapsed(&work)
-      t = self.now
-      return yield, self.since(t)
-    end
-
-    # HH:MM:SS.mmm
-    def self.display(seconds: 0, ms: 0)
-      ms += (seconds * 1000).round if seconds > 0
-      DrivingPhysics.elapsed_display(ms)
-    end
-
-    def self.summary(start, num_ticks, paused = 0)
-      elapsed = self.since(start) - paused
-      format("%.3f s (%d ticks/s)", elapsed, num_ticks.to_f / elapsed)
     end
   end
 end
@@ -242,6 +212,40 @@ module DrivingPhysics
 
   def self.power(force, speed)
     force * speed
+  end
+end
+module DrivingPhysics
+  module Timer
+    # don't use `defined?` with mruby
+    if (Process::CLOCK_MONOTONIC rescue false)
+      def self.now
+        Process.clock_gettime Process::CLOCK_MONOTONIC
+      end
+    else
+      def self.now
+        Time.now
+      end
+    end
+
+    def self.since(t)
+      self.now - t
+    end
+
+    def self.elapsed(&work)
+      t = self.now
+      return yield, self.since(t)
+    end
+
+    # HH:MM:SS.mmm
+    def self.display(seconds: 0, ms: 0)
+      ms += (seconds * 1000).round if seconds > 0
+      DrivingPhysics.elapsed_display(ms)
+    end
+
+    def self.summary(start, num_ticks, paused = 0)
+      elapsed = self.since(start) - paused
+      format("%.3f s (%d ticks/s)", elapsed, num_ticks.to_f / elapsed)
+    end
   end
 end
 #require 'driving_physics/vector_force'
@@ -615,7 +619,7 @@ module DrivingPhysics
     class Stall < RuntimeError; end
     class OverRev < RuntimeError; end
 
-    CLOSED_THROTTLE = 0.05 # threshold for engine braking
+    CLOSED_THROTTLE = 0.01 # threshold for engine braking
     ENGINE_BRAKING = 0.2   # 20% of the torque at a given RPM
 
     attr_reader :env, :torque_curve, :throttle
@@ -677,12 +681,16 @@ module DrivingPhysics
       @spinner.mass + @fixed_mass
     end
 
+    def rotating_mass
+      @spinner.mass
+    end
+
     def throttle=(val)
       @throttle = DrivingPhysics.unit_interval! val
     end
 
-    def throttle_pct
-      format("%.1f%%", @throttle * 100)
+    def throttle_pct(places = 1)
+      format("%.#{places}f%%", @throttle * 100)
     end
 
     # given torque, determine crank alpha considering inertia and friction
@@ -1076,6 +1084,118 @@ module DrivingPhysics
 
     def total_normal_force
       self.total_mass * env.g
+    end
+  end
+end
+module DrivingPhysics
+  # we will have a control loop
+  # SP    - setpoint, this is the desired position
+  # PV(t) - process variable, this is the sensed position, varying over time
+  #  e(t) - error, SP - PV
+  # CV(t) - control variable: the controller output
+
+  # for example, where to set the throttle to maintain 1000 RPM
+  # SP - 1000 RPM
+  # PV - current RPM
+  # CV - throttle position
+
+  class PIDController
+    HZ = 1000
+    TICK = Rational(1) / HZ
+
+    # Ziegler-Nichols method for tuning PID gain knobs
+    ZN = {
+      #            Kp     Ti     Td     Ki     Kd
+      #     Var:   Ku     Tu     Tu    Ku/Tu  Ku*Tu
+      'P'  =>   [0.500],
+      'PI' =>   [0.450, 0.800,   nil, 0.540],
+      'PD' =>   [0.800,   nil, 0.125,   nil, 0.100],
+      'PID' =>  [0.600, 0.500, 0.125, 1.200, 0.075],
+      'PIR' =>  [0.700, 0.400, 0.150, 1.750, 0.105],
+      # less overshoot than standard PID below
+      'some' => [0.333, 0.500, 0.333, 0.666, 0.111],
+      'none' => [0.200, 0.500, 0.333, 0.400, 0.066],
+    }
+
+    # ultimate gain, oscillation
+    def self.tune(type, ku, tu)
+      record = ZN[type.downcase] || ZN[type.upcase] || ZN.fetch(type)
+      kp, ti, td, ki, kd = *record
+      kp *= ku if kp
+      ti *= tu if ti
+      td *= tu if td
+      ki *= (ku / tu) if ki
+      kd *= (ku * tu) if kd
+      { kp: kp, ti: ti, td: td, ki: ki, kd: kd }
+    end
+
+    attr_accessor :kp, :ki, :kd, :dt, :setpoint,
+                  :p_range, :i_range, :d_range, :o_range
+    attr_reader :measure, :error, :last_error, :sum_error
+
+    def initialize(setpoint, dt: TICK)
+      @setpoint, @dt, @measure = setpoint, dt, 0.0
+
+      # track error over time for integral and derivative
+      @error, @last_error, @sum_error = 0.0, 0.0, 0.0
+
+      # gain / multipliers for PID; tunables
+      @kp, @ki, @kd = 1.0, 1.0, 1.0
+
+      # optional clamps for PID terms and output
+      @p_range = (-Float::INFINITY..Float::INFINITY)
+      @i_range = (-Float::INFINITY..Float::INFINITY)
+      @d_range = (-Float::INFINITY..Float::INFINITY)
+      @o_range = (-Float::INFINITY..Float::INFINITY)
+
+      yield self if block_given?
+    end
+
+    def update(measure)
+      self.measure = measure
+      self.output
+    end
+
+    def measure=(val)
+      @measure = val
+      @last_error = @error
+      @error = @setpoint - @measure
+      dt_error = error * dt
+      if @error * @last_error > 0
+        @sum_error += dt_error
+      else # zero crossing; reset the accumulated error
+        @sum_error = dt_error
+      end
+    end
+
+    def output
+      (self.proportion +
+       self.integral +
+       self.derivative).clamp(@o_range.begin, @o_range.end)
+    end
+
+    def proportion
+      (@kp * @error).clamp(@p_range.begin, @p_range.end)
+    end
+
+    def integral
+      (@ki * @sum_error).clamp(@i_range.begin, @i_range.end)
+    end
+
+    def derivative
+      (@kd * (@error - @last_error) / @dt).clamp(@d_range.begin, @d_range.end)
+    end
+
+    def to_s
+      [format("Setpoint: %.3f  Measure: %.3f",
+              @setpoint, @measure),
+       format("Error: %+.3f\tLast: %+.3f\tSum: %+.3f",
+              @error, @last_error, @sum_error),
+       format(" Gain:\t%.3f\t%.3f\t%.3f",
+              @kp, @ki, @kd),
+       format("  PID:\t%+.3f\t%+.3f\t%+.3f",
+              self.proportion, self.integral, self.derivative),
+      ].join("\n")
     end
   end
 end
