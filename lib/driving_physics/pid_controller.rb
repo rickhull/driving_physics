@@ -41,7 +41,7 @@ module DrivingPhysics
     end
 
     attr_accessor :kp, :ki, :kd, :dt, :setpoint,
-                  :pmin, :pmax, :imin, :imax, :dmin, :dmax, :omin, :omax
+                  :p_range, :i_range, :d_range, :o_range
     attr_reader :measure, :error, :last_error, :sum_error
 
     def initialize(setpoint, dt: TICK)
@@ -53,11 +53,11 @@ module DrivingPhysics
       # gain / multipliers for PID; tunables
       @kp, @ki, @kd = 1.0, 1.0, 1.0
 
-      # optional clamps for integral, derivative and output
-      @pmin, @pmax = -Float::INFINITY, Float::INFINITY
-      @imin, @imax = -Float::INFINITY, Float::INFINITY
-      @dmin, @dmax = -Float::INFINITY, Float::INFINITY
-      @omin, @omax = -Float::INFINITY, Float::INFINITY
+      # optional clamps for PID terms and output
+      @p_range = (-Float::INFINITY..Float::INFINITY)
+      @i_range = (-Float::INFINITY..Float::INFINITY)
+      @d_range = (-Float::INFINITY..Float::INFINITY)
+      @o_range = (-Float::INFINITY..Float::INFINITY)
 
       yield self if block_given?
     end
@@ -80,19 +80,21 @@ module DrivingPhysics
     end
 
     def output
-      (self.proportion + self.integral + self.derivative).clamp(@omin, @omax)
+      (self.proportion +
+       self.integral +
+       self.derivative).clamp(@o_range.begin, @o_range.end)
     end
 
     def proportion
-      (@kp * @error).clamp(@pmin, @pmax)
+      (@kp * @error).clamp(@p_range.begin, @p_range.end)
     end
 
     def integral
-      (@ki * @sum_error).clamp(@imin, @imax)
+      (@ki * @sum_error).clamp(@i_range.begin, @i_range.end)
     end
 
     def derivative
-      (@kd * (@error - @last_error) / @dt).clamp(@dmin, @dmax)
+      (@kd * (@error - @last_error) / @dt).clamp(@d_range.begin, @d_range.end)
     end
 
     def to_s
