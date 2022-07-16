@@ -157,8 +157,8 @@ module DrivingPhysics
       @throttle = DrivingPhysics.unit_interval! val
     end
 
-    def throttle_pct
-      format("%.1f%%", @throttle * 100)
+    def throttle_pct(places = 1)
+      format("%.#{places}f%%", @throttle * 100)
     end
 
     # given torque, determine crank alpha considering inertia and friction
