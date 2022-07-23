@@ -1,4 +1,4 @@
-require 'driving_physics/pid_controller.rb'
+require 'device_control'
 require 'driving_physics/motor'
 require 'driving_physics/cli'
 
@@ -13,10 +13,10 @@ puts motor
 puts
 
 # maintain arbitrary RPM via throttle adjustment
-pidc = PIDController.new(motor.idle, dt: env.tick) { |p|
-  p.kp = 0.5
-  p.ki = 0.05
-  p.kd = 0.005
+pidc = DeviceControl::PIDController.new(motor.idle, dt: env.tick) { |p|
+  p.kp = 3.0
+  p.ki = 0.0
+  p.kd = 0.0
   p.p_range = (-1.00..1.00)
   p.i_range = (-0.50..0.50)
   p.d_range = (-0.25..0.25)
@@ -28,7 +28,8 @@ pidc_error = 0.0
 puts pidc
 puts
 
-CLI.pause
+throttle_step = CLI.prompt("What throttle step?", default: 0.1).to_f
+smoother = DeviceControl::Smoother.new(max_step: throttle_step)
 
 alpha = 0.0
 omega = 0.0
@@ -77,8 +78,7 @@ status = :ignition
   when :ignition
     # ok
   when :running
-    # new throttle is based on the old (current) rpm
-    motor.throttle = pidc.update(rpm)
+    motor.throttle = smoother.update(pidc.update(rpm))
     pidc_error += pidc.error.abs
     error_pct = pidc.error.abs / pidc.setpoint.to_f
 
@@ -86,14 +86,15 @@ status = :ignition
     if (error_pct < 0.005 or
         (i < 100 and i % 10 == 0) or
         (i < 1_000 and i % 100 == 0) or
-        (i < 10_000 and i % 100 == 0))
+        (i < 10_000 and i % 100 == 0) or
+        (i % 1000 == 0)
       # ask about PID tunables; loop until an acceptable answer
       loop {
-        # empty answer is perfectly acceptable; exit the loop
         puts
         puts format("rpm %.1f\tsetpoint %d\tkp %s\tki %s\tkd %s",
                     rpm, pidc.setpoint, pidc.kp, pidc.ki, pidc.kd)
         str = CLI.prompt("Enter key and value, e.g. > setpoint 3500\n")
+        # empty answer is perfectly acceptable; exit the loop
         break if str.empty?
 
         # look for "key value" pairs
