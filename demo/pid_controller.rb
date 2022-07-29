@@ -42,16 +42,16 @@ pidc_error = 0.0
 puts pidc
 puts
 
+duration = CLI.prompt("How long to run for? (seconds)", default: 2).to_f
 CLI.pause
 
 alpha = 0.0
 omega = 0.0
 
-duration = 3600
 rpm = 0
 status = :ignition
 
-(duration * env.hz + 1).times { |i|
+(duration * env.hz + 1).to_i.times { |i|
   puts Timer.display(seconds: i.to_f / env.hz)
 
   # GIVEN:
@@ -97,10 +97,9 @@ status = :ignition
     error_pct = pidc.error.abs / pidc.setpoint.to_f
 
     # prompt every so often
-    if (error_pct < 0.0005) or
-        (i < 1_000 and i % 100 == 0) or
-        (i < 10_000 and i % 100 == 0) or
-        (i % 1000 == 0)
+    if (error_pct < 0.00001) or
+      (i < 10_000 and i % 100 == 0) or
+      (i % 1000 == 0)
       # ask about PID tunables; loop until an acceptable answer
       loop {
         puts
