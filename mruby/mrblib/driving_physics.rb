@@ -1160,11 +1160,10 @@ module DrivingPhysics
       @measure = val
       @last_error = @error
       @error = @setpoint - @measure
-      dt_error = error * dt
-      if @error * @last_error > 0
-        @sum_error += dt_error
-      else # zero crossing; reset the accumulated error
-        @sum_error = dt_error
+      if @error * @last_error <= 0  # zero crossing; reset the accumulated error
+        @sum_error = @error
+      else
+        @sum_error += @error
       end
     end
 
@@ -1179,7 +1178,7 @@ module DrivingPhysics
     end
 
     def integral
-      (@ki * @sum_error).clamp(@i_range.begin, @i_range.end)
+      (@ki * @sum_error * @dt).clamp(@i_range.begin, @i_range.end)
     end
 
     def derivative
@@ -1193,8 +1192,8 @@ module DrivingPhysics
               @error, @last_error, @sum_error),
        format(" Gain:\t%.3f\t%.3f\t%.3f",
               @kp, @ki, @kd),
-       format("  PID:\t%+.3f\t%+.3f\t%+.3f",
-              self.proportion, self.integral, self.derivative),
+       format("  PID:\t%+.3f\t%+.3f\t%+.3f\t= %.5f",
+              self.proportion, self.integral, self.derivative, self.output),
       ].join("\n")
     end
   end
