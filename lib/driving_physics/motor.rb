@@ -109,12 +109,19 @@ module DrivingPhysics
       @throttle     = 0.0  # 0.0 - 1.0 (0% - 100%)
 
       @fixed_mass = 125
-      @spinner = Disk.new(@env) { |fly|
-        fly.radius =  0.25 # m
-        fly.mass   = 75    # kg
-        fly.base_friction  = 1.0 /   1_000
-        fly.omega_friction = 5.0 / 100_000
+      @flywheel = Disk.new(@env) { |fly|
+        fly.mass = 12
+        fly.radius = 0.20
+        fly.base_friction = 1.0 / 1_000
+        fly.omega_friction = 5.0 / 10_000
       }
+      @crankshaft = Disk.new(@env) { |crank|
+        crank.mass = 25
+        crank.radius = 0.04
+        crank.base_friction = 1.0 / 1_000
+        crank.omega_friction = 5.0 / 10_000
+      }
+
       @starter_torque = 500  # Nm
 
       yield self if block_given?
@@ -134,28 +141,30 @@ module DrivingPhysics
               peak_tq, peak_rpm, @torque_curve.redline),
        format("   Throttle: %s  Mass: %.1f kg  (%d kg fixed)",
               self.throttle_pct, self.mass, @fixed_mass),
-       format("   Rotating: %s", @spinner),
+       format(" Crankshaft: %s", @crankshaft),
+       format("   Flywheel: %s", @flywheel),
       ].join("\n")
     end
 
     def inertia
-      @spinner.rotational_inertia
+      @crankshaft.rotational_inertia + @flywheel.rotational_inertia
     end
 
     def energy(omega)
-      @spinner.energy(omega)
+      @crankshaft.energy(omega) + @flywheel.energy(omega)
     end
 
-    def friction(omega, normal_force: nil)
-      @spinner.rotating_friction(omega, normal_force: normal_force)
+    def friction(omega)
+      @crankshaft.rotating_friction(omega) +
+        @flywheel.rotating_friction(omega)
     end
 
     def mass
-      @spinner.mass + @fixed_mass
+      @fixed_mass + self.rotating_mass
     end
 
     def rotating_mass
-      @spinner.mass
+      @crankshaft.mass + @flywheel.mass
     end
 
     def throttle=(val)
@@ -168,16 +177,15 @@ module DrivingPhysics
 
     # given torque, determine crank alpha considering inertia and friction
     def alpha(torque, omega: 0)
-      @spinner.alpha(torque + @spinner.rotating_friction(omega))
+      (torque + self.friction(omega)) / self.inertia
     end
 
     def implied_torque(alpha)
-      @spinner.implied_torque(alpha)
+      alpha * self.inertia
     end
 
     def output_torque(rpm)
-      self.implied_torque(self.alpha(self.torque(rpm),
-                                     omega: DrivingPhysics.omega(rpm)))
+      self.torque(rpm) + self.friction(DrivingPhysics.omega(rpm))
     end
 
     # this is our "input torque" and it depends on @throttle
