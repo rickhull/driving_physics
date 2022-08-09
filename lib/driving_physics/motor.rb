@@ -88,7 +88,12 @@ module DrivingPhysics
     class OverRev < RuntimeError; end
 
     CLOSED_THROTTLE = 0.01 # threshold for engine braking
-    ENGINE_BRAKING = 0.2   # 20% of the torque at a given RPM
+
+    # What percentage of the nominal torque at a given RPM would slow the
+    # motor when off throttle?    0% at 0 RPM; 50% at 7000 RPM
+    def self.engine_braking(rpm)
+      (rpm / 14_000.0).clamp(0, 0.5)
+    end
 
     attr_reader :env, :torque_curve, :throttle
     attr_accessor :fixed_mass, :spinner, :starter_torque
@@ -184,9 +189,8 @@ module DrivingPhysics
       # interpolate based on torque curve points
       torque = @torque_curve.torque(rpm)
 
-      if (@throttle <= CLOSED_THROTTLE) and (rpm > @torque_curve.idle * 1.5)
-        # engine braking: 20% of torque
-        -1 * torque * ENGINE_BRAKING
+      if (@throttle <= CLOSED_THROTTLE)
+        -1 * torque * self.class.engine_braking(rpm)
       else
         torque * @throttle
       end
