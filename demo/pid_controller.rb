@@ -19,9 +19,9 @@ models = PID::ZN.keys.join('  ')
 puts "PID models: #{models}"
 pid_model = CLI.prompt("What PID model?", default: 'none')
 
-# Ku for 1000 RPM idle has been measured at 8.0
+# Ku for 1000 RPM idle has been measured at 0.2
 # Tu is 1000 Hz / 2
-zn = PID.tune(pid_model, 8.0, 1/500r)
+zn = PID.tune(pid_model, 0.2, 1/500r)
 puts format("kp: %.3f\tki: %.1f\tkd: %.8f", zn[:kp], zn[:ki], zn[:kd])
 puts
 
@@ -42,7 +42,7 @@ pidc_error = 0.0
 puts pidc
 puts
 
-duration = CLI.prompt("How long to run for? (seconds)", default: 2).to_f
+duration = CLI.prompt("How long to run for? (seconds)", default: 10).to_f
 CLI.pause
 
 alpha = 0.0
@@ -82,22 +82,22 @@ status = :ignition
               motor.implied_torque(alpha),
               motor.friction(omega))
 
-  # Update throttle position and RPM
-  # Throttle position is based on PID controller
-  # PID controller looks at current RPM
-  # Update to the new RPM at the very end of the loop
-
   case status
   when :ignition
     # ok
     CLI.pause if i % 50 == 0
   when :running
+    # Update throttle position and RPM
+    # Throttle position is based on PID controller
+    # PID controller looks at current RPM
+    # Update to the new RPM at the very end of the loop
+
     motor.throttle = pidc.update(rpm)
     pidc_error += pidc.error.abs
     error_pct = pidc.error.abs / pidc.setpoint.to_f
 
     # prompt every so often
-    if (error_pct < 0.00001) or
+    if (error_pct < 0.001) or
       (i < 10_000 and i % 100 == 0) or
       (i % 1000 == 0)
       # ask about PID tunables; loop until an acceptable answer
@@ -130,8 +130,10 @@ status = :ignition
             puts e
             next
           end
-          pidc_error = 0.0
         end
+        # reset error tracking on successful input
+        pidc_error = 0.0
+        pidc.sum_error = 0.0
         puts
         break
       }
