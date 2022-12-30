@@ -11,7 +11,7 @@
         nativeBuildInputs = [ pkgs.bashInteractive ];
         buildInputs = [
           pkgs.mruby
-          (pkgs.ruby.withPackages (p: with p; [
+          (pkgs.ruby_3_1.withPackages (p: with p; [
             rake
             minitest
           ]))
