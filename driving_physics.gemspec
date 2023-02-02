@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.license = "LGPL-3.0"
 
   s.required_ruby_version = "> 2"
-  s.add_runtime_dependency 'device_control', '>= 0.3.0'
+  s.add_runtime_dependency 'device_control', '~> 0.3'
 
   s.version = File.read(File.join(__dir__, 'VERSION')).chomp
 
