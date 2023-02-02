@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = 'driving_physics'
-  s.summary = "WIP"
+  s.summary = "Physics from first principles: mass, friction, rotation, etc"
   s.description = "WIP"
   s.authors = ["Rick Hull"]
   s.homepage = "https://github.com/rickhull/driving_physics"
