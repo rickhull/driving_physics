@@ -10,6 +10,16 @@
 # Systems query the World for Components and update associated Entities.
 #
 
+# On time:
+# Logical timekeeping is Rational, so fp errors do not accumulate
+#   TARGET_HZ = 100, dt = 1/100r
+# Physical timekeeping is Float, via World.wall_time
+#   The simulation loop will adjust to maintain TARGET_HZ
+# Physical calculation is Float, as calculations are reset every frame
+#   Theta, Omega, Alpha, Torque, Radius, Mass, Inertia -- all floats
+# Simulation time is deterministic, and so may exceed wall clock time.
+# If the simulation time is less than wall clock time, sleep to maintain
+#   a regular render interval and reach wall clock time.
 module DrivingPhysics
   class World
     def self.wall_time
@@ -26,32 +36,33 @@ module DrivingPhysics
     # @wall_time - monotonically increasing timestamp
 
     # physics should update 100x per second
-#   TARGET_HZ = 100
-#   DT = 1r / TARGET_HZ
+    TARGET_HZ = 100
 
-    attr_accessor :systems, :tick
-    attr_reader :entities, :time
+    attr_accessor :systems, :dt
+    attr_reader :entities, :ticks
 
     def initialize
       @entities = {}   # id => Set[klass]
       @components = {} # klass => { id => component }
       @systems = []    # ordered list of system instances
       @next_id = 0
-#     @dt = DT
-#     @ticks = 0
-      @tick = 1/100r
-      @time = Rational(0)
+      @ticks = 0
       @wall_time = World.wall_time
+      self.hz = TARGET_HZ # @dt = 1/100r
     end
 
     def hz=(val)
-      @tick = Rational(1) / val
+      @dt = Rational(1) / val
     end
 
-    def tick=(val)
-      @tick = val.rationalize
+    def dt=(val)
+      @dt = val.rationalize
     end
 
+    def time
+      @ticks * @dt
+    end
+    
     def sync
       t = World.wall_time
       diff = t - @wall_time
@@ -126,8 +137,8 @@ module DrivingPhysics
       end
     end
 
-    def update(dt = @tick)
-      @time += dt
+    def update(dt = @dt)
+      @ticks += 1
       @systems.each { |system| system.update(self, dt) }
     end
   end
@@ -512,9 +523,6 @@ if __FILE__ == $0
   deadline = 1/10r # 0.1 seconds
 
   while world.time < 10.0
-    # fake render
-    sleep world.tick * (1 + rand(4))
-
     # how much wall time has elapsed?
     frame_time = world.sync
 
@@ -522,13 +530,16 @@ if __FILE__ == $0
     accumulator += (frame_time < deadline ? frame_time : deadline)
 
     # drain the accumulator by running fixed-size physics steps
-    while accumulator >= world.tick
+    while accumulator >= world.dt
       # run physics ticks
       world.update
-      accumulator -= world.tick
+      accumulator -= world.dt
     end
 
-    # print status report
+    # fake render
+    sleep world.dt * (1 + rand(4))
+
+    # actual render: print status report
     starter = world.get(engine, ElectricState)
     motor = world.get(engine, CombustionState)
 
