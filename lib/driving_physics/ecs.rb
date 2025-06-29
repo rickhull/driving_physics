@@ -24,7 +24,11 @@ module DrivingPhysics
     # @tick - a fraction of a logical second, 1/100               attr_accessor
     # @time - accumulation of ticks                               attr_reader
     # @wall_time - monotonically increasing timestamp
-    
+
+    # physics should update 100x per second
+#   TARGET_HZ = 100
+#   DT = 1r / TARGET_HZ
+
     attr_accessor :systems, :tick
     attr_reader :entities, :time
 
@@ -33,6 +37,8 @@ module DrivingPhysics
       @components = {} # klass => { id => component }
       @systems = []    # ordered list of system instances
       @next_id = 0
+#     @dt = DT
+#     @ticks = 0
       @tick = 1/100r
       @time = Rational(0)
       @wall_time = World.wall_time
@@ -52,7 +58,7 @@ module DrivingPhysics
       @wall_time = t
       diff
     end
-    
+
     # create the storage for an entity's component classes (as yet unspecified)
     def create_entity
       id = @next_id
@@ -100,7 +106,7 @@ module DrivingPhysics
     def access(id, klass, &creation)
       self.get(id, klass) or self.add(id, creation.call)
     end
-    
+
     # Find all entity IDs that have the given set of components.
     # This is optimized to start its search from the rarest component.
     def query(*klasses)
@@ -135,7 +141,7 @@ module DrivingPhysics
     def self.rads(revs) = revs *  2  * Math::PI
     def self.omega(rpm) = self.rads(rpm / 60.0)
     def self.rpm(omega) = self.revs(omega) * 60.0
-    
+
     def self.inertia(mass, radius) = 0.5 * mass * radius ** 2
     def self.volume(radius, extent) = Math::PI * radius ** 2 * extent    # m^3
     def self.liters(radius, extent) = self.volume(radius, extent) * 1000 # L
@@ -162,9 +168,10 @@ module DrivingPhysics
     def force(torque) = Disk.force(torque, radius)
     def alpha(torque) = Disk.alpha(torque, self.inertia)
     def energy(omega) = Disk.energy(omega, self.inertia)
-    def friction(magnitude) = friction_base + magnitude * friction_omega
+    def friction(omega) =
+      -1 * (friction_base + omega.abs * friction_omega) * (omega / omega.abs)
   end
-  
+
   # A high-performance, high-precision linear interpolation method.
   # xs must be sorted, with ys dependent on xs (same size).
   # Return interpolated y for any given x.
@@ -256,12 +263,12 @@ module DrivingPhysics
       DrivingPhysics.interpolate(rpm, xs: @rpms, ys: @torques)
     end
   end
-  
+
   CombustionPower = Data.define(:torque_curve)
   CombustionState = Struct.new(:rpm, :throttle)
   ElectricPower = Data.define(:torque)
   ElectricState = Struct.new(:throttle)
-  
+
   RotationState = Struct.new(:theta, :omega)
 
   EngineComposition = Data.define(:crankshaft, :flywheel)
@@ -276,18 +283,22 @@ module DrivingPhysics
   #                    update RotationState and clear AppliedTorque
 
   class UserInputSystem
+    STARTING_TIME = 3.0  # seconds to attempt starting
+    IDLE_RPM = 810       # starter should reach this minimum
+    IDLE_THROTTLE = 0.05 # should maintain IDLE_RPM, slowly climb
+
     def update(world, dt)
       # We only care about the single engine we created.
       # A real game would query for a "PlayerControlled" component.
       world.query(CombustionState, ElectricState).each do |id|
         motor = world.get(id, CombustionState)
         starter = world.get(id, ElectricState)
-        
+
         # --- Simulate the Starting Sequence ---
 
         # attempt starting for only 3 seconds
-        if world.time <= 3.0
-          if motor.rpm < 800
+        if world.time <= STARTING_TIME
+          if motor.rpm < IDLE_RPM
             # below idle, keep the starter on
             if starter.throttle < 1.0
               motor.throttle = 0
@@ -297,14 +308,14 @@ module DrivingPhysics
             # above idle, kill the starter and give some throttle
             if starter.throttle > 0
               starter.throttle = 0
-              motor.throttle = 0.06
+              motor.throttle = IDLE_THROTTLE
             end
           end
         end
       end
     end
   end
-  
+
   class StarterSystem
     def update(world, dt)
       # Find all entities that have electric power, a state to control it,
@@ -315,7 +326,7 @@ module DrivingPhysics
         state       = world.get(id, ElectricState)
 
         next if state.throttle <= 0.0
-        
+
         # Apply throttled torque to the crankshaft
         crank_id = composition.crankshaft
         atq = world.access(crank_id, AppliedTorque) { AppliedTorque.new(0.0) }
@@ -333,13 +344,13 @@ module DrivingPhysics
         composition = world.get(id, EngineComposition)
         power       = world.get(id, CombustionPower)
         state       = world.get(id, CombustionState)
-        
+
         next if state.throttle <= 0.0
 
         # By design, engagement of the starter motor inhibits combustion
         starter = world.get(id, ElectricState)&.throttle
         next if starter and starter > 0.0
-        
+
         # Calculate torque from the curve and throttle
         tq = power.torque_curve.torque(state.rpm) * state.throttle
         crank_id = composition.crankshaft
@@ -349,71 +360,50 @@ module DrivingPhysics
     end
   end
 
-
-  # TODO: currently the combustion system only applies torque to the crank
-  #       and so with the flywheel never seeing torque, it never adds frictional
-  #       resistance
-  class FrictionSystem
-    def update(world, dt)
-      # Find ALL disks with rotation state
-      world.query(Disk, RotationState).each do |id|
-        disk    = world.get(id, Disk)
-        state   = world.get(id, RotationState)
-
-        # friction only applies if we're moving
-        if state.omega > 0
-          atq = world.access(id, AppliedTorque) { AppliedTorque.new(0.0) }
-          atq.value -= disk.friction(state.omega)
-        end
-      end
-    end
-  end
-
   class FrictionSystem
     def update(world, dt)
       # remember which engine assemblies have been handled
       engine_disk_ids = Set.new
-      
+
       # Handle engine assemblies (rigidly connected components)
       world.query(EngineComposition).each do |engine_id|
         composition = world.get(engine_id, EngineComposition)
         crank_id    = composition.crankshaft
         flywheel_id = composition.flywheel
+        engine_disk_ids.add(crank_id).add(flywheel_id) # ignore these later
 
-        # don't apply friction to these, later below
-        engine_disk_ids.merge [crank_id, flywheel_id]
-        
         # Get the rotation state, identical for crank and flywheel
         crank_state = world.get(crank_id, RotationState)
-      
+
         # Only apply friction if we're moving
-        if crank_state.omega > 0
+        if crank_state.omega != 0.0
           # Get both disk definitions to calculate total friction
           crank_disk    = world.get(crank_id, Disk)
           flywheel_disk = world.get(flywheel_id, Disk)
-          
+
           # Calculate friction for both disks based on their current omega
-          total_friction = crank_disk.friction(crank_state.omega) + 
+          total_friction = crank_disk.friction(crank_state.omega) +
                            flywheel_disk.friction(crank_state.omega)
-          
+
           # Apply the total friction to the crankshaft (the driven component)
           atq = world.access(crank_id, AppliedTorque) { AppliedTorque.new(0.0) }
-          atq.value -= total_friction
+          # p [atq.value, total_friction]
+          atq.value += total_friction
         end
       end
-    
+
       # Handle standalone disks (not part of an engine assembly)
       world.query(Disk, RotationState).each do |id|
         # Skip if this disk is part of an engine (handled above)
         next if engine_disk_ids.include?(id)
-        
+
         disk  = world.get(id, Disk)
         state = world.get(id, RotationState)
-        
+
         # friction only applies if we're moving
-        if state.omega > 0
+        if state.omega != 0.0
           atq = world.access(id, AppliedTorque) { AppliedTorque.new(0.0) }
-          atq.value -= disk.friction(state.omega)
+          atq.value += disk.friction(state.omega)
         end
       end
     end
@@ -425,28 +415,28 @@ module DrivingPhysics
       # a combined inertia and a single angular velocity. We'll handle this
       # by applying the change to both. A more advanced simulation might
       # introduce a Clutch component to disconnect them.
-      
+
       # Let's find all engines to calculate their total inertia.
       world.query(EngineComposition).each do |id|
         composition = world.get(id, EngineComposition)
         crank_id    = composition.crankshaft
         flywheel_id = composition.flywheel
-        
+
         # Get components for both parts
         crank_def      = world.get(crank_id, Disk)
         crank_state    = world.get(crank_id, RotationState)
         flywheel_def   = world.get(flywheel_id, Disk)
         flywheel_state = world.get(flywheel_id, RotationState)
-        
+
         # Get the torque applied to each part (usually just the crank)
         net_torque = [crank_id, flywheel_id].map { |id|
           world.get(id, AppliedTorque)&.value || 0.0
         }.sum
-        
+
         # Combine inertia to determine combined velocity from acceleration
         total_inertia = crank_def.inertia + flywheel_def.inertia
-        omega = Disk.alpha(net_torque, total_inertia) * dt
-        
+        omega = crank_state.omega + Disk.alpha(net_torque, total_inertia) * dt
+
         # don't allow friction to reverse direction
         if (crank_state.omega > 0 and omega < 0) or
           (crank_state.omega < 0 and omega > 0)
@@ -456,16 +446,16 @@ module DrivingPhysics
         # Update crank state
         crank_state.omega = omega
         crank_state.theta += omega * dt
-        
+
         # Update the flywheel state to that of the crankshaft
         flywheel_state.omega = crank_state.omega
         flywheel_state.theta = crank_state.theta
-        
+
         # Update engine RPM
         engine_state = world.get(id, CombustionState)
         engine_state.rpm = Disk.rpm(crank_state.omega) if engine_state
       end
-      
+
       # --- Cleanup Phase ---
       # Now that all calculations are done, remove the transient component
       # from all entities that had it, preparing them for the next frame.
@@ -483,7 +473,7 @@ if __FILE__ == $0
 
   # create world and reusable components / definitions
   world = World.new
-  
+
   # create a crankshaft entity
   crank_id = world.create_entity
   world.add(crank_id, Disk.new(mass: 20, radius: 0.05, extent: 0.2))
@@ -520,7 +510,7 @@ if __FILE__ == $0
   # start the simulation
   accumulator = Rational(0)
   deadline = 1/10r # 0.1 seconds
-  
+
   while world.time < 10.0
     # fake render
     sleep world.tick * (1 + rand(4))
@@ -551,7 +541,7 @@ if __FILE__ == $0
     else
       torque = 0
     end
-      
+
     puts format("Time: %.2f | Starter: %s | Throttle: %.3f | " +
                 "Torque: %.3f Nm | RPM: %i",
                 world.time,
