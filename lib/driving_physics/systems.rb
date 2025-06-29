@@ -1,3 +1,6 @@
+require 'driving_physics/components'
+require 'driving_physics/disk'
+
 module DrivingPhysics
   class UserInputSystem
     STARTING_TIME = 3.0  # seconds to attempt starting
@@ -46,7 +49,7 @@ module DrivingPhysics
 
         # Apply throttled torque to the crankshaft
         crank_id = composition.crankshaft
-        atq = world.access(crank_id, AppliedTorque) { AppliedTorque.new(0.0) }
+        atq = world.access(crank_id, AppliedTorque) { AppliedTorque.new }
         atq.value += power.torque * state.throttle
       end
     end
@@ -71,7 +74,7 @@ module DrivingPhysics
         # Calculate torque from the curve and throttle
         tq = power.torque_curve.torque(state.rpm) * state.throttle
         crank_id = composition.crankshaft
-        atq = world.access(crank_id, AppliedTorque) { AppliedTorque.new(0.0) }
+        atq = world.access(crank_id, AppliedTorque) { AppliedTorque.new }
         atq.value += tq
       end
     end
@@ -92,6 +95,8 @@ module DrivingPhysics
         # Get the rotation state, identical for crank and flywheel
         crank_state = world.get(crank_id, RotationState)
 
+        # TODO: apply static friction to nullify any signed input torque
+        
         # Only apply friction if we're moving
         if crank_state.omega != 0.0
           # Get both disk definitions to calculate total friction
@@ -99,11 +104,11 @@ module DrivingPhysics
           flywheel_disk = world.get(flywheel_id, Disk)
 
           # Calculate friction for both disks based on their current omega
-          total_friction = crank_disk.friction(crank_state.omega) +
-                           flywheel_disk.friction(crank_state.omega)
+          total_friction = crank_disk.kinetic_friction(crank_state.omega) +
+                           flywheel_disk.kinetic_friction(crank_state.omega)
 
           # Apply the total friction to the crankshaft (the driven component)
-          atq = world.access(crank_id, AppliedTorque) { AppliedTorque.new(0.0) }
+          atq = world.access(crank_id, AppliedTorque) { AppliedTorque.new }
           # p [atq.value, total_friction]
           atq.value += total_friction
         end
@@ -117,10 +122,12 @@ module DrivingPhysics
         disk  = world.get(id, Disk)
         state = world.get(id, RotationState)
 
+        # TODO: static
+        
         # friction only applies if we're moving
         if state.omega != 0.0
-          atq = world.access(id, AppliedTorque) { AppliedTorque.new(0.0) }
-          atq.value += disk.friction(state.omega)
+          atq = world.access(id, AppliedTorque) { AppliedTorque.new }
+          atq.value += disk.kinetic_friction(state.omega)
         end
       end
     end

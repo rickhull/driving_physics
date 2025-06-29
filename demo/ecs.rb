@@ -1,7 +1,7 @@
 require 'driving_physics/world'
 require 'driving_physics/components'
 require 'driving_physics/systems'
-require 'driving_physics/disk'
+# require 'driving_physics/disk'
 require 'driving_physics/torque_curve'
 
 # let's build an engine
@@ -12,14 +12,14 @@ include DrivingPhysics
 world = World.new
 
 # create a crankshaft entity
-crank_id = world.create_entity
-world.add(crank_id, Disk.new(mass: 20, radius: 0.05, extent: 0.2))
-world.add(crank_id, RotationState.new(0.0, 0.0))
+crankshaft = world.create_entity
+world.add(crankshaft, Disk.new(mass: 20, radius: 0.05, extent: 0.2))
+world.add(crankshaft, RotationState.new)
 
 # create a flywheel entity
-fly_id = world.create_entity
-world.add(fly_id, Disk.new(mass: 12, radius: 0.165, extent: 0.03))
-world.add(fly_id, RotationState.new(0.0, 0.0))
+flywheel = world.create_entity
+world.add(flywheel, Disk.new(mass: 12, radius: 0.165, extent: 0.03))
+world.add(flywheel, RotationState.new)
 
 # create the engine entity
 engine = world.create_entity
@@ -27,15 +27,25 @@ engine = world.create_entity
 # give it combustion power
 tc = TorqueCurve.new
 world.add(engine, CombustionPower.new(torque_curve: tc))
-world.add(engine, CombustionState.new(rpm: 0, throttle: 0))
+world.add(engine, CombustionState.new)
 
 # give it a starter motor
 world.add(engine, ElectricPower.new(torque: 25))
-world.add(engine, ElectricState.new(throttle: 0))
+world.add(engine, ElectricState.new)
 
 # attach the crankshaft and flywheel to the engine
-composition = EngineComposition.new(crankshaft: crank_id, flywheel: fly_id)
+composition = EngineComposition.new(crankshaft:, flywheel:)
 world.add(engine, composition)
+
+driveshaft = world.create_entity
+world.add(driveshaft, Disk.new(mass: 25, radius: 0.1, extent: 1))
+world.add(driveshaft, RotationState.new)
+
+transmission = world.create_entity
+world.add(transmission, Disk.new(mass: 60, radius: 0.5, extent: 0.6))
+world.add(transmission, RotationState.new)
+world.add(transmission, Gearbox.new)
+world.add(transmission, GearboxState.new)
 
 # add systems; order matters
 world.systems = [UserInputSystem.new,
