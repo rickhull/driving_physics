@@ -1,5 +1,6 @@
 require 'driving_physics/components'
 require 'driving_physics/disk'
+require 'driving_physics/friction'
 
 module DrivingPhysics
   class UserInputSystem
@@ -11,8 +12,8 @@ module DrivingPhysics
       # We only care about the single engine we created.
       # A real game would query for a "PlayerControlled" component.
       world.query(CombustionState, ElectricState).each do |id|
-        motor = world.get(id, CombustionState)
-        starter = world.get(id, ElectricState)
+        motor = world.get!(id, CombustionState)
+        starter = world.get!(id, ElectricState)
 
         # --- Simulate the Starting Sequence ---
 
@@ -41,15 +42,15 @@ module DrivingPhysics
       # Find all entities that have electric power, a state to control it,
       # and a composition to know where to apply the force.
       world.query(ElectricPower, ElectricState, EngineComposition).each do |id|
-        composition = world.get(id, EngineComposition)
-        power       = world.get(id, ElectricPower)
-        state       = world.get(id, ElectricState)
+        composition = world.get!(id, EngineComposition)
+        power       = world.get!(id, ElectricPower)
+        state       = world.get!(id, ElectricState)
 
         next if state.throttle <= 0.0
 
         # Apply throttled torque to the crankshaft
         crank_id = composition.crankshaft
-        atq = world.access(crank_id, AppliedTorque) { AppliedTorque.new }
+        atq = world.access(crank_id, AppliedTorque)
         atq.value += power.torque * state.throttle
       end
     end
@@ -61,20 +62,20 @@ module DrivingPhysics
       world.query(CombustionPower,
                   CombustionState,
                   EngineComposition).each do |id|
-        composition = world.get(id, EngineComposition)
-        power       = world.get(id, CombustionPower)
-        state       = world.get(id, CombustionState)
+        composition = world.get!(id, EngineComposition)
+        power       = world.get!(id, CombustionPower)
+        state       = world.get!(id, CombustionState)
 
         next if state.throttle <= 0.0
 
         # By design, engagement of the starter motor inhibits combustion
-        starter = world.get(id, ElectricState)&.throttle
+        starter = world.get!(id, ElectricState)&.throttle
         next if starter and starter > 0.0
 
         # Calculate torque from the curve and throttle
         tq = power.torque_curve.torque(state.rpm) * state.throttle
         crank_id = composition.crankshaft
-        atq = world.access(crank_id, AppliedTorque) { AppliedTorque.new }
+        atq = world.access(crank_id, AppliedTorque)
         atq.value += tq
       end
     end
@@ -86,49 +87,38 @@ module DrivingPhysics
       engine_disk_ids = Set.new
 
       # Handle engine assemblies (rigidly connected components)
+      # One input torque but multiple frictional components
       world.query(EngineComposition).each do |engine_id|
-        composition = world.get(engine_id, EngineComposition)
+        # get the crank_id and flywheel_id
+        composition = world.get!(engine_id, EngineComposition)
         crank_id    = composition.crankshaft
         flywheel_id = composition.flywheel
         engine_disk_ids.add(crank_id).add(flywheel_id) # ignore these later
 
-        # Get the rotation state, identical for crank and flywheel
-        crank_state = world.get(crank_id, RotationState)
+        # Get the rotation state for the crank, identical for flywheel
+        crank_state = world.get!(crank_id, RotationState)
 
-        # TODO: apply static friction to nullify any signed input torque
-        
-        # Only apply friction if we're moving
-        if crank_state.omega != 0.0
-          # Get both disk definitions to calculate total friction
-          crank_disk    = world.get(crank_id, Disk)
-          flywheel_disk = world.get(flywheel_id, Disk)
-
-          # Calculate friction for both disks based on their current omega
-          total_friction = crank_disk.kinetic_friction(crank_state.omega) +
-                           flywheel_disk.kinetic_friction(crank_state.omega)
-
-          # Apply the total friction to the crankshaft (the driven component)
-          atq = world.access(crank_id, AppliedTorque) { AppliedTorque.new }
-          # p [atq.value, total_friction]
-          atq.value += total_friction
-        end
+        # apply friction
+        # Get both disk definitions to calculate total friction
+        atq = world.access(crank_id, AppliedTorque)
+        cfm = world.get!(crank_id, FrictionModel)
+        ffm = world.get!(flywheel_id, FrictionModel)
+        total = cfm.friction(atq.value, crank_state.omega) +
+                ffm.friction(atq.value, crank_state.omega)
+        atq.value += total
       end
 
       # Handle standalone disks (not part of an engine assembly)
-      world.query(Disk, RotationState).each do |id|
+      world.query(Disk, RotationState, FrictionModel).each do |id|
         # Skip if this disk is part of an engine (handled above)
         next if engine_disk_ids.include?(id)
 
-        disk  = world.get(id, Disk)
-        state = world.get(id, RotationState)
-
-        # TODO: static
+        disk  = world.get!(id, Disk)
+        state = world.get!(id, RotationState)
+        fm = world.get!(id, FrictionModel)
+        atq = world.access(id, AppliedTorque)
         
-        # friction only applies if we're moving
-        if state.omega != 0.0
-          atq = world.access(id, AppliedTorque) { AppliedTorque.new }
-          atq.value += disk.kinetic_friction(state.omega)
-        end
+        atq.value += fm.friction(atq.value, state.omega)
       end
     end
   end
@@ -142,15 +132,15 @@ module DrivingPhysics
 
       # Let's find all engines to calculate their total inertia.
       world.query(EngineComposition).each do |id|
-        composition = world.get(id, EngineComposition)
+        composition = world.get!(id, EngineComposition)
         crank_id    = composition.crankshaft
         flywheel_id = composition.flywheel
 
         # Get components for both parts
-        crank_def      = world.get(crank_id, Disk)
-        crank_state    = world.get(crank_id, RotationState)
-        flywheel_def   = world.get(flywheel_id, Disk)
-        flywheel_state = world.get(flywheel_id, RotationState)
+        crank_def      = world.get!(crank_id, Disk)
+        crank_state    = world.get!(crank_id, RotationState)
+        flywheel_def   = world.get!(flywheel_id, Disk)
+        flywheel_state = world.get!(flywheel_id, RotationState)
 
         # Get the torque applied to each part (usually just the crank)
         net_torque = [crank_id, flywheel_id].map { |id|
@@ -176,7 +166,7 @@ module DrivingPhysics
         flywheel_state.theta = crank_state.theta
 
         # Update engine RPM
-        engine_state = world.get(id, CombustionState)
+        engine_state = world.get!(id, CombustionState)
         engine_state.rpm = Disk.rpm(crank_state.omega) if engine_state
       end
 

@@ -22,6 +22,8 @@
 #   a regular render interval and reach wall clock time.
 module DrivingPhysics
   class World
+    class GetError < RuntimeError; end
+
     def self.wall_time
       Process.clock_gettime(Process::CLOCK_MONOTONIC)
     end
@@ -109,13 +111,16 @@ module DrivingPhysics
 
     # Get a specific component instance for a given entity.
     def get(id, klass)
-      @components.dig(klass, id)
+      @components.dig(klass, id) 
     end
 
-    # get the component or create it if it doesn't exist
-    # e.g. world.access(eid, MyComponent) { MyComponent.new(0.0) }
+    def get!(id, klass)
+      self.get(id, klass) or raise(GetError, "#{id} #{klass}")
+    end
+    
+    # get the component or try klass.new if it doesn't exist
     def access(id, klass, &creation)
-      self.get(id, klass) or self.add(id, creation.call)
+      self.get(id, klass) or self.add(id, klass.new)
     end
 
     # Find all entity IDs that have the given set of components.

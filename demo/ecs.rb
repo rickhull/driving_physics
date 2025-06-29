@@ -1,7 +1,5 @@
-require 'driving_physics/world'
-require 'driving_physics/components'
+require 'driving_physics/creation' # world, components, disk, friction_model
 require 'driving_physics/systems'
-# require 'driving_physics/disk'
 require 'driving_physics/torque_curve'
 
 # let's build an engine
@@ -15,11 +13,13 @@ world = World.new
 crankshaft = world.create_entity
 world.add(crankshaft, Disk.new(mass: 20, radius: 0.05, extent: 0.2))
 world.add(crankshaft, RotationState.new)
+world.add(crankshaft, FrictionModel.new)
 
 # create a flywheel entity
 flywheel = world.create_entity
 world.add(flywheel, Disk.new(mass: 12, radius: 0.165, extent: 0.03))
 world.add(flywheel, RotationState.new)
+world.add(flywheel, FrictionModel.new)
 
 # create the engine entity
 engine = world.create_entity
@@ -40,6 +40,7 @@ world.add(engine, composition)
 driveshaft = world.create_entity
 world.add(driveshaft, Disk.new(mass: 25, radius: 0.1, extent: 1))
 world.add(driveshaft, RotationState.new)
+world.add(driveshaft, FrictionModel.new)
 
 transmission = world.create_entity
 world.add(transmission, Disk.new(mass: 60, radius: 0.5, extent: 0.6))
@@ -76,14 +77,14 @@ while world.time < 10.0
   sleep world.dt * (1 + rand(4))
 
   # actual render: print status report
-  starter = world.get(engine, ElectricState)
-  motor = world.get(engine, CombustionState)
+  starter = world.get!(engine, ElectricState)
+  motor = world.get!(engine, CombustionState)
 
   if starter.throttle > 0
-    torque = world.get(engine, ElectricPower).torque * starter.throttle
+    torque = world.get!(engine, ElectricPower).torque * starter.throttle
   elsif motor.throttle > 0
     torque =
-      world.get(engine, CombustionPower).torque_curve.torque(motor.rpm) *
+      world.get!(engine, CombustionPower).torque_curve.torque(motor.rpm) *
       motor.throttle
   else
     torque = 0
