@@ -36,6 +36,43 @@ module DrivingPhysics
   end
 
   #
+  # Rotating Bodies
+  #
+
+  class Crankshaft < RotatingBody
+    def initialize(mass: 20, radius: 0.05, extent: 0.2,
+                   friction_model: FrictionModel.new)
+      super
+    end
+  end
+
+  class Flywheel < RotatingBody
+    def initialize(mass: 12, radius: 0.15, extent: 0.03,
+                   friction_model: FrictionModel.new)
+      super
+    end
+  end
+  
+  class Driveshaft < RotatingBody
+    def initialize(mass: 10, radius: 0.04, extent: 1.5,
+                   friction_model: FrictionModel.new)
+      super
+    end
+
+    # TODO: WTF ?!?!?!
+    # The resistive torque the driveshaft creates (from its own friction)
+    def load_torque
+      # We need the torque it *receives* to calculate friction, but that
+      # creates a chicken-and-egg problem.
+      # So we'll use a simplified friction model here based on its own speed.
+      # This is a common and effective simplification.
+      # A negative torque opposing rotation.
+      omega = self.omega
+      -5.0 * omega.abs - 2.0 * omega
+    end
+  end
+  
+  #
   # CombustionEngine
   #
 
@@ -46,12 +83,8 @@ module DrivingPhysics
 
     def initialize(torque_curve: TorqueCurve.new,
                    starter_torque: STARTER_TORQUE,
-                   crankshaft: RotatingBody.new(mass: 20,
-                                                radius: 0.05,
-                                                extent: 0.2),
-                   flywheel: RotatingBody.new(mass: 12,
-                                              radius: 0.15,
-                                              extent: 0.03))
+                   crankshaft: Crankshaft.new,
+                   flywheel: Flywheel.new)
       super
     end
 
@@ -177,7 +210,7 @@ module DrivingPhysics
       @drive_omega = reduction.zero? ? 0.0 : engine_omega / reduction
     end
   end
-  
+
   #
   # Utilities
   #
