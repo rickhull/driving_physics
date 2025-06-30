@@ -76,8 +76,7 @@ module DrivingPhysics
   # CombustionEngine
   #
 
-  class CombustionEngine < Data.define(:torque_curve, :starter_torque,
-                                       :crankshaft, :flywheel)
+  class CombustionEngine
     STARTER_TORQUE = 50
     IDLE_RPM = 850
 
@@ -85,23 +84,26 @@ module DrivingPhysics
                    starter_torque: STARTER_TORQUE,
                    crankshaft: Crankshaft.new,
                    flywheel: Flywheel.new)
-      super
+      @torque_curve = torque_curve
+      @starter_torque = starter_torque
+      @crankshaft = crankshaft
+      @flywheel = flywheel
     end
 
     # combine crankshaft and flywheel inertia
     def inertia
-      crankshaft.inertia + flywheel.inertia
+      @crankshaft.inertia + @flywheel.inertia
     end
 
     # combine crankshaft and flywheel friction
     def friction(input_tq)
-      crankshaft.friction(input_tq) + flywheel.friction(input_tq)
+      @crankshaft.friction(input_tq) + @flywheel.friction(input_tq)
     end
 
     # provide starter_torque below IDLE_RPM
     def torque(throttle)
       rpm = self.rpm
-      rpm < IDLE_RPM ? starter_torque : torque_curve.torque(rpm) * throttle
+      rpm < IDLE_RPM ? @starter_torque : @torque_curve.torque(rpm) * throttle
     end
 
     # generated torque net friction
@@ -117,7 +119,7 @@ module DrivingPhysics
 
     # angular velocity
     def omega
-      crankshaft.omega
+      @crankshaft.omega
     end
 
     # based on crankshaft
@@ -126,10 +128,10 @@ module DrivingPhysics
     end
 
     def update(throttle, dt)
-      crankshaft.rotation_state.omega += self.alpha(throttle) * dt
-      crankshaft.rotation_state.update(dt)
-      flywheel.rotation_state.omega = crankshaft.rotation_state.omega
-      flywheel.rotation_state.theta = crankshaft.rotation_state.theta
+      @crankshaft.rotation_state.omega += self.alpha(throttle) * dt
+      @crankshaft.rotation_state.update(dt)
+      @flywheel.rotation_state.omega = @crankshaft.rotation_state.omega
+      @flywheel.rotation_state.theta = @crankshaft.rotation_state.theta
     end
   end
 
