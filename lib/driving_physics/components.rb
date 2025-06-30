@@ -142,10 +142,21 @@ module DrivingPhysics
     end
   end
 
-  # clutch value 1.0 means fully engaged (clutch pedal out)
-  class VehicleControls < Struct.new(:throttle, :clutch, :gear, :steering)
-    def initialize(throttle: 0.0, clutch: 1.0, gear: 0, steering: 0.0)
-      super(throttle, clutch, gear, steering)
+  class VehicleControls < Struct.new(:ignition, :throttle, :clutch,
+                                     :gear, :steer)
+    def initialize(ignition: false, 
+                   throttle: 0.0,
+                   clutch: Gearbox::CLUTCH_ENGAGED, # clutch pedal out
+                   gear: 0,                         # neutral
+                   steer: 0.0)                      # center;(-1.0..1.0) (L..R)
+      super(ignition, throttle, clutch, gear, steer)
+    end
+
+    def shift(new_gear)
+      # depress clutch pedal (towards 0.0)
+      # select new gear
+      # blip throttle (rev match)
+      # release clutch (towards 1.0)
     end
   end
 
@@ -167,6 +178,8 @@ module DrivingPhysics
     REVERSE_RATIO = -1/10r
     NEUTRAL = 0
     NEUTRAL_RATIO = 0
+    CLUTCH_ENGAGED = 1.0
+    CLUTCH_DISENGAGED = 0.0
     
     # DEFAULTS
     RATIOS = [1/5r, 2/5r, 5/9r, 5/7r, 1r, 5/4r]

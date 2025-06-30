@@ -2,32 +2,54 @@ require 'driving_physics/components'
 
 module DrivingPhysics
   class UserInputSystem
-    IDLE_THROTTLE = 0.05 # should maintain IDLE_RPM, slowly climb
-
+    RPM_LOWER_BOUND = 500
+    
     def update(world, dt)
       # We only care about the single engine we created.
       # A real game would query for a "PlayerControlled" component.
-      world.query(VehicleControls).each { |id|
-        # apply some throttle to wake up the engine and maintain idle
+      world.query(CombustionEngine, VehicleControls).each { |id|
+        engine = world.get!(id, CombustionEngine)
         controls = world.get!(id, VehicleControls)
-        # controls.throttle = IDLE_THROTTLE
 
+        if engine.rpm.zero?
+          # start it
+          if controls.ignition
+            controls.gear = Gearbox::NEUTRAL
+            controls.clutch = 1.0
+            controls.throttle = 0.0   # engine managment takes over from user
+            controls.ignition = false
+          end
+        end
+        
+        # apply some throttle to wake up the engine and maintain idle
         time = world.time
         if time < 0.1
-          controls.gear = 0     # neutral
-          controls.clutch = 1.0 # fully engaged, clutch out
-        elsif time < 1.0
+          if !controls.ignition
+            controls.ignition = true
+            controls.gear = 0
+            controls.clutch = 1.0
+            controls.throttle = 0.0
+          end
+        elsif time < 0.3
           # depress clutch, shift to first
           controls.clutch = 0.0
           controls.gear = 1
-        elsif time < 2.0
-          # release clutch
+        else
+          # release clutch, increase throttle
           # TODO: based on dt?
-          if controls.clutch <= 1.0
-            controls.clutch += 0.1
-            controls.clutch = 1.0 if controls.clutch > 1.0
-            controls.throttle += 0.1
-            controls.throttle = 1.0 if controls.throttle > 1.0
+          if controls.clutch < 1.0
+            # releasing clutch, increasing throttle
+            controls.clutch += 0.1 if controls.clutch < 1.0
+            controls.clutch = controls.clutch.clamp(0.0, 1.0)
+            if controls.throttle < 1.0 and engine.rpm < 1000
+              controls.throttle += 0.001
+              controls.throttle = 1.0 if controls.throttle > 1.0
+            end
+          else
+            # steady state, clutch is out
+            controls.throttle -= 0.01 if engine.rpm > 1000
+            controls.throttle += 0.01 if engine.rpm < 1000
+            controls.throttle = controls.throttle.clamp(0.0, 1.0)
           end
         end
       }

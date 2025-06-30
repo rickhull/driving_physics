@@ -39,10 +39,12 @@ while world.time < 10.0
   engine = world.get!(engine_id, CombustionEngine)
   controls = world.get!(engine_id, VehicleControls)
   
-  puts format("Time: %.2f | Throttle: %.3f | " +
-              "Torque: %.1f Nm | Net: %.1f Nm | RPM: %i",
+  puts format("%.2f | Thr: %.3f | Cl: %0.1f | Gr: %i | Tq: %.1f Nm | " +
+              "Net: %.1f Nm | RPM: %i",
               world.time,
               controls.throttle,
+              controls.clutch,
+              controls.gear,
               engine.torque,
               engine.net_torque,
               engine.rpm)
