@@ -43,7 +43,7 @@ while world.time < 10.0
               "Torque: %.1f Nm | Net: %.1f Nm | RPM: %i",
               world.time,
               controls.throttle,
-              engine.torque(controls.throttle),
-              engine.net_torque(controls.throttle),
+              engine.torque,
+              engine.net_torque,
               engine.rpm)
 end

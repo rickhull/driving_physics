@@ -80,41 +80,48 @@ module DrivingPhysics
     STARTER_TORQUE = 50
     IDLE_RPM = 850
 
+    attr_accessor :throttle
+    
     def initialize(torque_curve: TorqueCurve.new,
                    starter_torque: STARTER_TORQUE,
                    crankshaft: Crankshaft.new,
                    flywheel: Flywheel.new)
+      @throttle = 0.0
       @torque_curve = torque_curve
       @starter_torque = starter_torque
       @crankshaft = crankshaft
       @flywheel = flywheel
     end
 
+    def above_idle?
+      self.rpm > IDLE_RPM
+    end
+    
     # combine crankshaft and flywheel inertia
     def inertia
       @crankshaft.inertia + @flywheel.inertia
     end
 
-    # combine crankshaft and flywheel friction
+    # combine crankshaft and flywheel friction; RotatingBody accounts for omega
     def friction(input_tq)
       @crankshaft.friction(input_tq) + @flywheel.friction(input_tq)
     end
 
     # provide starter_torque below IDLE_RPM
-    def torque(throttle)
+    def torque
       rpm = self.rpm
-      rpm < IDLE_RPM ? @starter_torque : @torque_curve.torque(rpm) * throttle
+      rpm < IDLE_RPM ? @starter_torque : @torque_curve.torque(rpm) * @throttle
     end
 
-    # generated torque net friction
-    def net_torque(throttle)
-      tq = self.torque(throttle)
+    # generated torque net friction; sign is significant so: sum
+    def net_torque
+      tq = self.torque
       tq + self.friction(tq)
     end
 
-    # angular acceleration net friction
-    def alpha(throttle)
-      self.net_torque(throttle) / self.inertia
+    # angular acceleration net friction and load torque
+    def alpha(load_tq = 0.0)
+      (self.net_torque - load_tq) / self.inertia
     end
 
     # angular velocity
@@ -127,8 +134,8 @@ module DrivingPhysics
       Disk.rpm(self.omega)
     end
 
-    def update(throttle, dt)
-      @crankshaft.rotation_state.omega += self.alpha(throttle) * dt
+    def update(dt, load_torque: 0.0)
+      @crankshaft.rotation_state.omega += self.alpha(load_torque) * dt
       @crankshaft.rotation_state.update(dt)
       @flywheel.rotation_state.omega = @crankshaft.rotation_state.omega
       @flywheel.rotation_state.theta = @crankshaft.rotation_state.theta

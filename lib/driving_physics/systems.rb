@@ -10,7 +10,7 @@ module DrivingPhysics
       world.query(VehicleControls).each { |id|
         # apply some throttle to wake up the engine and maintain idle
         controls = world.get!(id, VehicleControls)
-        controls.throttle = IDLE_THROTTLE
+        # controls.throttle = IDLE_THROTTLE
 
         time = world.time
         if time < 0.1
@@ -26,6 +26,8 @@ module DrivingPhysics
           if controls.clutch <= 1.0
             controls.clutch += 0.1
             controls.clutch = 1.0 if controls.clutch > 1.0
+            controls.throttle += 0.1
+            controls.throttle = 1.0 if controls.throttle > 1.0
           end
         end
       }
@@ -34,14 +36,25 @@ module DrivingPhysics
 
   # apply torque to the crankshaft
   class CombustionEngineSystem
+    IDLE_THROTTLE = 0.05
+    
     def update(world, dt)
       world.query(CombustionEngine, VehicleControls).each { |id|
         engine = world.get!(id, CombustionEngine)
         controls = world.get!(id, VehicleControls)
-        engine.update(controls.throttle, dt)
+        if controls.throttle > 0
+          # user controls engine throttle
+          engine.throttle = controls.throttle
+        else
+          # system controls engine throttle
+          if engine.above_idle?
+            engine.throttle = 0
+          else
+            engine.throttle = IDLE_THROTTLE
+          end
+        end
+        engine.update(dt)
       }
     end
   end
-
-
 end
