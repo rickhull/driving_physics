@@ -59,7 +59,6 @@ module DrivingPhysics
       super
     end
 
-    # TODO: WTF ?!?!?!
     # The resistive torque the driveshaft creates (from its own friction)
     def load_torque
       # We need the torque it *receives* to calculate friction, but that
@@ -68,7 +67,11 @@ module DrivingPhysics
       # This is a common and effective simplification.
       # A negative torque opposing rotation.
       omega = self.omega
-      -5.0 * omega.abs - 2.0 * omega
+      return omega if omega.zero?
+
+      viscous = 2.0 * omega
+      kinetic = 5.0 * omega.sign
+      -1 * (viscous + kinetic)
     end
   end
   
