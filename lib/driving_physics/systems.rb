@@ -3,6 +3,98 @@ require 'driving_physics/disk'
 require 'driving_physics/friction'
 
 module DrivingPhysics
+  class EngineSystem
+    def update(world, dt)
+      world.query(CombustionEngine).each { |id|
+        engine = world.get!(id, CombustionEngine)
+        omega = engine.omega + engine.alpha * dt
+        
+        # Update both crankshaft and flywheel
+        engine.crankshaft.rotation_state.omega = omega
+        engine.flywheel.rotation_state.omega = omega
+        engine.crankshaft.update(dt)
+        engine.flywheel.update(dt)
+
+        engine.state.rpm = Disk.rpm(omega)
+      }
+    end
+  end
+
+  # model connections between components:
+  # RigidConnection, Data.define(:endpoints) (entities ids)
+  # FlexConnection, Data.define(:endpoints, :stiffness, :damping)
+  # handles summing of inertial and frictional resistance
+  # also handles standalone inertial and frictional resistance
+  class RotationSystem
+    def update(world, dt)
+      seen = Set.new
+
+      # first, handle RigidConnection
+      world.query(RigidConnection, RotatingBody).each { |cid|
+        conn = world.get(cid, RigidConnection)
+        entities = conn.endpoints
+
+        # skip processed entities
+        next if entities.any? { |id| seen.include? id }
+
+        inertia = 0
+        omega = nil
+
+        # determine collective inertia and omega
+        entities.each { |eid|
+          body = world.get!(eid, RotatingBody)
+          inertia += world.get!(eid, Disk).inertia
+          omega ||= world.get!(eid, RotationState).omega
+        }
+
+        # sum the torques (usually just one nonzero)
+        torque = entities.sum { |id|
+          world.get(id, AppliedTorque)&.value || 0.0
+        }
+
+        # sum the frictions
+        friction = entities.sum { |id|
+          model = world.get(id, FrictionModel)
+          model.friction(torque, omega)
+        }
+
+        # apply the friction
+        torque += friction
+
+        # calculate new rotation
+        omega += Disk.alpha(torque, inertia) * dt
+
+        # update all entities with the same rotation
+        entities.each { |id|
+          state = world.get!(id, RotationState)
+          state.omega = omega
+          state.theta += omega * dt
+        }
+
+        # don't process these again
+        seen.merge(entities)
+      }
+
+      # Handle standalone entities (not in any rigid connection)
+      world.query(Disk, RotationState, FrictionModel).each { |id|
+        next if seen.include?(id)
+        
+        # Process standalone disk physics
+        disk = world.get!(id, Disk)
+        state = world.get!(id, RotationState)
+        model = world.get!(id, FrictionModel)
+
+        # sum applied torque and friction
+        torque = world.get(id, AppliedTorque)&.value || 0.0
+        torque += model.friction(torque, state.omega)
+
+        # calculate acceleration and velocity based on torque and inertia
+        state.omega += Disk.alpha(torque, disk.inertia) * dt
+        state.theta += state.omega * dt
+      }
+    end
+  end
+
   class UserInputSystem
     STARTING_TIME = 3.0  # seconds to attempt starting
     IDLE_RPM = 810       # starter should reach this minimum

@@ -1,11 +1,61 @@
 # include these complex components when requiring driving_physics/components
 require 'driving_physics/disk'
+require 'driving_physics/friction'
 
 module DrivingPhysics
+  # TODO: add starter_motor disk, reciprocating mass
+  class CombustionEngine < Data.define(:power,
+                                       :state,
+                                       :starter_power,
+                                       :starter_state,
+                                       :crankshaft,
+                                       :flywheel)
+    
+    def initialize(power:, state: CombustionState.new,
+                   starter_power:, starter_state: ElectricState.new,
+                   crankshaft:, flywheel:)
+      super
+    end
+
+    def inertia = crankshaft.inertia + flywheel.inertia
+    def friction(tq) = crankshaft.friction(tq) + flywheel.friction(tq)
+    def torque = power.torque_curve.torque(state.rpm) * state.throttle
+    def net_torque
+      tq = self.torque
+      tq + self.friction(tq)
+    end
+    def starter_torque = starter_power.torque
+    def omega = crankshaft.omega
+    def alpha = self.net_torque / self.inertia
+  end
+
+  #  RotatingBody: Disk, RotationState, FrictionModel
+  #          Disk: mass, radius, extent
+  # RotationState: theta, omega (pos, vel)
+  # FrictionModel: static, kinetic, viscous
+  # This is the main component for automotive entities
+  class RotatingBody < Data.define(:disk, :rotation_state, :friction_model)
+    def initialize(disk:,
+                   rotation_state: RotationState.new,
+                   friction_model: FrictionModel.new) = super
+    def inertia      = disk.inertia
+    def mass         = disk.mass
+    def radius       = disk.radius
+    def extent       = disk.extent
+    def theta        = rotation_state.theta
+    def omega        = rotation_state.omega
+    def friction(tq) = friction_model.friction(tq, rotation_state.omega)
+    def update(dt)   = rotation_state.update(dt) 
+  end
+
   # e.g. Disks have an angular position and velocity
   class RotationState < Struct.new(:theta, :omega)
     def initialize(theta: 0.0, omega: 0.0)
       super(theta, omega)
+    end
+
+    def update(dt)
+      theta += omega * dt
     end
   end
   
