@@ -29,19 +29,19 @@ module DrivingPhysics
     end
 
     # ivars
-    # @entities - look up component classes by entity id          attr_reader
+    # @entities - look up component classes by entity id        attr_reader
     # @components - look up component instances by klass and id
-    # @systems - ordered list of system instances                 attr_accessor
-    # @next_id - entity id for the next created entity
-    # @tick - a fraction of a logical second, 1/100               attr_accessor
-    # @time - accumulation of ticks                               attr_reader
+    # @systems  - ordered list of system instances              attr_accessor
+    # @next_id  - entity id for the next created entity
+    # @dt       - a fraction of a logical second, 1/100         attr_reader
+    # @ticks    - accumulation of ticks                         attr_reader
     # @wall_time - monotonically increasing timestamp
 
     # physics should update 100x per second
     TARGET_HZ = 100
 
-    attr_accessor :systems, :dt
-    attr_reader :entities, :ticks
+    attr_accessor :systems
+    attr_reader :entities, :dt, :ticks
 
     def initialize
       @entities = {}   # id => Set[klass]
@@ -114,12 +114,13 @@ module DrivingPhysics
       @components.dig(klass, id) 
     end
 
+    # raise if the component isn't found
     def get!(id, klass)
       self.get(id, klass) or raise(GetError, "#{id} #{klass}")
     end
     
     # get the component or try klass.new if it doesn't exist
-    def access(id, klass, &creation)
+    def access(id, klass)
       self.get(id, klass) or self.add(id, klass.new)
     end
 
