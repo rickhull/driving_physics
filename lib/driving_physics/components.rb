@@ -83,6 +83,7 @@ module DrivingPhysics
     STARTER_TORQUE = 50
     IDLE_RPM = 850
 
+    # may behave differently than the user throttle pedal
     attr_accessor :throttle
     
     def initialize(torque_curve: TorqueCurve.new,
@@ -232,7 +233,7 @@ module DrivingPhysics
     def update(engine_omega, engine_torque, gear, clutch)
       reduction = self.final_ratio(gear)
       @drive_torque = engine_torque * reduction * @efficiency * clutch
-      @drive_omega = reduction.zero? ? 0.0 : engine_omega / reduction
+      @drive_omega += reduction.zero? ? 0.0 : engine_omega / reduction
     end
   end
 
